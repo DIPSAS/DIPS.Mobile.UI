@@ -153,6 +153,21 @@
             </dui:ContextMenuEffect.Menu>
         </dui:ListItem>
 
+        <!-- IsChecked bound to ViewModel (TwoWay) -->
+        <dui:ListItem Title="{x:Static localizedStrings:LocalizedStrings.Context_Menu_Checkable}"
+                      HasTopDivider="True"
+                      dui:ContextMenuEffect.Mode="Pressed">
+            <dui:ContextMenuEffect.Menu>
+                <dui:ContextMenu VerticalOptions="Start"
+                                 ItemClickedCommand="{Binding ItemClickedCommand}">
+                    <dui:ContextMenuItem Title="{dui:StringFormat {x:Static localizedStrings:LocalizedStrings.Option_Format}, Argument=1}"
+                                         IsCheckable="True"
+                                         IsChecked="{Binding IsOptionChecked, Mode=TwoWay}" />
+                    <dui:ContextMenuItem Title="{dui:StringFormat {x:Static localizedStrings:LocalizedStrings.Option_Format}, Argument=2}" />
+                </dui:ContextMenu>
+            </dui:ContextMenuEffect.Menu>
+        </dui:ListItem>
+
         <dui:ListItem Title="{x:Static localizedStrings:LocalizedStrings.Context_Menu_LongPressWithAction}"
                       HasTopDivider="True"
                       HasBottomDivider="True"

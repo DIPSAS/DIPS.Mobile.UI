@@ -9,6 +9,11 @@
 
 Add corrections to the relevant section (Critical Patterns, Common Pitfalls, etc.) or create a new section if needed.
 
+## Skills
+**IMPORTANT**: Before performing any task, always check `.github/skills/` and `.github/agents/` for applicable skill and agent files. Each subfolder contains a `SKILL.md` or agent definition with specific workflows, templates, trigger phrases, and rules that MUST be followed when their trigger conditions match.
+
+**Workflow**: List all folders in `.github/skills/` and `.github/agents/` (if they exist), read each definition file to check if it applies to the current task, and follow its steps exactly.
+
 ## Project Overview
 DIPS.Mobile.UI is a .NET MAUI component library for iOS and Android mobile apps in the healthcare domain. Components follow a design system with resources (colors, sizes, icons) auto-generated from Figma via DIPS.Mobile.DesignTokens pipeline.
 
@@ -228,6 +233,17 @@ Example divider usage:
 
 Format: `[Component/Feature] Description` (see existing entries for style)
 
+**Changelog rules (strictly enforced):**
+- Only include **public-facing changes**: new APIs, changed behavior, bug fixes visible to consumers
+- Do **not** include internal refactorings, code cleanup, sample changes, or test changes
+- Do **not** include changes to non-public (`internal`/`private`) APIs
+
+**Documentation rules (strictly enforced):**
+- Every new **public** type, property, method, or component MUST have XML doc comments
+- Every new **component or feature** MUST have a `wiki/<FeatureName>.md` page added in the same PR
+- Changed behavior or API MUST update existing wiki pages — cross-reference changed code against `wiki/` to catch stale docs
+- Breaking changes MUST update all affected wiki pages
+
 ## Common Pitfalls
 
 1. **Don't** manually append "Button" to accessibility strings - `TouchPlatformEffect` handles this
@@ -236,7 +252,8 @@ Format: `[Component/Feature] Description` (see existing entries for style)
 4. **Don't** create new colors/sizes - use design token resources or request from designers
 5. **Don't** use invalid style names like `Body500` - use `SectionHeader`, `UI100-300`, etc.
 6. **Don't** use `FontFamily="monospace"` - use `FontFamily="Body"`, `"UI"`, or `"Header"`
-5. **Don't** forget to test on both platforms - behavior often differs
+7. **Don't** forget to test on both platforms - behavior often differs
+8. **When reusing an existing component in a new context** (e.g. embedding a component inside a new handler, effect, or renderer), always read the component's existing canonical platform consumer first and replicate **all** of its event subscriptions, lifecycle hooks, and teardown logic. Never assume that rendering the component is sufficient. Components often have additional contracts (update events, binding context propagation, etc.) that only the canonical consumer reveals. Missing these causes silent regressions where the component renders correctly initially but fails to update afterwards.
 
 ## Key Files to Reference
 - `API/Builder/AppHostBuilderExtensions.cs` - Library initialization and handler registration
@@ -249,3 +266,5 @@ All code uses `DIPS.Mobile.UI.*` namespace. Platform folders (iOS/Android/dotnet
 
 ## Wiki
 The codebase is documented in https://github.com/DIPSAS/DIPS.Mobile.UI/wiki
+
+Documentation source lives in the `wiki/` folder in the main repository and is auto-synced to the GitHub wiki via a GitHub Action on pushes to `main`. The `_Sidebar.md` is auto-generated alphabetically from all wiki pages — no manual sidebar edits needed.

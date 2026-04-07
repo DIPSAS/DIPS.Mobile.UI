@@ -1,8 +1,4 @@
-#if __IOS__
-using DIPS.Mobile.UI.Components.Searching.iOS;
-using UIKit;
-#endif
-
+using DIPS.Mobile.UI.Components.Dividers;
 using DIPS.Mobile.UI.Components.Lists;
 using DIPS.Mobile.UI.Extensions;
 using DIPS.Mobile.UI.Internal;
@@ -24,12 +20,10 @@ namespace DIPS.Mobile.UI.Components.Searching
 
         public SearchPage()
         {
-            Loaded += OnLoaded;
-            Unloaded += OnUnLoaded;
             
             //Searchbar
             SearchBar = new SearchBar { AutomationId = "SearchBar".ToDUIAutomationId<SearchPage>(), HasCancelButton = true, HasBusyIndication = true, ShouldCloseKeyboardOnReturnKeyTapped = true };
-            SearchBar.SetAppThemeColor(SearchBar.BarColorProperty, ColorName.color_surface_default);
+            SearchBar.SetAppThemeColor(SearchBar.BarColorProperty, Shell.Shell.BackgroundColorName);
             
 #if __ANDROID__ //Colors are different on Android due to no inner white frame
                 SearchBar.SetAppThemeColor(SearchBar.TextColorProperty,
@@ -38,6 +32,8 @@ namespace DIPS.Mobile.UI.Components.Searching
                     ColorName.color_icon_default);
                 SearchBar.SetAppThemeColor(SearchBar.PlaceholderColorProperty,
                     ColorName.color_text_subtle);
+                SearchBar.SetAppThemeColor(SearchBar.CancelButtonTextColorProperty, 
+                    ColorName.color_text_action);
 #else
             SearchBar.SetAppThemeColor(SearchBar.SearchFieldBackgroundColorProperty, 
                 BackgroundColorName);
@@ -63,6 +59,8 @@ namespace DIPS.Mobile.UI.Components.Searching
                 AutomationId = "ResultCollectionView".ToDUIAutomationId<SearchPage>(),
                 HeaderTemplate = new DataTemplate(() => new Grid { Padding = new Thickness(0, Sizes.GetSize(SizeName.content_margin_large), 0, 0) })
             };
+            
+            m_resultCollectionView.SetBinding(StructuredItemsView.HeaderProperty, static (SearchPage searchPage) => searchPage.BindingContext, source: this);
 
             m_resultCollectionView.Scrolled += OnCollectionViewScrolled;
             m_resultCollectionView.SetBinding(ItemsView.ItemTemplateProperty, static (SearchPage searchPage) => searchPage.ResultItemTemplate, source: this);
@@ -75,11 +73,11 @@ namespace DIPS.Mobile.UI.Components.Searching
                 {
                     new()
                     {
-                        Height = GridLength.Auto // Space for safe area ios
-                    },
+                        Height = GridLength.Auto // Space for the search bar
+                    }, 
                     new()
                     {
-                        Height = GridLength.Auto // Space for the search bar
+                        Height = GridLength.Auto // Divider
                     }, 
                     new()
                     {
@@ -93,7 +91,12 @@ namespace DIPS.Mobile.UI.Components.Searching
                 RowSpacing = 0
             };
 
-            m_grid.Add(SearchBar, 0, 1);
+            m_grid.Add(SearchBar, 0, 0);
+            
+            m_grid.Add(new Divider
+            {
+                Margin = new Thickness(0, Sizes.GetSize(SizeName.size_1), 0, 0)
+            }, 0, 1);
 
             OnSearchModeChanged();
             
@@ -109,18 +112,13 @@ namespace DIPS.Mobile.UI.Components.Searching
             SearchBar.Unfocus();
         }
 
-        private void OnUnLoaded(object? sender, EventArgs e)
+        protected override void OnHandlerChanged()
         {
-            Loaded -= OnLoaded;
-            Unloaded -= OnUnLoaded;
-            m_resultCollectionView.Scrolled -= OnCollectionViewScrolled;
+            base.OnHandlerChanged();
             
-            SearchBar.Focused -= OnSearchBarFocused;
+            if (Handler is null)
+                return;
             
-        }
-
-        private void OnLoaded(object? sender, EventArgs e)
-        {
             SetSearchState(SearchStates.NeedsSearchHint);
             if (ShouldAutoFocus)
             {
@@ -128,22 +126,6 @@ namespace DIPS.Mobile.UI.Components.Searching
             }
 
             SearchBar.Focused += OnSearchBarFocused;
-
-#if __IOS__
-            if (OperatingSystem.IsIOSVersionAtLeast(14, 1))
-            {
-                var safeAreaInsetsTop = UIApplication.SharedApplication.KeyWindow.SafeAreaInsets.Top;
-                
-                var topBoxView = new BoxView
-                {
-                    BackgroundColor = SearchBar.BarColor, HeightRequest = safeAreaInsetsTop
-                };
-                
-                m_grid.Children.Insert(0, topBoxView);
-
-                topBoxView.Margin = new Thickness(0, -safeAreaInsetsTop, 0, 0);
-            }
-#endif
         }
 
         private void OnSearchBarFocused(object? sender, EventArgs eventArgs)
@@ -162,7 +144,19 @@ namespace DIPS.Mobile.UI.Components.Searching
 
         private static void OnCancel()
         {
-            Application.Current!.MainPage!.Navigation.PopAsync();
+            Application.Current?.Windows[0].Navigation.PopModalAsync();
+        }
+
+        /// <inheritdoc />
+        protected override bool OnBackButtonPressed()
+        {
+            if (CancelCommand.CanExecute(null))
+            {
+                CancelCommand.Execute(null);
+                return true;
+            }
+
+            return base.OnBackButtonPressed();
         }
 
         private void SearchBarOnTextChanged(object? sender, TextChangedEventArgs e)
@@ -262,6 +256,11 @@ namespace DIPS.Mobile.UI.Components.Searching
             SearchBar.ReturnKeyType = SearchMode == SearchMode.WhenTextChanged ?
                 ReturnType.Done :
                 ReturnType.Search;
+        }
+
+        private void OnScrollableHeaderChanged()
+        {
+            m_resultCollectionView.HeaderTemplate = new DataTemplate(() => ScrollableHeader);
         }
 
         private void OnFooterViewChanged()

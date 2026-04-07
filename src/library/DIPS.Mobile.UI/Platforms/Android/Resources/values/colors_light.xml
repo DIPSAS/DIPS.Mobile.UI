@@ -2,7 +2,7 @@
 <!--
 Puls Design Tokens
 Do not edit directly, this file is auto-generated
-Generated: 2025-10-13T13:01:23.257Z
+Generated: 2026-03-24T13:16:42.659Z
 -->
 <!-- Light mode -->
 <resources>
@@ -36,8 +36,8 @@ Generated: 2025-10-13T13:01:23.257Z
     <color name="color_fill_default_selected">#FFDED6D0</color> <!-- fill-default-selected -->
     <color name="color_fill_button_ghost">#00FFFFFF</color> <!-- fill-button-ghost -->
     <color name="color_fill_button_disabled">#FFDED6D0</color> <!-- fill-button-disabled -->
-    <color name="color_fill_button_ghost_hover">#FFDED6D0</color> <!-- fill-button-ghost-hover -->
-    <color name="color_fill_button_ghost_active">#FFC4BCB5</color> <!-- fill-button-ghost-active -->
+    <color name="color_fill_button_ghost_hover">#FFF3EDE8</color> <!-- fill-button-ghost-hover -->
+    <color name="color_fill_button_ghost_active">#FFDED6D0</color> <!-- fill-button-ghost-active -->
     <color name="color_fill_input">#FFFFFFFF</color> <!-- fill-input -->
     <color name="color_fill_input_disabled">#FFFFFFFF</color> <!-- fill-input-disabled -->
     <color name="color_fill_input_readonly">#FFF3EDE8</color> <!-- fill-input-readonly -->
@@ -47,31 +47,32 @@ Generated: 2025-10-13T13:01:23.257Z
     <color name="color_fill_input_toggle">#FF938A84</color> <!-- fill-input-toggle -->
     <color name="color_fill_input_toggle_hover">#FFC4BCB5</color> <!-- fill-input-toggle-hover -->
     <color name="color_fill_input_toggle_selected">#FFC4E5A0</color> <!-- fill-input-toggle-selected -->
-    <color name="color_fill_button_cta_active">#FF38312C</color> <!-- fill-button-cta-active -->
-    <color name="color_fill_button_cta">#FF241E1A</color> <!-- fill-button-cta -->
+    <color name="color_fill_button_cta_active">#FF645C56</color> <!-- fill-button-cta-active -->
+    <color name="color_fill_button_cta">#FF38312C</color> <!-- fill-button-cta -->
     <color name="color_fill_button_cta_hover">#FF4E4640</color> <!-- fill-button-cta-hover -->
     <color name="color_fill_button">#00FFFFFF</color> <!-- fill-button -->
-    <color name="color_fill_button_hover">#FFFFFFFF</color> <!-- fill-button-hover -->
-    <color name="color_fill_button_active">#FFF3EDE8</color> <!-- fill-button-active -->
-    <color name="color_fill_button_danger">#FFFE775B</color> <!-- fill-button-danger -->
-    <color name="color_fill_button_danger_hover">#FFFFBCAF</color> <!-- fill-button-danger-hover -->
-    <color name="color_fill_button_danger_active">#FF941A01</color> <!-- fill-button-danger-active -->
-    <color name="color_fill_highlight">#FFFAE4FC</color> <!-- fill-highlight -->
-    <color name="color_fill_highlight_hover">#FFE4CCFA</color> <!-- fill-highlight-hover -->
-    <color name="color_fill_highlight_active">#FFCBB2E2</color> <!-- fill-highlight-active -->
+    <color name="color_fill_button_hover">#FFF3EDE8</color> <!-- fill-button-hover -->
+    <color name="color_fill_button_active">#FFDED6D0</color> <!-- fill-button-active -->
+    <color name="color_fill_button_danger">#FFBA2203</color> <!-- fill-button-danger -->
+    <color name="color_fill_button_danger_hover">#FFCF3516</color> <!-- fill-button-danger-hover -->
+    <color name="color_fill_button_danger_active">#FFE95739</color> <!-- fill-button-danger-active -->
+    <color name="color_fill_highlight">#FFE4CCFA</color> <!-- fill-highlight -->
     <color name="color_fill_disabled">#FFC4BCB5</color> <!-- fill-disabled -->
     <color name="color_fill_input_indicator_readonly">#FFABA39C</color> <!-- fill-input-indicator-readonly -->
     <color name="color_fill_success_hover">#FFC4E5A0</color> <!-- fill-success-hover -->
     <color name="color_fill_success_active">#FFA9CB82</color> <!-- fill-success-active -->
+    <color name="color_fill_subtle">#FFF9F5F0</color> <!-- fill-subtle -->
+    <color name="color_fill_inverted">#FF241E1A</color> <!-- fill-inverted -->
+    <color name="color_fill_highlight_hover">#FFE4CCFA</color> <!-- fill-highlight-hover -->
+    <color name="color_fill_highlight_active">#FFCBB2E2</color> <!-- fill-highlight-active -->
+    <color name="color_fill_button_ghost_danger_active">#FFFCCEC5</color> <!-- fill-button-ghost-danger-active -->
+    <color name="color_fill_button_ghost_danger_hover">#FFFCE9E5</color> <!-- fill-button-ghost-danger-hover -->
+    <color name="color_fill_button_ghost_danger">#00FFFFFF</color> <!-- fill-button-ghost-danger -->
     <color name="color_text_default">#FF241E1A</color> <!-- text-default -->
-    <color name="color_text_subtle">#FF4E4640</color> <!-- text-subtle -->
+    <color name="color_text_subtle">#FF645C56</color> <!-- text-subtle -->
     <color name="color_text_link">#FF355D9B</color> <!-- text-link -->
     <color name="color_text_link_hover">#FF001C49</color> <!-- text-link-hover -->
-    <color name="color_text_on_fill_information">#FF241E1A</color> <!-- text-on-fill-information -->
-    <color name="color_text_on_fill_success">#FF241E1A</color> <!-- text-on-fill-success -->
-    <color name="color_text_on_fill_danger">#FF241E1A</color> <!-- text-on-fill-danger -->
     <color name="color_text_on_fill_disabled">#FFFFFFFF</color> <!-- text-on-fill-disabled -->
-    <color name="color_text_on_fill_warning">#FF241E1A</color> <!-- text-on-fill-warning -->
     <color name="color_text_label">#FF241E1A</color> <!-- text-label -->
     <color name="color_text_input">#FF241E1A</color> <!-- text-input -->
     <color name="color_text_disabled">#FFC4BCB5</color> <!-- text-disabled -->
@@ -80,19 +81,13 @@ Generated: 2025-10-13T13:01:23.257Z
     <color name="color_text_readonly">#FF4E4640</color> <!-- text-readonly -->
     <color name="color_text_danger">#FFBA2203</color> <!-- text-danger -->
     <color name="color_text_on_button_inverted">#FFFFFFFF</color> <!-- text-on-button-inverted -->
-    <color name="color_text_on_surface_warning">#FF241E1A</color> <!-- text-on-surface-warning -->
-    <color name="color_text_on_surface_danger">#FF241E1A</color> <!-- text-on-surface-danger -->
-    <color name="color_text_on_surface_information">#FF241E1A</color> <!-- text-on-surface-information -->
-    <color name="color_text_on_surface_success">#FF241E1A</color> <!-- text-on-surface-success -->
     <color name="color_text_link_neutral_hover">#FF645C56</color> <!-- text-link-neutral-hover -->
     <color name="color_text_action">#FF355D9B</color> <!-- text-action -->
     <color name="color_icon_default">#FF241E1A</color> <!-- icon-default -->
-    <color name="color_icon_subtle">#FF4E4640</color> <!-- icon-subtle -->
+    <color name="color_icon_subtle">#FF7B736C</color> <!-- icon-subtle -->
     <color name="color_icon_link">#FF355D9B</color> <!-- icon-link -->
     <color name="color_icon_link_hover">#FF001C49</color> <!-- icon-link-hover -->
-    <color name="color_icon_on_fill_information">#FF241E1A</color> <!-- icon-on-fill-information -->
     <color name="color_icon_on_fill_success">#FF241E1A</color> <!-- icon-on-fill-success -->
-    <color name="color_icon_on_fill_warning">#FF241E1A</color> <!-- icon-on-fill-warning -->
     <color name="color_icon_danger">#FFBA2203</color> <!-- icon-danger -->
     <color name="color_icon_input">#FF4E4640</color> <!-- icon-input -->
     <color name="color_icon_on_fill_disabled">#FFFFFFFF</color> <!-- icon-on-fill-disabled -->
@@ -100,17 +95,14 @@ Generated: 2025-10-13T13:01:23.257Z
     <color name="color_icon_disabled">#FFC4BCB5</color> <!-- icon-disabled -->
     <color name="color_icon_readonly">#FF4E4640</color> <!-- icon-readonly -->
     <color name="color_icon_link_neutral">#FF241E1A</color> <!-- icon-link-neutral -->
-    <color name="color_icon_on_fill_danger">#FF241E1A</color> <!-- icon-on-fill-danger -->
-    <color name="color_icon_on_surface_danger">#FF241E1A</color> <!-- icon-on-surface-danger -->
-    <color name="color_icon_on_surface_information">#FF241E1A</color> <!-- icon-on-surface-information -->
-    <color name="color_icon_on_surface_success">#FF241E1A</color> <!-- icon-on-surface-success -->
-    <color name="color_icon_on_surface_warning">#FF241E1A</color> <!-- icon-on-surface-warning -->
     <color name="color_icon_link_neutral_hover">#FF645C56</color> <!-- icon-link-neutral-hover -->
     <color name="color_icon_on_button">#FF241E1A</color> <!-- icon-on-button -->
     <color name="color_icon_on_button_inverted">#FFFFFFFF</color> <!-- icon-on-button-inverted -->
     <color name="color_icon_input_hover">#FF241E1A</color> <!-- icon-input-hover -->
     <color name="color_icon_input_active">#FF638DCE</color> <!-- icon-input-active -->
     <color name="color_icon_action">#FF355D9B</color> <!-- icon-action -->
+    <color name="color_icon_default_hover">#FF645C56</color> <!-- icon-default-hover -->
+    <color name="color_icon_success">#FF496916</color> <!-- icon-success -->
     <color name="color_border_default">#FFC4BCB5</color> <!-- border-default -->
     <color name="color_border_subtle">#FFDED6D0</color> <!-- border-subtle -->
     <color name="color_border_focus_ring">#FF638DCE</color> <!-- border-focus-ring -->
@@ -133,14 +125,30 @@ Generated: 2025-10-13T13:01:23.257Z
     <color name="color_border_link_hover">#FF001C49</color> <!-- border-link-hover -->
     <color name="color_border_link_neutral">#FF241E1A</color> <!-- border-link-neutral -->
     <color name="color_border_link_neutral_hover">#FF645C56</color> <!-- border-link-neutral-hover -->
-    <color name="color_data_data_1">#FF214680</color> <!-- data-data-1 -->
+    <color name="color_border_default_selected">#FF4E4640</color> <!-- border-default-selected -->
+    <color name="color_data_data_4">#FF9A7FB1</color> <!-- data-data-4 -->
+    <color name="color_data_data_4_subtle">#FFE4CCFA</color> <!-- data-data-4-subtle -->
+    <color name="color_data_data_4_border">#FF533B67</color> <!-- data-data-4-border -->
+    <color name="color_data_data_5">#FFE95739</color> <!-- data-data-5 -->
+    <color name="color_data_data_5_subtle">#FFFFBCAF</color> <!-- data-data-5-subtle -->
+    <color name="color_data_data_5_border">#FF941A01</color> <!-- data-data-5-border -->
+    <color name="color_data_data_6">#FFD28706</color> <!-- data-data-6 -->
+    <color name="color_data_data_6_subtle">#FFFFD181</color> <!-- data-data-6-subtle -->
+    <color name="color_data_data_6_border">#FF885702</color> <!-- data-data-6-border -->
+    <color name="color_data_data_7">#FF998500</color> <!-- data-data-7 -->
+    <color name="color_data_data_7_subtle">#FFF5E997</color> <!-- data-data-7-subtle -->
+    <color name="color_data_data_7_border">#FF534800</color> <!-- data-data-7-border -->
+    <color name="color_data_data_3_subtle">#FFC1DFFD</color> <!-- data-data-3-subtle -->
+    <color name="color_data_data_3">#FF638DCE</color> <!-- data-data-3 -->
+    <color name="color_data_data_8">#FF76994B</color> <!-- data-data-8 -->
+    <color name="color_data_data_2_subtle">#FFC0DEE2</color> <!-- data-data-2-subtle -->
+    <color name="color_data_data_1">#FF938A84</color> <!-- data-data-1 -->
+    <color name="color_data_data_1_border">#FF4E4640</color> <!-- data-data-1-border -->
+    <color name="color_data_data_8_subtle">#FFC4E5A0</color> <!-- data-data-8-subtle -->
+    <color name="color_data_data_8_border">#FF345200</color> <!-- data-data-8-border -->
+    <color name="color_data_data_3_border">#FF214680</color> <!-- data-data-3-border -->
+    <color name="color_data_data_2_border">#FF2F4E52</color> <!-- data-data-2-border -->
+    <color name="color_data_data_1_subtle">#FFDED6D0</color> <!-- data-data-1-subtle -->
     <color name="color_data_data_2">#FF719398</color> <!-- data-data-2 -->
-    <color name="color_data_data_3">#FFE95739</color> <!-- data-data-3 -->
-    <color name="color_data_data_1_subtle">#FFF6FAFE</color> <!-- data-data-1-subtle -->
-    <color name="color_data_data_2_subtle">#FFF3FAFB</color> <!-- data-data-2-subtle -->
-    <color name="color_data_data_1_border">#FF001C49</color> <!-- data-data-1-border -->
-    <color name="color_data_data_2_border">#FF436468</color> <!-- data-data-2-border -->
-    <color name="color_data_data_3_subtle">#FFFDF2EF</color> <!-- data-data-3-subtle -->
-    <color name="color_data_data_3_border">#FFBA2203</color> <!-- data-data-3-border -->
     <color name="none">#00000000</color> <!-- Transparent -->
 </resources>

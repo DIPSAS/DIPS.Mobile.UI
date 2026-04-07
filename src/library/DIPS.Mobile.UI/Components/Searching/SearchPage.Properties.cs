@@ -31,6 +31,15 @@ namespace DIPS.Mobile.UI.Components.Searching
             set => SetValue(FooterViewProperty, value);
         }
 
+        /// <summary>
+        /// A view displayed at the top of the result list that scrolls with the content.
+        /// </summary>
+        public View? ScrollableHeader
+        {
+            get => (View?)GetValue(ScrollableHeaderProperty);
+            set => SetValue(ScrollableHeaderProperty, value);
+        }
+
         [Obsolete("Setting Content property is the same as setting EmptyResultView")]
         public new View? Content { get; set; }
 
@@ -221,6 +230,12 @@ namespace DIPS.Mobile.UI.Components.Searching
             typeof(View),
             typeof(SearchPage),
             propertyChanged: (bindable, _, _) => ((SearchPage)bindable).OnFooterViewChanged());
+        
+        public static readonly BindableProperty ScrollableHeaderProperty = BindableProperty.Create(
+            nameof(ScrollableHeader),
+            typeof(View),
+            typeof(SearchPage),
+            propertyChanged: (bindable, _, _) => ((SearchPage)bindable).OnScrollableHeaderChanged());
         
         public static readonly BindableProperty IsAutocorrectEnabledProperty = BindableProperty.Create(
             nameof(IsAutocorrectEnabled),

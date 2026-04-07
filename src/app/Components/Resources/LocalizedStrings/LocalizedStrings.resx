@@ -101,6 +101,9 @@
     <data name="Context_Menu_LongPressWithAction" xml:space="preserve">
         <value>Long press menu med en handling</value>
     </data>
+    <data name="Context_Menu_Checkable" xml:space="preserve">
+        <value>Avkryssbar handling</value>
+    </data>
     <data name="Action_Format" xml:space="preserve">
         <value>Handling {0}</value>
     </data>

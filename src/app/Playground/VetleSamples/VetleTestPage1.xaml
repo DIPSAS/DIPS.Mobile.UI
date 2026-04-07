@@ -13,7 +13,6 @@
                  IsSavingCompleted="{Binding IsSavingCompleted}"
                  SavingCompletedCommand="{Binding CompletedCommand}"
                  NavigationPage.HasNavigationBar="True"
-                 Background="Black"
                  StatusBarColor="Transparent">
 
     <dui:ContentPage.BindingContext>
@@ -28,14 +27,18 @@
     
 
 
-    <dui:VerticalStackLayout SafeAreaEdges="None">
+    <!--<dui:VerticalStackLayout>
         <dui:Button Clicked="Button_OnClicked" />
         
-        <dui:Button Clicked="Button_OnClicked3" Text="Set original status bar" />
-    </dui:VerticalStackLayout>
-    <!--<dui:ScrollView>
+        
+    </dui:VerticalStackLayout>-->
+    <dui:ScrollView BackgroundColor="Red"
+                    ShouldBounce="False">
         <dui:VerticalStackLayout Padding="{dui:Padding page_margin_small}"
                                  Spacing="{dui:Sizes size_2}">
+            
+            <dui:Button Text="Hello"
+                        Clicked="Button_OnClicked2"></dui:Button>
         
     
            
@@ -43,6 +46,6 @@
         
     
         </dui:VerticalStackLayout>
-    </dui:ScrollView>-->
+    </dui:ScrollView>
 
 </dui:ContentSavePage>

@@ -87,7 +87,7 @@ internal partial class ExtendedNavigationMenuButton
         nameof(BadgeColor),
         typeof(Color),
         typeof(ExtendedNavigationMenuButton),
-        defaultValue: Colors.GetColor(ColorName.color_icon_on_fill_information));
+        defaultValue: Colors.GetColor(ColorName.color_icon_default));
     
     public static readonly BindableProperty BadgeCountProperty = BindableProperty.Create(
         nameof(BadgeCount),

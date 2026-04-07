@@ -7,6 +7,7 @@ public class BottomSheetViewController : UIViewController
 {
     private readonly BottomSheetContainer m_container;
     private BottomBarView? m_bottomBar;
+    private BottomSheetNavigationBarHelper? m_navigationBarHelper;
 
     public BottomSheetViewController(BottomSheet bottomSheet)
     {
@@ -51,12 +52,23 @@ public class BottomSheetViewController : UIViewController
         
         m_container.AddToView(View);
         m_bottomBar = new BottomBarView(View, BottomSheet);
+        
+        m_navigationBarHelper = new BottomSheetNavigationBarHelper(BottomSheet, NavigationItem, NavigationController);
+        m_navigationBarHelper.Configure();
     }
 
     public override void ViewDidAppear(bool animated)
     {
         base.ViewDidAppear(animated);
-        m_container.SetSemanticFocusToHeader();
+        
+        if (NavigationController is { NavigationBarHidden: false, NavigationBar: not null })
+        {
+            UIAccessibility.PostNotification(UIAccessibilityPostNotification.ScreenChanged, NavigationController.NavigationBar);
+        }
+        else
+        {
+            UIAccessibility.PostNotification(UIAccessibilityPostNotification.ScreenChanged, View);
+        }
     }
 
     public void Opened()
@@ -77,18 +89,20 @@ public class BottomSheetViewController : UIViewController
 
     public void SetPositioning()
     {
-        this.SetPositioning(BottomSheet, m_container);
+        var controller = NavigationController ?? (UIViewController)this;
+        controller.SetPositioning(BottomSheet, m_container);
     }
 
     public void SetTitle()
     {
-        NavigationItem.Title = BottomSheet.Title;
+        m_navigationBarHelper?.UpdateTitle();
     }
 
     protected override void Dispose(bool disposing)
     {
         base.Dispose(disposing);
 
+        m_navigationBarHelper?.Dispose();
         BottomSheet.SendClose();
         BottomSheetService.RemoveFromStack(BottomSheet);
 

@@ -1,7 +1,61 @@
-## [55.2.3]
+## [55.6.4]
 - [iOS][SearchBar] Fixed memory leak where `SearchButtonClicked` event was never unsubscribed due to wrong event name in cleanup
 - [iOS][Camera] Fixed memory leak where `PreviewView.OnTapToFocus` event was never unsubscribed when stopping camera session
 - [SlidableLayout] Fixed memory leak where `TapGestureRecognizer.Tapped` event was never unsubscribed due to missing field reference
+
+## [55.6.3]
+- [ScrollView][iOS] ShouldBounce now sets correct native property.
+
+## [55.6.2]
+- [ContextMenu][iOS] Fixed `IsChecked` and `IsCheckable` not reflecting visually when used inside `ToolbarButton.Menu`
+
+## [55.6.1]
+- [Android][Design Tokens] Fixed Android color XML resources using wrong hex byte order (`#BBAARRGG` instead of Android's required `#AARRGGBB`), which caused incorrect colors and transparency on Android
+
+## [55.6.0]
+- [Design Tokens] Updated color tokens to puls-design-tokens v2.0.6
+- [Alert] Replaced removed `color_text_on_surface_*` and `color_icon_on_surface_*` tokens with `color_text_default` and `color_icon_default`
+- [Tag] Replaced removed `color_icon_on_fill_*` tokens with `color_icon_default`
+- [Counter] Replaced removed `color_text_on_fill_danger` token with `color_text_default`
+- [AlertView] Replaced removed `color_text_on_fill_information` token with `color_text_default`
+- [ToolbarButton] Replaced removed `color_icon_on_surface_information` token with `color_icon_default`
+- [ExtendedNavigationMenuButton] Replaced removed `color_icon_on_fill_information` token with `color_icon_default`
+
+## [55.5.0]
+- [Toolbar] Added new cross-platform Toolbar component for bottom action bars
+- [ContentPage] Added `BottomToolbar` property to attach a toolbar to any content page
+
+## [55.4.1]
+- [SearchPage][Android] Fix bug where `ScrollableHeader` were not added.
+
+## [55.4.0]
+- [iOS][BottomSheet] Use native UINavigationBar for bottom sheet header with centered title, system close/back buttons, and proper blur behavior
+- [Android][BottomSheet] Fixed edge-to-edge constraints not applying until scroll when start Positioning is Large
+- [iOS][BottomSheet] Fixed bottom sheet not automatically scrolling to top when Positioning is Large
+
+## [55.3.0]
+- [SearchPage] Added `ScrollableHeader` property to allow consumers to provide a header that scrolls with search results.
+- [SearchPage] Replaced `OnLoaded`/`OnUnloaded` event subscriptions with `OnHandlerChanged` override.
+- [SearchPage] Removed old iOS safe area handling in favor of .NET 10 `SafeAreaEdges` (consumers should set safe area themselves).
+- [SearchPage] Android back button now executes `CancelCommand`, allowing consumers to override close behavior with their own navigation service.
+
+## [55.2.7]
+- [Android][Modal] Fixed memory leak when popping modal pages wrapped in NavigationPage, caused by StackNavigationManager not clearing references on disconnect (dotnet/maui#34456)
+- [Android][Button] Fixed memory leak caused by strong reference from platform MaterialButton to virtual Button
+- [Android][SearchBar] Fixed memory leak caused by bindings and event handlers not being cleaned up on disconnect
+- [iOS][SearchBar] Fixed incorrect event unsubscription (SearchButtonClicked was unsubscribed as CancelButtonClicked)
+
+## [55.2.6]
+- [ContextMenu] Fixed that in some cases context menu never appears when tapping.
+
+## [55.2.5]
+- [Android][BottomSheet] Fixed bottom sheet going over status bar on API 34 and below.
+
+## [55.2.4]
+- [Android][Modal] Fixed crash caused by accessing a disposed Java peer when comparing fragments in OnFragmentDestroyed
+
+## [55.2.3]
+- [Android][Entry][Editor] Fixed potential crash.
 
 ## [55.2.2]
 - [iOS26][Tip] Added more padding.

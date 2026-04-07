@@ -152,6 +152,10 @@ public partial class Shell : Microsoft.Maui.Controls.Shell
                 
                 TryAutoDisconnectModalPageHandlers(pageCollectionContentTargets);
                 
+                // Workaround for dotnet/maui#34456: Clear leaked StackNavigationManager fields
+                // AFTER Disconnect() has run (so it can properly unsubscribe events first)
+                modalPage.ClearCapturedNavigationManagerReferences();
+                
                 foreach (var target in pageCollectionContentTargets)
                 {
                     if (target is null || !target.IsAlive)
