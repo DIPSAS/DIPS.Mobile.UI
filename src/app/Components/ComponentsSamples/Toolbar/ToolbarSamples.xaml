@@ -6,7 +6,6 @@
                  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                  xmlns:dui="http://dips.com/mobile.ui"
                  xmlns:local="clr-namespace:Components.ComponentsSamples.Toolbar"
-                 xmlns:localizedStrings="clr-namespace:Components.Resources.LocalizedStrings"
                  x:DataType="local:ToolbarSamplesViewModel"
                  x:Class="Components.ComponentsSamples.Toolbar.ToolbarSamples"
                  Title="Documents">
@@ -28,9 +27,6 @@
                 </dui:ToolbarTaskButton>
             </dui:ToolbarGroup>
             <dui:ToolbarGroup>
-                <dui:ToolbarButton x:Name="fullScreenButton"
-                                   Icon="{dui:Icons expand_line}"
-                                   Title="Fullscreen" />
                 <dui:ToolbarButton Icon="{dui:Icons edit_line}"
                                    Title="Edit"
                                    Command="{Binding EditCommand}" />
@@ -45,11 +41,10 @@
                             <dui:ContextMenuItem Title="Print"
                                                  Command="{Binding PrintCommand}" />
                             <dui:ContextMenuItem BindingContext="{Binding .}"
-                                                 Title="{dui:StringFormat {x:Static localizedStrings:LocalizedStrings.Option_Format}, Argument=1}"
+                                                 Title="Checkable Option"
                                                  Icon="{dui:Icons alert_line}"
                                                  IsCheckable="True"
-                                                 IsChecked="{Binding IsCheckableOptionChecked, Mode=TwoWay}"
-                                                 />
+                                                 IsChecked="{Binding IsCheckableOptionChecked}" />
                             <dui:ContextMenuItem Title="Delete"
                                                  Command="{Binding DeleteCommand}" />
                         </dui:ContextMenu>
@@ -194,8 +189,7 @@
 
             <!-- Document content -->
             <dui:VerticalStackLayout Padding="{dui:Sizes size_4}"
-                                     Spacing="{dui:Sizes size_3}"
-                                     x:Name="documentSection">
+                                     Spacing="{dui:Sizes size_3}">
                 <dui:Label Text="Subjective"
                            Style="{dui:Styles Label=UI100}" />
                 <dui:Label

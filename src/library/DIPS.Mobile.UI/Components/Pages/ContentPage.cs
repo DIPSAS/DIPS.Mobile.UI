@@ -74,7 +74,6 @@ namespace DIPS.Mobile.UI.Components.Pages
 
             HideOrShowFloatingNavigationMenu();
             
-            BottomToolbar?.Show();
             
 #if __ANDROID__
             // Update status bar color for this page (works for both modal and non-modal)
@@ -205,8 +204,6 @@ namespace DIPS.Mobile.UI.Components.Pages
             base.OnDisappearing();
 
             HasAppeared = false;
-            
-            BottomToolbar?.Hide();
 
             if (Application.Current != null)
             {
