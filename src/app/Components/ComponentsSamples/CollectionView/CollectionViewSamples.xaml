@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<dui:ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                 xmlns:dui="http://dips.com/mobile.ui"
+                 xmlns:local="clr-namespace:Components.ComponentsSamples.CollectionView"
+                 x:Class="Components.ComponentsSamples.CollectionView.CollectionViewSamples"
+                 x:DataType="local:CollectionViewSamplesViewModel"
+                 Title="CollectionView">
+
+    <dui:ContentPage.BindingContext>
+        <local:CollectionViewSamplesViewModel />
+    </dui:ContentPage.BindingContext>
+
+    <Grid RowDefinitions="Auto, *">
+
+        <!-- Action buttons -->
+        <dui:ScrollView Orientation="Horizontal"
+                        Grid.Row="0">
+            <HorizontalStackLayout Spacing="{dui:Sizes size_1}"
+                                   Padding="{dui:Thickness Left=content_margin_medium, Right=content_margin_medium, Top=size_1, Bottom=size_1}">
+                <dui:Button Style="{dui:Styles Button=DefaultSmall}"
+                            Text="Add First"
+                            Command="{Binding AddFirstCommand}" />
+                <dui:Button Style="{dui:Styles Button=DefaultSmall}"
+                            Text="Add Last"
+                            Command="{Binding AddLastCommand}" />
+                <dui:Button Style="{dui:Styles Button=DefaultSmall}"
+                            Text="Add Middle"
+                            Command="{Binding AddMiddleCommand}" />
+                <dui:Button Style="{dui:Styles Button=GhostSmall}"
+                            Text="Remove First"
+                            Command="{Binding RemoveFirstCommand}" />
+                <dui:Button Style="{dui:Styles Button=GhostSmall}"
+                            Text="Remove Last"
+                            Command="{Binding RemoveLastCommand}" />
+                <dui:Button Style="{dui:Styles Button=GhostSmall}"
+                            Text="Remove Middle"
+                            Command="{Binding RemoveMiddleCommand}" />
+                <dui:Button Style="{dui:Styles Button=GhostSmall}"
+                            Text="Clear All"
+                            Command="{Binding ClearAllCommand}" />
+                <dui:Button Style="{dui:Styles Button=CallToActionSmall}"
+                            Text="Reset"
+                            Command="{Binding ResetCommand}" />
+            </HorizontalStackLayout>
+        </dui:ScrollView>
+
+        <!-- CollectionView with AutoHideLastDivider and auto corner radius -->
+        <dui:CollectionView ItemsSource="{Binding Items}"
+                            dui:Layout.AutoHideLastDivider="True"
+                            Grid.Row="1">
+            <dui:CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="local:CollectionViewSampleItem">
+                    <dui:ListItem Title="{Binding Title}"
+                                  HasBottomDivider="True" />
+                </DataTemplate>
+            </dui:CollectionView.ItemTemplate>
+        </dui:CollectionView>
+
+    </Grid>
+
+</dui:ContentPage>
