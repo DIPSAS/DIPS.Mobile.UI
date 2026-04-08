@@ -73,11 +73,26 @@ public class ReorderableItemsViewAdapter : ReorderableItemsViewAdapter<Reorderab
     private readonly Dictionary<int, Divider> m_lastDividerSetToInvisibleInPosition = new();
     private readonly Dictionary<int, RecyclerView.ViewHolder> m_currentLastCellWithCornerRadiusInPosition = new();
     private readonly Dictionary<int, RecyclerView.ViewHolder> m_currentFirstCellWithCornerRadiusInPosition = new();
+    private RecyclerView? m_recyclerView;
 
     public ReorderableItemsViewAdapter(ReorderableItemsView reorderableItemsView, Func<View, Context, ItemContentView> createView = null) : base(reorderableItemsView, createView)
     {
         if(reorderableItemsView is CollectionView collectionView)
             m_collectionView = collectionView;
+        
+        RegisterAdapterDataObserver(new DataChangedObserver(this));
+    }
+
+    public override void OnAttachedToRecyclerView(RecyclerView recyclerView)
+    {
+        base.OnAttachedToRecyclerView(recyclerView);
+        m_recyclerView = recyclerView;
+    }
+
+    public override void OnDetachedFromRecyclerView(RecyclerView recyclerView)
+    {
+        base.OnDetachedFromRecyclerView(recyclerView);
+        m_recyclerView = null;
     }
 
     public override void OnBindViewHolder(RecyclerView.ViewHolder holder, int position)
@@ -148,7 +163,7 @@ public class ReorderableItemsViewAdapter : ReorderableItemsViewAdapter<Reorderab
 
     private void TrySetLastDividerToInvisible(RecyclerView.ViewHolder holder, int position, int lastItemIndex)
     {
-        if(!Effects.Layout.Layout.GetAutoHideLastDivider(m_collectionView) || (position != lastItemIndex))
+        if(!Effects.Layout.Layout.GetAutoHideLastDivider(m_collectionView))
             return;
         
         Divider? divider = null;
@@ -164,52 +179,56 @@ public class ReorderableItemsViewAdapter : ReorderableItemsViewAdapter<Reorderab
         if (divider is null)
             return;
 
-        // We need to check if the last divider was set to invisible in the previous position (Because the list is flattened on Android even though it is grouped)
-        if (m_lastDividerSetToInvisibleInPosition.Remove(position - 1, out var value))
+        if (position == lastItemIndex)
         {
-            value.IsVisible = true;
+            divider.IsVisible = false;
+            m_lastDividerSetToInvisibleInPosition[position] = divider;
         }
-        
-        divider.IsVisible = false;
-        m_lastDividerSetToInvisibleInPosition[position] = divider;
+        else
+        {
+            // Reset the divider for non-last items, because of virtualization/recycling
+            divider.IsVisible = true;
+        }
     }
 
     /// <summary>
     /// Here we set the Corner Radius on the cells
     /// </summary>
     /// <remarks>
-    /// If the CollectionView is using ObservableCollection and the consumer adds an element,
-    /// we have to cache which cell that has modified its corner radius, so we can reset it,
-    /// because the new cell that has been added should be either the last or first one 
+    /// If the CollectionView is using ObservableCollection and the consumer adds or removes an element,
+    /// we clear the cache of which cell had its corner radius modified, and reset the old cells directly.
     /// </remarks>
-    /// <param name="shouldCache">If we shall cache the cell that has modified its corner radius</param>
     private void TrySetCornerRadiusOnCell(RecyclerView.ViewHolder holder, int position, int firstItemIndex,
-        int lastItemIndex, bool shouldCache = true)
+        int lastItemIndex)
     {
         var cornerRadius = new CornerRadius();
         
         if ((!m_collectionView.FirstItemCornerRadius.IsEmpty() || m_collectionView.AutoCornerRadius) && position == firstItemIndex)
         {
-            if (m_currentFirstCellWithCornerRadiusInPosition.Remove(position + 1, out var value))
+            // Reset corner radius on any previously cached first cell that is different from the current one
+            foreach (var entry in m_currentFirstCellWithCornerRadiusInPosition)
             {
-                TrySetCornerRadiusOnCell(value, position + 1, firstItemIndex, lastItemIndex, false);
+                if (!entry.Value.Equals(holder))
+                    SetCellCornerRadius(entry.Value, new CornerRadius());
             }
+            m_currentFirstCellWithCornerRadiusInPosition.Clear();
             
             cornerRadius = m_collectionView.FirstItemCornerRadius.IsEmpty() ? new CornerRadius(Sizes.GetSize(SizeName.radius_small), Sizes.GetSize(SizeName.radius_small), 0, 0) : m_collectionView.FirstItemCornerRadius;
-            if(shouldCache)
-                m_currentFirstCellWithCornerRadiusInPosition[position] = holder;
+            m_currentFirstCellWithCornerRadiusInPosition[position] = holder;
         }
         
         if ((!m_collectionView.LastItemCornerRadius.IsEmpty() || m_collectionView.AutoCornerRadius) && position == lastItemIndex)
         {
-            if (m_currentLastCellWithCornerRadiusInPosition.Remove(position - 1, out var value))
+            // Reset corner radius on any previously cached last cell that is different from the current one
+            foreach (var entry in m_currentLastCellWithCornerRadiusInPosition)
             {
-                TrySetCornerRadiusOnCell(value, position - 1, firstItemIndex, lastItemIndex, false);
+                if (!entry.Value.Equals(holder))
+                    SetCellCornerRadius(entry.Value, new CornerRadius());
             }
+            m_currentLastCellWithCornerRadiusInPosition.Clear();
             
             cornerRadius = m_collectionView.LastItemCornerRadius.IsEmpty() ? new CornerRadius(cornerRadius.TopLeft, cornerRadius.TopRight, Sizes.GetSize(SizeName.radius_small), Sizes.GetSize(SizeName.radius_small)) : m_collectionView.LastItemCornerRadius;
-            if(shouldCache)
-                m_currentLastCellWithCornerRadiusInPosition[position] = holder;
+            m_currentLastCellWithCornerRadiusInPosition[position] = holder;
         }
         
         SetCellCornerRadius(holder, cornerRadius);
@@ -247,13 +266,87 @@ public class ReorderableItemsViewAdapter : ReorderableItemsViewAdapter<Reorderab
         
         holder.ItemView.Background = materialShapeDrawable;
     }
+
+    private void ClearCaches()
+    {
+        m_lastDividerSetToInvisibleInPosition.Clear();
+        m_currentLastCellWithCornerRadiusInPosition.Clear();
+        m_currentFirstCellWithCornerRadiusInPosition.Clear();
+    }
+
+    /// <summary>
+    /// Re-applies divider visibility and corner radius modifications to all currently visible cells.
+    /// Called after data changes to ensure boundary cells (first/last) get the correct state,
+    /// since RecyclerView does not rebind cells whose data hasn't changed.
+    /// </summary>
+    private void ReapplyModificationsToVisibleCells()
+    {
+        if (m_recyclerView == null)
+            return;
+        
+        for (var i = 0; i < m_recyclerView.ChildCount; i++)
+        {
+            var child = m_recyclerView.GetChildAt(i);
+            if (child == null) continue;
+            
+            var holder = m_recyclerView.GetChildViewHolder(child);
+            if (holder == null) continue;
+            
+            var position = holder.AdapterPosition;
+            if (position < 0) continue;
+            
+            if (m_collectionView.IsGrouped)
+            {
+                if (TryGetGroupAndGroupIndex(position, out var groupPosition, out var group))
+                {
+                    ModifyCell(holder, groupPosition, group.HasHeader, group.HasFooter, group.Count);
+                }
+            }
+            else
+            {
+                ModifyCell(holder, position, ItemsSource.HasHeader, ItemsSource.HasFooter, ItemsSource.Count);
+            }
+        }
+    }
     
     protected override void Dispose(bool disposing)
     {
         base.Dispose(disposing);
         
-        m_lastDividerSetToInvisibleInPosition.Clear();
-        m_currentLastCellWithCornerRadiusInPosition.Clear();
-        m_currentFirstCellWithCornerRadiusInPosition.Clear();
+        ClearCaches();
+        m_recyclerView = null;
+    }
+
+    private class DataChangedObserver(ReorderableItemsViewAdapter adapter) : RecyclerView.AdapterDataObserver
+    {
+        public override void OnChanged()
+        {
+            adapter.OnDataChanged();
+        }
+
+        public override void OnItemRangeInserted(int positionStart, int itemCount)
+        {
+            adapter.OnDataChanged();
+        }
+
+        public override void OnItemRangeRemoved(int positionStart, int itemCount)
+        {
+            adapter.OnDataChanged();
+        }
+
+        public override void OnItemRangeMoved(int fromPosition, int toPosition, int itemCount)
+        {
+            adapter.OnDataChanged();
+        }
+    }
+
+    private void OnDataChanged()
+    {
+        ClearCaches();
+        
+        // Post a deferred re-application of modifications to visible cells.
+        // This ensures boundary cells (first/last) get correct divider and corner radius state
+        // after items are added/removed, since RecyclerView does not rebind unaffected cells.
+        m_recyclerView?.Post(ReapplyModificationsToVisibleCells);
     }
 }
