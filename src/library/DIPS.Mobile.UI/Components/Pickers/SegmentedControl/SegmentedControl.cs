@@ -160,9 +160,23 @@ public partial class SegmentedControl : ContentView
         SelectedItemCommand?.Execute(item);
     }
 
+    private void UnsubscribeBorderEvents()
+    {
+        foreach (var child in m_horizontalStackLayout.Children)
+        {
+            if (child is Border border)
+            {
+                border.SizeChanged -= OnBorderSizeChanged;
+            }
+        }
+    }
+
     private void ItemsSourceChanged()
     {
         if (ItemsSource == null) return;
+
+        UnsubscribeBorderEvents();
+
         var listOfSelectableItems = new List<SelectableItemViewModel>();
 
         foreach (var item in ItemsSource.Cast<object>().ToList())
@@ -184,5 +198,15 @@ public partial class SegmentedControl : ContentView
 
         m_allSelectableItems = listOfSelectableItems;
         BindableLayout.SetItemsSource(m_horizontalStackLayout, m_allSelectableItems);
+    }
+
+    protected override void OnHandlerChanging(HandlerChangingEventArgs args)
+    {
+        base.OnHandlerChanging(args);
+
+        if (args.NewHandler is null)
+        {
+            UnsubscribeBorderEvents();
+        }
     }
 }
