@@ -46,8 +46,6 @@ namespace DIPS.Mobile.UI.Components.Searching
             SearchBar.SetBinding(SearchBar.DelayProperty, static (SearchPage searchPage) => searchPage.Delay, source: this);
             SearchBar.SetBinding(SearchBar.IsAutocorrectEnabledProperty, static (SearchPage searchPage) => searchPage.IsAutocorrectEnabled, source: this);
             
-            SearchBar.TextChanged += SearchBarOnTextChanged;
-
             SearchBar.SearchCommand = new Command(() => OnSearchQueryChanged(SearchBar.Text));
             SearchBar.ClearTextCommand = new Command(TextWasClearedFromClick);
             SearchBar.CancelCommand = CancelCommand;
@@ -125,6 +123,7 @@ namespace DIPS.Mobile.UI.Components.Searching
                 SearchBar.Focus();    
             }
 
+            SearchBar.TextChanged += SearchBarOnTextChanged;
             SearchBar.Focused += OnSearchBarFocused;
         }
 
@@ -209,7 +208,6 @@ namespace DIPS.Mobile.UI.Components.Searching
 
         protected override void OnDisappearing()
         {
-            SearchBar.TextChanged -= SearchBarOnTextChanged;
             SearchBar.Unfocus();
             base.OnDisappearing();
         }
@@ -279,6 +277,7 @@ namespace DIPS.Mobile.UI.Components.Searching
             
             if (args.NewHandler is null)
             {
+                SearchBar.TextChanged -= SearchBarOnTextChanged;
                 m_resultCollectionView.Scrolled -= OnCollectionViewScrolled;
                 SearchBar.Focused -= OnSearchBarFocused;
             }

@@ -27,7 +27,10 @@ public abstract class BaseNullableDatePicker : Grid
         base.OnHandlerChanging(args);
         
         if(args.NewHandler is null)
+        {
+            DateEnabledSwitch.Toggled -= OnSwitchToggled;
             return;
+        }
         
         m_dateOrTimePicker = CreateDateOrTimePicker();
         m_dateOrTimePicker.IsVisible = false;

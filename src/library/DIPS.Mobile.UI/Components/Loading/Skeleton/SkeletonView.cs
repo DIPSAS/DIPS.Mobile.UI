@@ -134,6 +134,16 @@ public partial class SkeletonView : ContentView
         return box;
     }
 
+    protected override void OnHandlerChanging(HandlerChangingEventArgs args)
+    {
+        base.OnHandlerChanging(args);
+
+        if (args.NewHandler is not null)
+            return;
+
+        StopAnimation();
+    }
+
     private void StartAnimation()
     {
         StopAnimation();

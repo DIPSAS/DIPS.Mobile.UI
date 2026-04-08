@@ -11,17 +11,24 @@ public partial class FloatingNavigationButtonHandler
         if (handler.PlatformView is not global::Android.Views.View aView) return;
         if (handler.VirtualView is not FloatingNavigationButton fab) return;
         
+        aView.Click -= handler.OnNativeViewClick;
+        
         if (floatingNavigationButton.IsClickable)
         {
             aView.Clickable = true;
-            aView.Click += (_, _) =>
-            {
-                _ = fab.Close();
-            };    
+            aView.Click += handler.OnNativeViewClick;
         }
         else
         {
             aView.Clickable = false;
+        }
+    }
+    
+    private void OnNativeViewClick(object? sender, EventArgs e)
+    {
+        if (VirtualView is FloatingNavigationButton fab)
+        {
+            _ = fab.Close();
         }
     }
 }

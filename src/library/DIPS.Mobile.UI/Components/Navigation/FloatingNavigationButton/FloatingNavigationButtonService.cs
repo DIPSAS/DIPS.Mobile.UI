@@ -150,6 +150,7 @@ public static partial class FloatingNavigationButtonService
     public static void Remove()
     {
         PlatformRemove();
+        FloatingNavigationButton = null;
     }
 
     private static partial void PlatformRemove();

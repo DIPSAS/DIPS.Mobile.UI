@@ -95,32 +95,34 @@ public partial class SegmentedControl : ContentView
         horizontalStackLayout.Add(checkedImage);
         horizontalStackLayout.Add(label);
         border.Content = horizontalStackLayout;
-        border.SizeChanged += ((sender, _) =>
-        {
-            if (sender is not View view) return;
+        border.SizeChanged += OnBorderSizeChanged;
 
-            // Sometimes on Android, the different does not have equal heights, so this is a workaround to ensure all borders have same height.
+        return border;
+    }
+
+    private void OnBorderSizeChanged(object? sender, EventArgs _)
+    {
+        if (sender is not Border border) return;
+
+        // Sometimes on Android, the different does not have equal heights, so this is a workaround to ensure all borders have same height.
 #if __ANDROID__
             border.HeightRequest = this.Height;
 #endif
 
-            if (view.BindingContext is not SelectableItemViewModel selectableListItem) return;
+        if (border.BindingContext is not SelectableItemViewModel selectableListItem) return;
 
-            var radius = Sizes.GetSize(SizeName.radius_xlarge);
-            var roundRectangle = new RoundRectangle() { StrokeThickness = 0};
-            if (m_allSelectableItems.Last() == selectableListItem)
-            {
-                roundRectangle.CornerRadius = new CornerRadius(0, radius, 0, radius);
-            }
-            else if (m_allSelectableItems.First() == selectableListItem)
-            {
-                roundRectangle.CornerRadius = new CornerRadius(radius, 0, radius, 0);
-            }
+        var radius = Sizes.GetSize(SizeName.radius_xlarge);
+        var roundRectangle = new RoundRectangle() { StrokeThickness = 0};
+        if (m_allSelectableItems.Last() == selectableListItem)
+        {
+            roundRectangle.CornerRadius = new CornerRadius(0, radius, 0, radius);
+        }
+        else if (m_allSelectableItems.First() == selectableListItem)
+        {
+            roundRectangle.CornerRadius = new CornerRadius(radius, 0, radius, 0);
+        }
 
-            border.StrokeShape = roundRectangle;
-        });
-
-        return border;
+        border.StrokeShape = roundRectangle;
     }
 
     private void OnItemTouched(SelectableItemViewModel selectableItemViewModel)
@@ -158,9 +160,23 @@ public partial class SegmentedControl : ContentView
         SelectedItemCommand?.Execute(item);
     }
 
+    private void UnsubscribeBorderEvents()
+    {
+        foreach (var child in m_horizontalStackLayout.Children)
+        {
+            if (child is Border border)
+            {
+                border.SizeChanged -= OnBorderSizeChanged;
+            }
+        }
+    }
+
     private void ItemsSourceChanged()
     {
         if (ItemsSource == null) return;
+
+        UnsubscribeBorderEvents();
+
         var listOfSelectableItems = new List<SelectableItemViewModel>();
 
         foreach (var item in ItemsSource.Cast<object>().ToList())
@@ -182,5 +198,15 @@ public partial class SegmentedControl : ContentView
 
         m_allSelectableItems = listOfSelectableItems;
         BindableLayout.SetItemsSource(m_horizontalStackLayout, m_allSelectableItems);
+    }
+
+    protected override void OnHandlerChanging(HandlerChangingEventArgs args)
+    {
+        base.OnHandlerChanging(args);
+
+        if (args.NewHandler is null)
+        {
+            UnsubscribeBorderEvents();
+        }
     }
 }

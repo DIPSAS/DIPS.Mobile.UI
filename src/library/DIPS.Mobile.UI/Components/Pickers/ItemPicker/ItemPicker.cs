@@ -154,6 +154,11 @@ public partial class ItemPicker : ContentView
             picker.AddContextMenuItems();
         }
 
+        if (oldValue is INotifyCollectionChanged oldNotifyCollectionChanged)
+        {
+            oldNotifyCollectionChanged.CollectionChanged -= picker.OnCollectionChanged;
+        }
+
         if (newValue is INotifyCollectionChanged notifyCollectionChanged)
         {
             notifyCollectionChanged.CollectionChanged += picker.OnCollectionChanged;

@@ -125,5 +125,6 @@ internal class SystemMessage : ContentView, IDisposable
     {
         m_timer.Stop();
         m_timer.Elapsed -= OnTimerEnded;
+        m_timer.Dispose();
     }
 }

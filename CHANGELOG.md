@@ -1,3 +1,6 @@
+## [55.6.4]
+- Fixed multiple memory leaks across components: unsubscribed events in `BottomSheetHandler`, `BaseDatePickerHandler`, `BaseNullableDatePicker`, `TabView`, `Shell`, `SkeletonView`, `SegmentedControl`, `StateView`, `ItemPicker`, `SearchPage`, `ScrollPickerHandler`, `FloatingNavigationButton`, `GalleryBottomSheet`, and `SystemMessage`
+
 ## [55.6.3]
 - [ScrollView][iOS] ShouldBounce now sets correct native property.
 

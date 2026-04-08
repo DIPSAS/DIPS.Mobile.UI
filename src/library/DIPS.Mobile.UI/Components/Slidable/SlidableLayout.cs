@@ -8,6 +8,7 @@ namespace DIPS.Mobile.UI.Components.Slidable
     public abstract partial class SlidableLayout : ContentView
     {
         private readonly PanGestureRecognizer m_panGestureRecognizer;
+        private readonly TapGestureRecognizer m_tapGestureRecognizer;
         private readonly AccelerationService m_accelerator = new(true);
         private int m_lastId = -2; // Different than default of SlideProperties
         private double m_startSlideLocation;
@@ -37,9 +38,9 @@ namespace DIPS.Mobile.UI.Components.Slidable
             
             m_panGestureRecognizer.PanUpdated += PanGestureRecognizerPanUpdated;
 
-            var tapGestureRecognizer = new TapGestureRecognizer();
-            GestureRecognizers.Add(tapGestureRecognizer);
-            tapGestureRecognizer.Tapped += OnEntireLayoutTapped;
+            m_tapGestureRecognizer = new TapGestureRecognizer();
+            GestureRecognizers.Add(m_tapGestureRecognizer);
+            m_tapGestureRecognizer.Tapped += OnEntireLayoutTapped;
 
             m_currentOrientation = DeviceDisplay.MainDisplayInfo.Orientation;
         }
@@ -296,6 +297,7 @@ namespace DIPS.Mobile.UI.Components.Slidable
             if (args.NewHandler is null)
             {
                 m_panGestureRecognizer.PanUpdated -= PanGestureRecognizerPanUpdated;
+                m_tapGestureRecognizer.Tapped -= OnEntireLayoutTapped;
             }
         }
     }

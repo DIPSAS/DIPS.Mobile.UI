@@ -72,6 +72,7 @@ public partial class ScrollPickerHandler : ViewHandler<ScrollPicker, Chip>
         
         platformView.Click -= PlatformViewOnClick;
         m_scrollPickerViewModel.OnAnyComponentsDataInvalidated -= SetChipTitle;
+        m_scrollPickerViewModel.Dispose();
     }
 }
 

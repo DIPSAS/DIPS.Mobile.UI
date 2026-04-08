@@ -39,6 +39,8 @@ public partial class BottomSheetHandler : ContentViewHandler
     private BottomSheetHeader m_bottomSheetHeader;
     private List<WeakReference<SearchBar>> m_weakSearchBars = [];
     private WeakReference<AView>? m_weakCurrentFocusedSearchBar;
+    private BottomSheetCallback? m_bottomSheetCallback;
+    private KeyListener? m_keyListener;
 
     public AView OnBeforeOpening(IMauiContext mauiContext, Context context, AView bottomSheetAndroidView,
         RelativeLayout rootLayout, LinearLayout bottomSheetLayout)
@@ -46,10 +48,11 @@ public partial class BottomSheetHandler : ContentViewHandler
         if (VirtualView is not BottomSheet bottomSheet) return new AView(Context);
         
         m_bottomSheet = bottomSheet;
-        bottomSheet.BottomSheetDialog.Behavior.AddBottomSheetCallback(
-            new BottomSheetCallback(this));
+        m_bottomSheetCallback = new BottomSheetCallback(this);
+        m_keyListener = new KeyListener(this);
+        bottomSheet.BottomSheetDialog.Behavior.AddBottomSheetCallback(m_bottomSheetCallback);
         bottomSheet.BottomSheetDialog.SetOnShowListener(new DialogInterfaceOnShowListener(this));
-        bottomSheet.BottomSheetDialog.SetOnKeyListener(new KeyListener(this));
+        bottomSheet.BottomSheetDialog.SetOnKeyListener(m_keyListener);
 
         //Add a handle, with a innerGrid that works as a big hit box for the user to hit
         //Inspired by com.google.android.material.bottomsheet.BottomSheetDragHandleView , which will be added in Xamarin Android Material Design v1.7.0.  https://github.com/material-components/material-components-android/commit/ac7b761294808748df167b50b223b591ca9dac06
@@ -234,6 +237,16 @@ public partial class BottomSheetHandler : ContentViewHandler
     {
         base.DisconnectHandler(platformView);
         
+        if (m_bottomSheetCallback is not null)
+        {
+            m_bottomSheet.BottomSheetDialog.Behavior.RemoveBottomSheetCallback(m_bottomSheetCallback);
+            m_bottomSheetCallback = null;
+        }
+
+        m_bottomSheet.BottomSheetDialog.SetOnShowListener(null);
+        m_bottomSheet.BottomSheetDialog.SetOnKeyListener(null);
+        m_keyListener = null;
+
         s_mEmptyNonFitToContentView?.RemoveFromParent();
         m_bottomSheetHeader.DisconnectHandlers();
 
