@@ -120,5 +120,8 @@ internal class BottomSheetNavigationBarHelper
         {
             m_bottomSheet.BottomSheetHeaderBehavior.PropertyChanged -= OnHeaderBehaviorPropertyChanged;
         }
+        
+        m_navigationItem.RightBarButtonItem = null;
+        m_navigationItem.LeftBarButtonItem = null;
     }
 }

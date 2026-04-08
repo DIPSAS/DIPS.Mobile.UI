@@ -1,3 +1,6 @@
+## [55.6.5]
+- [BottomSheet][iOS] Fixed memory leak where the entire visual tree was retained after closing a BottomSheet
+
 ## [55.6.4]
 - Fixed multiple memory leaks across components: unsubscribed events in `BottomSheetHandler`, `BaseDatePickerHandler`, `BaseNullableDatePicker`, `TabView`, `Shell`, `SkeletonView`, `SegmentedControl`, `StateView`, `ItemPicker`, `SearchPage`, `ScrollPickerHandler`, `FloatingNavigationButton`, `GalleryBottomSheet`, and `SystemMessage`
 
