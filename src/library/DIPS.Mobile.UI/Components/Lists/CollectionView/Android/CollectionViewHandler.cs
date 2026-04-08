@@ -205,7 +205,7 @@ public class ReorderableItemsViewAdapter : ReorderableItemsViewAdapter<Reorderab
         
         if ((!m_collectionView.FirstItemCornerRadius.IsEmpty() || m_collectionView.AutoCornerRadius) && position == firstItemIndex)
         {
-            // Reset corner radius on any previously cached first cell that is different from the current one
+            // Reset corner radius on the previously cached first cell if it's different from the current one
             foreach (var entry in m_currentFirstCellWithCornerRadiusInPosition)
             {
                 if (!entry.Value.Equals(holder))
@@ -219,7 +219,7 @@ public class ReorderableItemsViewAdapter : ReorderableItemsViewAdapter<Reorderab
         
         if ((!m_collectionView.LastItemCornerRadius.IsEmpty() || m_collectionView.AutoCornerRadius) && position == lastItemIndex)
         {
-            // Reset corner radius on any previously cached last cell that is different from the current one
+            // Reset corner radius on the previously cached last cell if it's different from the current one
             foreach (var entry in m_currentLastCellWithCornerRadiusInPosition)
             {
                 if (!entry.Value.Equals(holder))

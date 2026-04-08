@@ -197,7 +197,8 @@ public class ReorderableItemsViewController(
                 if (!currentFirstCell.Equals(cell) && currentFirstCellWithCornerRadiusInSection.Remove(indexPath.Section))
                 {
                     // Directly reset the old first cell's corner radius instead of recursively re-evaluating
-                    ResetCornerRadius(currentFirstCell.Subviews[1].Subviews[0]);
+                    if (currentFirstCell.Subviews.Length > 1 && currentFirstCell.Subviews[1].Subviews.Length > 0)
+                        ResetCornerRadius(currentFirstCell.Subviews[1].Subviews[0]);
                 }
             }
             
@@ -216,7 +217,8 @@ public class ReorderableItemsViewController(
                 if (!currentLastCell.Equals(cell) && currentLastCellWithCornerRadiusInSection.Remove(indexPath.Section))
                 {
                     // Directly reset the old last cell's corner radius instead of recursively re-evaluating
-                    ResetCornerRadius(currentLastCell.Subviews[1].Subviews[0]);
+                    if (currentLastCell.Subviews.Length > 1 && currentLastCell.Subviews[1].Subviews.Length > 0)
+                        ResetCornerRadius(currentLastCell.Subviews[1].Subviews[0]);
                 }
             }
             
