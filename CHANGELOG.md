@@ -1,7 +1,5 @@
 ## [55.6.4]
-- [iOS][SearchBar] Fixed memory leak where `SearchButtonClicked` event was never unsubscribed due to wrong event name in cleanup
-- [iOS][Camera] Fixed memory leak where `PreviewView.OnTapToFocus` event was never unsubscribed when stopping camera session
-- [SlidableLayout] Fixed memory leak where `TapGestureRecognizer.Tapped` event was never unsubscribed due to missing field reference
+- Fixed multiple memory leaks across components: unsubscribed events in `BottomSheetHandler`, `BaseDatePickerHandler`, `BaseNullableDatePicker`, `TabView`, `Shell`, `SkeletonView`, `SegmentedControl`, `StateView`, `ItemPicker`, `SearchPage`, `ScrollPickerHandler`, `FloatingNavigationButton`, `GalleryBottomSheet`, and `SystemMessage`
 
 ## [55.6.3]
 - [ScrollView][iOS] ShouldBounce now sets correct native property.
