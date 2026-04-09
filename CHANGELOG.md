@@ -1,3 +1,6 @@
+## [55.6.6]
+- [Toolbar] Supports IsVisible and other visual element properties.
+
 ## [55.6.5]
 - [BottomSheet][iOS] Fixed memory leak where the entire visual tree was retained after closing a BottomSheet
 
