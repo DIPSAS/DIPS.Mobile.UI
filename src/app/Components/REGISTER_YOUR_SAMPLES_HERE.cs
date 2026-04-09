@@ -6,6 +6,7 @@ using Components.ComponentsSamples.BarcodeScanning;
 using Components.ComponentsSamples.BottomSheets;
 using Components.ComponentsSamples.Buttons;
 using Components.ComponentsSamples.Chips;
+using Components.ComponentsSamples.CollectionView;
 using Components.ComponentsSamples.ContextMenus;
 using Components.ComponentsSamples.Counters;
 using Components.ComponentsSamples.ImageCapturing;
@@ -76,6 +77,7 @@ public static class REGISTER_YOUR_SAMPLES_HERE
             new(SampleType.Components, "TIFF Viewer", () => new TiffViewerSample()),
             new(SampleType.Components, "Toolbar", () => new ToolbarSamples(), isModal: true),
             new(SampleType.Accessibility, "VoiceOver/TalkBack", () => new VoiceOverSamples()),
+            new(SampleType.Components, "CollectionView", () => new CollectionViewSamples()),
             
 
 
