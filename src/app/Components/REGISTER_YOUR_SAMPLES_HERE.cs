@@ -8,6 +8,7 @@ using Components.ComponentsSamples.Buttons;
 using Components.ComponentsSamples.Chips;
 using Components.ComponentsSamples.ContextMenus;
 using Components.ComponentsSamples.Counters;
+using Components.ComponentsSamples.FullScreen;
 using Components.ComponentsSamples.ImageCapturing;
 using Components.ComponentsSamples.Labels;
 using Components.ComponentsSamples.ListItems;
@@ -75,6 +76,7 @@ public static class REGISTER_YOUR_SAMPLES_HERE
             new(SampleType.Components, "Gallery", () => new GallerySample()),
             new(SampleType.Components, "TIFF Viewer", () => new TiffViewerSample()),
             new(SampleType.Components, "Toolbar", () => new ToolbarSamples(), isModal: true),
+            new(SampleType.Components, "Full Screen", () => new FullScreenSamples(), isModal: true),
             new(SampleType.Accessibility, "VoiceOver/TalkBack", () => new VoiceOverSamples()),
             
 
