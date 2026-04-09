@@ -7,7 +7,7 @@ public partial class ToolbarHandler
     }
 
     public static IPropertyMapper<Toolbar, ToolbarHandler> PropertyMapper =
-        new PropertyMapper<Toolbar, ToolbarHandler>
+        new PropertyMapper<Toolbar, ToolbarHandler>(ViewMapper)
         {
             [nameof(Toolbar.Groups)] = MapGroups,
             [nameof(Toolbar.HorizontalAlignment)] = MapHorizontalAlignment,
