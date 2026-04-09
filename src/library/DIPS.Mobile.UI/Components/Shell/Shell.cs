@@ -250,6 +250,7 @@ public partial class Shell : Microsoft.Maui.Controls.Shell
     /// Clears ToolbarItems on modal pages to break the reference chain from native toolbar infrastructure
     /// back to the page. Without this, the native navigation bar retains toolbar item handlers which root
     /// the page, and any x:Name'd elements remain alive through the generated code-behind fields.
+    /// TODO: May remove this method when https://github.com/dotnet/maui/issues/34892 is merged
     /// </summary>
     private static void ClearToolbarItems(ModalPageReference modalPage)
     {
