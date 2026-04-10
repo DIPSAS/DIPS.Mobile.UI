@@ -312,6 +312,12 @@ public partial class Shell : Microsoft.Maui.Controls.Shell
         {
             pagesToMonitor = previousShellContentPages;
             
+            // We need a delay here, because it takes some time for Shell to animate to the new root page.
+            // Causing it to be still visible, disconnecting the handler while the page is visible, will cause a crash.
+            // We set a delay of 5 seconds to be 100% sure that the animation is done, even though we could use a lower delay.
+            GarbageCollection.Print("Changed root page, will wait for 5 seconds before trying to resolve/monitor memory leaks");
+            await Task.Delay(5000);
+            
             // Workaround: When Shell items change, MAUI disconnects the page's handler but not its
             // child components' handlers. Disconnect content handlers for ALL pages across all tabs,
             // not just the active tab's navigation stack.
@@ -330,12 +336,6 @@ public partial class Shell : Microsoft.Maui.Controls.Shell
 #endif
                 contentPage.Content.DisconnectHandlers();
             }
-            
-            // We need a delay here, because it takes some time for Shell to animate to the new root page.
-            // Causing it to be still visible, disconnecting the handler while the page is visible, will cause a crash.
-            // We set a delay of 5 seconds to be 100% sure that the animation is done, even though we could use a lower delay.
-            GarbageCollection.Print("Changed root page, will wait for 5 seconds before trying to resolve/monitor memory leaks");
-            await Task.Delay(5000);
         }
             
         try
