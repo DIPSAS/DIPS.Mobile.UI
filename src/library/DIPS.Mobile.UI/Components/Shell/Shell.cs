@@ -150,6 +150,7 @@ public partial class Shell : Microsoft.Maui.Controls.Shell
                 GarbageCollection.Print($"--- 🪟 Attempting to check for leaks in every page that has ever been opened in modal: {modalPage.Name}, number of pages: {modalPage.WeakPages.Count}");
                 
                 TryAutoDisconnectModalNavigationPageHandler(modalPage);
+                ClearToolbarItems(modalPage);
                 
                 // The object has already been garbage collected
                 if (!modalPage.IsAlive)
@@ -241,6 +242,30 @@ public partial class Shell : Microsoft.Maui.Controls.Shell
                 GarbageCollection.Print("🔧 Disconnecting handler manually...");
                 contentPage.DisconnectHandlers();
             }
+        }
+    }
+
+    /// <summary>
+    /// Clears ToolbarItems on modal pages to break the reference chain from native toolbar infrastructure
+    /// back to the page. Without this, the native navigation bar retains toolbar item handlers which root
+    /// the page, and any x:Name'd elements remain alive through the generated code-behind fields.
+    /// TODO: May remove this method when https://github.com/dotnet/maui/issues/34892 is merged
+    /// </summary>
+    private static void ClearToolbarItems(ModalPageReference modalPage)
+    {
+        GarbageCollection.Print("ℹ️ Clearing ToolbarItems...");
+        
+        foreach (var weakPage in modalPage.WeakPages)
+        {
+            if (weakPage.Target is Page page)
+            {
+                page.ToolbarItems.Clear();
+            }
+        }
+        
+        if (modalPage.Target is Page modalRoot)
+        { 
+            modalRoot.ToolbarItems.Clear();
         }
     }
 

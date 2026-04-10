@@ -1,3 +1,6 @@
+## [55.6.7]
+- Fixed memory leak where modal pages with `ToolbarItems` were retained after dismissal when using `x:Name` on any element in the page or `Clicked` event on the `ToolbarItem`.
+
 ## [55.6.6]
 - [Toolbar] Supports IsVisible and other visual element properties.
 
