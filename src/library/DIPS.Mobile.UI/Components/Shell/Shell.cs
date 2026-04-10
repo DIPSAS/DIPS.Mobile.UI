@@ -322,23 +322,21 @@ public partial class Shell : Microsoft.Maui.Controls.Shell
             // child components' handlers. Disconnect content handlers for ALL pages across all tabs,
             // not just the active tab's navigation stack.
             // TODO: Remove when this is merged https://github.com/dotnet/maui/issues/34898
-            var contentPages = previousShellContentPages
-                .Where(p => p.Target is ContentPage { Content: not null })
-                .Select(p => (ContentPage)p.Target!)
-                .ToList();
-            
-            GarbageCollection.Print($"🔧 Disconnecting content handlers for: {string.Join(", ", contentPages.Select(p => p.GetType().Name))}");
-            foreach (var contentPage in contentPages)
+            var pageNames = new List<string>();
+            foreach (var pageRef in previousShellContentPages)
             {
+                if (pageRef.Target is not ContentPage { Content: not null } contentPage)
+                    continue;
+                
+                pageNames.Add(contentPage.GetType().Name);
 #if __ANDROID__ 
                 // On Android, MAUI does not disconnect the page handler during ShellItemChanged (iOS does).
                 contentPage.DisconnectHandlers();
 #endif
                 contentPage.Content.DisconnectHandlers();
             }
-
-            // Settle a bit after disconnecting handlers.
-            await Task.Delay(1000);
+            
+            GarbageCollection.Print($"🔧 Disconnected content handlers for: {string.Join(", ", pageNames)}");
         }
             
         try
