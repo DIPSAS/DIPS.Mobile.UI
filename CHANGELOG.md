@@ -1,3 +1,6 @@
+## [55.6.7]
+- [Shell] Fixed memory leak when Shell items change where child component handlers were not disconnected on iOS, and neither page nor child handlers were disconnected on Android
+
 ## [55.6.6]
 - [Toolbar] Supports IsVisible and other visual element properties.
 
