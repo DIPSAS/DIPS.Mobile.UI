@@ -336,6 +336,9 @@ public partial class Shell : Microsoft.Maui.Controls.Shell
 #endif
                 contentPage.Content.DisconnectHandlers();
             }
+
+            // Settle a bit after disconnecting handlers.
+            await Task.Delay(1000);
         }
             
         try
