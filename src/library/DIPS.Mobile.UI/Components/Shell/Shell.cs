@@ -324,6 +324,10 @@ public partial class Shell : Microsoft.Maui.Controls.Shell
             GarbageCollection.Print($"🔧 Disconnecting content handlers for: {string.Join(", ", contentPages.Select(p => p.GetType().Name))}");
             foreach (var contentPage in contentPages)
             {
+#if __ANDROID__ 
+                // On Android, MAUI does not disconnect the page handler during ShellItemChanged (iOS does).
+                contentPage.DisconnectHandlers();
+#endif
                 contentPage.Content.DisconnectHandlers();
             }
             
@@ -340,7 +344,7 @@ public partial class Shell : Microsoft.Maui.Controls.Shell
             {
                 if (!page.IsAlive) //The object has already been garbage collected
                 {
-                    GarbageCollection.Print($"{page.Name} already garbage collected");
+                    GarbageCollection.Print($"✅ {page.Name} already garbage collected");
                     continue;
                 }
 
