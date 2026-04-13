@@ -173,7 +173,7 @@ public partial class Shell : Microsoft.Maui.Controls.Shell
     private static async Task TryResolvePoppedModalPages(List<ModalPageReference> modalPages)
     {
         // A small delay to wait for MAUI to disconnect handlers
-        await Task.Delay(1000);
+        await Task.Delay(100);
         
         try
         {
@@ -181,12 +181,8 @@ public partial class Shell : Microsoft.Maui.Controls.Shell
             {
                 GarbageCollection.Print($"--- 🪟 Attempting to check for leaks in every page that has ever been opened in modal: {modalPage.Name}, number of pages: {modalPage.WeakPages.Count}");
                 
+                ClearToolbarItems(modalPage);
                 TryAutoDisconnectModalNavigationPageHandler(modalPage);
-                
-                if (GCCollectionMonitor.TryAutoClearModalToolbarItemsEnabled)
-                {
-                    ClearToolbarItems(modalPage);
-                }
                 
                 // The object has already been garbage collected
                 if (!modalPage.IsAlive)
