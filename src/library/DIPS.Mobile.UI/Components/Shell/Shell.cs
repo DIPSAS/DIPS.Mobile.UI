@@ -182,7 +182,11 @@ public partial class Shell : Microsoft.Maui.Controls.Shell
                 GarbageCollection.Print($"--- 🪟 Attempting to check for leaks in every page that has ever been opened in modal: {modalPage.Name}, number of pages: {modalPage.WeakPages.Count}");
                 
                 TryAutoDisconnectModalNavigationPageHandler(modalPage);
-                ClearToolbarItems(modalPage);
+                
+                if (GCCollectionMonitor.TryAutoClearModalToolbarItemsEnabled)
+                {
+                    ClearToolbarItems(modalPage);
+                }
                 
                 // The object has already been garbage collected
                 if (!modalPage.IsAlive)

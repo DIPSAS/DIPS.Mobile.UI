@@ -53,5 +53,11 @@ internal class DIPSUIOptions : IDIPSUIOptions
         
         return this;
     }
-    
+
+    public IDIPSUIOptions EnableAutomaticModalToolbarItemsClearing()
+    {
+        GCCollectionMonitor.TryAutoClearModalToolbarItemsEnabled = true;
+
+        return this;
+    }
 }
