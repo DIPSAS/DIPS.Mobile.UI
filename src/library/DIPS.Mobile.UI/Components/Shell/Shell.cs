@@ -322,21 +322,9 @@ public partial class Shell : Microsoft.Maui.Controls.Shell
             // child components' handlers. Disconnect content handlers for ALL pages across all tabs,
             // not just the active tab's navigation stack.
             // TODO: Remove when this is merged https://github.com/dotnet/maui/issues/34898
-            var pageNames = new List<string>();
-            foreach (var pageRef in previousShellContentPages)
-            {
-                if (pageRef.Target is not ContentPage { Content: not null } contentPage)
-                    continue;
-                
-                pageNames.Add(contentPage.GetType().Name);
-#if __ANDROID__ 
-                // On Android, MAUI does not disconnect the page handler during ShellItemChanged (iOS does).
-                contentPage.DisconnectHandlers();
-#endif
-                contentPage.Content.DisconnectHandlers();
-            }
-            
-            GarbageCollection.Print($"🔧 Disconnected content handlers for: {string.Join(", ", pageNames)}");
+            // NOTE: Extracted to a non-async method to avoid the compiler hoisting strong references
+            // to ContentPage as state machine fields, which would root the pages during the GC monitoring loop.
+            DisconnectShellContentPageHandlers(previousShellContentPages);
         }
             
         try
@@ -392,5 +380,23 @@ public partial class Shell : Microsoft.Maui.Controls.Shell
         {
             DUILogService.LogDebug<Shell>(e.ToString());
         }
+    }
+
+    private static void DisconnectShellContentPageHandlers(List<PageReference> previousShellContentPages)
+    {
+        var pageNames = new List<string>();
+        foreach (var pageRef in previousShellContentPages)
+        {
+            if (pageRef.Target is not ContentPage { Content: not null } contentPage)
+                continue;
+            
+            pageNames.Add(contentPage.GetType().Name);
+#if __ANDROID__
+            contentPage.DisconnectHandlers();
+#endif
+            contentPage.Content.DisconnectHandlers();
+        }
+        
+        GarbageCollection.Print($"🔧 Disconnected content handlers for: {string.Join(", ", pageNames)}");
     }
 }
