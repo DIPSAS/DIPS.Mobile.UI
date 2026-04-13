@@ -173,7 +173,7 @@ public partial class Shell : Microsoft.Maui.Controls.Shell
     private static async Task TryResolvePoppedModalPages(List<ModalPageReference> modalPages)
     {
         // A small delay to wait for MAUI to disconnect handlers
-        await Task.Delay(100);
+        await Task.Delay(1000);
         
         try
         {
