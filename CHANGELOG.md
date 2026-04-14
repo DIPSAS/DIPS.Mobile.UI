@@ -1,3 +1,6 @@
+## [55.6.9]
+- [SortControlBottomSheet] Fix memory leak.
+
 ## [55.6.8]
 - [Shell] Fixed memory leak when Shell items change where child component handlers were not disconnected on iOS, and neither page nor child handlers were disconnected on Android
 - [MemoryManagement] Fixed false-positive memory leak reports when BindingContext is a string
