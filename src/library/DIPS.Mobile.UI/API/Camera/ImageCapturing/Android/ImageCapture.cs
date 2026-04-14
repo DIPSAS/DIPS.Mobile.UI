@@ -6,10 +6,6 @@ using AndroidX.Camera.Core.ResolutionSelector;
 using AndroidX.Core.Content;
 using DIPS.Mobile.UI.API.Camera.ImageCapturing.Settings;
 using DIPS.Mobile.UI.API.Camera.Shared.Android;
-using DIPS.Mobile.UI.Resources.LocalizedStrings.LocalizedStrings;
-using DIPS.Mobile.UI.Resources.Styles;
-using DIPS.Mobile.UI.Resources.Styles.Label;
-using Colors = Microsoft.Maui.Graphics.Colors;
 using ExifInterface = AndroidX.ExifInterface.Media.ExifInterface;
 using Size = Android.Util.Size;
 
