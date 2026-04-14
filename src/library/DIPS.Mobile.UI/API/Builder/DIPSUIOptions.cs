@@ -53,5 +53,4 @@ internal class DIPSUIOptions : IDIPSUIOptions
         
         return this;
     }
-    
 }

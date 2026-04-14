@@ -29,4 +29,9 @@ public partial class TestTab
     {
         Navigation.PushAsync(new VetlePage());
     }
+
+    protected override void OnHandlerChanged()
+    {
+        base.OnHandlerChanged();
+    }
 }

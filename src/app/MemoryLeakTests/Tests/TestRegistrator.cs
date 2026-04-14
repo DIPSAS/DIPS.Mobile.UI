@@ -10,7 +10,8 @@ public static class TestRegistrator
         serviceContainer.Register<CollectionViewTests>()
                         .Register<ModalTests>()
                         .Register<SimpleModalTests>()
-                        .Register<NavigationTests>();
+                        .Register<NavigationTests>()
+                        .Register<ShellItemChangedTests>();
 
         // Component tests
         serviceContainer.Register<EntryTest>()
