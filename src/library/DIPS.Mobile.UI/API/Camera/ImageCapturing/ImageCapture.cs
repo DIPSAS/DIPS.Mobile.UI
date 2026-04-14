@@ -6,6 +6,9 @@ using DIPS.Mobile.UI.API.Camera.Preview;
 using DIPS.Mobile.UI.API.Camera.Shared;
 using DIPS.Mobile.UI.API.Vibration;
 using DIPS.Mobile.UI.Internal.Logging;
+using DIPS.Mobile.UI.Resources.LocalizedStrings.LocalizedStrings;
+using DIPS.Mobile.UI.Resources.Styles;
+using DIPS.Mobile.UI.Resources.Styles.Label;
 using ActivityIndicator = DIPS.Mobile.UI.Components.Loading.ActivityIndicator;
 using Colors = Microsoft.Maui.Graphics.Colors;
 
@@ -18,6 +21,17 @@ public partial class ImageCapture : ICameraUseCase
         VerticalOptions = LayoutOptions.Center,
         HorizontalOptions = LayoutOptions.Center,
         IsRunning = true
+    };
+    
+    private readonly Label m_keepCameraStillHint = new()
+    {
+        VerticalOptions = LayoutOptions.End,
+        HorizontalOptions = LayoutOptions.Center,
+        Text = DUILocalizedStrings.KeepCameraStill,
+        Style = Styles.GetLabelStyle(LabelStyle.Body300),
+        TextColor = Colors.White,
+        BackgroundColor = Microsoft.Maui.Graphics.Color.FromRgba(0, 0, 0, 0.5),
+        Padding = new Thickness(12, 6)
     };
     
 #nullable disable

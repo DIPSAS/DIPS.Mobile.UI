@@ -17,17 +17,6 @@ namespace DIPS.Mobile.UI.API.Camera.ImageCapturing;
 
 public partial class ImageCapture : CameraFragment
 {
-    private readonly Label m_keepCameraStillHint = new()
-    {
-        VerticalOptions = LayoutOptions.End,
-        HorizontalOptions = LayoutOptions.Center,
-        Text = DUILocalizedStrings.KeepCameraStill,
-        Style = Styles.GetLabelStyle(LabelStyle.Body300),
-        TextColor = Colors.White,
-        BackgroundColor = Microsoft.Maui.Graphics.Color.FromRgba(0, 0, 0, 0.5),
-        Padding = new Thickness(12, 6)
-    };
-    
 #nullable disable
     private AndroidX.Camera.Core.ImageCapture m_cameraCaptureUseCase;
 #nullable enable
