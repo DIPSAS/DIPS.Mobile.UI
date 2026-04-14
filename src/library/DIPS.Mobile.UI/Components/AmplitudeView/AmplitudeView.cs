@@ -143,6 +143,8 @@ public partial class AmplitudeView : Grid
         
         if(Controller is not null)
             Controller.OnIsPlayingChanged -= OnIsPlayingChanged;
+        
+        Controller = null;
     }
 
     private bool IsActive => Handler is not null && Controller is not null;
