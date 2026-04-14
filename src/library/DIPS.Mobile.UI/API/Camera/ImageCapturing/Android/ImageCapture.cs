@@ -17,6 +17,8 @@ public partial class ImageCapture : CameraFragment
     private AndroidX.Camera.Core.ImageCapture m_cameraCaptureUseCase;
 #nullable enable
 
+    private ImageCaptureCallback? m_imageCaptureCallback;
+
     private partial Task PlatformStart(ImageCaptureSettings imageCaptureSettings, CameraFailed cameraFailedDelegate)
     {
         var resolutionSelectorBuilder = new ResolutionSelector.Builder()
@@ -57,21 +59,25 @@ public partial class ImageCapture : CameraFragment
             ? AndroidX.Camera.Core.ImageCapture.FlashModeOn
             : AndroidX.Camera.Core.ImageCapture.FlashModeOff;
         
-        var imageCaptureCallback = new ImageCaptureCallback(
+        m_imageCaptureCallback?.Dispose();
+        m_imageCaptureCallback = new ImageCaptureCallback(
             onCaptureStarted: () => SimulateCameraShutter(false),
             onImageCaptureFailed: InvokeOnImageCaptureFailed,
             onImageCaptured: ProcessImageAndGoToConfirmState);
-        
+
         if (CameraInfo?.IsZslSupported != true && m_cameraPreview is not null)
         {
             AddKeepCameraStillHint();
         }
-        
-        m_cameraCaptureUseCase?.TakePicture(ContextCompat.GetMainExecutor(Context), imageCaptureCallback);
+
+        m_cameraCaptureUseCase?.TakePicture(ContextCompat.GetMainExecutor(Context), m_imageCaptureCallback);
     }
 
     private partial async Task PlatformStop()
     {
+        m_imageCaptureCallback?.Dispose();
+        m_imageCaptureCallback = null;
+
         await base.TryStop();
     }
 
@@ -150,49 +156,5 @@ public partial class ImageCapture : CameraFragment
 
     private partial void PlatformOnCameraFailed(CameraException cameraException) =>
         OnCameraFailed<ImageCapture>(cameraException);
-}
-
-internal class ImageCaptureCallback(
-    Action onCaptureStarted, 
-    Action<IImageProxy> onImageCaptured,
-    Action<ImageCaptureException> onImageCaptureFailed
-    ) : AndroidX.Camera.Core.ImageCapture.OnImageCapturedCallback
-{
-    private Action<IImageProxy>? m_invokeOnImageCaptured = onImageCaptured;
-
-    /// <summary>
-    /// Called when the camera hardware has started exposing the sensor.
-    /// Use this to display shutter animation or similar feedback.
-    ///
-    /// </summary>
-    /// <remarks>
-    /// From docs:
-    /// " For a regular capture request, this callback is invoked right as the capture of a frame begins, so it is the
-    /// most appropriate time for playing a shutter sound, or triggering UI indicators of capture. "
-    /// </remarks>
-    public override void OnCaptureStarted()
-    {
-        onCaptureStarted.Invoke();
-        base.OnCaptureStarted();
-    }
-
-    public override void OnError(ImageCaptureException exception)
-    {
-        onImageCaptureFailed.Invoke(exception);
-        base.OnError(exception);
-    }
-
-    public override void OnCaptureSuccess(IImageProxy image)
-    {
-        m_invokeOnImageCaptured?.Invoke(image);
-        base.OnCaptureSuccess(image);
-        image?.Close();
-    }
-
-    protected override void Dispose(bool disposing)
-    {
-        m_invokeOnImageCaptured = null;
-        base.Dispose(disposing);
-    }
 }
 
