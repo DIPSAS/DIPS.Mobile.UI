@@ -54,7 +54,10 @@ public partial class ImageCapture : CameraFragment
     {
         if (Context is null)
             return;
-        
+
+        CancelAnyActiveImageProcessing();
+        m_captureProcessingCts = new CancellationTokenSource();
+
         m_cameraCaptureUseCase.FlashMode = FlashActive
             ? AndroidX.Camera.Core.ImageCapture.FlashModeOn
             : AndroidX.Camera.Core.ImageCapture.FlashModeOff;
@@ -75,6 +78,8 @@ public partial class ImageCapture : CameraFragment
 
     private partial async Task PlatformStop()
     {
+        CancelAnyActiveImageProcessing();
+
         m_imageCaptureCallback?.Dispose();
         m_imageCaptureCallback = null;
 
@@ -101,36 +106,49 @@ public partial class ImageCapture : CameraFragment
 
     private async void ProcessImageAndGoToConfirmState(IImageProxy imageProxy)
     {
-        var imageData = ImageUtil.JpegImageToJpegByteArray(imageProxy);
-        var bitmap = imageProxy.ToBitmap();
+        var cancellationToken = m_captureProcessingCts?.Token ?? CancellationToken.None;
 
-        using var imageMemoryStream = new MemoryStream(imageData);
-        var exif = new ExifInterface(imageMemoryStream);
+        try
+        {
+            var imageData = ImageUtil.JpegImageToJpegByteArray(imageProxy);
+            var bitmap = imageProxy.ToBitmap();
 
-        var orientationDegree = exif.ToTrueOrientationDegree();
-        var imageTransformation = new ImageTransformation(orientationDegree, orientationDegree.ToString());
-        var thumbnail = await TryGetThumbnail(exif, imageTransformation);
+            using var imageMemoryStream = new MemoryStream(imageData);
+            var exif = new ExifInterface(imageMemoryStream);
 
-        var tuple = await CapturedImage.RotateBitmapImageBasedOnOrientation(imageTransformation, bitmap);
+            var orientationDegree = exif.ToTrueOrientationDegree();
+            var imageTransformation = new ImageTransformation(orientationDegree, orientationDegree.ToString());
+            
+            var thumbnail = await TryGetThumbnail(exif, imageTransformation, cancellationToken);
+            var tuple = await CapturedImage.RotateBitmapImageBasedOnOrientation(imageTransformation, bitmap, cancellationToken);
 
-        imageData = tuple.Item1;
-        bitmap = tuple.Item2;
-        
-        var capturedImage = new CapturedImage(imageData, bitmap, thumbnail.Item1, thumbnail.Item2, imageProxy, imageTransformation);
-        
-        GoToConfirmState(capturedImage);
+            imageData = tuple.Item1;
+            bitmap = tuple.Item2;
+
+            var capturedImage = new CapturedImage(imageData, bitmap, thumbnail.Item1, thumbnail.Item2, imageProxy, imageTransformation);
+
+            GoToConfirmState(capturedImage);
+        }
+        catch (OperationCanceledException)
+        {
+            // Camera was stopped while processing the captured image, for example if the user canceled capture.
+        }
+        catch (Exception e)
+        {
+            PlatformOnCameraFailed(new CameraException("ProcessImageFailed", e));
+        }
     }
 
-    private async Task<(byte[], Bitmap)> TryGetThumbnail(ExifInterface exif, ImageTransformation transformation)
+    private async Task<(byte[], Bitmap)> TryGetThumbnail(ExifInterface exif, ImageTransformation transformation, CancellationToken cancellationToken = default)
     {
         if (!exif.HasThumbnail)
             return (null!, null!);
 
         var bitmapImage = exif.ThumbnailBitmap;
-        if (bitmapImage == null) 
+        if (bitmapImage == null)
             return (null!, null!);
-        
-        return (await CapturedImage.RotateBitmapImageBasedOnOrientationAsByteArray(transformation, bitmapImage));
+
+        return await CapturedImage.RotateBitmapImageBasedOnOrientationAsByteArray(transformation, bitmapImage, cancellationToken);
     }
 
     private void AddKeepCameraStillHint()

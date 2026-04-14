@@ -15,6 +15,9 @@ public partial class ImageCapture : IConfirmStateObserver
 
     private void GoToConfirmState(CapturedImage capturedImage)
     {
+        if (m_cameraPreview is null)
+            throw new InvalidOperationException($"{nameof(GoToConfirmState)} was called after the camera preview was torn down.");
+
         m_currentlyCapturedImage = capturedImage;
 
         m_cameraPreview.RemoveViewFromRoot(m_confirmImageWrapper);

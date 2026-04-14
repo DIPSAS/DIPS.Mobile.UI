@@ -41,6 +41,8 @@ public partial class ImageCapture : ICameraUseCase
     private ImageCaptureTopToolbarView m_topToolbarView;
     private ImageCaptureBottomToolbarView m_bottomToolbarView;
 #nullable enable
+
+    private CancellationTokenSource? m_captureProcessingCts;
     
     public async Task Start(CameraPreview cameraPreview, DidCaptureImage onImageCapturedDelegate, CameraFailed cameraFailedDelegate, Action<ImageCaptureSettings>? configure = null)
     {
@@ -135,6 +137,7 @@ public partial class ImageCapture : ICameraUseCase
     {
         try
         {
+            CancelAnyActiveImageProcessing();
             PlatformStop();
             m_cameraPreview = null;
             m_onImageCapturedDelegate = null;
@@ -143,6 +146,19 @@ public partial class ImageCapture : ICameraUseCase
         {
             Log(e.Message);
         }
+    }
+    
+    public void Stop()
+    {
+        ResetAllVisuals();
+        PlatformStop();
+    }
+
+    private void CancelAnyActiveImageProcessing()
+    {
+        m_captureProcessingCts?.Cancel();
+        m_captureProcessingCts?.Dispose();
+        m_captureProcessingCts = null;
     }
 
     internal void InvokeOnImageCaptured(CapturedImage capturedImage)
