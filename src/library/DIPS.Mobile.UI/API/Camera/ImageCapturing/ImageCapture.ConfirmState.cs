@@ -57,6 +57,10 @@ public partial class ImageCapture : IConfirmStateObserver
             return;
 
         image.PropertyChanged -= HidePreviewAfterImageLoaded;
+
+        if (m_cameraPreview is null)                                                                                                              
+            return;
+        
         m_cameraPreview.HidePreview();
     }
 
