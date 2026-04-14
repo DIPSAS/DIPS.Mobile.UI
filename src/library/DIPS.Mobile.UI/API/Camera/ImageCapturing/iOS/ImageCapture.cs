@@ -111,7 +111,7 @@ public partial class ImageCapture : CameraSession
         m_photoCaptureDelegate = new PhotoCaptureDelegate(PhotoCaptured, PlatformOnCameraFailed, () =>
         {
             m_isProcessingPhoto = true;
-            _ = OnBeforeCapture();
+            _ = SimulateCameraShutter();
         });
         
         UpdateCaptureOrientation(UIDevice.CurrentDevice.Orientation.ToAVCaptureVideoOrientation());

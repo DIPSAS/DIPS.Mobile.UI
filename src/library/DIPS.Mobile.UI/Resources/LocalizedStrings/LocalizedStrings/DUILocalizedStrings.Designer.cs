@@ -548,5 +548,11 @@ namespace DIPS.Mobile.UI.Resources.LocalizedStrings.LocalizedStrings {
                 return ResourceManager.GetString("Of", resourceCulture);
             }
         }
+        
+        internal static string KeepCameraStill {
+            get {
+                return ResourceManager.GetString("KeepCameraStill", resourceCulture);
+            }
+        }
     }
 }

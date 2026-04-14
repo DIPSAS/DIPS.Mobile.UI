@@ -1,3 +1,4 @@
+using System.ComponentModel;
 using DIPS.Mobile.UI.API.Camera.ImageCapturing.Observers;
 using DIPS.Mobile.UI.API.Camera.ImageCapturing.Settings;
 using Image = DIPS.Mobile.UI.Components.Images.Image.Image;
@@ -12,10 +13,10 @@ public partial class ImageCapture : IConfirmStateObserver
     private Grid m_confirmImageWrapper;
 #nullable enable
 
-    private async void GoToConfirmState(CapturedImage capturedImage)
+    private void GoToConfirmState(CapturedImage capturedImage)
     {
         m_currentlyCapturedImage = capturedImage;
-        
+
         m_cameraPreview.RemoveViewFromRoot(m_confirmImageWrapper);
         m_confirmImage = new Image
         {
@@ -23,10 +24,12 @@ public partial class ImageCapture : IConfirmStateObserver
             InputTransparent = true
         };
         m_confirmImageWrapper = new Grid { Children = { m_confirmImage }, InputTransparent = true };
-        m_cameraPreview.AddViewToRoot(m_confirmImageWrapper, 3, true);
         
-        // We need to add a slight delay, because the camera preview will be black for a short moment if we don't, because the image is not yet loaded - "simulating a shutter effect", 
-        await Task.Delay(10);
+        // Makes sure the preview stays visible until the image has loaded, preventing a
+        // black flash that occurs when the preview is hidden before the image is rendered.
+        m_confirmImage.PropertyChanged += HidePreviewAfterImageLoaded;
+
+        m_cameraPreview.AddViewToRoot(m_confirmImageWrapper, 3, true);
 
         if (m_cameraPreview.CameraZoomView is not null)
         {
@@ -34,11 +37,24 @@ public partial class ImageCapture : IConfirmStateObserver
         }
 
         m_cameraPreview.RemoveViewFromRoot(m_activityIndicator);
-        m_cameraPreview.GoToConfirmingState();
+        m_cameraPreview.RemoveViewFromRoot(m_keepCameraStillHint);
         m_topToolbarView.GoToConfirmState(m_currentlyCapturedImage, this);
         m_bottomToolbarView.GoToConfirmState(this);
+        m_cameraPreview.GoToConfirmingState();
 
         _ = PlatformStop();
+    }
+
+    private void HidePreviewAfterImageLoaded(object? sender, PropertyChangedEventArgs e)
+    {
+        if (e.PropertyName != Microsoft.Maui.Controls.Image.IsLoadingProperty.PropertyName)
+            return;
+
+        if (sender is not Microsoft.Maui.Controls.Image { IsLoading: false } image)
+            return;
+
+        image.PropertyChanged -= HidePreviewAfterImageLoaded;
+        m_cameraPreview.HidePreview();
     }
 
     void IConfirmStateObserver.OnEditButtonTapped()

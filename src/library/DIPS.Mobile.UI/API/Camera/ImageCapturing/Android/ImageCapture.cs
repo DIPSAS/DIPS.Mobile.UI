@@ -1,5 +1,4 @@
 using Android.Graphics;
-using Android.Hardware.Camera2;
 using Android.Views;
 using AndroidX.Camera.Core;
 using AndroidX.Camera.Core.Internal.Utils;
@@ -7,6 +6,10 @@ using AndroidX.Camera.Core.ResolutionSelector;
 using AndroidX.Core.Content;
 using DIPS.Mobile.UI.API.Camera.ImageCapturing.Settings;
 using DIPS.Mobile.UI.API.Camera.Shared.Android;
+using DIPS.Mobile.UI.Resources.LocalizedStrings.LocalizedStrings;
+using DIPS.Mobile.UI.Resources.Styles;
+using DIPS.Mobile.UI.Resources.Styles.Label;
+using Colors = Microsoft.Maui.Graphics.Colors;
 using ExifInterface = AndroidX.ExifInterface.Media.ExifInterface;
 using Size = Android.Util.Size;
 
@@ -14,6 +17,17 @@ namespace DIPS.Mobile.UI.API.Camera.ImageCapturing;
 
 public partial class ImageCapture : CameraFragment
 {
+    private readonly Label m_keepCameraStillHint = new()
+    {
+        VerticalOptions = LayoutOptions.End,
+        HorizontalOptions = LayoutOptions.Center,
+        Text = DUILocalizedStrings.KeepCameraStill,
+        Style = Styles.GetLabelStyle(LabelStyle.Body300),
+        TextColor = Colors.White,
+        BackgroundColor = Microsoft.Maui.Graphics.Color.FromRgba(0, 0, 0, 0.5),
+        Padding = new Thickness(12, 6)
+    };
+    
 #nullable disable
     private AndroidX.Camera.Core.ImageCapture m_cameraCaptureUseCase;
 #nullable enable
@@ -36,29 +50,39 @@ public partial class ImageCapture : CameraFragment
         }
             
         var resolutionSelector = resolutionSelectorBuilder.Build();
-            
+        
         m_cameraCaptureUseCase = new AndroidX.Camera.Core.ImageCapture.Builder()
             .SetResolutionSelector(resolutionSelector)
+            // CaptureModeZeroShutterLag is only supported on some devices, but will fall back to
+            // CAPTURE_MODE_MINIMIZE_LATENCY if it isn't supported. If needed in the future, you can check
+            // if the device supports it via AndroidX.Camera.Core.ImageCapture.Camera.CameraInfo.IsZslSupported
+            .SetCaptureMode(AndroidX.Camera.Core.ImageCapture.CaptureModeZeroShutterLag)
             .Build();
-
+        
         // Add listener to receive updates.
         return base.SetupCameraAndTryStartUseCase(m_cameraPreview, m_cameraCaptureUseCase, resolutionSelector, cameraFailedDelegate);
     }
 
     private partial void PlatformCapturePhoto()
     {
-        if (Context is null) 
+        if (Context is null)
             return;
-
-        _ = OnBeforeCapture();
         
         m_cameraCaptureUseCase.FlashMode = FlashActive
             ? AndroidX.Camera.Core.ImageCapture.FlashModeOn
             : AndroidX.Camera.Core.ImageCapture.FlashModeOff;
-         
-        CameraProvider?.Unbind(PreviewUseCase);
-        m_cameraCaptureUseCase?.TakePicture(ContextCompat.GetMainExecutor(Context),
-            new ImageCaptureCallback(OnImageCaptured, InvokeOnImageCaptureFailed));
+        
+        var imageCaptureCallback = new ImageCaptureCallback(
+            onCaptureStarted: () => SimulateCameraShutter(false),
+            onImageCaptureFailed: InvokeOnImageCaptureFailed,
+            onImageCaptured: ProcessImageAndGoToConfirmState);
+        
+        if (CameraInfo?.IsZslSupported != true && m_cameraPreview is not null)
+        {
+            AddKeepCameraStillHint();
+        }
+        
+        m_cameraCaptureUseCase?.TakePicture(ContextCompat.GetMainExecutor(Context), imageCaptureCallback);
     }
 
     private partial async Task PlatformStop()
@@ -84,13 +108,14 @@ public partial class ImageCapture : CameraFragment
     {
     }
 
-    private async void OnImageCaptured(IImageProxy imageProxy)
+    private async void ProcessImageAndGoToConfirmState(IImageProxy imageProxy)
     {
         var imageData = ImageUtil.JpegImageToJpegByteArray(imageProxy);
         var bitmap = imageProxy.ToBitmap();
-        
+
         using var imageMemoryStream = new MemoryStream(imageData);
         var exif = new ExifInterface(imageMemoryStream);
+
         var orientationDegree = exif.ToTrueOrientationDegree();
         var imageTransformation = new ImageTransformation(orientationDegree, orientationDegree.ToString());
         var thumbnail = await TryGetThumbnail(exif, imageTransformation);
@@ -117,6 +142,13 @@ public partial class ImageCapture : CameraFragment
         return (await CapturedImage.RotateBitmapImageBasedOnOrientationAsByteArray(transformation, bitmapImage));
     }
 
+    private void AddKeepCameraStillHint()
+    {
+        m_keepCameraStillHint.Margin = new Thickness(0, 0, 0, m_cameraPreview.BottomOverlayOffset);
+        
+        m_cameraPreview?.AddViewToRoot(m_keepCameraStillHint, usePreviewViewTranslation: false);
+    }
+
     private static int GetOrientationMetadata(ExifInterface exif)
     {
         exif.SetAttribute(ExifInterface.TagOrientation, string.Empty);
@@ -136,15 +168,32 @@ public partial class ImageCapture : CameraFragment
 }
 
 internal class ImageCaptureCallback(
-    Action<IImageProxy> invokeOnImageCaptured,
-    Action<ImageCaptureException> invokeOnImageCaptureFailed)
-    : AndroidX.Camera.Core.ImageCapture.OnImageCapturedCallback
+    Action onCaptureStarted, 
+    Action<IImageProxy> onImageCaptured,
+    Action<ImageCaptureException> onImageCaptureFailed
+    ) : AndroidX.Camera.Core.ImageCapture.OnImageCapturedCallback
 {
-    private Action<IImageProxy>? m_invokeOnImageCaptured = invokeOnImageCaptured;
+    private Action<IImageProxy>? m_invokeOnImageCaptured = onImageCaptured;
+
+    /// <summary>
+    /// Called when the camera hardware has started exposing the sensor.
+    /// Use this to display shutter animation or similar feedback.
+    ///
+    /// </summary>
+    /// <remarks>
+    /// From docs:
+    /// " For a regular capture request, this callback is invoked right as the capture of a frame begins, so it is the
+    /// most appropriate time for playing a shutter sound, or triggering UI indicators of capture. "
+    /// </remarks>
+    public override void OnCaptureStarted()
+    {
+        onCaptureStarted.Invoke();
+        base.OnCaptureStarted();
+    }
 
     public override void OnError(ImageCaptureException exception)
     {
-        invokeOnImageCaptureFailed.Invoke(exception);
+        onImageCaptureFailed.Invoke(exception);
         base.OnError(exception);
     }
 
@@ -154,8 +203,6 @@ internal class ImageCaptureCallback(
         base.OnCaptureSuccess(image);
         image?.Close();
     }
-    
-    
 
     protected override void Dispose(bool disposing)
     {
@@ -163,3 +210,4 @@ internal class ImageCaptureCallback(
         base.Dispose(disposing);
     }
 }
+

@@ -63,7 +63,7 @@ public partial class CameraPreview : ContentView
         
         m_topToolbarContainer = new Grid
         {
-            VerticalOptions = LayoutOptions.Start, 
+            VerticalOptions = LayoutOptions.Start,
             BackgroundColor = Colors.Transparent,
         };
 
@@ -113,8 +113,25 @@ public partial class CameraPreview : ContentView
 
         CameraZoomView!.Margin = new Thickness(0, 0, 0, Sizes.GetSize(SizeName.content_margin_small) + m_bottomToolbarContainer.HeightRequest);
         PreviewView.TranslationY -= m_topToolbarContainer.HeightRequest;
-        
+
         m_hasSetToolbarHeights = true;
+    }
+
+    /// <summary>
+    /// Bottom margin to use for overlay views that should sit above the bottom toolbar
+    /// (shutter button) and the zoom controls, with a small gap above the zoom buttons.
+    /// Only valid after <see cref="SetToolbarHeights"/> has been called.
+    /// </summary>
+    internal double BottomOverlayOffset
+    {
+        get
+        {
+            var zoomHeight = CameraZoomView?.Height ?? 0;
+            return m_bottomToolbarContainer.HeightRequest
+                   + Sizes.GetSize(SizeName.content_margin_small)
+                   + zoomHeight
+                   + Sizes.GetSize(SizeName.content_margin_small);
+        }
     }
     
     internal void AddFocusIndicator(float percentX, float percentY)
@@ -279,8 +296,6 @@ public partial class CameraPreview : ContentView
 
     public void GoToConfirmingState()
     {
-        PreviewView.IsVisible = false;
-
         if (m_indicator is not null)
         {
             if (m_grid != null && m_grid.Remove(m_indicator))
@@ -288,6 +303,14 @@ public partial class CameraPreview : ContentView
                 m_indicator.DisconnectHandlers();
             }
         }
+    }
+
+    /// <summary>
+    /// Hides the camera preview.
+    /// </summary>
+    internal void HidePreview()
+    {
+        PreviewView.IsVisible = false;
     }
 
     public void GoToStreamingState()
