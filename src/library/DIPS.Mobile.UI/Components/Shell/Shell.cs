@@ -183,6 +183,7 @@ public partial class Shell : Microsoft.Maui.Controls.Shell
                 
                 ClearToolbarItems(modalPage);
                 TryAutoDisconnectModalNavigationPageHandler(modalPage);
+                ClearToolbarItems(modalPage);
                 
                 // The object has already been garbage collected
                 if (!modalPage.IsAlive)

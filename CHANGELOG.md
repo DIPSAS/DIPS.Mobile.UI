@@ -1,6 +1,9 @@
-## [55.6.7]
+## [55.6.8]
 - [Shell] Fixed memory leak when Shell items change where child component handlers were not disconnected on iOS, and neither page nor child handlers were disconnected on Android
 - [MemoryManagement] Fixed false-positive memory leak reports when BindingContext is a string
+
+## [55.6.7]
+- Fixed memory leak where modal pages with `ToolbarItems` were retained after dismissal when using `x:Name` on any element in the page or `Clicked` event on the `ToolbarItem`.
 
 ## [55.6.6]
 - [Toolbar] Supports IsVisible and other visual element properties.
