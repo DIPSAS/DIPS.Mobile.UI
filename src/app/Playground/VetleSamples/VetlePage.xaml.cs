@@ -8,9 +8,11 @@ using DIPS.Mobile.UI.Components.Lists;
 using DIPS.Mobile.UI.Extensions;
 using DIPS.Mobile.UI.Resources.Icons;
 using Microsoft.Maui.Controls.PlatformConfiguration;
+using Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;
 using Playground.HåvardSamples;
 using CollectionView = DIPS.Mobile.UI.Components.Lists.CollectionView;
 using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
+using NavigationPage = Microsoft.Maui.Controls.NavigationPage;
 using Shell = DIPS.Mobile.UI.Components.Shell.Shell;
 
 namespace Playground.VetleSamples;
@@ -239,7 +241,12 @@ public partial class VetlePage
 
     private void Button_OnClicked(object sender, EventArgs e)
     {
-        /*ScrollView.InvalidateMeasure();*/
+        var page = new VetleTestPage1();
+        var navigationPage = new NavigationPage(page);
+        navigationPage.On<Microsoft.Maui.Controls.PlatformConfiguration.iOS>()
+            .SetModalPresentationStyle(UIModalPresentationStyle.PageSheet);
+
+        Navigation.PushModalAsync(navigationPage);
     }
 
     private void Button_OnClicked2(object sender, EventArgs e)
@@ -251,4 +258,5 @@ public partial class VetlePage
     {
         _ = Navigation.PushAsync(new VetleTestPage1());
     }
+    
 }

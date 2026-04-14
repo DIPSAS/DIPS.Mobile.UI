@@ -44,11 +44,4 @@ public interface IDIPSUIOptions
     IDIPSUIOptions EnableExperimentalFeature(DUI.ExperimentalFeatures feature);
 
     IDIPSUIOptions AddStartDictationDelegate(Func<IDictationConsumerDelegate, CancellationToken, Task<StartDictationResult>>? startDictationDelegate);
-
-    /// <summary>
-    ///     Sets whether DIPS.Mobile.UI should automatically clear ToolbarItems on modal pages after they are popped.
-    ///     This breaks the reference chain from native toolbar infrastructure back to the page,
-    ///     preventing memory leaks caused by retained toolbar item handlers and x:Name'd code-behind fields.
-    /// </summary>
-    IDIPSUIOptions EnableAutomaticModalToolbarItemsClearing();
 }
