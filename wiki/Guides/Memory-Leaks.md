@@ -316,7 +316,7 @@ public class MyViewModel : ViewModel, IDisposable
 
 ## Handler Lifecycle Cleanup
 
-**Rule:** Never rely solely on `OnDisappearing` for cleanup. Always clean up in `OnHandlerChanging` (or `OnHandlerChanged` when `Handler is null`).
+**Rule:** Never rely solely on `OnDisappearing` for cleanup. Always clean up in `OnHandlerChanging` or `OnHandlerChanged` — either works, it's up to you. The key difference is that `OnHandlerChanging` fires before the handler is removed (you can still access `args.OldHandler`), while `OnHandlerChanged` fires after (check `Handler is null` to detect disconnection).
 
 **Why?** During Shell item changes (e.g. login→logout), `OnDisappearing` may or may not fire — but handler disconnection happens regardless. If your cleanup is only in `OnDisappearing`, it will be skipped.
 
