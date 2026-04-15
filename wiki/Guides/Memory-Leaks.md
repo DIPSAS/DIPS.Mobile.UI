@@ -53,7 +53,7 @@ For a deeper explanation, see the [official MAUI Memory Leaks wiki](https://gith
 When monitoring is triggered for an object, the monitor:
 
 1. Creates a `CollectionContentTarget` — a snapshot that recursively walks the visual tree via `IVisualTreeElement.GetVisualChildren()` and captures a `WeakReference` to every child element, their handlers, effects, and binding contexts
-2. Forces **10 GC cycles** with 200ms delays between each (giving finalizers time to run)
+2. Forces multiple GC cycles with 200ms delays between each (giving finalizers time to run)
 3. Checks which `WeakReference` targets are still alive
 4. Reports surviving objects as zombies with their type name and `AutomationId`
 
