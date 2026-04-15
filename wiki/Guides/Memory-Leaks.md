@@ -7,6 +7,7 @@ Memory leaks cause mobile applications to consume more and more memory over time
 - [Understanding Memory Leaks in MAUI](#understanding-memory-leaks-in-maui)
 - [Detecting Memory Leaks](#detecting-memory-leaks)
   - [GCCollectionMonitor](#gccollectionmonitor)
+  - [False Positives](#false-positives)
   - [Shell Navigation Monitoring](#shell-navigation-monitoring)
   - [What Shell Does Not Monitor](#what-shell-does-not-monitor)
 - [Known MAUI Framework Bugs & DUI Workarounds](#known-maui-framework-bugs--dui-workarounds)
@@ -18,15 +19,13 @@ Memory leaks cause mobile applications to consume more and more memory over time
   - [Event Subscriptions](#event-subscriptions)
   - [Handler Lifecycle Cleanup](#handler-lifecycle-cleanup)
   - [ViewModel Disposal](#viewmodel-disposal)
-  - [Commands](#commands)
+  - [Breaking Strong References](#breaking-strong-references)
   - [CollectionView](#collectionview)
   - [iOS-Specific](#ios-specific)
 - [Common Leak Patterns with Examples](#common-leak-patterns-with-examples)
   - [Pattern 1: Subscribing to Singleton Events](#pattern-1-subscribing-to-singleton-events)
   - [Pattern 2: Relying on OnDisappearing for Cleanup](#pattern-2-relying-on-ondisappearing-for-cleanup)
   - [Pattern 3: Observer Pattern Circular References](#pattern-3-observer-pattern-circular-references)
-  - [Pattern 4: Command Closures Capturing this](#pattern-4-command-closures-capturing-this)
-  - [Pattern 5: EmptyView False Positives](#pattern-5-emptyview-false-positives)
 - [Further Reading](#further-reading)
 
 ---
@@ -70,29 +69,33 @@ GarbageCollection: - 🧟 MyPageViewModel is a zombie!
 GarbageCollection: ❌ There is memory leaks after checking MyPage.
 ```
 
-> **Note:** Objects with a `BindingContext` of type `string` are skipped in zombie detection. .NET interns strings as static GC roots, so a `WeakReference` to a string always survives — this is a false positive, not a real leak.
+## False Positives
 
-> **Singletons:** The monitoring tooling will always report singletons as memory leaks. This is expected — singletons are never garbage collected because the DI container holds them for the lifetime of the application.
+Not every zombie reported by `GCCollectionMonitor` is a real leak. Some objects survive GC by design:
+
+- **Singletons** — Services registered as singletons in the DI container are held alive for the lifetime of the application. If a singleton is used as a `BindingContext`, it will always be reported as a zombie. This is expected.
+- **Shared objects from a parent page** — When Page A pushes Page B and passes a shared object (e.g. a ViewModel or model), that object is still held alive by Page A after Page B is popped. The monitor will report it as a zombie because it survived GC — but it's not a leak, Page A still needs it.
+
+```
+Page A (alive) ──holds──→ SharedModel ←──holds── Page B (popped)
+                              │
+                    GCCollectionMonitor: 🧟 SharedModel is a zombie!
+                    (But Page A still references it — false positive)
+```
+
+When investigating zombies, check whether the reported object is a singleton or is shared with a page that is still alive before digging deeper.
 
 ## Shell Navigation Monitoring
 
-DUI's `Shell` uses `GCCollectionMonitor` in its `Navigated` event to automatically monitor pages when they leave the screen. Enable it in your Shell subclass:
+DUI's `Shell` uses `GCCollectionMonitor` in its `Navigated` event to automatically monitor pages when they leave the screen. The Shell hooks into the `Navigated` event and runs monitoring on:
 
-```csharp
-// In your App.xaml.cs or Shell subclass
-ShouldGarbageCollectPreviousPage = true;
-```
+- Pop
+- PopToRoot
+- Remove
+- ShellItemChanged
+- Modal dismissed
 
-When enabled, the Shell hooks into the `Navigated` event and reacts based on the navigation source:
-
-| Navigation event | What happens |
-|---|---|
-| **Pop / PopToRoot / Remove** | Shell creates a `CollectionContentTarget` for each popped page and calls `CheckIfObjectIsAliveAndTryResolveLeaks()` |
-| **ShellItemChanged** (e.g. login→logout) | Shell waits 5 seconds for animations, disconnects child handlers on all tab pages ([MAUI#34898 workaround](#shell-item-change-doesnt-disconnect-child-handlers)), then monitors each page |
-| **Modal dismissed** | Shell detects the modal was removed, clears ToolbarItems, disconnects handlers for every page in the modal's navigation stack, and monitors each one |
-| **BottomSheet closed** | The platform teardown code (`BottomSheetFragment.OnDestroy` on Android, `BottomSheetViewController.Dispose` on iOS) monitors the bottom sheet and disconnects its handlers |
-
-If `EnableAutomaticMemoryLeakResolving()` is also enabled, the monitor will attempt to auto-resolve leaks by recursively clearing Effects, BindingContext, Parent, Resources, ItemsSource, and disconnecting handlers on every zombie.
+> When you push pages inside a modal `NavigationPage`, you will **not** see zombie reports for each individual pop — the `NavigationPage` keeps a strong reference to all pages that have been pushed onto its stack. Instead, monitoring runs when the entire modal is dismissed. At that point, every page that was ever opened inside the modal is checked for leaks. This is why you must close the modal before you can verify that its pages are properly collected.
 
 For most apps, this is all you need. The Application Output window (iOS) or Logcat filtered by "dotnet" (Android) will show zombie reports for every navigation.
 
@@ -332,16 +335,13 @@ protected override void OnDisappearing()
 }
 
 // ✅ Correct — clean up when the handler is being disconnected
-private IMyViewModel? m_viewModel;
-
 protected override void OnBindingContextChanged()
 {
     base.OnBindingContextChanged();
 
     if (BindingContext is IMyViewModel vm)
     {
-        m_viewModel = vm; // Cache reference!
-        m_viewModel.PropertyChanged += OnViewModelPropertyChanged;
+        vm.PropertyChanged += OnViewModelPropertyChanged;
     }
 }
 
@@ -351,16 +351,13 @@ protected override void OnHandlerChanging(HandlerChangingEventArgs args)
 
     if (args.NewHandler is null) // Handler is being disconnected
     {
-        if (m_viewModel is not null)
+        if (BindingContext is IMyViewModel vm)
         {
-            m_viewModel.PropertyChanged -= OnViewModelPropertyChanged;
-            m_viewModel = null;
+            vm.PropertyChanged -= OnViewModelPropertyChanged;
         }
     }
 }
 ```
-
-> **Important:** Cache the ViewModel reference in a field. The framework may clear `BindingContext` before disconnecting the handler — if your cleanup code does `((IMyViewModel)BindingContext).PropertyChanged -= handler`, it will throw a `NullReferenceException` or silently skip the unsubscription.
 
 ## ViewModel Disposal
 
@@ -391,48 +388,57 @@ public void Dispose()
     {
         child.Dispose(); // Child nulls its observer reference
     }
-    Children.Clear(); // Breaks CollectionView binding
 }
 ```
 
-## Commands
+## Breaking Strong References
 
-**Rule:** Create commands once in the constructor — not as expression-bodied properties.
+When an object holds a strong reference to another object through a field or property, that reference keeps the target alive. If the target should be eligible for GC (e.g. a page that was popped), you need to break the reference.
+
+**Option 1: Set the field to null**
 
 ```csharp
-// ❌ Creates a NEW closure on every property access
-public ICommand SaveCommand => new Command(() => Save());
-
-// ✅ Create once
-public ICommand SaveCommand { get; }
-
-public MyViewModel()
+public class ChildViewModel : ViewModel, IDisposable
 {
-    SaveCommand = new Command(() => Save());
+    private IParentObserver? m_observer;
+
+    public ChildViewModel(Item item, IParentObserver observer)
+    {
+        m_observer = observer;
+    }
+
+    public void Dispose()
+    {
+        m_observer = null; // Break the reference back to parent
+    }
 }
 ```
 
-Expression-bodied command properties create a new `Command` with a new closure (capturing `this`) on every access. XAML bindings may access the property multiple times, creating multiple command instances — each one rooting the ViewModel.
+**Option 2: Use `WeakReference<T>`**
 
-## CollectionView
+Instead of nulling fields manually, you can use a `WeakReference<T>` so the reference never prevents GC in the first place:
 
-**Rule:** Use `FooterTemplate`, `HeaderTemplate`, and `EmptyViewTemplate` instead of `Footer`, `Header`, and `EmptyView` when setting visual content.
+```csharp
+public class ChildViewModel : ViewModel
+{
+    private readonly WeakReference<IParentObserver> m_observer;
 
-```xml
-<!-- ❌ May cause leaks — direct view assignment keeps references alive -->
-<CollectionView Footer="{Binding}" Header="{Binding}" EmptyView="No items" />
+    public ChildViewModel(Item item, IParentObserver observer)
+    {
+        m_observer = new WeakReference<IParentObserver>(observer);
+    }
 
-<!-- ✅ Use templates — the DataTemplate inherits the CollectionView's BindingContext -->
-<CollectionView>
-    <CollectionView.EmptyViewTemplate>
-        <DataTemplate>
-            <Label Text="No items found" />
-        </DataTemplate>
-    </CollectionView.EmptyViewTemplate>
-</CollectionView>
+    private void NotifyParent()
+    {
+        if (m_observer.TryGetTarget(out var observer))
+        {
+            observer.OnChildUpdated(this);
+        }
+    }
+}
 ```
 
-> **Note on `EmptyView=""`**: Setting `EmptyView` to an empty string sets the BindingContext to `string.Empty`, which is interned by the CLR and never garbage collected. This causes a false positive in zombie detection — not an actual leak, but confusing during diagnosis.
+With `WeakReference<T>`, the parent can be collected even if the child still exists — no `Dispose()` needed to break the link. The tradeoff is that you must always check `TryGetTarget` before using the reference, since the target may have been collected.
 
 ## iOS-Specific
 
@@ -474,20 +480,6 @@ class MyView : UIView
 }
 ```
 
-Also ensure iOS-specific event subscriptions (like `CollectionView.Scrolled`) are unsubscribed in `OnHandlerChanging`, not `OnDisappearing`:
-
-```csharp
-protected override void OnHandlerChanging(HandlerChangingEventArgs args)
-{
-    base.OnHandlerChanging(args);
-
-    if (args.NewHandler is null)
-    {
-        MyCollectionView.Scrolled -= OnCollectionViewScrolled;
-    }
-}
-```
-
 ---
 
 # Common Leak Patterns with Examples
@@ -512,7 +504,7 @@ m_globalEventBus.LastPatientsListChanged -= OnPatientsUpdated; // ← Should be 
 
 **Severity:** Critical (especially for tab pages)
 
-Code-behind subscribes to events in `OnAppearing` or `OnBindingContextChanged`, and only unsubscribes in `OnDisappearing`. During Shell item changes (login→logout), `OnDisappearing` may or may not fire — but the handler is disconnected directly, leaving subscriptions alive.
+Code-behind subscribes to events in `OnAppearing` or `OnBindingContextChanged`, and only unsubscribes in `OnDisappearing`. During Shell item changes, `OnDisappearing` may or may not fire — but the handler is disconnected directly, leaving subscriptions alive.
 
 **Real example:** A page subscribes to `Shell.Current.Navigating` in `OnAppearing`. On logout, the Shell root changes. The old `Shell` instance holds the page alive through the event subscription, even though the page is no longer visible.
 
@@ -534,24 +526,7 @@ Even if the parent's `Dispose()` runs, the children are not disposed and still h
 
 **Fix:** The parent's `Dispose()` must:
 1. Dispose each child ViewModel
-2. Clear the collection (breaks `CollectionView` bindings)
-3. Children should null their observer reference in their own `Dispose()`
-
-## Pattern 4: Command Closures Capturing `this`
-
-**Severity:** Medium
-
-Commands defined as expression-bodied properties (`=> new Command(...)`) create new closures on every access. Each closure captures `this`. XAML bindings to these properties create and retain multiple command instances.
-
-**Fix:** Initialize commands once in the constructor using a backing property.
-
-## Pattern 5: EmptyView False Positives
-
-**Severity:** Low (not an actual leak)
-
-`EmptyView=""` sets the BindingContext to `string.Empty`, which is CLR-interned and never garbage collected. `GCCollectionMonitor` reports it as a zombie with a blank name.
-
-**Fix:** Use `EmptyViewTemplate` with visual content, or simply ignore these reports — they are false positives.
+2. Children should null their observer reference in their own `Dispose()`
 
 ---
 
