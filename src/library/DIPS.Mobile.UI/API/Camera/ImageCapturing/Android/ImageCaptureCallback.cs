@@ -27,6 +27,9 @@ internal class ImageCaptureCallback : AndroidX.Camera.Core.ImageCapture.OnImageC
     /// From docs:
     /// " For a regular capture request, this callback is invoked right as the capture of a frame begins, so it is the
     /// most appropriate time for playing a shutter sound, or triggering UI indicators of capture. "
+    /// <para>
+    /// See <see href="https://developer.android.com/reference/android/hardware/camera2/CameraCaptureSession.CaptureCallback#onCaptureStarted(android.hardware.camera2.CameraCaptureSession,%20android.hardware.camera2.CaptureRequest,%20long,%20long)">Android documentation</see>.
+    /// </para>
     /// </remarks>
     public override void OnCaptureStarted()
     {
