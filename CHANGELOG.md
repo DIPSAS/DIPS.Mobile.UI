@@ -1,3 +1,6 @@
+## [56.0.0]
+- Upgrade .NET MAUI to 10.0.51.
+
 ## [55.6.9]
 - [SortControlBottomSheet] Fix memory leak.
 
