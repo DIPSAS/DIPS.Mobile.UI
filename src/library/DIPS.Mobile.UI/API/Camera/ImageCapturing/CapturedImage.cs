@@ -139,23 +139,25 @@ public class CapturedImage
         return new CapturedImage(rotatedImageBytes ?? [], rotatedImageBitmap!, rotatedThumbnailBytes, rotatedThumbnailBitmap, ImageProxy, new ImageTransformation(newOrientationDegree, newOrientationDegree.ToString()));
     }
 
-    private static async Task<(Bitmap? rotatedImageBitmap, byte[]? rotatedImageBytes)> RotateBitmap(Bitmap? bitmap, float degrees)
+    private static async Task<(Bitmap? rotatedImageBitmap, byte[]? rotatedImageBytes)> RotateBitmap(Bitmap? bitmap, float degrees, CancellationToken cancellationToken = default)
     {
         if (bitmap is null)
             return (null!, null);
-        
+
+        cancellationToken.ThrowIfCancellationRequested();
+
         var matrix = new Matrix();
         matrix.PostRotate(degrees);
-    
+
         var rotatedImageBitmap =
             Bitmap.CreateBitmap(bitmap, 0, 0, bitmap.Width, bitmap.Height, matrix, true);
-    
+
         using var rotatedMemoryStream = new MemoryStream();
-        await rotatedImageBitmap.CompressAsync(Bitmap.CompressFormat.Jpeg!, 95, rotatedMemoryStream);
+        await rotatedImageBitmap.CompressAsync(Bitmap.CompressFormat.Jpeg!, 95, rotatedMemoryStream).WaitAsync(cancellationToken);
         return (rotatedImageBitmap, rotatedMemoryStream.ToArray());
     }
 
-    internal static async Task<(byte[], Bitmap)> RotateBitmapImageBasedOnOrientationAsByteArray(ImageTransformation transformation, Bitmap bitmapImage)
+    internal static async Task<(byte[], Bitmap)> RotateBitmapImageBasedOnOrientationAsByteArray(ImageTransformation transformation, Bitmap bitmapImage, CancellationToken cancellationToken = default)
     {
         var rotationDegrees = transformation.OrientationDegree switch
         {
@@ -164,13 +166,15 @@ public class CapturedImage
             OrientationDegree.Orientation270 => 0,
             _ => 90
         };
-        
-        var (rotatedBitmap, rotatedBytes) = await RotateBitmap(bitmapImage, rotationDegrees);
+
+        var (rotatedBitmap, rotatedBytes) = await RotateBitmap(bitmapImage, rotationDegrees, cancellationToken);
         return (rotatedBytes, rotatedBitmap);
     }
     
-    internal static async Task<(byte[], Bitmap)> RotateBitmapImageBasedOnOrientation(ImageTransformation transformation, Bitmap bitmapImage)
+    internal static async Task<(byte[], Bitmap)> RotateBitmapImageBasedOnOrientation(ImageTransformation transformation, Bitmap bitmapImage, CancellationToken cancellationToken = default)
     {
+        cancellationToken.ThrowIfCancellationRequested();
+
         var matrix = new Matrix();
         var rotationDegrees = transformation.OrientationDegree switch
         {
@@ -179,14 +183,14 @@ public class CapturedImage
             OrientationDegree.Orientation270 => 0,
             _ => 90
         };
-        
+
         matrix.PostRotate(rotationDegrees);
-        
+
         var rotatedBitmap =
             Bitmap.CreateBitmap(bitmapImage, 0, 0, bitmapImage.Width, bitmapImage.Height, matrix, true);
-        
+
         using var rotatedMemoryStream = new MemoryStream();
-        await rotatedBitmap.CompressAsync(Bitmap.CompressFormat.Jpeg!, 95, rotatedMemoryStream);
+        await rotatedBitmap.CompressAsync(Bitmap.CompressFormat.Jpeg!, 95, rotatedMemoryStream).WaitAsync(cancellationToken);
         return (rotatedMemoryStream.ToArray(), rotatedBitmap);
     }
     

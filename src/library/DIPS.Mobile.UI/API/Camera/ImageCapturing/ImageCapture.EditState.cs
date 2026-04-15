@@ -29,15 +29,29 @@ public partial class ImageCapture : IImageEditStateObserver
     {
         if(!m_rotatingImageTcs?.Task.IsCompleted ?? false)
             return;
-            
-        m_confirmImage.Rotation = 0;
-        GoToConfirmState(m_rotatedImage!);
+
+        try
+        {
+            m_confirmImage.Rotation = 0;
+            GoToConfirmState(m_rotatedImage!);
+        }
+        catch (Exception e)
+        {
+            PlatformOnCameraFailed(new CameraException("OnSaveButtonTapped", e));
+        }
     }
 
     void IImageEditStateObserver.OnCancelButtonTapped()
     {
-        m_confirmImage.Rotation = 0;
-        GoToConfirmState(m_currentlyCapturedImage!);
+        try
+        {
+            m_confirmImage.Rotation = 0;
+            GoToConfirmState(m_currentlyCapturedImage!);
+        }
+        catch (Exception e)
+        {
+            PlatformOnCameraFailed(new CameraException("OnCancelButtonTapped", e));
+        }
     }
 
     async Task IImageEditStateObserver.OnRotateButtonTapped(bool clockwise)

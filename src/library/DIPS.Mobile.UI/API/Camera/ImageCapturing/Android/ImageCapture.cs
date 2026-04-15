@@ -1,5 +1,4 @@
 using Android.Graphics;
-using Android.Hardware.Camera2;
 using Android.Views;
 using AndroidX.Camera.Core;
 using AndroidX.Camera.Core.Internal.Utils;
@@ -17,6 +16,8 @@ public partial class ImageCapture : CameraFragment
 #nullable disable
     private AndroidX.Camera.Core.ImageCapture m_cameraCaptureUseCase;
 #nullable enable
+
+    private ImageCaptureCallback? m_imageCaptureCallback;
 
     private partial Task PlatformStart(ImageCaptureSettings imageCaptureSettings, CameraFailed cameraFailedDelegate)
     {
@@ -36,33 +37,52 @@ public partial class ImageCapture : CameraFragment
         }
             
         var resolutionSelector = resolutionSelectorBuilder.Build();
-            
+        
         m_cameraCaptureUseCase = new AndroidX.Camera.Core.ImageCapture.Builder()
             .SetResolutionSelector(resolutionSelector)
+            // CaptureModeZeroShutterLag is only supported on some devices, but will fall back to
+            // CAPTURE_MODE_MINIMIZE_LATENCY if it isn't supported. If needed in the future, you can check
+            // if the device supports it via AndroidX.Camera.Core.ImageCapture.Camera.CameraInfo.IsZslSupported
+            .SetCaptureMode(AndroidX.Camera.Core.ImageCapture.CaptureModeZeroShutterLag)
             .Build();
-
+        
         // Add listener to receive updates.
         return base.SetupCameraAndTryStartUseCase(m_cameraPreview, m_cameraCaptureUseCase, resolutionSelector, cameraFailedDelegate);
     }
 
     private partial void PlatformCapturePhoto()
     {
-        if (Context is null) 
+        if (Context is null)
             return;
 
-        _ = OnBeforeCapture();
-        
+        CancelAnyActiveImageProcessing();
+        m_captureProcessingCts = new CancellationTokenSource();
+
         m_cameraCaptureUseCase.FlashMode = FlashActive
             ? AndroidX.Camera.Core.ImageCapture.FlashModeOn
             : AndroidX.Camera.Core.ImageCapture.FlashModeOff;
-         
-        CameraProvider?.Unbind(PreviewUseCase);
-        m_cameraCaptureUseCase?.TakePicture(ContextCompat.GetMainExecutor(Context),
-            new ImageCaptureCallback(OnImageCaptured, InvokeOnImageCaptureFailed));
+        
+        m_imageCaptureCallback?.Dispose();
+        m_imageCaptureCallback = new ImageCaptureCallback(
+            onCaptureStarted: () => SimulateCameraShutter(false),
+            onImageCaptureFailed: InvokeOnImageCaptureFailed,
+            onImageCaptured: ProcessImageAndGoToConfirmState);
+
+        if (CameraInfo?.IsZslSupported != true && m_cameraPreview is not null)
+        {
+            AddKeepCameraStillHint();
+        }
+
+        m_cameraCaptureUseCase?.TakePicture(ContextCompat.GetMainExecutor(Context), m_imageCaptureCallback);
     }
 
     private partial async Task PlatformStop()
     {
+        CancelAnyActiveImageProcessing();
+
+        m_imageCaptureCallback?.Dispose();
+        m_imageCaptureCallback = null;
+
         await base.TryStop();
     }
 
@@ -84,37 +104,58 @@ public partial class ImageCapture : CameraFragment
     {
     }
 
-    private async void OnImageCaptured(IImageProxy imageProxy)
+    private async void ProcessImageAndGoToConfirmState(IImageProxy imageProxy)
     {
-        var imageData = ImageUtil.JpegImageToJpegByteArray(imageProxy);
-        var bitmap = imageProxy.ToBitmap();
-        
-        using var imageMemoryStream = new MemoryStream(imageData);
-        var exif = new ExifInterface(imageMemoryStream);
-        var orientationDegree = exif.ToTrueOrientationDegree();
-        var imageTransformation = new ImageTransformation(orientationDegree, orientationDegree.ToString());
-        var thumbnail = await TryGetThumbnail(exif, imageTransformation);
+        var cancellationToken = m_captureProcessingCts?.Token ?? CancellationToken.None;
 
-        var tuple = await CapturedImage.RotateBitmapImageBasedOnOrientation(imageTransformation, bitmap);
+        try
+        {
+            var imageData = ImageUtil.JpegImageToJpegByteArray(imageProxy);
+            var bitmap = imageProxy.ToBitmap();
 
-        imageData = tuple.Item1;
-        bitmap = tuple.Item2;
-        
-        var capturedImage = new CapturedImage(imageData, bitmap, thumbnail.Item1, thumbnail.Item2, imageProxy, imageTransformation);
-        
-        GoToConfirmState(capturedImage);
+            using var imageMemoryStream = new MemoryStream(imageData);
+            var exif = new ExifInterface(imageMemoryStream);
+
+            var orientationDegree = exif.ToTrueOrientationDegree();
+            var imageTransformation = new ImageTransformation(orientationDegree, orientationDegree.ToString());
+            
+            var thumbnail = await TryGetThumbnail(exif, imageTransformation, cancellationToken);
+            var tuple = await CapturedImage.RotateBitmapImageBasedOnOrientation(imageTransformation, bitmap, cancellationToken);
+
+            imageData = tuple.Item1;
+            bitmap = tuple.Item2;
+
+            var capturedImage = new CapturedImage(imageData, bitmap, thumbnail.Item1, thumbnail.Item2, imageProxy, imageTransformation);
+
+            GoToConfirmState(capturedImage);
+        }
+        catch (OperationCanceledException)
+        {
+            // Camera was stopped while processing the captured image, for example if the user canceled capture.
+        }
+        catch (Exception e)
+        {
+            PlatformOnCameraFailed(new CameraException("ProcessImageFailed", e));
+        }
     }
 
-    private async Task<(byte[], Bitmap)> TryGetThumbnail(ExifInterface exif, ImageTransformation transformation)
+    private async Task<(byte[], Bitmap)> TryGetThumbnail(ExifInterface exif, ImageTransformation transformation, CancellationToken cancellationToken = default)
     {
         if (!exif.HasThumbnail)
             return (null!, null!);
 
         var bitmapImage = exif.ThumbnailBitmap;
-        if (bitmapImage == null) 
+        if (bitmapImage == null)
             return (null!, null!);
+
+        return await CapturedImage.RotateBitmapImageBasedOnOrientationAsByteArray(transformation, bitmapImage, cancellationToken);
+    }
+
+    private void AddKeepCameraStillHint()
+    {
+        m_keepCameraStillHint.Margin = new Thickness(0, 0, 0, m_cameraPreview.BottomOverlayOffset);
         
-        return (await CapturedImage.RotateBitmapImageBasedOnOrientationAsByteArray(transformation, bitmapImage));
+        m_cameraPreview?.AddViewToRoot(m_keepCameraStillHint, usePreviewViewTranslation: false);
     }
 
     private static int GetOrientationMetadata(ExifInterface exif)
@@ -135,31 +176,3 @@ public partial class ImageCapture : CameraFragment
         OnCameraFailed<ImageCapture>(cameraException);
 }
 
-internal class ImageCaptureCallback(
-    Action<IImageProxy> invokeOnImageCaptured,
-    Action<ImageCaptureException> invokeOnImageCaptureFailed)
-    : AndroidX.Camera.Core.ImageCapture.OnImageCapturedCallback
-{
-    private Action<IImageProxy>? m_invokeOnImageCaptured = invokeOnImageCaptured;
-
-    public override void OnError(ImageCaptureException exception)
-    {
-        invokeOnImageCaptureFailed.Invoke(exception);
-        base.OnError(exception);
-    }
-
-    public override void OnCaptureSuccess(IImageProxy image)
-    {
-        m_invokeOnImageCaptured?.Invoke(image);
-        base.OnCaptureSuccess(image);
-        image?.Close();
-    }
-    
-    
-
-    protected override void Dispose(bool disposing)
-    {
-        m_invokeOnImageCaptured = null;
-        base.Dispose(disposing);
-    }
-}

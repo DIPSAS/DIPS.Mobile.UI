@@ -62,25 +62,32 @@ public partial class ImageCapture : CameraSession
     private void PhotoCaptured(AVCapturePhoto photo)
     {
         m_isProcessingPhoto = false;
-        
+
         m_photoCaptureDelegate?.Dispose();
         m_photoCaptureDelegate = null;
-        
-        if (photo.FileDataRepresentation != null && m_imageCaptureSettings != null)
+
+        try
         {
-            var rotatedImage = CapturedImage.RotateCgImageToPortrait(photo.CGImageRepresentation!, photo.Properties.Orientation.ToUIImageOrientation());
-            var rotatedImageBytes = rotatedImage.Item1.AsJPEG(.8f)?.ToArray() ?? [];
-            
-            var rotatedThumbnail = GetThumbnail(rotatedImageBytes);
-            
-            var correctOrientationDegree = photo.Properties.Orientation.ToUIImageOrientation().ToTrueOrientationDegree();
-            
-            GoToConfirmState(new CapturedImage(rotatedImage.Item1.AsJPEG(.8f)?.ToArray() ?? [],
-                    rotatedThumbnail.Item1,
-                    rotatedImage.Item2,
-                    rotatedThumbnail.Item2,
-                    photo, 
-                    new ImageTransformation(correctOrientationDegree, correctOrientationDegree.ToString())));
+            if (photo.FileDataRepresentation != null && m_imageCaptureSettings != null)
+            {
+                var rotatedImage = CapturedImage.RotateCgImageToPortrait(photo.CGImageRepresentation!, photo.Properties.Orientation.ToUIImageOrientation());
+                var rotatedImageBytes = rotatedImage.Item1.AsJPEG(.8f)?.ToArray() ?? [];
+
+                var rotatedThumbnail = GetThumbnail(rotatedImageBytes);
+
+                var correctOrientationDegree = photo.Properties.Orientation.ToUIImageOrientation().ToTrueOrientationDegree();
+
+                GoToConfirmState(new CapturedImage(rotatedImage.Item1.AsJPEG(.8f)?.ToArray() ?? [],
+                        rotatedThumbnail.Item1,
+                        rotatedImage.Item2,
+                        rotatedThumbnail.Item2,
+                        photo,
+                        new ImageTransformation(correctOrientationDegree, correctOrientationDegree.ToString())));
+            }
+        }
+        catch (Exception e)
+        {
+            PlatformOnCameraFailed(new CameraException("PhotoCaptured", e));
         }
     }
 
@@ -111,7 +118,7 @@ public partial class ImageCapture : CameraSession
         m_photoCaptureDelegate = new PhotoCaptureDelegate(PhotoCaptured, PlatformOnCameraFailed, () =>
         {
             m_isProcessingPhoto = true;
-            _ = OnBeforeCapture();
+            _ = SimulateCameraShutter();
         });
         
         UpdateCaptureOrientation(UIDevice.CurrentDevice.Orientation.ToAVCaptureVideoOrientation());

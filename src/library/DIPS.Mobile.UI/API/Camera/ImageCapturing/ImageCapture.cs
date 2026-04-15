@@ -5,11 +5,12 @@ using DIPS.Mobile.UI.API.Camera.Permissions;
 using DIPS.Mobile.UI.API.Camera.Preview;
 using DIPS.Mobile.UI.API.Camera.Shared;
 using DIPS.Mobile.UI.API.Vibration;
-using DIPS.Mobile.UI.Components.Alerting.Dialog;
 using DIPS.Mobile.UI.Internal.Logging;
 using DIPS.Mobile.UI.Resources.LocalizedStrings.LocalizedStrings;
+using DIPS.Mobile.UI.Resources.Styles;
+using DIPS.Mobile.UI.Resources.Styles.Label;
 using ActivityIndicator = DIPS.Mobile.UI.Components.Loading.ActivityIndicator;
-using Image = DIPS.Mobile.UI.Components.Images.Image.Image;
+using Colors = Microsoft.Maui.Graphics.Colors;
 
 namespace DIPS.Mobile.UI.API.Camera.ImageCapturing;
 
@@ -22,6 +23,17 @@ public partial class ImageCapture : ICameraUseCase
         IsRunning = true
     };
     
+    private readonly Label m_keepCameraStillHint = new()
+    {
+        VerticalOptions = LayoutOptions.End,
+        HorizontalOptions = LayoutOptions.Center,
+        Text = DUILocalizedStrings.KeepCameraStill,
+        Style = Styles.GetLabelStyle(LabelStyle.Body300),
+        TextColor = Colors.White,
+        BackgroundColor = Microsoft.Maui.Graphics.Color.FromRgba(0, 0, 0, 0.5),
+        Padding = new Thickness(12, 6)
+    };
+    
 #nullable disable
     private DidCaptureImage m_onImageCapturedDelegate;
     private CameraFailed m_cameraFailedDelegate;
@@ -29,6 +41,8 @@ public partial class ImageCapture : ICameraUseCase
     private ImageCaptureTopToolbarView m_topToolbarView;
     private ImageCaptureBottomToolbarView m_bottomToolbarView;
 #nullable enable
+
+    private CancellationTokenSource? m_captureProcessingCts;
     
     public async Task Start(CameraPreview cameraPreview, DidCaptureImage onImageCapturedDelegate, CameraFailed cameraFailedDelegate, Action<ImageCaptureSettings>? configure = null)
     {
@@ -67,17 +81,20 @@ public partial class ImageCapture : ICameraUseCase
         m_cameraPreview?.SetToolbarHeights(previewViewHeight);
         m_imageCaptureSettings.CameraInfo.CurrentCameraResolution = cameraResolution;
     }
-    
+
     /// <summary>
     /// This is called when user has pressed the capture button, waiting for captured image to be processed
     /// </summary>
-    private async Task OnBeforeCapture()
+    private async Task SimulateCameraShutter(bool addActivityIndicator = true)
     {
         var blackBox = new BoxView { BackgroundColor = Microsoft.Maui.Graphics.Colors.Black, Opacity = 0 };
 
         VibrationService.SelectionChanged();
         
-        m_cameraPreview?.AddViewToRoot(m_activityIndicator, usePreviewViewTranslation: true);
+        if (addActivityIndicator)
+        {
+            m_cameraPreview?.AddViewToRoot(m_activityIndicator, usePreviewViewTranslation: false);
+        }
         
         m_cameraPreview?.AddViewToRoot(blackBox);
         
@@ -104,7 +121,9 @@ public partial class ImageCapture : ICameraUseCase
         m_cameraPreview.RemoveTopToolbarView(m_topToolbarView);
         m_cameraPreview.RemoveBottomToolbarView(m_bottomToolbarView);
         m_cameraPreview.RemoveViewFromRoot(m_activityIndicator);
+        m_cameraPreview.RemoveViewFromRoot(m_keepCameraStillHint);
         m_cameraPreview.RemoveViewFromRoot(m_confirmImage);
+        
         if (m_cameraPreview.CameraZoomView != null)
         {
             m_cameraPreview.CameraZoomView.Opacity = 0;
@@ -118,6 +137,7 @@ public partial class ImageCapture : ICameraUseCase
     {
         try
         {
+            CancelAnyActiveImageProcessing();
             PlatformStop();
             m_cameraPreview = null;
             m_onImageCapturedDelegate = null;
@@ -127,11 +147,18 @@ public partial class ImageCapture : ICameraUseCase
             Log(e.Message);
         }
     }
-
+    
     public void Stop()
     {
         ResetAllVisuals();
         PlatformStop();
+    }
+
+    private void CancelAnyActiveImageProcessing()
+    {
+        m_captureProcessingCts?.Cancel();
+        m_captureProcessingCts?.Dispose();
+        m_captureProcessingCts = null;
     }
 
     internal void InvokeOnImageCaptured(CapturedImage capturedImage)
