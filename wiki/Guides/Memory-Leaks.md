@@ -20,7 +20,6 @@ Memory leaks cause mobile applications to consume more and more memory over time
   - [Handler Lifecycle Cleanup](#handler-lifecycle-cleanup)
   - [ViewModel Disposal](#viewmodel-disposal)
   - [Breaking Strong References](#breaking-strong-references)
-  - [CollectionView](#collectionview)
   - [iOS-Specific](#ios-specific)
 - [Common Leak Patterns with Examples](#common-leak-patterns-with-examples)
   - [Pattern 1: Subscribing to Singleton Events](#pattern-1-subscribing-to-singleton-events)
