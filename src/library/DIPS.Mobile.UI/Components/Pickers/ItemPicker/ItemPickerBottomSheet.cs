@@ -138,6 +138,8 @@ namespace DIPS.Mobile.UI.Components.Pickers.ItemPicker
             if (m_hasPickedItem) return;
             if (tappedObject.BindingContext is not SelectableItemViewModel selectableListItem) return;
             if (m_itemPicker.ItemsSource == null) return;
+            
+            m_hasPickedItem = true;
 
             object? theSelectedItem = null;
             foreach (var item in m_itemPicker.ItemsSource)
@@ -170,7 +172,6 @@ namespace DIPS.Mobile.UI.Components.Pickers.ItemPicker
                 return;
             }
 
-            m_hasPickedItem = true;
             m_itemPicker.SelectedItem = theSelectedItem;
         }
 
