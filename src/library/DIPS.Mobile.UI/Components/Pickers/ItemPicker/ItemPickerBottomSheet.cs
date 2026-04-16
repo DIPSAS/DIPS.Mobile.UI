@@ -18,7 +18,8 @@ namespace DIPS.Mobile.UI.Components.Pickers.ItemPicker
         private readonly CollectionView m_collectionView;
         
         private SelectableItemViewModel? m_freeTextItem;
-        
+        private bool m_hasPickedItem;
+
         public ItemPickerBottomSheet(ItemPicker itemPicker)
         {
             m_itemPicker = itemPicker;
@@ -134,6 +135,7 @@ namespace DIPS.Mobile.UI.Components.Pickers.ItemPicker
 
         private void ItemWasPicked(BindableObject tappedObject)
         {
+            if (m_hasPickedItem) return;
             if (tappedObject.BindingContext is not SelectableItemViewModel selectableListItem) return;
             if (m_itemPicker.ItemsSource == null) return;
 
@@ -168,6 +170,7 @@ namespace DIPS.Mobile.UI.Components.Pickers.ItemPicker
                 return;
             }
 
+            m_hasPickedItem = true;
             m_itemPicker.SelectedItem = theSelectedItem;
         }
 
