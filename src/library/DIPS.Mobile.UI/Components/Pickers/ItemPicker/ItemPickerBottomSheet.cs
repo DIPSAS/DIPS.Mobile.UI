@@ -129,7 +129,7 @@ namespace DIPS.Mobile.UI.Components.Pickers.ItemPicker
             var radioButtonListItem = new RadioButtonListItem {HasBottomDivider = true};
             radioButtonListItem.SetBinding(ListItem.TitleProperty, static (SelectableItemViewModel selectableItemViewModel) => selectableItemViewModel.DisplayName);
             radioButtonListItem.SetBinding(RadioButtonListItem.IsSelectedProperty, static (SelectableItemViewModel selectableItemViewModel) => selectableItemViewModel.IsSelected);
-            radioButtonListItem.Command = new Command(() => ItemWasPicked(radioButtonListItem));
+            radioButtonListItem.SelectedCommand = new Command(() => ItemWasPicked(radioButtonListItem));
             return radioButtonListItem;
         }
 
