@@ -10,7 +10,9 @@
     <dui:ContentPage.BindingContext>
         <eirikSamples:EirikPageViewModel />
     </dui:ContentPage.BindingContext>
-    <dui:SaveView IsSaving="{Binding IsSaving}"
-                  IsSavingCompleted="{Binding IsSavingCompleted}"
-                  Command="{Binding SaveCommand}"/>
+    <dui:ListItem Title="Test">
+        <dui:ItemPicker ItemsSource="{Binding Items}"
+                        SelectedItem="{Binding SelectedItem}"
+                        Mode="BottomSheet"/>
+    </dui:ListItem>
 </dui:ContentPage>

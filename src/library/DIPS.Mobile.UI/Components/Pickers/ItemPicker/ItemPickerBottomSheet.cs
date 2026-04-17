@@ -129,7 +129,7 @@ namespace DIPS.Mobile.UI.Components.Pickers.ItemPicker
             var radioButtonListItem = new RadioButtonListItem {HasBottomDivider = true};
             radioButtonListItem.SetBinding(ListItem.TitleProperty, static (SelectableItemViewModel selectableItemViewModel) => selectableItemViewModel.DisplayName);
             radioButtonListItem.SetBinding(RadioButtonListItem.IsSelectedProperty, static (SelectableItemViewModel selectableItemViewModel) => selectableItemViewModel.IsSelected);
-            radioButtonListItem.SelectedCommand = new Command(() => ItemWasPicked(radioButtonListItem));
+            radioButtonListItem.Command = new Command(() => ItemWasPicked(radioButtonListItem));
             return radioButtonListItem;
         }
 
@@ -159,8 +159,11 @@ namespace DIPS.Mobile.UI.Components.Pickers.ItemPicker
                 //Make sure people can not visually deselect the radio button
                 if (!selectableListItem.IsSelected)
                 {
+                    // Workaround: As IsSelected has a two-way binding, we must guard in case setting this property
+                    // triggers the bound command again. The binding must remain two-way to enable consumer selectable view
                     m_hasPickedItem = true;
                     selectableListItem.IsSelected = true;
+                    m_hasPickedItem = false;
                 }
                 
                 return;
@@ -171,7 +174,6 @@ namespace DIPS.Mobile.UI.Components.Pickers.ItemPicker
                 return;
             }
 
-            m_hasPickedItem = true;
             m_itemPicker.SelectedItem = theSelectedItem;
         }
 
