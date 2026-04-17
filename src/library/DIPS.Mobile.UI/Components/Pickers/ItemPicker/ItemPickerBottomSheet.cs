@@ -18,7 +18,6 @@ namespace DIPS.Mobile.UI.Components.Pickers.ItemPicker
         private readonly CollectionView m_collectionView;
         
         private SelectableItemViewModel? m_freeTextItem;
-        private bool m_hasPickedItem;
 
         public ItemPickerBottomSheet(ItemPicker itemPicker)
         {
@@ -129,6 +128,7 @@ namespace DIPS.Mobile.UI.Components.Pickers.ItemPicker
             var radioButtonListItem = new RadioButtonListItem {HasBottomDivider = true};
             radioButtonListItem.SetBinding(ListItem.TitleProperty, static (SelectableItemViewModel selectableItemViewModel) => selectableItemViewModel.DisplayName);
             radioButtonListItem.SetBinding(RadioButtonListItem.IsSelectedProperty, static (SelectableItemViewModel selectableItemViewModel) => selectableItemViewModel.IsSelected);
+            // Override command to ensure that ItemWasPicked don't get called on property changed
             radioButtonListItem.Command = new Command(() => RadioButtonListItemWasPicked(radioButtonListItem));
             return radioButtonListItem;
         }
@@ -147,11 +147,8 @@ namespace DIPS.Mobile.UI.Components.Pickers.ItemPicker
 
         private void ItemWasPicked(BindableObject tappedObject)
         {
-            if (m_hasPickedItem) return;
             if (tappedObject.BindingContext is not SelectableItemViewModel selectableListItem) return;
             if (m_itemPicker.ItemsSource == null) return;
-            
-            // m_hasPickedItem = true;
             
             object? theSelectedItem = null;
             foreach (var item in m_itemPicker.ItemsSource)
@@ -173,10 +170,7 @@ namespace DIPS.Mobile.UI.Components.Pickers.ItemPicker
                 //Make sure people can not visually deselect the radio button
                 if (!selectableListItem.IsSelected)
                 {
-                    // Workaround: As IsSelected has a two-way binding, we must guard in case setting this property
-                    // triggers the bound command again. The binding must remain two-way to enable consumer selectable view
                     selectableListItem.IsSelected = true;
-                    m_hasPickedItem = false;
                 }
                 
                 return;
@@ -184,7 +178,6 @@ namespace DIPS.Mobile.UI.Components.Pickers.ItemPicker
             
             if (!selectableListItem.IsSelected)
             {
-                m_hasPickedItem = false;
                 return;
             }
 
