@@ -1,3 +1,6 @@
+## [57.0.0]
+- Use SourceGen compilation.
+
 ## [56.0.1]
 - [Android][Camera] Moved shutter animation from shutter button press to when the image capture has started
 - [Android][Camera] Added a hint to keep the camera still for devices that don't support Zero-Shutter-Lag
