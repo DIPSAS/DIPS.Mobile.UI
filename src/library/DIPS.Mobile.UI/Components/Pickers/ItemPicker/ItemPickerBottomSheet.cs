@@ -169,6 +169,8 @@ namespace DIPS.Mobile.UI.Components.Pickers.ItemPicker
                 return;
             }
             
+            m_hasPickedItem = true;
+            
             if (!selectableListItem.IsSelected)
             {
                 return;
