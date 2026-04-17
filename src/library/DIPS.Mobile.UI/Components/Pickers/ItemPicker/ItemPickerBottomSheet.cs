@@ -129,8 +129,20 @@ namespace DIPS.Mobile.UI.Components.Pickers.ItemPicker
             var radioButtonListItem = new RadioButtonListItem {HasBottomDivider = true};
             radioButtonListItem.SetBinding(ListItem.TitleProperty, static (SelectableItemViewModel selectableItemViewModel) => selectableItemViewModel.DisplayName);
             radioButtonListItem.SetBinding(RadioButtonListItem.IsSelectedProperty, static (SelectableItemViewModel selectableItemViewModel) => selectableItemViewModel.IsSelected);
-            radioButtonListItem.SelectedCommand = new Command(() => ItemWasPicked(radioButtonListItem));
+            radioButtonListItem.Command = new Command(() => RadioButtonListItemWasPicked(radioButtonListItem));
             return radioButtonListItem;
+        }
+
+        private void RadioButtonListItemWasPicked(RadioButtonListItem radioButtonListItem)
+        {
+            if (radioButtonListItem.IsSelected)
+            {
+                return;
+            }
+            
+            radioButtonListItem.IsSelected = !radioButtonListItem.IsSelected;
+            
+            ItemWasPicked(radioButtonListItem);
         }
 
         private void ItemWasPicked(BindableObject tappedObject)
@@ -139,7 +151,7 @@ namespace DIPS.Mobile.UI.Components.Pickers.ItemPicker
             if (tappedObject.BindingContext is not SelectableItemViewModel selectableListItem) return;
             if (m_itemPicker.ItemsSource == null) return;
             
-            m_hasPickedItem = true;
+            // m_hasPickedItem = true;
             
             object? theSelectedItem = null;
             foreach (var item in m_itemPicker.ItemsSource)
