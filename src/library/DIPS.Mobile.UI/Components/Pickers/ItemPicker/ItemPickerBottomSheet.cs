@@ -139,6 +139,8 @@ namespace DIPS.Mobile.UI.Components.Pickers.ItemPicker
             if (tappedObject.BindingContext is not SelectableItemViewModel selectableListItem) return;
             if (m_itemPicker.ItemsSource == null) return;
             
+            m_hasPickedItem = true;
+            
             object? theSelectedItem = null;
             foreach (var item in m_itemPicker.ItemsSource)
             {
@@ -161,7 +163,6 @@ namespace DIPS.Mobile.UI.Components.Pickers.ItemPicker
                 {
                     // Workaround: As IsSelected has a two-way binding, we must guard in case setting this property
                     // triggers the bound command again. The binding must remain two-way to enable consumer selectable view
-                    m_hasPickedItem = true;
                     selectableListItem.IsSelected = true;
                     m_hasPickedItem = false;
                 }
@@ -169,14 +170,12 @@ namespace DIPS.Mobile.UI.Components.Pickers.ItemPicker
                 return;
             }
             
-            m_hasPickedItem = true;
-            
             if (!selectableListItem.IsSelected)
             {
+                m_hasPickedItem = false;
                 return;
             }
 
-            m_hasPickedItem = true;
             m_itemPicker.SelectedItem = theSelectedItem;
         }
 
