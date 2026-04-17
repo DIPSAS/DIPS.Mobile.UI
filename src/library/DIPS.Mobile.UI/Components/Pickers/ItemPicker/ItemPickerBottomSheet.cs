@@ -139,8 +139,6 @@ namespace DIPS.Mobile.UI.Components.Pickers.ItemPicker
             if (tappedObject.BindingContext is not SelectableItemViewModel selectableListItem) return;
             if (m_itemPicker.ItemsSource == null) return;
             
-            m_hasPickedItem = true;
-
             object? theSelectedItem = null;
             foreach (var item in m_itemPicker.ItemsSource)
             {
@@ -161,6 +159,7 @@ namespace DIPS.Mobile.UI.Components.Pickers.ItemPicker
                 //Make sure people can not visually deselect the radio button
                 if (!selectableListItem.IsSelected)
                 {
+                    m_hasPickedItem = true;
                     selectableListItem.IsSelected = true;
                 }
                 
@@ -172,6 +171,7 @@ namespace DIPS.Mobile.UI.Components.Pickers.ItemPicker
                 return;
             }
 
+            m_hasPickedItem = true;
             m_itemPicker.SelectedItem = theSelectedItem;
         }
 
