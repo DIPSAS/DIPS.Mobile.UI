@@ -1,3 +1,6 @@
+## [56.0.2]
+- [iOS][ItemPicker] Fixed bug where selected item could reset randomly
+
 ## [56.0.1]
 - [Android][Camera] Moved shutter animation from shutter button press to when the image capture has started
 - [Android][Camera] Added a hint to keep the camera still for devices that don't support Zero-Shutter-Lag
