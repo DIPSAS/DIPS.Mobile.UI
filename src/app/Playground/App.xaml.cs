@@ -1,4 +1,5 @@
-﻿using DIPS.Mobile.UI.Resources.Icons;
+﻿using DIPS.Mobile.UI.API.Diagnostics;
+using DIPS.Mobile.UI.Resources.Icons;
 using Playground.HåvardSamples;
 using Playground.VetleSamples;
 using FloatingNavigationButtonService =
@@ -35,6 +36,14 @@ public partial class App : Application
         });
         tabBar.Items.Add(tab);
         tabBar.Items.Add(tab2);
+
+        var diagnosticsTab = new Tab { Route = "diagnostics", Title = "Diagnostics", Icon = Icons.GetIcon(IconName.chart_line) };
+        diagnosticsTab.Items.Add(new ShellContent
+        {
+            ContentTemplate = new DataTemplate(() => new LayoutDiagnosticsPage())
+        });
+        tabBar.Items.Add(diagnosticsTab);
+
         shell.Items.Add(tabBar);
 
         return new Window(shell);
