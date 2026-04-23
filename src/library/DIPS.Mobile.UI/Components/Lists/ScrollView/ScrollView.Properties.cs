@@ -18,7 +18,7 @@ public partial class ScrollView
     }
     
     /// <summary>
-    /// Determines if input fields should be unfocused when the user scrolls the <see cref="CollectionView"/>. (ScrollBar, Editor etc..) 
+    /// Determines if input fields should be unfocused when the user scrolls the <see cref="ScrollView"/>. (ScrollBar, Editor etc..)
     /// </summary>
     public bool RemoveFocusOnScroll { get; set; }
 
