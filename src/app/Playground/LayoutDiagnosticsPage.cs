@@ -1,13 +1,11 @@
+using DIPS.Mobile.UI.API.Diagnostics;
+using DIPS.Mobile.UI.Resources.Colors;
 using DIPS.Mobile.UI.Resources.Sizes;
 using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
 
-namespace DIPS.Mobile.UI.API.Diagnostics;
+namespace Playground;
 
-/// <summary>
-/// A ready-to-use page for viewing and controlling layout diagnostics.
-/// Add this to a Tab in your app shell to enable runtime layout diagnostics.
-/// </summary>
-public class LayoutDiagnosticsPage : Components.Pages.ContentPage
+public class LayoutDiagnosticsPage : DIPS.Mobile.UI.Components.Pages.ContentPage
 {
     private readonly Label m_statusLabel;
     private readonly Button m_overlayButton;
@@ -19,7 +17,6 @@ public class LayoutDiagnosticsPage : Components.Pages.ContentPage
     {
         Title = "Diagnostics";
 
-        // Overlay toggle
         m_overlayButton = new Button
         {
             FontFamily = "UI",
@@ -83,9 +80,9 @@ public class LayoutDiagnosticsPage : Components.Pages.ContentPage
             ]
         };
         headerRow.Add(m_snapshotCountLabel);
-        Grid.SetColumn((BindableObject)m_snapshotCountLabel, 0);
+        Grid.SetColumn(m_snapshotCountLabel, 0);
         headerRow.Add(clearButton);
-        Grid.SetColumn((BindableObject)clearButton, 1);
+        Grid.SetColumn(clearButton, 1);
 
         m_snapshotList = new VerticalStackLayout
         {
@@ -139,7 +136,6 @@ public class LayoutDiagnosticsPage : Components.Pages.ContentPage
     protected override void OnAppearing()
     {
         base.OnAppearing();
-        
         LayoutDiagnosticsService.SnapshotCompleted += OnSnapshotCompleted;
         UpdateState();
         LoadSnapshots();
@@ -177,7 +173,7 @@ public class LayoutDiagnosticsPage : Components.Pages.ContentPage
         {
             LayoutDiagnosticsService.Initialize();
         }
-        
+
         UpdateState();
     }
 
@@ -189,7 +185,6 @@ public class LayoutDiagnosticsPage : Components.Pages.ContentPage
 
     private void UpdateState()
     {
-        // Overlay button
         if (LayoutDiagnosticsService.IsInitialized)
         {
             m_overlayButton.Text = "Disable Overlay";
@@ -203,7 +198,6 @@ public class LayoutDiagnosticsPage : Components.Pages.ContentPage
             m_overlayButton.TextColor = Microsoft.Maui.Graphics.Colors.White;
         }
 
-        // Recording controls — only visible when overlay is active
         m_toggleButton.IsVisible = LayoutDiagnosticsService.IsInitialized;
         m_statusLabel.IsVisible = LayoutDiagnosticsService.IsInitialized;
 
@@ -246,7 +240,6 @@ public class LayoutDiagnosticsPage : Components.Pages.ContentPage
             return;
         }
 
-        // Show newest first
         for (var i = snapshots.Count - 1; i >= 0; i--)
         {
             m_snapshotList.Children.Add(CreateSnapshotCard(snapshots[i]));
@@ -280,7 +273,6 @@ public class LayoutDiagnosticsPage : Components.Pages.ContentPage
         content.Add(titleLabel);
         content.Add(metricsLabel);
 
-        // Single unified list: all types sorted by count, warnings highlighted
         const double avgPerInstanceThreshold = 3.0;
         var allTypes = snapshot.MeasureCountsByType
             .OrderByDescending(kvp => kvp.Value);

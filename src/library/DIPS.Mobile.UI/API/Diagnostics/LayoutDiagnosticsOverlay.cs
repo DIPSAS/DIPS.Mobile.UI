@@ -15,6 +15,7 @@ internal class LayoutDiagnosticsOverlay : Grid
     private readonly Border m_collapsedPill;
     private readonly Label m_collapsedCountLabel;
     private readonly BoxView m_recordingDot;
+    private readonly BoxView m_expandedRecordingDot;
     private CancellationTokenSource? m_pulseCts;
     private bool m_isExpanded;
     
@@ -88,7 +89,7 @@ internal class LayoutDiagnosticsOverlay : Grid
         m_collapsedPill.GestureRecognizers.Add(collapsedTap);
 
         // ── Expanded panel ──
-        var m_expandedRecordingDot = new BoxView
+        m_expandedRecordingDot = new BoxView
         {
             Color = AccentRed,
             WidthRequest = 8,
@@ -283,8 +284,8 @@ internal class LayoutDiagnosticsOverlay : Grid
         m_statusLabel.Text = "Layout Diagnostics";
         m_detailLabel.Text = "Tap Start to begin";
         m_recordingDot.IsVisible = false;
+        m_expandedRecordingDot.IsVisible = false;
         m_collapsedCountLabel.Text = "📊";
-        m_collapsedPill.Stroke = Color.FromArgb("#333346");
     }
 
     internal void UpdateRecording()
@@ -296,6 +297,7 @@ internal class LayoutDiagnosticsOverlay : Grid
         m_detailLabel.Text = "Navigate to capture layout data";
         m_recordingDot.IsVisible = true;
         m_recordingDot.Color = AccentRed;
+        m_expandedRecordingDot.IsVisible = true;
         m_collapsedCountLabel.Text = "REC";
         StartPulse();
     }
@@ -336,9 +338,13 @@ internal class LayoutDiagnosticsOverlay : Grid
         {
             try
             {
-                await m_recordingDot.FadeTo(0.2, 500, Easing.SinInOut);
+                await Task.WhenAll(
+                    m_recordingDot.FadeTo(0.2, 500, Easing.SinInOut),
+                    m_expandedRecordingDot.FadeTo(0.2, 500, Easing.SinInOut));
                 if (token.IsCancellationRequested) break;
-                await m_recordingDot.FadeTo(1.0, 500, Easing.SinInOut);
+                await Task.WhenAll(
+                    m_recordingDot.FadeTo(1.0, 500, Easing.SinInOut),
+                    m_expandedRecordingDot.FadeTo(1.0, 500, Easing.SinInOut));
             }
             catch (TaskCanceledException)
             {
