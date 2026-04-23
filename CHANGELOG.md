@@ -1,3 +1,6 @@
+## [57.0.0]
+- Use SourceGen compilation.
+
 ## [56.0.2]
 - [iOS][ItemPicker] Fixed bug where selected item could reset randomly
 

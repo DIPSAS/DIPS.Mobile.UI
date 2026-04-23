@@ -14,6 +14,7 @@
         <LangVersion>default</LangVersion>
         
         <MauiEnableXamlCBindingWithSourceCompilation>true</MauiEnableXamlCBindingWithSourceCompilation>
+        <MauiXamlInflator>SourceGen</MauiXamlInflator>
         <WarningsAsErrors>XC0022;XC0023;XC0045;XC0103</WarningsAsErrors>
     </PropertyGroup>
 
