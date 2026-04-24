@@ -1,4 +1,5 @@
-﻿using Components.Resources.LocalizedStrings;
+﻿using Components.DiagnosticsSamples;
+using Components.Resources.LocalizedStrings;
 using DIPS.Mobile.UI.API.Library;
 using Enum = System.Enum;
 

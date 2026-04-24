@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<dui:ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                 xmlns:dui="http://dips.com/mobile.ui"
+                 x:Class="Playground.DiagnosticsSamples.LayoutDiagnosticsPage"
+                 Title="Diagnostics">
+    <Grid RowDefinitions="Auto,*">
+
+        <!-- Controls -->
+        <dui:VerticalStackLayout Grid.Row="0"
+                                Spacing="0"
+                                Padding="{dui:Thickness UniformSize=content_margin_medium}">
+            <dui:Button x:Name="OverlayButton"
+                        Style="{dui:Styles Button=DefaultSmall}"
+                        HorizontalOptions="Center"
+                        Margin="{dui:Margin Bottom=size_4}"
+                        Clicked="OnOverlayButtonClicked" />
+
+            <dui:Label x:Name="StatusLabel"
+                       Style="{dui:Styles Label=UI300}"
+                       FontAttributes="Bold"
+                       HorizontalTextAlignment="Center"
+                       Margin="{dui:Margin Bottom=size_2}" />
+
+            <dui:Button x:Name="ToggleButton"
+                        Style="{dui:Styles Button=DefaultSmall}"
+                        HorizontalOptions="Center"
+                        Clicked="OnToggleClicked" />
+
+            <Grid ColumnDefinitions="*,Auto"
+                  Margin="{dui:Margin Top=size_4}">
+                <dui:Label x:Name="SnapshotCountLabel"
+                           Grid.Column="0"
+                           Style="{dui:Styles Label=UI100}"
+                           TextColor="{dui:Colors color_text_subtle}" />
+                <dui:Button Grid.Column="1"
+                            Text="Clear snapshots"
+                            Style="{dui:Styles Button=GhostSmall}"
+                            Clicked="OnClearClicked" />
+            </Grid>
+        </dui:VerticalStackLayout>
+
+        <!-- Snapshot list -->
+        <dui:ScrollView Grid.Row="1"
+                        Padding="{dui:Padding Left=content_margin_medium, Right=content_margin_medium}">
+            <dui:VerticalStackLayout x:Name="SnapshotList"
+                                     Spacing="{dui:Sizes content_margin_small}" />
+        </dui:ScrollView>
+
+    </Grid>
+</dui:ContentPage>

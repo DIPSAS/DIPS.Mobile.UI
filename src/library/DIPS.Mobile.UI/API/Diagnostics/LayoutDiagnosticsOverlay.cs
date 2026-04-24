@@ -1,4 +1,11 @@
 using DIPS.Mobile.UI.Resources.Colors;
+using DIPS.Mobile.UI.Resources.Icons;
+using DIPS.Mobile.UI.Resources.Sizes;
+using DIPS.Mobile.UI.Resources.Styles;
+using DIPS.Mobile.UI.Resources.Styles.Button;
+using DIPS.Mobile.UI.Resources.Styles.Label;
+using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
+using LayoutEffect = DIPS.Mobile.UI.Effects.Layout.Layout;
 
 namespace DIPS.Mobile.UI.API.Diagnostics;
 
@@ -12,7 +19,8 @@ internal class LayoutDiagnosticsOverlay : Grid
     private readonly Label m_detailLabel;
     private readonly Button m_toggleButton;
     private readonly Grid m_expandedContent;
-    private readonly Border m_collapsedPill;
+    private readonly Grid m_collapsedPill;
+    private readonly Grid m_expandedPanel;
     private readonly Label m_collapsedCountLabel;
     private readonly BoxView m_recordingDot;
     private readonly BoxView m_expandedRecordingDot;
@@ -20,13 +28,6 @@ internal class LayoutDiagnosticsOverlay : Grid
     private bool m_isExpanded;
     
     internal const int OverlayIdentifier = 2910962;
-
-    private static readonly Color BackgroundDark = Color.FromArgb("#DD1A1A2E");
-    private static readonly Color AccentGreen = Color.FromArgb("#4ADE80");
-    private static readonly Color AccentRed = Color.FromArgb("#F87171");
-    private static readonly Color AccentOrange = Color.FromArgb("#FB923C");
-    private static readonly Color TextPrimary = Microsoft.Maui.Graphics.Colors.White;
-    private static readonly Color TextSecondary = Color.FromArgb("#A1A1AA");
 
     public LayoutDiagnosticsOverlay()
     {
@@ -36,15 +37,19 @@ internal class LayoutDiagnosticsOverlay : Grid
         HorizontalOptions = LayoutOptions.End;
         VerticalOptions = LayoutOptions.Start;
         
-        Margin = new Thickness(8, 54, 8, 0);
+        Margin = new Thickness(
+            Sizes.GetSize(SizeName.content_margin_small),
+            54,
+            Sizes.GetSize(SizeName.content_margin_small),
+            0);
 
         // ── Collapsed pill ──
         m_recordingDot = new BoxView
         {
-            Color = AccentGreen,
-            WidthRequest = 8,
-            HeightRequest = 8,
-            CornerRadius = 4,
+            Color = Colors.GetColor(ColorName.color_icon_success),
+            WidthRequest = Sizes.GetSize(SizeName.size_2),
+            HeightRequest = Sizes.GetSize(SizeName.size_2),
+            CornerRadius = Sizes.GetSize(SizeName.radius_xsmall),
             VerticalOptions = LayoutOptions.Center,
             IsVisible = false
         };
@@ -52,37 +57,29 @@ internal class LayoutDiagnosticsOverlay : Grid
         m_collapsedCountLabel = new Label
         {
             Text = "📊",
-            FontSize = 13,
-            FontFamily = "UI",
-            TextColor = TextPrimary,
+            Style = Styles.GetLabelStyle(LabelStyle.UI100),
+            TextColor = Colors.GetColor(ColorName.color_text_on_button),
             VerticalOptions = LayoutOptions.Center,
             VerticalTextAlignment = TextAlignment.Center
         };
 
         var pillContent = new HorizontalStackLayout
         {
-            Spacing = 6,
+            Spacing = Sizes.GetSize(SizeName.content_margin_xsmall),
             VerticalOptions = LayoutOptions.Center,
             Children = { m_recordingDot, m_collapsedCountLabel }
         };
 
-        m_collapsedPill = new Border
+        m_collapsedPill = new Grid
         {
-            BackgroundColor = BackgroundDark,
-            StrokeShape = new Microsoft.Maui.Controls.Shapes.RoundRectangle { CornerRadius = 20 },
-            Stroke = Microsoft.Maui.Graphics.Colors.Transparent,
-            StrokeThickness = 0,
-            Padding = new Thickness(12, 8),
-            HorizontalOptions = LayoutOptions.End,
-            Content = pillContent,
-            Shadow = new Shadow
-            {
-                Brush = new SolidColorBrush(Microsoft.Maui.Graphics.Colors.Black),
-                Offset = new Point(0, 2),
-                Radius = 8,
-                Opacity = 0.4f
-            }
+            BackgroundColor = Colors.GetColor(ColorName.color_surface_backdrop),
+            Padding = new Thickness(
+                Sizes.GetSize(SizeName.content_margin_medium),
+                Sizes.GetSize(SizeName.content_margin_small)),
+            HorizontalOptions = LayoutOptions.End
         };
+        LayoutEffect.SetCornerRadius(m_collapsedPill, new CornerRadius(Sizes.GetSize(SizeName.radius_xlarge)));
+        m_collapsedPill.Add(pillContent);
         
         var collapsedTap = new TapGestureRecognizer();
         collapsedTap.Tapped += async (_, _) => await AnimateExpand();
@@ -91,25 +88,24 @@ internal class LayoutDiagnosticsOverlay : Grid
         // ── Expanded panel ──
         m_expandedRecordingDot = new BoxView
         {
-            Color = AccentRed,
-            WidthRequest = 8,
-            HeightRequest = 8,
-            CornerRadius = 4,
+            Color = Colors.GetColor(ColorName.color_icon_danger),
+            WidthRequest = Sizes.GetSize(SizeName.size_2),
+            HeightRequest = Sizes.GetSize(SizeName.size_2),
+            CornerRadius = Sizes.GetSize(SizeName.radius_xsmall),
             VerticalOptions = LayoutOptions.Center,
             IsVisible = false
         };
 
         var statusRow = new HorizontalStackLayout
         {
-            Spacing = 6,
+            Spacing = Sizes.GetSize(SizeName.content_margin_xsmall),
             Children = { m_expandedRecordingDot }
         };
 
         m_statusLabel = new Label
         {
-            TextColor = TextPrimary,
-            FontSize = 13,
-            FontFamily = "UI",
+            TextColor = Colors.GetColor(ColorName.color_text_on_button),
+            Style = Styles.GetLabelStyle(LabelStyle.UI200),
             FontAttributes = FontAttributes.Bold,
             HorizontalTextAlignment = TextAlignment.Start,
             VerticalOptions = LayoutOptions.Center
@@ -118,9 +114,8 @@ internal class LayoutDiagnosticsOverlay : Grid
 
         m_detailLabel = new Label
         {
-            TextColor = TextSecondary,
-            FontSize = 11,
-            FontFamily = "UI",
+            TextColor = Colors.GetColor(ColorName.color_text_on_button).WithAlpha(0.7f),
+            Style = Styles.GetLabelStyle(LabelStyle.UI100),
             HorizontalTextAlignment = TextAlignment.Start,
             MaxLines = 1,
             LineBreakMode = LineBreakMode.TailTruncation
@@ -130,53 +125,41 @@ internal class LayoutDiagnosticsOverlay : Grid
         {
             FontSize = 12,
             FontFamily = "UI",
-            HeightRequest = 32,
-            MinimumWidthRequest = 56,
-            CornerRadius = 16,
-            Padding = new Thickness(14, 0),
+            HeightRequest = Sizes.GetSize(SizeName.size_8),
+            MinimumWidthRequest = Sizes.GetSize(SizeName.size_14),
+            CornerRadius = (int)Sizes.GetSize(SizeName.radius_large),
+            Padding = new Thickness(Sizes.GetSize(SizeName.content_margin_medium), 0),
             HorizontalOptions = LayoutOptions.End,
-            VerticalOptions = LayoutOptions.Center,
-            Shadow = new Shadow
-            {
-                Brush = new SolidColorBrush(Microsoft.Maui.Graphics.Colors.Black),
-                Offset = new Point(0, 1),
-                Radius = 4,
-                Opacity = 0.3f
-            }
+            VerticalOptions = LayoutOptions.Center
         };
         m_toggleButton.Clicked += OnToggleButtonClicked;
 
-        var collapseButton = new Label
+        var collapseButton = new Button
         {
-            Text = "✕",
-            FontSize = 14,
-            TextColor = TextSecondary,
-            WidthRequest = 28,
-            HeightRequest = 28,
-            HorizontalOptions = LayoutOptions.Center,
-            VerticalOptions = LayoutOptions.Center,
-            HorizontalTextAlignment = TextAlignment.Center,
-            VerticalTextAlignment = TextAlignment.Center
+            Style = Styles.GetButtonStyle(ButtonStyle.CloseIconSmall),
+            VerticalOptions = LayoutOptions.Center
         };
         var collapseTap = new TapGestureRecognizer();
         collapseTap.Tapped += async (_, _) => await AnimateCollapse();
         collapseButton.GestureRecognizers.Add(collapseTap);
 
-        var textStack = new VerticalStackLayout { Spacing = 2 };
+        var textStack = new VerticalStackLayout { Spacing = Sizes.GetSize(SizeName.size_half) };
         textStack.Add(statusRow);
         textStack.Add(m_detailLabel);
 
         var buttonRow = new HorizontalStackLayout
         {
-            Spacing = 4,
+            Spacing = Sizes.GetSize(SizeName.size_1),
             VerticalOptions = LayoutOptions.Center,
             Children = { m_toggleButton, collapseButton }
         };
 
         m_expandedContent = new Grid
         {
-            Padding = new Thickness(14, 10),
-            ColumnSpacing = 10,
+            Padding = new Thickness(
+                Sizes.GetSize(SizeName.content_margin_medium),
+                Sizes.GetSize(SizeName.content_margin_small)),
+            ColumnSpacing = Sizes.GetSize(SizeName.content_margin_small),
             MinimumWidthRequest = 220,
             ColumnDefinitions =
             [
@@ -190,31 +173,21 @@ internal class LayoutDiagnosticsOverlay : Grid
         m_expandedContent.Add(buttonRow);
         Grid.SetColumn(buttonRow, 1);
 
-        var expandedBorder = new Border
+        m_expandedPanel = new Grid
         {
-            BackgroundColor = BackgroundDark,
-            StrokeShape = new Microsoft.Maui.Controls.Shapes.RoundRectangle { CornerRadius = 16 },
-            Stroke = Microsoft.Maui.Graphics.Colors.Transparent,
-            StrokeThickness = 0,
-            Padding = 0,
-            HorizontalOptions = LayoutOptions.End,
-            Content = m_expandedContent,
-            Shadow = new Shadow
-            {
-                Brush = new SolidColorBrush(Microsoft.Maui.Graphics.Colors.Black),
-                Offset = new Point(0, 4),
-                Radius = 12,
-                Opacity = 0.5f
-            }
+            BackgroundColor = Colors.GetColor(ColorName.color_surface_backdrop),
+            HorizontalOptions = LayoutOptions.End
         };
+        LayoutEffect.SetCornerRadius(m_expandedPanel, new CornerRadius(Sizes.GetSize(SizeName.radius_large)));
+        m_expandedPanel.Add(m_expandedContent);
 
         this.Add(m_collapsedPill);
-        this.Add(expandedBorder);
+        this.Add(m_expandedPanel);
 
         // Start collapsed
-        expandedBorder.Opacity = 0;
-        expandedBorder.Scale = 0.8;
-        expandedBorder.IsVisible = false;
+        m_expandedPanel.Opacity = 0;
+        m_expandedPanel.Scale = 0.8;
+        m_expandedPanel.IsVisible = false;
         m_isExpanded = false;
 
         UpdateStopped();
@@ -230,22 +203,18 @@ internal class LayoutDiagnosticsOverlay : Grid
         if (m_isExpanded) return;
         m_isExpanded = true;
 
-        var expandedBorder = (Border)Children[1];
-
-        // Fade out pill
         await m_collapsedPill.FadeTo(0, 150, Easing.CubicIn);
         m_collapsedPill.IsVisible = false;
 
-        // Show and animate in expanded panel
-        expandedBorder.IsVisible = true;
-        expandedBorder.Opacity = 0;
-        expandedBorder.Scale = 0.85;
-        expandedBorder.TranslationX = 20;
+        m_expandedPanel.IsVisible = true;
+        m_expandedPanel.Opacity = 0;
+        m_expandedPanel.Scale = 0.85;
+        m_expandedPanel.TranslationX = Sizes.GetSize(SizeName.size_5);
 
         await Task.WhenAll(
-            expandedBorder.FadeTo(1, 250, Easing.CubicOut),
-            expandedBorder.ScaleTo(1, 250, Easing.SpringOut),
-            expandedBorder.TranslateTo(0, 0, 250, Easing.CubicOut)
+            m_expandedPanel.FadeTo(1, 250, Easing.CubicOut),
+            m_expandedPanel.ScaleTo(1, 250, Easing.SpringOut),
+            m_expandedPanel.TranslateTo(0, 0, 250, Easing.CubicOut)
         );
     }
 
@@ -254,17 +223,13 @@ internal class LayoutDiagnosticsOverlay : Grid
         if (!m_isExpanded) return;
         m_isExpanded = false;
 
-        var expandedBorder = (Border)Children[1];
-
-        // Animate out expanded panel
         await Task.WhenAll(
-            expandedBorder.FadeTo(0, 200, Easing.CubicIn),
-            expandedBorder.ScaleTo(0.85, 200, Easing.CubicIn),
-            expandedBorder.TranslateTo(20, 0, 200, Easing.CubicIn)
+            m_expandedPanel.FadeTo(0, 200, Easing.CubicIn),
+            m_expandedPanel.ScaleTo(0.85, 200, Easing.CubicIn),
+            m_expandedPanel.TranslateTo(Sizes.GetSize(SizeName.size_5), 0, 200, Easing.CubicIn)
         );
-        expandedBorder.IsVisible = false;
+        m_expandedPanel.IsVisible = false;
 
-        // Show pill with pop animation
         m_collapsedPill.IsVisible = true;
         m_collapsedPill.Opacity = 0;
         m_collapsedPill.Scale = 0.5;
@@ -279,8 +244,8 @@ internal class LayoutDiagnosticsOverlay : Grid
     {
         StopPulse();
         m_toggleButton.Text = "▶ Start";
-        m_toggleButton.BackgroundColor = AccentGreen;
-        m_toggleButton.TextColor = Color.FromArgb("#1A1A2E");
+        m_toggleButton.BackgroundColor = Colors.GetColor(ColorName.color_fill_success);
+        m_toggleButton.TextColor = Colors.GetColor(ColorName.color_text_on_button);
         m_statusLabel.Text = "Layout Diagnostics";
         m_detailLabel.Text = "Tap Start to begin";
         m_recordingDot.IsVisible = false;
@@ -291,12 +256,12 @@ internal class LayoutDiagnosticsOverlay : Grid
     internal void UpdateRecording()
     {
         m_toggleButton.Text = "⏹ Stop";
-        m_toggleButton.BackgroundColor = AccentRed;
-        m_toggleButton.TextColor = TextPrimary;
+        m_toggleButton.BackgroundColor = Colors.GetColor(ColorName.color_fill_button_danger);
+        m_toggleButton.TextColor = Colors.GetColor(ColorName.color_text_on_button);
         m_statusLabel.Text = "Recording";
         m_detailLabel.Text = "Navigate to capture layout data";
         m_recordingDot.IsVisible = true;
-        m_recordingDot.Color = AccentRed;
+        m_recordingDot.Color = Colors.GetColor(ColorName.color_icon_danger);
         m_expandedRecordingDot.IsVisible = true;
         m_collapsedCountLabel.Text = "REC";
         StartPulse();
@@ -308,7 +273,6 @@ internal class LayoutDiagnosticsOverlay : Grid
 
         if (snapshot.Warnings.Count > 0)
         {
-            // Only update pill text if not expanded (don't override REC while recording)
             if (!m_isExpanded)
             {
                 m_collapsedCountLabel.Text = $"\u26a0 {snapshot.Warnings.Count}";

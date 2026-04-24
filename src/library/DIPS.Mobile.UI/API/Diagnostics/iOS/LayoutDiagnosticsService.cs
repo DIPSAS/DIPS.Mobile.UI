@@ -1,3 +1,4 @@
+using CoreGraphics;
 using DIPS.Mobile.UI.API.Library;
 using Microsoft.Maui.Platform;
 using UIKit;
@@ -8,40 +9,47 @@ namespace DIPS.Mobile.UI.API.Diagnostics;
 public static partial class LayoutDiagnosticsService
 {
     private static LayoutDiagnosticsOverlay? s_overlay;
+    private static UIWindow? s_overlayWindow;
     
     private static partial void AttachOverlay()
     {
         s_overlay = new LayoutDiagnosticsOverlay();
         
-        var rootView = DUI.RootController;
-        if (rootView is null)
+        var scene = DUI.RootController?.Window?.WindowScene;
+        if (scene is null)
             return;
+        
+        s_overlayWindow = new OverlayWindow(scene)
+        {
+            WindowLevel = UIWindowLevel.Alert - 1,
+            BackgroundColor = UIColor.Clear,
+            UserInteractionEnabled = true,
+            Hidden = false
+        };
+        
+        var rootVc = new PassthroughViewController();
+        s_overlayWindow.RootViewController = rootVc;
         
         var uiView = s_overlay.ToPlatform(DUI.GetCurrentMauiContext!);
         uiView.Tag = LayoutDiagnosticsOverlay.OverlayIdentifier;
         uiView.TranslatesAutoresizingMaskIntoConstraints = false;
         
-        rootView.AddSubview(uiView);
+        rootVc.View!.AddSubview(uiView);
         
         NSLayoutConstraint.ActivateConstraints([
-            uiView.TopAnchor.ConstraintEqualTo(rootView.SafeAreaLayoutGuide.TopAnchor, 8),
-            uiView.TrailingAnchor.ConstraintEqualTo(rootView.SafeAreaLayoutGuide.TrailingAnchor, -8)
+            uiView.TopAnchor.ConstraintEqualTo(rootVc.View.SafeAreaLayoutGuide.TopAnchor, 8),
+            uiView.TrailingAnchor.ConstraintEqualTo(rootVc.View.SafeAreaLayoutGuide.TrailingAnchor, -8)
         ]);
     }
 
     private static partial void RemoveOverlay()
     {
-        var rootView = DUI.RootController;
-        if (rootView is null)
-            return;
-
-        foreach (var subview in rootView.Subviews)
+        if (s_overlayWindow is not null)
         {
-            if (subview.Tag == LayoutDiagnosticsOverlay.OverlayIdentifier)
-            {
-                subview.RemoveFromSuperview();
-                break;
-            }
+            s_overlayWindow.Hidden = true;
+            s_overlayWindow.RootViewController = null;
+            s_overlayWindow.Dispose();
+            s_overlayWindow = null;
         }
         
         s_overlay = null;
@@ -69,5 +77,33 @@ public static partial class LayoutDiagnosticsService
             return;
 
         MainThread.BeginInvokeOnMainThread(() => s_overlay.UpdateStopped());
+    }
+    
+    /// <summary>
+    /// A UIWindow that passes through touches on empty areas.
+    /// Only the overlay content receives touch events.
+    /// </summary>
+    private class OverlayWindow(UIWindowScene scene) : UIWindow(scene)
+    {
+        public override UIView? HitTest(CGPoint point, UIEvent? uievent)
+        {
+            var hit = base.HitTest(point, uievent);
+            if (hit is null || hit == this || hit == RootViewController?.View)
+                return null;
+            return hit;
+        }
+    }
+    
+    /// <summary>
+    /// A view controller with a transparent view for hosting the overlay.
+    /// </summary>
+    private class PassthroughViewController : UIViewController
+    {
+        public override void ViewDidLoad()
+        {
+            base.ViewDidLoad();
+            View!.BackgroundColor = UIColor.Clear;
+            View.UserInteractionEnabled = true;
+        }
     }
 }
