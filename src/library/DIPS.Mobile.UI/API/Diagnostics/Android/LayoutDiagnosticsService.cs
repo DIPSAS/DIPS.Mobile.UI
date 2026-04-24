@@ -93,17 +93,9 @@ public static partial class LayoutDiagnosticsService
     
     private static Android.Widget.FrameLayout.LayoutParams CreateOverlayLayoutParams()
     {
-        var activity = Platform.CurrentActivity;
-        var density = activity?.Resources?.DisplayMetrics?.Density ?? 1;
-        
         return new Android.Widget.FrameLayout.LayoutParams(
-            ViewGroup.LayoutParams.WrapContent,
-            ViewGroup.LayoutParams.WrapContent,
-            GravityFlags.Top | GravityFlags.End)
-        {
-            TopMargin = (int)(54 * density),
-            RightMargin = (int)(8 * density)
-        };
+            ViewGroup.LayoutParams.MatchParent,
+            ViewGroup.LayoutParams.MatchParent);
     }
 
     private static partial void UpdateOverlay(LayoutDiagnosticsSnapshot snapshot)

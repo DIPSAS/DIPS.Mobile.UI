@@ -4,8 +4,8 @@ using DIPS.Mobile.UI.Resources.Sizes;
 using DIPS.Mobile.UI.Resources.Styles;
 using DIPS.Mobile.UI.Resources.Styles.Button;
 using DIPS.Mobile.UI.Resources.Styles.Label;
+using Microsoft.Maui.Controls.Shapes;
 using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
-using LayoutEffect = DIPS.Mobile.UI.Effects.Layout.Layout;
 
 namespace DIPS.Mobile.UI.API.Diagnostics;
 
@@ -19,8 +19,8 @@ internal class LayoutDiagnosticsOverlay : Grid
     private readonly Label m_detailLabel;
     private readonly Button m_toggleButton;
     private readonly Grid m_expandedContent;
-    private readonly Grid m_collapsedPill;
-    private readonly Grid m_expandedPanel;
+    private readonly Border m_collapsedPill;
+    private readonly Border m_expandedPanel;
     private readonly Label m_collapsedCountLabel;
     private readonly BoxView m_recordingDot;
     private readonly BoxView m_expandedRecordingDot;
@@ -33,15 +33,6 @@ internal class LayoutDiagnosticsOverlay : Grid
     {
         InputTransparent = false;
         CascadeInputTransparent = false;
-        
-        HorizontalOptions = LayoutOptions.End;
-        VerticalOptions = LayoutOptions.Start;
-        
-        Margin = new Thickness(
-            Sizes.GetSize(SizeName.content_margin_small),
-            54,
-            Sizes.GetSize(SizeName.content_margin_small),
-            0);
 
         // ── Collapsed pill ──
         m_recordingDot = new BoxView
@@ -70,16 +61,19 @@ internal class LayoutDiagnosticsOverlay : Grid
             Children = { m_recordingDot, m_collapsedCountLabel }
         };
 
-        m_collapsedPill = new Grid
+        m_collapsedPill = new Border
         {
             BackgroundColor = Colors.GetColor(ColorName.color_surface_backdrop),
             Padding = new Thickness(
-                Sizes.GetSize(SizeName.content_margin_medium),
-                Sizes.GetSize(SizeName.content_margin_small)),
-            HorizontalOptions = LayoutOptions.End
+                Sizes.GetSize(SizeName.content_margin_small),
+                Sizes.GetSize(SizeName.size_1)),
+            HorizontalOptions = LayoutOptions.End,
+            VerticalOptions = LayoutOptions.Start,
+            Margin = new Thickness(0, 54, Sizes.GetSize(SizeName.content_margin_small), 0),
+            Stroke = Brush.Transparent,
+            StrokeShape = new RoundRectangle { CornerRadius = new CornerRadius(Sizes.GetSize(SizeName.radius_xlarge)) }
         };
-        LayoutEffect.SetCornerRadius(m_collapsedPill, new CornerRadius(Sizes.GetSize(SizeName.radius_xlarge)));
-        m_collapsedPill.Add(pillContent);
+        m_collapsedPill.Content = pillContent;
         
         var collapsedTap = new TapGestureRecognizer();
         collapsedTap.Tapped += async (_, _) => await AnimateExpand();
@@ -139,9 +133,7 @@ internal class LayoutDiagnosticsOverlay : Grid
             Style = Styles.GetButtonStyle(ButtonStyle.CloseIconSmall),
             VerticalOptions = LayoutOptions.Center
         };
-        var collapseTap = new TapGestureRecognizer();
-        collapseTap.Tapped += async (_, _) => await AnimateCollapse();
-        collapseButton.GestureRecognizers.Add(collapseTap);
+        collapseButton.Clicked += async (_, _) => await AnimateCollapse();
 
         var textStack = new VerticalStackLayout { Spacing = Sizes.GetSize(SizeName.size_half) };
         textStack.Add(statusRow);
@@ -173,13 +165,16 @@ internal class LayoutDiagnosticsOverlay : Grid
         m_expandedContent.Add(buttonRow);
         Grid.SetColumn(buttonRow, 1);
 
-        m_expandedPanel = new Grid
+        m_expandedPanel = new Border
         {
             BackgroundColor = Colors.GetColor(ColorName.color_surface_backdrop),
-            HorizontalOptions = LayoutOptions.End
+            HorizontalOptions = LayoutOptions.End,
+            VerticalOptions = LayoutOptions.Start,
+            Margin = new Thickness(0, 54, Sizes.GetSize(SizeName.content_margin_small), 0),
+            Stroke = Brush.Transparent,
+            StrokeShape = new RoundRectangle { CornerRadius = new CornerRadius(Sizes.GetSize(SizeName.radius_large)) }
         };
-        LayoutEffect.SetCornerRadius(m_expandedPanel, new CornerRadius(Sizes.GetSize(SizeName.radius_large)));
-        m_expandedPanel.Add(m_expandedContent);
+        m_expandedPanel.Content = m_expandedContent;
 
         this.Add(m_collapsedPill);
         this.Add(m_expandedPanel);

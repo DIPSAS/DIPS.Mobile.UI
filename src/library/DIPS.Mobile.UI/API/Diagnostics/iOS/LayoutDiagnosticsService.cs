@@ -36,9 +36,13 @@ public static partial class LayoutDiagnosticsService
         
         rootVc.View!.AddSubview(uiView);
         
+        // Pin to all edges — MAUI's layout system positions content internally
+        // via HorizontalOptions.End + VerticalOptions.Start + Margin on the overlay
         NSLayoutConstraint.ActivateConstraints([
-            uiView.TopAnchor.ConstraintEqualTo(rootVc.View.SafeAreaLayoutGuide.TopAnchor, 8),
-            uiView.TrailingAnchor.ConstraintEqualTo(rootVc.View.SafeAreaLayoutGuide.TrailingAnchor, -8)
+            uiView.TopAnchor.ConstraintEqualTo(rootVc.View.TopAnchor),
+            uiView.LeadingAnchor.ConstraintEqualTo(rootVc.View.LeadingAnchor),
+            uiView.TrailingAnchor.ConstraintEqualTo(rootVc.View.TrailingAnchor),
+            uiView.BottomAnchor.ConstraintEqualTo(rootVc.View.BottomAnchor)
         ]);
     }
 
@@ -88,7 +92,9 @@ public static partial class LayoutDiagnosticsService
         public override UIView? HitTest(CGPoint point, UIEvent? uievent)
         {
             var hit = base.HitTest(point, uievent);
-            if (hit is null || hit == this || hit == RootViewController?.View)
+            // Pass through touches on empty areas: window, VC view, or the full-screen MAUI container
+            if (hit is null || hit == this || hit == RootViewController?.View 
+                || hit.Tag == LayoutDiagnosticsOverlay.OverlayIdentifier)
                 return null;
             return hit;
         }
