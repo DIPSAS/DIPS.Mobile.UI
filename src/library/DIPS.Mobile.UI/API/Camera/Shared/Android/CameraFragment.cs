@@ -350,13 +350,12 @@ public abstract class CameraFragment : Fragment
         if (PreviewView is null || CameraControl is null)
             return;
         
-        // Create a center-point focus action with no auto-cancel to re-engage continuous AF
-        // after zoom changes. FlagAf triggers autofocus; disabling auto-cancel lets
-        // CameraX return to its default continuous focus behavior.
+        // Create a center-point focus action to briefly re-engage autofocus after zoom
+        // changes, then automatically return control to the camera's normal behavior.
         var centerPoint = PreviewView.MeteringPointFactory.CreatePoint(
             PreviewView.Width / 2f, PreviewView.Height / 2f);
         var action = new FocusMeteringAction.Builder(centerPoint, FocusMeteringAction.FlagAf)
-            .DisableAutoCancel()
+            .SetAutoCancelDuration(2, TimeUnit.Seconds)
             .Build();
         CameraControl.StartFocusAndMetering(action);
     }
