@@ -11,7 +11,7 @@ namespace DIPS.Mobile.UI.API.Diagnostics;
 
 /// <summary>
 /// A floating overlay pill for layout diagnostics.
-/// Collapsed: small draggable pill indicator. Expanded: panel with live status.
+/// Collapsed: small pill indicator. Tap to expand and see live status, start/stop controls, and snapshot info.
 /// </summary>
 internal class LayoutDiagnosticsOverlay : Grid
 {

@@ -80,8 +80,8 @@ Common causes of high measure counts:
 
 The diagnostics overlay is a floating pill that stays visible over all content, including modals and bottom sheets:
 
-- **iOS**: Rendered in a separate `UIWindow` at `UIWindowLevel.Alert - 1`
-- **Android**: Uses `TranslationZ` for z-ordering and re-parents to dialog `DecorView` when dialogs open
+- **iOS**: Rendered in a separate `UIWindow` at `UIWindowLevel.Alert - 1` with touch passthrough via `HitTest` override
+- **Android**: Re-parented to the dialog `DecorView` when dialogs open, managed via `FragmentLifeCycleCallback`
 
 Tap the pill to expand and see live recording status, start/stop controls, and the current snapshot summary.
 
