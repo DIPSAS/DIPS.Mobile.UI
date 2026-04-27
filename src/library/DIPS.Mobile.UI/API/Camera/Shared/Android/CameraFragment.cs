@@ -290,6 +290,7 @@ public abstract class CameraFragment : Fragment
         if(PreviewViewHandler is not null)
         {
             PreviewViewHandler.OnScaled += OnScaled;
+            PreviewViewHandler.OnScaleEnded += TriggerContinuousAutoFocus;
         }
     }
 
@@ -310,8 +311,6 @@ public abstract class CameraFragment : Fragment
         
         OnChangedZoomRatio(desiredZoomRatio);
         m_cameraPreview?.CameraZoomView?.OnPinchToZoom(desiredZoomRatio);
-        
-        TriggerContinuousAutoFocus();
     }
 
     private ImmutableZoomState? ZoomState => Camera?.CameraInfo.ZoomState.Value as ImmutableZoomState; 
@@ -426,6 +425,7 @@ public abstract class CameraFragment : Fragment
         if (PreviewViewHandler is not null)
         {
             PreviewViewHandler.OnScaled -= OnScaled;
+            PreviewViewHandler.OnScaleEnded -= TriggerContinuousAutoFocus;
             PreviewViewHandler.OnTapped -= PreviewViewOnTapped;
         }
 

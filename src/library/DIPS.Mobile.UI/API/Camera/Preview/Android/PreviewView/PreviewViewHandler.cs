@@ -21,6 +21,9 @@ internal partial class PreviewViewHandler() : ViewHandler<PreviewView, AndroidX.
             scaleFactor =>
         {
             OnScaled?.Invoke(scaleFactor);
+        }, () =>
+        {
+            OnScaleEnded?.Invoke();
         }, (x, y) =>
         {
             OnTapped?.Invoke(x, y);
@@ -28,19 +31,22 @@ internal partial class PreviewViewHandler() : ViewHandler<PreviewView, AndroidX.
     }
 
     public event Action<float>? OnScaled;
+    public event Action? OnScaleEnded;
     public event Action<float, float>? OnTapped;
 }
 
 internal class TouchScaleListener : Object, View.IOnTouchListener, ScaleGestureDetector.IOnScaleGestureListener
 {
     private readonly Action<float>? m_onScale;
+    private readonly Action? m_onScaleEnd;
     private readonly Action<float, float>? m_onTouch;
     private readonly ScaleGestureDetector m_scaleGestureDetector;
     private bool m_ignoreTouchUp;
 
-    public TouchScaleListener(Action<float>? onScale, Action<float, float>? onTouch)
+    public TouchScaleListener(Action<float>? onScale, Action? onScaleEnd, Action<float, float>? onTouch)
     {
         m_onScale = onScale;
+        m_onScaleEnd = onScaleEnd;
         m_onTouch = onTouch;
         
         m_scaleGestureDetector = new ScaleGestureDetector(Application.Context, this);
@@ -76,5 +82,8 @@ internal class TouchScaleListener : Object, View.IOnTouchListener, ScaleGestureD
         return true;
     }
 
-    public void OnScaleEnd(ScaleGestureDetector detector) {}
+    public void OnScaleEnd(ScaleGestureDetector detector)
+    {
+        m_onScaleEnd?.Invoke();
+    }
 }
