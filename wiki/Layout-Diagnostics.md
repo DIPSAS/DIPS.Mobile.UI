@@ -49,8 +49,8 @@ LayoutDiagnosticsService.Initialize();
 
 Snapshots are automatically created and ended during page and bottom sheet lifecycle:
 
-- `ContentPage.OnNavigatedTo()` → `BeginSnapshot("Page: {TypeName}")`
-- `ContentPage.OnDisappearing()` → `EndSnapshot()`
+- `ContentPage.OnAppearing()` → `BeginSnapshot("Page: {TypeName}")`
+- `ContentPage.OnNavigatingFrom()` → `EndSnapshot()`
 - `BottomSheet.OnAppearing()` → `BeginSnapshot("BottomSheet: {TypeName}")`
 - `BottomSheet.OnDisappearing()` → `EndSnapshot()`
 
