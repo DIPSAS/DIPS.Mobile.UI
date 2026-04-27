@@ -1,5 +1,4 @@
 using DIPS.Mobile.UI.Resources.Colors;
-using DIPS.Mobile.UI.Resources.Icons;
 using DIPS.Mobile.UI.Resources.Sizes;
 using DIPS.Mobile.UI.Resources.Styles;
 using DIPS.Mobile.UI.Resources.Styles.Button;
@@ -69,7 +68,7 @@ internal class LayoutDiagnosticsOverlay : Grid
                 Sizes.GetSize(SizeName.size_1)),
             HorizontalOptions = LayoutOptions.End,
             VerticalOptions = LayoutOptions.Start,
-            Margin = new Thickness(0, 54, Sizes.GetSize(SizeName.content_margin_small), 0),
+            Margin = new Thickness(0, Sizes.GetSize(SizeName.size_14), Sizes.GetSize(SizeName.content_margin_small), 0),
             Stroke = Brush.Transparent,
             StrokeShape = new RoundRectangle { CornerRadius = new CornerRadius(Sizes.GetSize(SizeName.radius_xlarge)) }
         };
@@ -117,7 +116,7 @@ internal class LayoutDiagnosticsOverlay : Grid
 
         m_toggleButton = new Button
         {
-            FontSize = 12,
+            FontSize = Sizes.GetSize(SizeName.size_3),
             FontFamily = "UI",
             HeightRequest = Sizes.GetSize(SizeName.size_8),
             MinimumWidthRequest = Sizes.GetSize(SizeName.size_14),
@@ -152,7 +151,6 @@ internal class LayoutDiagnosticsOverlay : Grid
                 Sizes.GetSize(SizeName.content_margin_medium),
                 Sizes.GetSize(SizeName.content_margin_small)),
             ColumnSpacing = Sizes.GetSize(SizeName.content_margin_small),
-            MinimumWidthRequest = 220,
             ColumnDefinitions =
             [
                 new ColumnDefinition(GridLength.Star),
@@ -170,7 +168,7 @@ internal class LayoutDiagnosticsOverlay : Grid
             BackgroundColor = Colors.GetColor(ColorName.color_surface_backdrop),
             HorizontalOptions = LayoutOptions.End,
             VerticalOptions = LayoutOptions.Start,
-            Margin = new Thickness(0, 54, Sizes.GetSize(SizeName.content_margin_small), 0),
+            Margin = new Thickness(0, Sizes.GetSize(SizeName.size_14), Sizes.GetSize(SizeName.content_margin_small), 0),
             Stroke = Brush.Transparent,
             StrokeShape = new RoundRectangle { CornerRadius = new CornerRadius(Sizes.GetSize(SizeName.radius_large)) }
         };

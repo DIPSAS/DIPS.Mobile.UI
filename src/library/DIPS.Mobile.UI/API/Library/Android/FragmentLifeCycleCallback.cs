@@ -82,9 +82,9 @@ public class FragmentLifeCycleCallback : FragmentManager.FragmentLifecycleCallba
                     }
                 }
             }
-
-            base.OnFragmentDestroyed(fm, f);
         }
+
+        base.OnFragmentDestroyed(fm, f);
     }
     
     public override void OnFragmentStopped(FragmentManager fm, Fragment f)

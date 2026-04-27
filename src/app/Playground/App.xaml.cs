@@ -1,5 +1,4 @@
-﻿using DIPS.Mobile.UI.API.Diagnostics;
-using DIPS.Mobile.UI.Resources.Icons;
+﻿using DIPS.Mobile.UI.Resources.Icons;
 using Playground.DiagnosticsSamples;
 using Playground.HåvardSamples;
 using Playground.VetleSamples;

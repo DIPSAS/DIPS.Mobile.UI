@@ -36,7 +36,7 @@ using DIPS.Mobile.UI.API.Diagnostics;
 LayoutDiagnosticsService.Initialize();
 ```
 
-Optionally, build a diagnostics tab using the API (see reference implementations in `src/app/Components/LayoutDiagnosticsPage.cs` or `src/app/Playground/LayoutDiagnosticsPage.cs`).
+Optionally, build a diagnostics tab using the API (see reference implementations in `src/app/Components/DiagnosticsSamples/LayoutDiagnosticsPage.xaml` or `src/app/Playground/DiagnosticsSamples/LayoutDiagnosticsPage.xaml`).
 
 ### 4. Usage
 
@@ -90,7 +90,7 @@ All types are in `DIPS.Mobile.UI.API.Diagnostics`.
 
 ### LayoutDiagnosticsPage (not included — build your own)
 
-There is no built-in page. Use the API above to build a diagnostics page suited to your app. See `src/app/Components/LayoutDiagnosticsPage.cs` or `src/app/Playground/LayoutDiagnosticsPage.cs` for a reference implementation.
+There is no built-in page. Use the API above to build a diagnostics page suited to your app. See `src/app/Components/DiagnosticsSamples/LayoutDiagnosticsPage.xaml` or `src/app/Playground/DiagnosticsSamples/LayoutDiagnosticsPage.xaml` for a reference implementation.
 
 ### Example: Subscribe to snapshots programmatically
 
