@@ -310,6 +310,8 @@ public abstract class CameraFragment : Fragment
         
         OnChangedZoomRatio(desiredZoomRatio);
         m_cameraPreview?.CameraZoomView?.OnPinchToZoom(desiredZoomRatio);
+        
+        TriggerContinuousAutoFocus();
     }
 
     private ImmutableZoomState? ZoomState => Camera?.CameraInfo.ZoomState.Value as ImmutableZoomState; 
@@ -341,6 +343,22 @@ public abstract class CameraFragment : Fragment
         }
 
         CameraControl?.SetZoomRatio(zoomRatio);
+    }
+    
+    private void TriggerContinuousAutoFocus()
+    {
+        if (PreviewView is null || CameraControl is null)
+            return;
+        
+        // Create a center-point focus action with no auto-cancel to re-engage continuous AF
+        // after zoom changes. FlagAf triggers autofocus; disabling auto-cancel lets
+        // CameraX return to its default continuous focus behavior.
+        var centerPoint = PreviewView.MeteringPointFactory.CreatePoint(
+            PreviewView.Width / 2f, PreviewView.Height / 2f);
+        var action = new FocusMeteringAction.Builder(centerPoint, FocusMeteringAction.FlagAf)
+            .DisableAutoCancel()
+            .Build();
+        CameraControl.StartFocusAndMetering(action);
     }
 
     public override void OnConfigurationChanged(Configuration newConfig)

@@ -1,3 +1,10 @@
+## [56.0.3]
+- [iOS][Camera] Fixed focus locking on startup by enabling continuous autofocus and auto-exposure when camera session starts
+- [iOS][Camera] Fixed tap-to-focus permanently locking focus by returning to continuous autofocus after one-shot focus completes
+- [iOS][Camera] Fixed zoom not triggering refocus by re-engaging continuous autofocus after pinch-to-zoom and slider zoom changes
+- [Android][Camera] Fixed zoom not triggering refocus by starting a new focus metering action after pinch-to-zoom
+- [Android][Camera] Fixed tap-to-focus indicator appearing at wrong position by using view-relative touch coordinates and correcting for preview translation offset
+
 ## [56.0.2]
 - [iOS][ItemPicker] Fixed bug where selected item could reset randomly
 

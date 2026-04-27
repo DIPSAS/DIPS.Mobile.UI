@@ -56,7 +56,7 @@ internal class TouchScaleListener : Object, View.IOnTouchListener, ScaleGestureD
         if (e.Action == MotionEventActions.Up)
         {
             if(!m_ignoreTouchUp)
-                m_onTouch?.Invoke(e.RawX, e.RawY);
+                m_onTouch?.Invoke(e.GetX(), e.GetY());
 
             m_ignoreTouchUp = false;
         }

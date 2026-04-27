@@ -120,6 +120,25 @@ internal sealed class PreviewView : ContentView
                 }
             }
         }
+        else if (pinchRecognizer.State is UIGestureRecognizerState.Ended or UIGestureRecognizerState.Cancelled)
+        {
+            // Re-trigger continuous autofocus after zoom change so the camera
+            // adjusts focus to the new effective distance.
+            if (captureDevice.LockForConfiguration(out _))
+            {
+                try
+                {
+                    if (captureDevice.IsFocusModeSupported(AVCaptureFocusMode.ContinuousAutoFocus))
+                    {
+                        captureDevice.FocusMode = AVCaptureFocusMode.ContinuousAutoFocus;
+                    }
+                }
+                finally
+                {
+                    captureDevice.UnlockForConfiguration();
+                }
+            }
+        }
     }
     
     internal void RemovePinchToZoom()
@@ -286,6 +305,10 @@ internal sealed class PreviewView : ContentView
                 {
                     captureDevice.UnlockForConfiguration();
                 }
+                
+                // Return to continuous autofocus after one-shot focus completes,
+                // so the camera can re-adjust when distance changes.
+                ObserveFocusAndRestoreContinuous(captureDevice);
             }
             else
             {
@@ -296,10 +319,52 @@ internal sealed class PreviewView : ContentView
             }
         }
     }
+    
+    private IDisposable? m_focusObserver;
+    
+    private void ObserveFocusAndRestoreContinuous(AVCaptureDevice captureDevice)
+    {
+        m_focusObserver?.Dispose();
+        m_focusObserver = captureDevice.AddObserver(
+            "adjustingFocus",
+            NSKeyValueObservingOptions.New,
+            change =>
+            {
+                if (change?.NewValue is NSNumber adjusting && !adjusting.BoolValue)
+                {
+                    // Focus has settled — restore continuous AF
+                    if (captureDevice.LockForConfiguration(out _))
+                    {
+                        try
+                        {
+                            if (captureDevice.IsFocusModeSupported(AVCaptureFocusMode.ContinuousAutoFocus))
+                            {
+                                captureDevice.FocusMode = AVCaptureFocusMode.ContinuousAutoFocus;
+                            }
+
+                            if (captureDevice.IsExposureModeSupported(AVCaptureExposureMode.ContinuousAutoExposure))
+                            {
+                                captureDevice.ExposureMode = AVCaptureExposureMode.ContinuousAutoExposure;
+                            }
+                        }
+                        finally
+                        {
+                            captureDevice.UnlockForConfiguration();
+                        }
+                    }
+                    
+                    m_focusObserver?.Dispose();
+                    m_focusObserver = null;
+                }
+            });
+    }
 
     public new void Dispose()
     {
         m_avCaptureDevice = null;
+        
+        m_focusObserver?.Dispose();
+        m_focusObserver = null;
         
         RemovePinchToZoom();
         RemoveTouchToFocus();    
