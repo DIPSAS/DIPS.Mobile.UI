@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using DIPS.Mobile.UI.API.Diagnostics;
 using DIPS.Mobile.UI.API.Library;
 
 #if __ANDROID__
@@ -72,6 +73,10 @@ namespace DIPS.Mobile.UI.Components.Pages
 
             HasAppeared = true;
 
+            // Complete previous snapshot (captures outgoing page + transition layout)
+            // and start new snapshot for this page's ongoing layout
+            LayoutDiagnosticsService.BeginSnapshot($"Page: {GetType().Name}");
+
             HideOrShowFloatingNavigationMenu();
             
             
@@ -117,6 +122,11 @@ namespace DIPS.Mobile.UI.Components.Pages
                 m_garbageCollectionCts?.Dispose();
                 m_garbageCollectionCts = null;
             }
+
+            // End this page's snapshot before navigation starts.
+            // The new page's initial layout happens between now and its OnAppearing,
+            // which will be captured in the new page's snapshot.
+            LayoutDiagnosticsService.EndSnapshot();
 
             base.OnNavigatingFrom(args);
         }

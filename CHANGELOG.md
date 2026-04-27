@@ -1,3 +1,6 @@
+## [56.1.0]
+- [LayoutDiagnostics] Added runtime layout diagnostics API for profiling measure/arrange counts per element type. Includes a floating overlay visible over modals and bottom sheets, automatic snapshot capture during page and bottom sheet lifecycle, per-instance thrashing detection, and JSON export.
+
 ## [56.0.2]
 - [iOS][ItemPicker] Fixed bug where selected item could reset randomly
 
