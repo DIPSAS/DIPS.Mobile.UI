@@ -290,6 +290,7 @@ public abstract class CameraFragment : Fragment
         if(PreviewViewHandler is not null)
         {
             PreviewViewHandler.OnScaled += OnScaled;
+            PreviewViewHandler.OnScaleEnded += TriggerContinuousAutoFocus;
         }
     }
 
@@ -341,6 +342,21 @@ public abstract class CameraFragment : Fragment
         }
 
         CameraControl?.SetZoomRatio(zoomRatio);
+    }
+    
+    private void TriggerContinuousAutoFocus()
+    {
+        if (PreviewView is null || CameraControl is null)
+            return;
+        
+        // Create a center-point focus action to briefly re-engage autofocus after zoom
+        // changes, then automatically return control to the camera's normal behavior.
+        var centerPoint = PreviewView.MeteringPointFactory.CreatePoint(
+            PreviewView.Width / 2f, PreviewView.Height / 2f);
+        var action = new FocusMeteringAction.Builder(centerPoint, FocusMeteringAction.FlagAf)
+            .SetAutoCancelDuration(2, TimeUnit.Seconds)
+            .Build();
+        CameraControl.StartFocusAndMetering(action);
     }
 
     public override void OnConfigurationChanged(Configuration newConfig)
@@ -409,6 +425,7 @@ public abstract class CameraFragment : Fragment
         if (PreviewViewHandler is not null)
         {
             PreviewViewHandler.OnScaled -= OnScaled;
+            PreviewViewHandler.OnScaleEnded -= TriggerContinuousAutoFocus;
             PreviewViewHandler.OnTapped -= PreviewViewOnTapped;
         }
 
