@@ -72,4 +72,9 @@ public partial class BarcodeScanningSample
     {
         CameraPreview.ShowZoomSliderTip("Om strekkoden er liten, er det bedre å bruke zoom funksjonen istedet for å ha mobilen for nært strekkoden. Du kan også dra i slideren for å justere zoomen.");  
     }
+
+    private void Close(object? sender, EventArgs e)
+    {
+        Shell.Current.Navigation.PopModalAsync();
+    }
 }

@@ -20,10 +20,13 @@ public partial class BarcodeScanner : CameraFragment, IObserver
 {
     private IBarcodeScanner? m_barcodeScanner;
     private ImageAnalysis? m_imageAnalysisUseCase;
+    private BarcodeScanningSettings? m_barcodeScanningSettings;
 
     internal partial Task PlatformStart(BarcodeScanningSettings barcodeScanningSettings, CameraFailed cameraFailedDelegate)
     {
         if (Context == null) return Task.CompletedTask;
+        
+        m_barcodeScanningSettings = barcodeScanningSettings;
         
         var resolutionSelector = new ResolutionSelector.Builder()
             .SetResolutionStrategy(ResolutionStrategy.HighestAvailableStrategy)
@@ -78,8 +81,10 @@ public partial class BarcodeScanner : CameraFragment, IObserver
             {
                 if (obj is Xamarin.Google.MLKit.Vision.Barcode.Common.Barcode mlBarcode)
                 {
-                    //DrawBarcodeRectangle(mlBarcode); //TODO: Fix this, does not work. It draws wrong
-                    InvokeBarcodeFound(new Barcode(mlBarcode.RawValue, mlBarcode.Format.ToString()));
+                    if (IsBarcodeInsideScanRectangle(mlBarcode, imageProxy))
+                    {
+                        InvokeBarcodeFound(new Barcode(mlBarcode.RawValue, mlBarcode.Format.ToString()));
+                    }
                 }
             }
         }
@@ -87,11 +92,36 @@ public partial class BarcodeScanner : CameraFragment, IObserver
         imageProxy.Close();
     }
 
-    // private void DrawBarcodeRectangle(Xamarin.Google.MLKit.Vision.Barcode.Common.Barcode mlBarcode)
-    // {
-    //     m_previewView.Overlay?.Clear();
-    //     m_previewView.Overlay?.Add(new QrCodeDrawable(mlBarcode));
-    // }
+    private bool IsBarcodeInsideScanRectangle(Xamarin.Google.MLKit.Vision.Barcode.Common.Barcode mlBarcode, IImageProxy imageProxy)
+    {
+        if (m_barcodeScanningSettings is not { ShowScanRectangle: true })
+            return true;
+        
+        var boundingBox = mlBarcode.BoundingBox;
+        if (boundingBox == null)
+            return true;
+
+        var imageWidth = imageProxy.Width;
+        var imageHeight = imageProxy.Height;
+        if (imageWidth == 0 || imageHeight == 0)
+            return true;
+
+        // Normalize barcode center to 0-1 range
+        var barcodeCenterX = (boundingBox.Left + boundingBox.Right) / 2.0f / imageWidth;
+        var barcodeCenterY = (boundingBox.Top + boundingBox.Bottom) / 2.0f / imageHeight;
+
+        // Compute scan rectangle in normalized coordinates
+        var rectWidthFraction = m_barcodeScanningSettings.ScanRectangleWidthFraction;
+        var rectHeightFraction = m_barcodeScanningSettings.ScanRectangleHeightFraction;
+        var rectLeft = (1.0f - rectWidthFraction) / 2.0f;
+        var rectTop = (1.0f - rectHeightFraction) / 2.0f;
+        var rectRight = rectLeft + rectWidthFraction;
+        var rectBottom = rectTop + rectHeightFraction;
+
+        return barcodeCenterX >= rectLeft && barcodeCenterX <= rectRight &&
+               barcodeCenterY >= rectTop && barcodeCenterY <= rectBottom;
+    }
+
     public void OnChanged(Object? value)
     {
     }

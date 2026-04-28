@@ -9,6 +9,7 @@ public partial class BarcodeScanner : CameraSession
     //The rectangle that people see in the preview which we will focus on scanning bar codes in
     private AVCaptureMetadataOutput? m_captureMetadataOutput;
     private double m_rectOfInterestWidth;
+    private BarcodeScanningSettings? m_barcodeScanningSettingsIos;
 
     private readonly DispatchQueue m_metadataObjectsQueue = new(label: "metadata objects queue", attributes: new(), target: null);
     
@@ -26,6 +27,7 @@ public partial class BarcodeScanner : CameraSession
 
     internal partial Task PlatformStart(BarcodeScanningSettings barcodeScanningSettings, CameraFailed cameraFailedDelegate)
     {
+        m_barcodeScanningSettingsIos = barcodeScanningSettings;
         m_captureMetadataOutput = new AVCaptureMetadataOutput();
         m_captureDelegate = new CaptureDelegate(s =>
         {
@@ -66,7 +68,14 @@ public partial class BarcodeScanner : CameraSession
                                                       | AVMetadataObjectType.PDF417Code
                                                       | AVMetadataObjectType.QRCode;
         
-        PreviewView.TryAddOrUpdateRectOfInterest();
+        if (m_barcodeScanningSettingsIos is { ShowScanRectangle: true })
+        {
+            PreviewView.TryAddOrUpdateRectOfInterest(m_barcodeScanningSettingsIos.ScanRectangleWidthFraction, m_barcodeScanningSettingsIos.ScanRectangleHeightFraction);
+        }
+        else
+        {
+            PreviewView.TryAddOrUpdateRectOfInterest();
+        }
         SetRecommendedZoomFactor();
     }
 

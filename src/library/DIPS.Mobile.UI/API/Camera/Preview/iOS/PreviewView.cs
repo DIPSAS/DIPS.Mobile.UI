@@ -15,6 +15,8 @@ internal sealed class PreviewView : ContentView
     private UITapToFocusGestureRecognizer? m_tapToFocusTapGestureRecognizer;
     private UIPinchGestureRecognizer m_pinchToZoomGestureRecognizer;
     private AVCaptureVideoPreviewLayer? m_previewLayer;
+    private float m_lastScanWidthFraction = 1.0f;
+    private float m_lastScanHeightFraction = 1.0f;
 
     public static readonly int MaxZoomRatio = 8;
     
@@ -187,33 +189,46 @@ internal sealed class PreviewView : ContentView
 
     public void TryAddOrUpdateRectOfInterest()
     {
+        TryAddOrUpdateRectOfInterest(m_lastScanWidthFraction, m_lastScanHeightFraction);
+    }
+
+    public void TryAddOrUpdateRectOfInterest(float scanWidthFraction, float scanHeightFraction)
+    {
+        m_lastScanWidthFraction = scanWidthFraction;
+        m_lastScanHeightFraction = scanHeightFraction;
+        
         if (m_avCaptureDevice == null) return;
         
         var potentialCaptureMetadataConnection = PreviewLayer.Session?.Connections.FirstOrDefault(s => s.Output is AVCaptureMetadataOutput);
         if (potentialCaptureMetadataConnection?.Output is not AVCaptureMetadataOutput avCaptureMetadataOutput) return;
         
-        var formatDimensions = ((CMVideoFormatDescription)m_avCaptureDevice.ActiveFormat.FormatDescription).Dimensions;
-        var width = formatDimensions.Height / (double)formatDimensions.Width;
-        var rectOfInterestHeight = 1.0;
-        var xCoordinate = (1.0 - width) / 2.0;
-        var yCoordinate = (1.0 - rectOfInterestHeight) / 2.0;
-        var initialRectOfInterest = new CGRect(x: xCoordinate, y: yCoordinate, width: width,
-            height: rectOfInterestHeight);
-        avCaptureMetadataOutput.RectOfInterest = initialRectOfInterest;
-        
-        /*var rectOfInterestToLayerCoordinates = PreviewLayer.MapToLayerCoordinates(initialRectOfInterest);
-        var layerName = nameof(AVCaptureMetadataOutput.RectOfInterest);
-        var layer = new CAShapeLayer(){Name = layerName};
-        layer.FillRule = new NSString(FillRule.EvenOdd.ToString());
-        layer.FillColor = UIColor.Black.CGColor;
-        layer.Opacity = 0.6f;
-            
-        layer.Frame = rectOfInterestToLayerCoordinates;
-        layer.BorderColor = UIColor.White.CGColor;
-        layer.BorderWidth = 2;
-        var oldLayer = Layer.Sublayers?.FirstOrDefault(s => s.Name == layerName);
-        oldLayer?.RemoveFromSuperLayer();
-        Layer.AddSublayer(layer);*/
+        if (scanWidthFraction >= 1.0f && scanHeightFraction >= 1.0f)
+        {
+            // Full preview area — use the original format-based calculation
+            var formatDimensions = ((CMVideoFormatDescription)m_avCaptureDevice.ActiveFormat.FormatDescription).Dimensions;
+            var width = formatDimensions.Height / (double)formatDimensions.Width;
+            var rectOfInterestHeight = 1.0;
+            var xCoordinate = (1.0 - width) / 2.0;
+            var yCoordinate = (1.0 - rectOfInterestHeight) / 2.0;
+            avCaptureMetadataOutput.RectOfInterest = new CGRect(x: xCoordinate, y: yCoordinate, width: width,
+                height: rectOfInterestHeight);
+        }
+        else
+        {
+            // Restricted scan area — compute rect in preview coordinates then convert to metadata coordinates
+            var previewWidth = Bounds.Width;
+            var previewHeight = Bounds.Height;
+            if (previewWidth <= 0 || previewHeight <= 0) return;
+
+            var rectWidth = previewWidth * scanWidthFraction;
+            var rectHeight = previewHeight * scanHeightFraction;
+            var rectX = (previewWidth - rectWidth) / 2.0;
+            var rectY = (previewHeight - rectHeight) / 2.0;
+            var previewRect = new CGRect(rectX, rectY, rectWidth, rectHeight);
+
+            // MetadataOutputRectOfInterestForRect converts from preview layer coordinates to metadata output coordinates (0-1 range)
+            avCaptureMetadataOutput.RectOfInterest = PreviewLayer.MapToMetadataOutputCoordinates(previewRect);
+        }
     }
 
     public void AddPreviewLayer(AVCaptureDevice? avCaptureDevice, AVCaptureSession? session, AVLayerVideoGravity videoGravity)

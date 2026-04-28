@@ -5,13 +5,10 @@
 <dui:ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
                  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                  xmlns:dui="http://dips.com/mobile.ui"
-                 x:Class="Components.ComponentsSamples.BarcodeScanning.BarcodeScanningSample">
+                 x:Class="Components.ComponentsSamples.BarcodeScanning.BarcodeOverlaySample">
     <dui:ContentPage.ToolbarItems>
         <ToolbarItem IconImageSource="{dui:Icons close_line}"
                      Clicked="Close" />
-        <ToolbarItem IconImageSource="{dui:Icons help_outline}"
-                     Clicked="ShowTip">
-        </ToolbarItem>
     </dui:ContentPage.ToolbarItems>
     <dui:CameraPreview x:Name="CameraPreview" IsInFullscreen="False"/>
 </dui:ContentPage>

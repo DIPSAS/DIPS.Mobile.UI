@@ -1,3 +1,8 @@
+## [56.1.0]
+- [BarcodeScanner] Added custom overlay views support via `BarcodeScanningSettings.TopContent` and `BarcodeScanningSettings.BottomContent`
+- [BarcodeScanner] Added visible focused scan rectangle overlay controlled by `BarcodeScanningSettings.ShowScanRectangle`, `ScanRectangleWidthFraction`, and `ScanRectangleHeightFraction`
+- [BarcodeScanner][Android] Barcode results are now filtered to only include barcodes within the visible scan rectangle region
+
 ## [56.0.2]
 - [iOS][ItemPicker] Fixed bug where selected item could reset randomly
 
