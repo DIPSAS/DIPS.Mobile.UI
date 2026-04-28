@@ -1,3 +1,6 @@
+## [56.0.3]
+- [ItemPicker] Fixed bug where SelectedItem was lost in ContextMenu mode when BindableLayout rebuilds with new VM instances, due to reference equality checks in ItemsSource change handling
+
 ## [56.0.2]
 - [iOS][ItemPicker] Fixed bug where selected item could reset randomly
 
