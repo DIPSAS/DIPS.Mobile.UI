@@ -67,6 +67,12 @@ public partial class BarcodeScanner : ICameraUseCase
             m_scanRectangleOverlay = new BarcodeScanRectangleOverlay(
                 settings.ScanRectangleWidthFraction,
                 settings.ScanRectangleHeightFraction);
+            
+            if (settings.TooltipView is not null)
+            {
+                m_scanRectangleOverlay.SetTooltipView(settings.TooltipView);
+            }
+            
             m_cameraPreview?.AddViewToRoot(m_scanRectangleOverlay, usePreviewViewTranslation: true);
         }
     }
@@ -75,6 +81,7 @@ public partial class BarcodeScanner : ICameraUseCase
     {
         m_cameraPreview?.RemoveTopToolbarView(m_topContent);
         m_cameraPreview?.RemoveBottomToolbarView(m_bottomContent);
+        m_scanRectangleOverlay?.Cleanup();
         m_cameraPreview?.RemoveViewFromRoot(m_scanRectangleOverlay);
         m_scanRectangleOverlay = null;
         m_topContent = null;

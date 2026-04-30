@@ -7,6 +7,7 @@ public partial class BarcodeScanningHubSamples
         InitializeComponent();
         BasicScannerItem.Command = new Command(() => OpenModal(new BarcodeScanningSample()));
         OverlayScannerItem.Command = new Command(() => OpenModal(new BarcodeOverlaySample()));
+        TooltipScannerItem.Command = new Command(() => OpenModal(new BarcodeTooltipSample()));
     }
 
     private static void OpenModal(Page page)

@@ -17,6 +17,11 @@
 
         <dui:NavigationListItem x:Name="OverlayScannerItem"
                                 Title="Barcode Scanner with Overlay"
-                                Subtitle="Scan rectangle and custom content" />
+                                Subtitle="Scan rectangle and custom content"
+                                HasBottomDivider="True" />
+
+        <dui:NavigationListItem x:Name="TooltipScannerItem"
+                                Title="Barcode Scanner with Tooltip"
+                                Subtitle="Scan rectangle with tooltip view above" />
     </dui:VerticalStackLayout>
 </dui:ContentPage>
