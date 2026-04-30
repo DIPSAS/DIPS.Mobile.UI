@@ -24,13 +24,14 @@ public partial class BarcodeTooltipSample
             await m_barcodeScanner.Start(CameraPreview, DidFindBarcode, CameraFailed, settings =>
             {
                 settings.ShowScanRectangle = true;
-                settings.TooltipView = new Label
-                {
-                    Text = "Point the camera at a barcode",
-                    Style = Styles.GetLabelStyle(LabelStyle.UI200),
-                    TextColor = Colors.White,
-                    HorizontalTextAlignment = TextAlignment.Center
-                };
+            });
+            
+            m_barcodeScanner.SetTooltipView(new Label
+            {
+                Text = "Point the camera at a barcode",
+                Style = Styles.GetLabelStyle(LabelStyle.UI200),
+                TextColor = Colors.White,
+                HorizontalTextAlignment = TextAlignment.Center
             });
         }
         catch (Exception exception)

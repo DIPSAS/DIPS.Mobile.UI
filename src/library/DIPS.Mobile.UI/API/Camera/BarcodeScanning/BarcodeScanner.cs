@@ -12,8 +12,6 @@ public partial class BarcodeScanner : ICameraUseCase
     private DidFindBarcodeCallback? m_barCodeCallback;
     private CameraFailed? m_cameraFailedDelegate;
     private BarcodeScanRectangleOverlay? m_scanRectangleOverlay;
-    private View? m_topContent;
-    private View? m_bottomContent;
 
     private void Log(string message)
     {
@@ -49,43 +47,30 @@ public partial class BarcodeScanner : ICameraUseCase
 
     private void ConstructOverlayViews(BarcodeScanningSettings settings)
     {
-        m_topContent = settings.TopContent;
-        m_bottomContent = settings.BottomContent;
-        
-        if (m_topContent is not null)
-        {
-            m_cameraPreview?.AddTopToolbarView(m_topContent);
-        }
-
-        if (m_bottomContent is not null)
-        {
-            m_cameraPreview?.AddBottomToolbarView(m_bottomContent);
-        }
-
         if (settings.ShowScanRectangle)
         {
             m_scanRectangleOverlay = new BarcodeScanRectangleOverlay(
                 settings.ScanRectangleWidthFraction,
                 settings.ScanRectangleHeightFraction);
             
-            if (settings.TooltipView is not null)
-            {
-                m_scanRectangleOverlay.SetTooltipView(settings.TooltipView);
-            }
-            
             m_cameraPreview?.AddViewToRoot(m_scanRectangleOverlay, usePreviewViewTranslation: true);
         }
     }
 
+    /// <summary>
+    /// Sets a tooltip view above the scan rectangle (e.g., instructional text).
+    /// Must be called after <see cref="Start"/> when <see cref="BarcodeScanningSettings.ShowScanRectangle"/> is <c>true</c>.
+    /// </summary>
+    public void SetTooltipView(View tooltipView)
+    {
+        m_scanRectangleOverlay?.SetTooltipView(tooltipView);
+    }
+
     private void RemoveOverlayViews()
     {
-        m_cameraPreview?.RemoveTopToolbarView(m_topContent);
-        m_cameraPreview?.RemoveBottomToolbarView(m_bottomContent);
         m_scanRectangleOverlay?.Cleanup();
         m_cameraPreview?.RemoveViewFromRoot(m_scanRectangleOverlay);
         m_scanRectangleOverlay = null;
-        m_topContent = null;
-        m_bottomContent = null;
     }
     
     internal partial Task PlatformStart(BarcodeScanningSettings barcodeScanningSettings, CameraFailed cameraFailedDelegate);

@@ -26,29 +26,30 @@ public partial class BarcodeOverlaySample
                 settings.ShowScanRectangle = true;
                 settings.ScanRectangleWidthFraction = 0.8f;
                 settings.ScanRectangleHeightFraction = 0.3f;
-                settings.TopContent = new VerticalStackLayout
+            });
+            
+            CameraPreview.AddTopToolbarView(new VerticalStackLayout
+            {
+                Padding = new Thickness(16),
+                Spacing = 4,
+                Children =
                 {
-                    Padding = new Thickness(16),
-                    Spacing = 4,
-                    Children =
+                    new Label
                     {
-                        new Label
-                        {
-                            Text = "Scan barcode",
-                            Style = Styles.GetLabelStyle(LabelStyle.UI200),
-                            TextColor = Colors.White,
-                            HorizontalTextAlignment = TextAlignment.Center
-                        },
-                        new Label
-                        {
-                            Text = "Point the camera at a barcode",
-                            Style = Styles.GetLabelStyle(LabelStyle.UI100),
-                            TextColor = Colors.White,
-                            HorizontalTextAlignment = TextAlignment.Center,
-                            Opacity = 0.7
-                        }
+                        Text = "Scan barcode",
+                        Style = Styles.GetLabelStyle(LabelStyle.UI200),
+                        TextColor = Colors.White,
+                        HorizontalTextAlignment = TextAlignment.Center
+                    },
+                    new Label
+                    {
+                        Text = "Point the camera at a barcode",
+                        Style = Styles.GetLabelStyle(LabelStyle.UI100),
+                        TextColor = Colors.White,
+                        HorizontalTextAlignment = TextAlignment.Center,
+                        Opacity = 0.7
                     }
-                };
+                }
             });
         }
         catch (Exception exception)

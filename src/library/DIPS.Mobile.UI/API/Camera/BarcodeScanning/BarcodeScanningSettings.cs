@@ -19,22 +19,4 @@ public class BarcodeScanningSettings
     /// Height of the scan rectangle as a fraction of the preview area height (0.0 to 1.0).
     /// </summary>
     public float ScanRectangleHeightFraction { get; set; } = 0.3f;
-
-    /// <summary>
-    /// Optional view displayed above the scan rectangle with some spacing (e.g., instructional text or hint).
-    /// Only shown when <see cref="ShowScanRectangle"/> is <c>true</c>.
-    /// </summary>
-    public View? TooltipView { get; set; }
-
-    /// <summary>
-    /// Optional content to display above the camera preview (e.g., header, patient info, instructions).
-    /// Added via <see cref="Preview.CameraPreview.AddTopToolbarView"/>.
-    /// </summary>
-    public View? TopContent { get; set; }
-
-    /// <summary>
-    /// Optional content to display below the camera preview (e.g., action buttons, alternative input).
-    /// Added via <see cref="Preview.CameraPreview.AddBottomToolbarView"/>.
-    /// </summary>
-    public View? BottomContent { get; set; }
 }

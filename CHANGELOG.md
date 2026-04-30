@@ -1,5 +1,5 @@
 ## [56.1.0]
-- [BarcodeScanner] Added custom overlay views support via `BarcodeScanningSettings.TopContent` and `BarcodeScanningSettings.BottomContent`
+- [BarcodeScanner] **BREAKING**: Removed `TopContent`, `BottomContent`, and `TooltipView` from `BarcodeScanningSettings`. Use `CameraPreview.AddTopToolbarView()`, `CameraPreview.AddBottomToolbarView()`, and `BarcodeScanner.SetTooltipView()` in code-behind instead
 - [BarcodeScanner] Added visible focused scan rectangle overlay controlled by `BarcodeScanningSettings.ShowScanRectangle`, `ScanRectangleWidthFraction`, and `ScanRectangleHeightFraction`
 - [BarcodeScanner][Android] Barcode results are now filtered to only include barcodes within the visible scan rectangle region
 
