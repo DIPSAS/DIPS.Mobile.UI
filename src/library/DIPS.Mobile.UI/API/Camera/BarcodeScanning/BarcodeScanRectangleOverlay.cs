@@ -1,3 +1,4 @@
+using DIPS.Mobile.UI.API.Camera.Preview;
 using DIPS.Mobile.UI.Resources.Sizes;
 
 namespace DIPS.Mobile.UI.API.Camera.BarcodeScanning;
@@ -50,16 +51,24 @@ internal class BarcodeScanRectangleOverlay : Grid
 
     private void StartBreathingAnimation()
     {
-        var animation = new Animation(v =>
+        var animation = new Animation
         {
-            m_cornersGraphicsView.Scale = v;
-        }, 1.0, 1.03);
+            { 0.0, 0.5, new Animation(v =>
+            {
+                m_cornersDrawable.Inset = (float)v;
+                m_cornersGraphicsView.Invalidate();
+            }, 0, -4, Easing.SinInOut) },
+            { 0.5, 1.0, new Animation(v =>
+            {
+                m_cornersDrawable.Inset = (float)v;
+                m_cornersGraphicsView.Invalidate();
+            }, -4, 0, Easing.SinInOut) }
+        };
 
         animation.Commit(m_cornersGraphicsView, "CornerBreathing",
-            length: 2000,
-            easing: Easing.SinInOut,
-            repeat: () => true,
-            finished: (_, _) => { });
+            rate: 32,
+            length: 2400,
+            repeat: () => true);
     }
 
     private void StopBreathingAnimation()
@@ -92,11 +101,11 @@ internal class BarcodeScanRectangleOverlay : Grid
 
     private void PositionTooltip()
     {
-        if (m_tooltipView is null || Height <= 0 || m_tooltipView.Height <= 0)
+        if (m_tooltipView is null || Height <= 0 || Width <= 0 || m_tooltipView.Height <= 0)
             return;
 
         var rectHeight = Height * m_heightFraction;
-        var rectY = (Height - rectHeight) / 2f;
+        var rectY = GetCameraFeedCenterY((float)Width, (float)Height) - rectHeight / 2f;
         var spacing = Sizes.GetSize(SizeName.content_margin_small);
 
         m_tooltipView.TranslationY = rectY - m_tooltipView.Height - spacing;
@@ -124,6 +133,19 @@ internal class BarcodeScanRectangleOverlay : Grid
     }
 
     /// <summary>
+    /// Computes the Y center of the camera feed in overlay coordinates.
+    /// The overlay is translated up by the top toolbar height, so naively centering
+    /// in dirtyRect lands off-center relative to the actual camera feed.
+    /// </summary>
+    internal static float GetCameraFeedCenterY(float width, float height)
+    {
+        var actualPreviewHeight = Math.Min(width / CameraPreview.ThreeFourRatio, height);
+        var totalLetterbox = height - actualPreviewHeight;
+        var topToolbarHeight = totalLetterbox * CameraPreview.TopToolbarPercentHeightOfLetterBox;
+        return topToolbarHeight + actualPreviewHeight / 2f;
+    }
+
+    /// <summary>
     /// Draws the semi-transparent dim overlay with a clear rounded-corner cutout.
     /// </summary>
     private class DimOverlayDrawable : IDrawable
@@ -144,7 +166,8 @@ internal class BarcodeScanRectangleOverlay : Grid
             var rectWidth = dirtyRect.Width * m_widthFraction;
             var rectHeight = dirtyRect.Height * m_heightFraction;
             var rectX = (dirtyRect.Width - rectWidth) / 2f;
-            var rectY = (dirtyRect.Height - rectHeight) / 2f;
+            var centerY = GetCameraFeedCenterY(dirtyRect.Width, dirtyRect.Height);
+            var rectY = centerY - rectHeight / 2f;
             var cornerRadius = (float)Sizes.GetSize(SizeName.radius_medium);
 
             LastScanRect = new RectF(rectX, rectY, rectWidth, rectHeight);
@@ -171,6 +194,11 @@ internal class BarcodeScanRectangleOverlay : Grid
         private const float BracketLength = 30f;
         private const float StrokeWidth = 4f;
 
+        /// <summary>
+        /// Inset in points applied to the bracket corner positions. Animated to create a breathing effect.
+        /// </summary>
+        internal float Inset { get; set; }
+
         public CornerBracketsDrawable(float widthFraction, float heightFraction)
         {
             m_widthFraction = widthFraction;
@@ -182,21 +210,28 @@ internal class BarcodeScanRectangleOverlay : Grid
             var rectWidth = dirtyRect.Width * m_widthFraction;
             var rectHeight = dirtyRect.Height * m_heightFraction;
             var rectX = (dirtyRect.Width - rectWidth) / 2f;
-            var rectY = (dirtyRect.Height - rectHeight) / 2f;
+            var centerY = GetCameraFeedCenterY(dirtyRect.Width, dirtyRect.Height);
+            var rectY = centerY - rectHeight / 2f;
+
+            // Apply inset to move brackets inward
+            var insetRectX = rectX + Inset;
+            var insetRectY = rectY + Inset;
+            var insetRectWidth = rectWidth - Inset * 2;
+            var insetRectHeight = rectHeight - Inset * 2;
 
             canvas.StrokeColor = Microsoft.Maui.Graphics.Colors.White;
             canvas.StrokeSize = StrokeWidth;
             canvas.StrokeLineCap = LineCap.Round;
             canvas.StrokeLineJoin = LineJoin.Round;
 
-            // Top-left: vertical arm going down, horizontal arm going right
-            DrawBracket(canvas, rectX, rectY, 0, BracketLength, BracketLength, 0);
-            // Top-right: vertical arm going down, horizontal arm going left
-            DrawBracket(canvas, rectX + rectWidth, rectY, 0, BracketLength, -BracketLength, 0);
-            // Bottom-left: vertical arm going up, horizontal arm going right
-            DrawBracket(canvas, rectX, rectY + rectHeight, 0, -BracketLength, BracketLength, 0);
-            // Bottom-right: vertical arm going up, horizontal arm going left
-            DrawBracket(canvas, rectX + rectWidth, rectY + rectHeight, 0, -BracketLength, -BracketLength, 0);
+            // Top-left
+            DrawBracket(canvas, insetRectX, insetRectY, 0, BracketLength, BracketLength, 0);
+            // Top-right
+            DrawBracket(canvas, insetRectX + insetRectWidth, insetRectY, 0, BracketLength, -BracketLength, 0);
+            // Bottom-left
+            DrawBracket(canvas, insetRectX, insetRectY + insetRectHeight, 0, -BracketLength, BracketLength, 0);
+            // Bottom-right
+            DrawBracket(canvas, insetRectX + insetRectWidth, insetRectY + insetRectHeight, 0, -BracketLength, -BracketLength, 0);
         }
 
         private static void DrawBracket(ICanvas canvas, float cornerX, float cornerY, float vDx, float vDy, float hDx, float hDy)
