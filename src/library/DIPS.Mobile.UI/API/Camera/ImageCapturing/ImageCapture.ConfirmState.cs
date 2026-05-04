@@ -76,7 +76,7 @@ public partial class ImageCapture : IConfirmStateObserver
         if (m_cameraSession is MultiCaptureSession)
         {
             GoToStreamingState();
-            PlatformStart(m_cameraSession.CameraOptions, m_cameraFailedDelegate);
+            _ = PlatformStart(m_cameraSession.CameraOptions, m_cameraFailedDelegate);
             return;
         }
         
@@ -87,6 +87,6 @@ public partial class ImageCapture : IConfirmStateObserver
     void IConfirmStateObserver.OnRetakePhotoButtonTapped()
     {
         GoToStreamingState();
-        PlatformStart(m_cameraSession.CameraOptions, m_cameraFailedDelegate);
+        _ = PlatformStart(m_cameraSession.CameraOptions, m_cameraFailedDelegate);
     }
 }
