@@ -1,5 +1,5 @@
-## [56.1.0]
-- [ImageCapture] Added support for capturing multiple images in one session, with optional confirmation of each image.
+## [57.0.0]
+- [ImageCapture] **Breaking change:** Added support for capturing multiple images in one session, with optional confirmation of each image. Removed `ImageCaptureSettings` and `PostCaptureAction`, and replaced `ImageCapture.Start` with new start methods.
 
 ## [56.0.3]
 - [ItemPicker] Fixed bug where SelectedItem was lost in ContextMenu mode when BindableLayout rebuilds with new VM instances, due to reference equality checks in ItemsSource change handling
