@@ -31,7 +31,8 @@ internal class ImageCaptureTopToolbarView : Grid
     {
         m_captureSession = captureSession;
 
-        var isMultiMode = captureSession is MultiCaptureSession;
+        var multiCaptureSession = captureSession as MultiCaptureSession;
+        var isMultiMode = multiCaptureSession is not null;
 
         m_doneButton = new Button
         {
@@ -53,12 +54,13 @@ internal class ImageCaptureTopToolbarView : Grid
         Add(m_doneButton);
         Add(m_upperLeftColumn);
 
-        if (isMultiMode)
+        if (multiCaptureSession is not null)
         {
+            var finishedButtonText = multiCaptureSession.MultiImageCaptureOptions.FinishedButtonText;
             m_finishedButton = new Button
             {
                 Style = Styles.GetButtonStyle(ButtonStyle.GhostLarge),
-                Text = DUILocalizedStrings.Done,
+                Text = !string.IsNullOrEmpty(finishedButtonText) ? finishedButtonText : DUILocalizedStrings.Done,
                 TextColor = Colors.White,
                 VerticalOptions = LayoutOptions.Center,
                 HorizontalOptions = LayoutOptions.End,
