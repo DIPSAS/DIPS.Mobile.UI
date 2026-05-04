@@ -37,12 +37,6 @@ public partial class CameraPreview : ContentView
         
 #if __IOS__
         Content = ConstructView();
-
-        if (UIApplication.SharedApplication.KeyWindow != null)
-        {
-            Padding = new Thickness(0, UIApplication.SharedApplication.KeyWindow.SafeAreaInsets.Top, 0,
-                UIApplication.SharedApplication.KeyWindow.SafeAreaInsets.Bottom);
-        }
 #else
         
 #endif
@@ -50,6 +44,13 @@ public partial class CameraPreview : ContentView
 
     private void OnLoaded(object? sender, EventArgs e)
     {
+#if __IOS__
+        if (IsInFullscreen && UIApplication.SharedApplication.KeyWindow != null)
+        {
+            Padding = new Thickness(0, UIApplication.SharedApplication.KeyWindow.SafeAreaInsets.Top, 0,
+                UIApplication.SharedApplication.KeyWindow.SafeAreaInsets.Bottom);
+        }
+#endif
         m_hasLoadedTcs.TrySetResult();
     }
     
