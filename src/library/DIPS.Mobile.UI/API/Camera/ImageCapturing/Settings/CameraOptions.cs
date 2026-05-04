@@ -12,7 +12,18 @@ public class CameraOptions
     /// <remarks>Defaults to <see cref="DUILocalizedStrings.Cancel"/>.</remarks>
     public string CancelButtonText { get; set; } = DUILocalizedStrings.Cancel;
 
+    /// <summary>
+    /// Upper bound, in pixels, for the longest side of the captured image. The camera
+    /// picks the closest resolution it can produce at or below this value.
+    /// </summary>
+    /// <remarks>When null, the camera uses the highest resolution the device supports.</remarks>
     public int? MaxHeightOrWidth { get; set; }
+
+    /// <summary>
+    /// If true, the user can change <see cref="MaxHeightOrWidth"/> at runtime from the
+    /// in-camera settings sheet, and the top toolbar shows a settings icon.
+    /// If false, the value is read-only and the toolbar shows an info icon.
+    /// </summary>
     public bool CanChangeMaxHeightOrWidth { get; set; }
 
     internal CameraInfo CameraInfo { get; } = new();
