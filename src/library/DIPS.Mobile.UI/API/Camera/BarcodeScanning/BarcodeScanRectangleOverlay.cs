@@ -140,8 +140,7 @@ internal class BarcodeScanRectangleOverlay : Grid
     internal static float GetCameraFeedCenterY(float width, float height)
     {
         var actualPreviewHeight = Math.Min(width / CameraPreview.ThreeFourRatio, height);
-        var totalLetterbox = height - actualPreviewHeight;
-        var topToolbarHeight = totalLetterbox * CameraPreview.TopToolbarPercentHeightOfLetterBox;
+        var topToolbarHeight = CameraPreview.ComputeTopToolbarHeight(width, height);
         return topToolbarHeight + actualPreviewHeight / 2f;
     }
 
