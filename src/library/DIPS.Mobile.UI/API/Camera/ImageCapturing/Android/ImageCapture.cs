@@ -1,5 +1,4 @@
 using Android.Graphics;
-using Android.Hardware.Camera2;
 using Android.Views;
 using AndroidX.Camera.Core;
 using AndroidX.Camera.Core.Internal.Utils;
