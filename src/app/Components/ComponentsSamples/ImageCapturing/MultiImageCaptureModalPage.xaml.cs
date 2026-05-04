@@ -43,6 +43,8 @@ public partial class MultiImageCaptureModalPage
     {
         base.OnDisappearing();
 
+        m_imageCapture.Stop();
+
         // Covers swipe-to-dismiss and Android back button. No-op if a handler already completed the TCS.
         m_completion.TrySetResult([]);
     }
