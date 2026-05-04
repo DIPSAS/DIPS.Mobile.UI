@@ -183,6 +183,7 @@ public partial class ImageCapture : ICameraUseCase
     private void ContinueInPreviewState()
     {
         m_cameraPreview?.RemoveViewFromRoot(m_activityIndicator);
+        m_cameraPreview?.RemoveViewFromRoot(m_keepCameraStillHint);
         m_bottomToolbarView?.SetShutterButtonEnabled(true);
     }
 
