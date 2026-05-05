@@ -1,5 +1,5 @@
 ## [57.0.0]
-- [ImageCapture] **Breaking change:** Added support for capturing multiple images in one session, with optional confirmation of each image. Removed `ImageCaptureSettings` and `PostCaptureAction`, and replaced `ImageCapture.Start` with `StartSingleImageCapture` (equivalent to the previous single-capture flow) and the new `StartMultiImageCapture`. See [ImageCapture.md](wiki/Media/ImageCapture.md) for migration guidance.
+- [ImageCapture] **Breaking change:** Added support for capturing multiple images in one session, with optional confirmation of each image. Removed `ImageCaptureSettings` and `PostCaptureAction`, and replaced `ImageCapture.Start` with `StartSingleImageCapture` (equivalent to the previous single-capture flow) and the new `StartMultiImageCapture`. See the [ImageCapture wiki page](https://github.com/DIPSAS/DIPS.Mobile.UI/wiki/Media/ImageCapture) for migration guidance.
 
 ## [56.0.3]
 - [ItemPicker] Fixed bug where SelectedItem was lost in ContextMenu mode when BindableLayout rebuilds with new VM instances, due to reference equality checks in ItemsSource change handling
