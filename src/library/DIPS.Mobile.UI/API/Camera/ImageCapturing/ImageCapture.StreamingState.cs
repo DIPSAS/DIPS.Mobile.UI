@@ -44,7 +44,7 @@ public partial class ImageCapture : IStreamingStateObserver
     {
         _ = DialogService.ShowMessage(DUILocalizedStrings.SettingsChanged, DUILocalizedStrings.SettingsChangedDescription, "Ok");
         await PlatformStop();
-        _ = PlatformStart(m_imageCaptureSettings, m_cameraFailedDelegate);
+        _ = PlatformStart(m_cameraSession.CameraOptions, m_cameraFailedDelegate);
     }
 
     private bool FlashActive { get; set; }
