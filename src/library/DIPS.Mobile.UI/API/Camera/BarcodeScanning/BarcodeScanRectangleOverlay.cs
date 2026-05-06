@@ -394,11 +394,11 @@ internal class BarcodeScanRectangleOverlay : Grid
         private readonly float m_heightFraction;
 
         private const float BracketLength = 30f;
-        private const float DefaultStrokeWidth = 4f;
+        internal const float DefaultStrokeWidth = 4f;
         
-        private static readonly Color DefaultBracketColor = Microsoft.Maui.Graphics.Colors.White;
-        private static readonly Color DetectedBracketColor = Microsoft.Maui.Graphics.Color.FromRgba(255, 214, 10, 255);
-        private const float DetectedStrokeWidth = 2f;
+        internal static readonly Color DefaultBracketColor = Microsoft.Maui.Graphics.Colors.White;
+        internal static readonly Color DetectedBracketColor = Microsoft.Maui.Graphics.Color.FromRgba(255, 214, 10, 255);
+        internal const float DetectedStrokeWidth = 2f;
 
         /// <summary>
         /// Inset in points applied to the bracket corner positions. Animated to create a breathing effect.
