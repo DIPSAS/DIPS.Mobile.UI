@@ -6,12 +6,13 @@ using Colors = Microsoft.Maui.Graphics.Colors;
 
 namespace Components.ComponentsSamples.BarcodeScanning;
 
-public partial class BarcodeOverlaySample
+public partial class BarcodeCounterSample
 {
     private readonly BarcodeScanner m_barcodeScanner;
-    private BarcodeScanningResultBottomSheet? m_barCodeResultBottomSheet;
+    private int m_scanCount;
+    private Label? m_counterLabel;
 
-    public BarcodeOverlaySample()
+    public BarcodeCounterSample()
     {
         InitializeComponent();
         m_barcodeScanner = new BarcodeScanner();
@@ -27,7 +28,15 @@ public partial class BarcodeOverlaySample
                 settings.ScanRectangleWidthFraction = 0.8f;
                 settings.ScanRectangleHeightFraction = 0.3f;
             });
-            
+
+            m_counterLabel = new Label
+            {
+                Text = "Scanned: 0",
+                Style = Styles.GetLabelStyle(LabelStyle.UI200),
+                TextColor = Colors.White,
+                HorizontalTextAlignment = TextAlignment.Center
+            };
+
             CameraPreview.AddTopToolbarView(new VerticalStackLayout
             {
                 Spacing = 4,
@@ -35,19 +44,12 @@ public partial class BarcodeOverlaySample
                 {
                     new Label
                     {
-                        Text = "Scan barcode",
+                        Text = "Barcode counter",
                         Style = Styles.GetLabelStyle(LabelStyle.UI200),
                         TextColor = Colors.White,
                         HorizontalTextAlignment = TextAlignment.Center
                     },
-                    new Label
-                    {
-                        Text = "Point the camera at a barcode",
-                        Style = Styles.GetLabelStyle(LabelStyle.UI100),
-                        TextColor = Colors.White,
-                        HorizontalTextAlignment = TextAlignment.Center,
-                        Opacity = 0.7
-                    }
+                    m_counterLabel
                 }
             });
         }
@@ -65,26 +67,11 @@ public partial class BarcodeOverlaySample
 
     private void DidFindBarcode(BarcodeScanResult barcodeScanResult)
     {
-        if (m_barCodeResultBottomSheet is { HasBarCode: true })
+        m_scanCount++;
+        if (m_counterLabel is not null)
         {
-            return;
+            m_counterLabel.Text = $"Scanned: {m_scanCount}";
         }
-
-        m_barCodeResultBottomSheet = new BarcodeScanningResultBottomSheet();
-        m_barCodeResultBottomSheet.Closed += BottomSheetClosed;
-        m_barCodeResultBottomSheet.OpenWithBarCode(barcodeScanResult);
-        m_barcodeScanner.StopAndDispose();
-    }
-
-    private void BottomSheetClosed(object? sender, EventArgs e)
-    {
-        if (m_barCodeResultBottomSheet != null)
-        {
-            m_barCodeResultBottomSheet.Closed -= BottomSheetClosed;
-        }
-
-        m_barCodeResultBottomSheet = null;
-        _ = Start();
     }
 
     protected override void OnAppearing()
@@ -95,6 +82,7 @@ public partial class BarcodeOverlaySample
 
     private void Close(object? sender, EventArgs e)
     {
+        m_barcodeScanner.StopAndDispose();
         Shell.Current.Navigation.PopModalAsync();
     }
 }

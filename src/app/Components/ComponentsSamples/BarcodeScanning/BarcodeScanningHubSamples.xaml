@@ -22,6 +22,11 @@
 
         <dui:NavigationListItem x:Name="TooltipScannerItem"
                                 Title="Barcode Scanner with Tooltip"
-                                Subtitle="Scan rectangle with tooltip view above" />
+                                Subtitle="Scan rectangle with tooltip view above"
+                                HasBottomDivider="True" />
+
+        <dui:NavigationListItem x:Name="CounterScannerItem"
+                                Title="Barcode Counter"
+                                Subtitle="Scan continuously and count barcodes" />
     </dui:VerticalStackLayout>
 </dui:ContentPage>

@@ -81,9 +81,30 @@ public partial class BarcodeScanner : CameraFragment, IObserver
             {
                 if (obj is Xamarin.Google.MLKit.Vision.Barcode.Common.Barcode mlBarcode)
                 {
-                    if (IsBarcodeInsideScanRectangle(mlBarcode, imageProxy))
+                    // ML Kit returns bounding boxes in the rotated coordinate space,
+                    // but imageProxy.Width/Height are raw sensor dimensions.
+                    // Swap when rotation is 90° or 270° so coordinates match the preview orientation.
+                    var rotationDegrees = imageProxy.ImageInfo.RotationDegrees;
+                    var isRotated = rotationDegrees is 90 or 270;
+                    var effectiveWidth = isRotated ? imageProxy.Height : imageProxy.Width;
+                    var effectiveHeight = isRotated ? imageProxy.Width : imageProxy.Height;
+
+                    if (IsBarcodeInsideScanRectangle(mlBarcode, effectiveWidth, effectiveHeight))
                     {
-                        InvokeBarcodeFound(new Barcode(mlBarcode.RawValue, mlBarcode.Format.ToString()));
+                        RectF? overlayBounds = null;
+                        var boundingBox = mlBarcode.BoundingBox;
+                        if (boundingBox != null && effectiveWidth > 0 && effectiveHeight > 0 && m_scanRectangleOverlay is not null)
+                        {
+                            var normalized = new RectF(
+                                boundingBox.Left / (float)effectiveWidth,
+                                boundingBox.Top / (float)effectiveHeight,
+                                boundingBox.Width() / (float)effectiveWidth,
+                                boundingBox.Height() / (float)effectiveHeight);
+                            overlayBounds = m_scanRectangleOverlay.NormalizedBoundsToOverlay(
+                                normalized.X, normalized.Y, normalized.Width, normalized.Height);
+                        }
+
+                        InvokeBarcodeFound(new Barcode(mlBarcode.RawValue, mlBarcode.Format.ToString()), overlayBounds);
                     }
                 }
             }
@@ -92,7 +113,7 @@ public partial class BarcodeScanner : CameraFragment, IObserver
         imageProxy.Close();
     }
 
-    private bool IsBarcodeInsideScanRectangle(Xamarin.Google.MLKit.Vision.Barcode.Common.Barcode mlBarcode, IImageProxy imageProxy)
+    private bool IsBarcodeInsideScanRectangle(Xamarin.Google.MLKit.Vision.Barcode.Common.Barcode mlBarcode, int effectiveWidth, int effectiveHeight)
     {
         if (m_barcodeScanningSettings is not { ShowScanRectangle: true })
             return true;
@@ -101,14 +122,12 @@ public partial class BarcodeScanner : CameraFragment, IObserver
         if (boundingBox == null)
             return true;
 
-        var imageWidth = imageProxy.Width;
-        var imageHeight = imageProxy.Height;
-        if (imageWidth == 0 || imageHeight == 0)
+        if (effectiveWidth == 0 || effectiveHeight == 0)
             return true;
 
         // Normalize barcode center to 0-1 range
-        var barcodeCenterX = (boundingBox.Left + boundingBox.Right) / 2.0f / imageWidth;
-        var barcodeCenterY = (boundingBox.Top + boundingBox.Bottom) / 2.0f / imageHeight;
+        var barcodeCenterX = (boundingBox.Left + boundingBox.Right) / 2.0f / effectiveWidth;
+        var barcodeCenterY = (boundingBox.Top + boundingBox.Bottom) / 2.0f / effectiveHeight;
 
         // Compute scan rectangle in normalized coordinates
         var rectWidthFraction = m_barcodeScanningSettings.ScanRectangleWidthFraction;

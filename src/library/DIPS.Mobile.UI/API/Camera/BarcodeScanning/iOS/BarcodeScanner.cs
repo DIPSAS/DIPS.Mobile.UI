@@ -33,7 +33,21 @@ public partial class BarcodeScanner : CameraSession
         {
             if (!string.IsNullOrEmpty(s.StringValue))
             {
-                InvokeBarcodeFound(new Barcode(s.StringValue, s.Type.ToString()));
+                RectF? overlayBounds = null;
+                if (PreviewLayer is not null)
+                {
+                    var transformed = PreviewLayer.GetTransformedMetadataObject(s);
+                    if (transformed is not null)
+                    {
+                        // GetTransformedMetadataObject returns bounds in the preview layer's
+                        // point coordinate space, which matches the overlay's coordinate space
+                        // (both share the same parent grid and TranslationY).
+                        var b = transformed.Bounds;
+                        overlayBounds = new RectF((float)b.X, (float)b.Y, (float)b.Width, (float)b.Height);
+                    }
+                }
+
+                InvokeBarcodeFound(new Barcode(s.StringValue, s.Type.ToString()), overlayBounds);
             }
         });
         return ConfigureAndStart(m_cameraPreview, null, m_captureMetadataOutput, cameraFailedDelegate);
