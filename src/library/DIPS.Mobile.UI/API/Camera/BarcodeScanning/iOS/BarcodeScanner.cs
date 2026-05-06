@@ -1,5 +1,6 @@
 using AVFoundation;
 using CoreFoundation;
+using DIPS.Mobile.UI.API.Camera.Preview;
 using DIPS.Mobile.UI.API.Camera.Shared.iOS;
 
 namespace DIPS.Mobile.UI.API.Camera.BarcodeScanning;
@@ -34,16 +35,29 @@ public partial class BarcodeScanner : CameraSession
             if (!string.IsNullOrEmpty(s.StringValue))
             {
                 RectF? overlayBounds = null;
-                if (PreviewLayer is not null)
+                if (PreviewLayer is not null && m_scanRectangleOverlay is not null)
                 {
                     var transformed = PreviewLayer.GetTransformedMetadataObject(s);
                     if (transformed is not null)
                     {
                         // GetTransformedMetadataObject returns bounds in the preview layer's
-                        // point coordinate space, which matches the overlay's coordinate space
-                        // (both share the same parent grid and TranslationY).
+                        // point coordinate space. The layer uses ResizeAspect, so the camera
+                        // feed is centered with letterboxing. Normalize relative to the camera
+                        // feed area, then map to overlay coordinates (same approach as Android).
                         var b = transformed.Bounds;
-                        overlayBounds = new RectF((float)b.X, (float)b.Y, (float)b.Width, (float)b.Height);
+                        var layerWidth = (float)PreviewLayer.Bounds.Width;
+                        var layerHeight = (float)PreviewLayer.Bounds.Height;
+                        var feedHeight = Math.Min(layerWidth / CameraPreview.ThreeFourRatio, layerHeight);
+                        var feedTop = (layerHeight - feedHeight) / 2f;
+
+                        var normalized = new RectF(
+                            (float)b.X / layerWidth,
+                            ((float)b.Y - feedTop) / feedHeight,
+                            (float)b.Width / layerWidth,
+                            (float)b.Height / feedHeight);
+
+                        overlayBounds = m_scanRectangleOverlay.NormalizedBoundsToOverlay(
+                            normalized.X, normalized.Y, normalized.Width, normalized.Height);
                     }
                 }
 

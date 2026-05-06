@@ -131,6 +131,7 @@ internal class BarcodeScanRectangleOverlay : Grid
         m_cornersGraphicsView.AbortAnimation("BracketsToBarcode");
         m_cornersGraphicsView.AbortAnimation("BracketsReturn");
         m_cornersGraphicsView.AbortAnimation("BracketsForming");
+        m_cornersGraphicsView.AbortAnimation("BracketsSuccess");
     }
 
     internal void SetBarcodeDetected()
@@ -143,12 +144,22 @@ internal class BarcodeScanRectangleOverlay : Grid
     }
 
     /// <summary>
+    /// Aborts the in-progress bracket-to-barcode animation so the brackets can snap
+    /// to an updated position without being overwritten by the animation callback.
+    /// </summary>
+    internal void AbortBracketAnimation()
+    {
+        m_cornersGraphicsView.AbortAnimation("BracketsToBarcode");
+    }
+
+    /// <summary>
     /// Animates the corner brackets from their current position to shrink around the detected barcode.
     /// Calls <paramref name="onArrived"/> when the animation completes (brackets have formed around the barcode).
     /// </summary>
     internal void AnimateBracketsToBarcode(RectF barcodeRect, Action? onArrived = null)
     {
-        // Start from current override position (mid-animation) or scan rect (idle)
+        // Start from current override position (mid-animation) or scan rect (idle).
+        // Read before aborting BracketsReturn so we capture the brackets' current visual position.
         var startRect = m_cornersDrawable.OverrideRect ?? GetScanRectangleForDrawable();
 
         var startX = startRect.X;
@@ -161,6 +172,9 @@ internal class BarcodeScanRectangleOverlay : Grid
         var endW = barcodeRect.Width + HighlightPadding * 2;
         var endH = barcodeRect.Height + HighlightPadding * 2;
 
+        // Also abort BracketsReturn — if brackets are mid-return and a new barcode is detected,
+        // we must cancel the return so its finished callback does not call StartBreathingAnimation.
+        m_cornersGraphicsView.AbortAnimation("BracketsReturn");
         m_cornersGraphicsView.AbortAnimation("BracketsToBarcode");
         
         var animation = new Animation(v =>
@@ -238,6 +252,57 @@ internal class BarcodeScanRectangleOverlay : Grid
         m_cornersGraphicsView.Invalidate();
     }
 
+    /// <summary>
+    /// Plays a polished success animation: brackets pulse outward with a spring-like
+    /// overshoot, color transitions to green, holds briefly, then resets to idle.
+    /// All animation happens inside the drawable for crisp rendering.
+    /// </summary>
+    internal void PlaySuccessAndReset()
+    {
+        m_cornersGraphicsView.AbortAnimation("BracketsForming");
+        
+        m_cornersDrawable.BracketColor = CornerBracketsDrawable.SuccessBracketColor;
+        m_cornersDrawable.MaxStrokeWidth = CornerBracketsDrawable.SuccessStrokeWidth;
+        m_cornersGraphicsView.Invalidate();
+
+        var animation = new Animation
+        {
+            // Phase 1 (0–30%): Spring-like outward pulse — brackets expand beyond their rect
+            { 0.0, 0.3, new Animation(v =>
+            {
+                m_cornersDrawable.Inset = (float)v;
+                m_cornersGraphicsView.Invalidate();
+            }, 0, -6, Easing.CubicOut) },
+            
+            // Phase 2 (30–50%): Spring settle — overshoot back inward slightly past zero
+            { 0.3, 0.5, new Animation(v =>
+            {
+                m_cornersDrawable.Inset = (float)v;
+                m_cornersGraphicsView.Invalidate();
+            }, -6, 1, Easing.CubicInOut) },
+            
+            // Phase 3 (50–65%): Settle to rest
+            { 0.5, 0.65, new Animation(v =>
+            {
+                m_cornersDrawable.Inset = (float)v;
+                m_cornersGraphicsView.Invalidate();
+            }, 1, 0, Easing.CubicOut) },
+            
+            // Phase 4 (65–100%): Hold at green — let the user see the confirmation
+            { 0.65, 1.0, new Animation(_ => { }, 0, 1) }
+        };
+
+        animation.Commit(m_cornersGraphicsView, "BracketsSuccess",
+            rate: 16,
+            length: 700,
+            finished: (_, cancelled) =>
+            {
+                m_cornersDrawable.Inset = 0;
+                if (!cancelled)
+                    ResetBarcodeDetection();
+            });
+    }
+
     internal void ResetBarcodeDetection()
     {
         m_cornersGraphicsView.AbortAnimation("BracketsToBarcode");
@@ -272,10 +337,11 @@ internal class BarcodeScanRectangleOverlay : Grid
             animation.Commit(m_cornersGraphicsView, "BracketsReturn",
                 rate: 16,
                 length: 280,
-                finished: (_, _) =>
+                finished: (_, cancelled) =>
                 {
                     m_cornersDrawable.OverrideRect = null;
-                    StartBreathingAnimation();
+                    if (!cancelled)
+                        StartBreathingAnimation();
                 });
         }
         else
@@ -398,7 +464,9 @@ internal class BarcodeScanRectangleOverlay : Grid
         
         internal static readonly Color DefaultBracketColor = Microsoft.Maui.Graphics.Colors.White;
         internal static readonly Color DetectedBracketColor = Microsoft.Maui.Graphics.Color.FromRgba(255, 214, 10, 255);
+        internal static readonly Color SuccessBracketColor = Microsoft.Maui.Graphics.Color.FromRgba(48, 209, 88, 255);
         internal const float DetectedStrokeWidth = 2f;
+        internal const float SuccessStrokeWidth = 3f;
 
         /// <summary>
         /// Inset in points applied to the bracket corner positions. Animated to create a breathing effect.
