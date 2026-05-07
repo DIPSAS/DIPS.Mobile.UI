@@ -12,6 +12,9 @@ public partial class RadioButtonListItem : ListItem, ISelectable
 {
     private readonly IconOptions m_iconOptions;
 
+    // Guard for preventing infinite loops when setting IsSelected inside SelectedCommand
+    private bool m_isSelecting;
+
     public RadioButtonListItem()
     {
         m_iconOptions = new IconOptions();
@@ -36,6 +39,10 @@ public partial class RadioButtonListItem : ListItem, ISelectable
 
     private void OnIsSelectedChanged()
     {
+        if (m_isSelecting) return;
+
+        m_isSelecting = true;
+        
         Icon = Icons.GetIcon(IsSelected ? IconName.radio_checked_line : IconName.radio_unchecked_line);
         
         // Update accessibility trait based on selection state
@@ -44,5 +51,6 @@ public partial class RadioButtonListItem : ListItem, ISelectable
         
         SelectedCommand?.Execute(SelectedCommandParameter);
         SelectionChanged?.Invoke(this, new SelectionChangedEventArgs(!IsSelected, IsSelected));
+        m_isSelecting = false;
     }
 }
