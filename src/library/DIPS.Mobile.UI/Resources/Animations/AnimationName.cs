@@ -9,5 +9,6 @@ namespace DIPS.Mobile.UI.Resources.Animations
     {
         none=-1,
         saved=0,
+        saved_v2=1,
     }
 }
