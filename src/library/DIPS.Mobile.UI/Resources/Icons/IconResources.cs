@@ -182,6 +182,7 @@ this file is generated
 ["folder_open"] = "folder_open.png",
 ["clock_line"] = "clock_line.png",
 ["kommunal_journal"] = "kommunal_journal.png",
+["beaker_off"] = "beaker_off.png",
 
 
             };
