@@ -51,6 +51,12 @@ namespace DIPS.Mobile.UI.Resources.LocalizedStrings.LocalizedStrings {
             }
         }
         
+        internal static string StepFlow_Step {
+            get {
+                return ResourceManager.GetString("StepFlow.Step", resourceCulture);
+            }
+        }
+        
         internal static string Yesterday {
             get {
                 return ResourceManager.GetString("Yesterday", resourceCulture);

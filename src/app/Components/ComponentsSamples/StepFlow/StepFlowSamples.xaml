@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<dui:ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                 xmlns:dui="http://dips.com/mobile.ui"
+                 xmlns:local="clr-namespace:Components.ComponentsSamples.StepFlow"
+                 x:Class="Components.ComponentsSamples.StepFlow.StepFlowSamples"
+                 x:DataType="local:StepFlowSamplesViewModel"
+                 Title="Step Flow">
+    <dui:ContentPage.BindingContext>
+        <local:StepFlowSamplesViewModel />
+    </dui:ContentPage.BindingContext>
+
+    <dui:ScrollView Padding="{dui:Sizes size_4}">
+        <dui:VerticalStackLayout Spacing="{dui:Sizes size_4}">
+
+            <dui:Label Text="A controller-driven, accordion-style multi-step flow."
+                       Style="{dui:Styles Label=UI100}" />
+
+            <dui:StepFlow Controller="{Binding Flow}">
+
+                <!-- Step 1: Confirm patient -->
+                <dui:StepFlowItem Title="Confirm patient">
+                    <dui:VerticalStackLayout Spacing="{dui:Sizes size_3}">
+                        <dui:Label Style="{dui:Styles Label=UI200}"
+                                   Text="{Binding PatientName, StringFormat='Patient: {0}'}" />
+                        <dui:Button Text="Confirm"
+                                    Command="{Binding ConfirmPatientCommand}" />
+                    </dui:VerticalStackLayout>
+                </dui:StepFlowItem>
+
+                <!-- Step 2: Scan sample labels -->
+                <dui:StepFlowItem Title="Scan sample labels">
+                    <dui:VerticalStackLayout Spacing="{dui:Sizes size_3}">
+                        <dui:Label Style="{dui:Styles Label=UI100}"
+                                   Text="Tap to add a fake scanned label. After 3 labels you can finish."  />
+
+                        <dui:CollectionView ItemsSource="{Binding ScannedLabels}"
+                                            HeightRequest="120">
+                            <dui:CollectionView.ItemTemplate>
+                                <DataTemplate x:DataType="x:String">
+                                    <dui:Label Text="{Binding .}"
+                                               Style="{dui:Styles Label=UI200}" />
+                                </DataTemplate>
+                            </dui:CollectionView.ItemTemplate>
+                        </dui:CollectionView>
+
+                        <dui:Button Text="Add scanned label"
+                                    Command="{Binding AddScannedLabelCommand}" />
+                        <dui:Button Text="Done scanning"
+                                    Command="{Binding FinishScanningCommand}" />
+                    </dui:VerticalStackLayout>
+                </dui:StepFlowItem>
+
+                <!-- Step 3: Confirm sampling -->
+                <dui:StepFlowItem Title="Confirm sampling">
+                    <dui:VerticalStackLayout Spacing="{dui:Sizes size_3}">
+                        <dui:Label Style="{dui:Styles Label=UI200}"
+                                   Text="{Binding PatientName, StringFormat='Patient: {0}'}" />
+                        <dui:Label Style="{dui:Styles Label=UI100}"
+                                   Text="{Binding ScannedLabels.Count, StringFormat='Scanned labels: {0}'}" />
+                        <dui:Button Text="Submit"
+                                    Command="{Binding SubmitSamplingCommand}" />
+                    </dui:VerticalStackLayout>
+                </dui:StepFlowItem>
+
+            </dui:StepFlow>
+
+            <dui:Button Text="Reset flow"
+                        Command="{Binding ResetCommand}" />
+
+        </dui:VerticalStackLayout>
+    </dui:ScrollView>
+</dui:ContentPage>

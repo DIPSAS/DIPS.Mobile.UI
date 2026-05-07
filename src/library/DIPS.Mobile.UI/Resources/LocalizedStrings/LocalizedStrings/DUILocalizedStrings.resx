@@ -21,6 +21,9 @@
     <data name="Today" xml:space="preserve">
         <value>I dag</value>
     </data>
+    <data name="StepFlow.Step" xml:space="preserve">
+        <value>Steg</value>
+    </data>
     <data name="Yesterday" xml:space="preserve">
         <value>I går</value>
     </data>
