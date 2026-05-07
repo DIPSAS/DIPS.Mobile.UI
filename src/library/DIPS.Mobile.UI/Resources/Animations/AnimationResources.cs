@@ -1,6 +1,6 @@
 /*
 Do not edit directly,
-generated 8/30/2023 10:47:37 AM from DIPS.Mobile.DesignTokens
+this file is generated
 */
 
         namespace DIPS.Mobile.UI.Resources.Animations;
@@ -10,7 +10,7 @@ generated 8/30/2023 10:47:37 AM from DIPS.Mobile.DesignTokens
             {
                 ["none"] = "none.json",
                 ["saved"] = "saved.json",
-                ["saved_v2"] = "saved_v2.json",
+["task_complete"] = "task_complete.json",
 
             };
         }
