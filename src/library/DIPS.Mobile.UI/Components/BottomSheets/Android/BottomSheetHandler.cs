@@ -1,10 +1,13 @@
+using System.Windows.Input;
 using Android.Content;
 using Android.Graphics;
 using Android.Graphics.Drawables;
 using Android.Views;
 using Android.Widget;
 using AndroidX.AppCompat.Graphics.Drawable;
+using Google.Android.Material.AppBar;
 using Google.Android.Material.BottomSheet;
+using Google.Android.Material.Transition.Platform;
 using Microsoft.Maui.Handlers;
 using Microsoft.Maui.Platform;
 using AndroidResource = Android.Resource;
@@ -20,6 +23,8 @@ using Paint = Android.Graphics.Paint;
 using System.ComponentModel;
 using DIPS.Mobile.UI.API.Library;
 using DIPS.Mobile.UI.Components.BottomSheets.Header;
+using DIPS.Mobile.UI.Resources.Icons;
+using DIPS.Mobile.UI.Resources.LocalizedStrings.LocalizedStrings;
 using SearchBar = DIPS.Mobile.UI.Components.Searching.SearchBar;
 using View = Microsoft.Maui.Controls.View;
 
@@ -36,11 +41,19 @@ public partial class BottomSheetHandler : ContentViewHandler
     
     private static AView? s_mEmptyNonFitToContentView;
     private AView? m_searchBarView;
-    private BottomSheetHeader m_bottomSheetHeader;
+    private MaterialToolbar? m_headerToolbar;
+    private const int CloseMenuItemId = 1;
     private List<WeakReference<SearchBar>> m_weakSearchBars = [];
     private WeakReference<AView>? m_weakCurrentFocusedSearchBar;
     private BottomSheetCallback? m_bottomSheetCallback;
     private KeyListener? m_keyListener;
+    private NavigationBackPressedCallback? m_navigationBackCallback;
+
+    // Navigation state
+    private FrameLayout? m_navigationContainer;
+    private AView? m_currentNativeContentView;
+    private Stack<AView> m_nativeNavigationStack = new();
+    private LinearLayout? m_bottomSheetLayout;
 
     public AView OnBeforeOpening(IMauiContext mauiContext, Context context, AView bottomSheetAndroidView,
         RelativeLayout rootLayout, LinearLayout bottomSheetLayout)
@@ -53,6 +66,11 @@ public partial class BottomSheetHandler : ContentViewHandler
         bottomSheet.BottomSheetDialog.Behavior.AddBottomSheetCallback(m_bottomSheetCallback);
         bottomSheet.BottomSheetDialog.SetOnShowListener(new DialogInterfaceOnShowListener(this));
         bottomSheet.BottomSheetDialog.SetOnKeyListener(m_keyListener);
+
+        // On modern Android, BottomSheetDialog (ComponentDialog) uses OnBackPressedDispatcher
+        // which bypasses SetOnKeyListener. Register a callback so back during pushed navigation pops instead of dismissing.
+        m_navigationBackCallback = new NavigationBackPressedCallback(this);
+        bottomSheet.BottomSheetDialog.OnBackPressedDispatcher.AddCallback(m_navigationBackCallback);
 
         //Add a handle, with a innerGrid that works as a big hit box for the user to hit
         //Inspired by com.google.android.material.bottomsheet.BottomSheetDragHandleView , which will be added in Xamarin Android Material Design v1.7.0.  https://github.com/material-components/material-components-android/commit/ac7b761294808748df167b50b223b591ca9dac06
@@ -88,15 +106,28 @@ public partial class BottomSheetHandler : ContentViewHandler
             bottomSheetLayout.AddView(androidInnerGridView);
         }
 
-        m_bottomSheetHeader = new BottomSheetHeader(m_bottomSheet);
-        bottomSheetLayout.AddView(m_bottomSheetHeader.ToPlatform(mauiContext));
+        m_bottomSheetLayout = bottomSheetLayout;
+        
+        m_headerToolbar = CreateHeaderToolbar(context);
+        bottomSheetLayout.AddView(m_headerToolbar);
+        // Apply state after the toolbar is attached so menu items render correctly on first open.
+        UpdateHeaderToolbarFromBottomSheet();
         
         m_searchBarView = m_bottomSheet.SearchBar.ToPlatform(mauiContext);
         bottomSheetLayout.AddView(m_searchBarView);
         ToggleSearchBar();
         FindAndSetupSearchBars();
 
-        bottomSheetLayout.AddView(bottomSheetAndroidView);
+        // Wrap the content view in a FrameLayout to support navigation transitions
+        m_navigationContainer = new FrameLayout(context)
+        {
+            LayoutParameters = new ViewGroup.LayoutParams(
+                ViewGroup.LayoutParams.MatchParent,
+                ViewGroup.LayoutParams.WrapContent)
+        };
+        m_currentNativeContentView = bottomSheetAndroidView;
+        m_navigationContainer.AddView(bottomSheetAndroidView);
+        bottomSheetLayout.AddView(m_navigationContainer);
 
         if (m_bottomSheet.Positioning is not Positioning.Fit)
         {
@@ -233,9 +264,257 @@ public partial class BottomSheetHandler : ContentViewHandler
         bottomSheet.BottomSheetDialog.Behavior.Draggable = bottomSheet.IsDraggable;
     }
 
+    internal void PushNavigationContent(View content, string? title)
+    {
+        var mauiContext = DUI.GetCurrentMauiContext;
+        if (mauiContext is null || m_navigationContainer is null || m_bottomSheetLayout is null) return;
+
+        // Save current native view to the stack
+        m_nativeNavigationStack.Push(m_currentNativeContentView!);
+
+        // Create new native view
+        var newNativeView = content.ToPlatform(mauiContext);
+
+        // Material 3 shared axis transition (X axis, forward)
+        var transition = new MaterialSharedAxis(MaterialSharedAxis.X, /* entering */ true);
+        transition.SetDuration(300);
+        global::Android.Transitions.TransitionManager.BeginDelayedTransition(m_navigationContainer, transition);
+
+        // Hide old, show new
+        m_currentNativeContentView!.Visibility = ViewStates.Gone;
+        m_navigationContainer.AddView(newNativeView);
+        m_currentNativeContentView = newNativeView;
+
+        // Update the native MaterialToolbar with the pushed title and force-show the back button
+        UpdateHeaderToolbarForNavigation(title);
+        m_navigationBackCallback?.UpdateEnabled();
+    }
+
+    internal void PopNavigationContent(BottomSheetNavigationEntry popped)
+    {
+        if (m_navigationContainer is null || m_nativeNavigationStack.Count == 0) return;
+
+        var previousNativeView = m_nativeNavigationStack.Pop();
+
+        // Material 3 shared axis transition (X axis, backward)
+        var transition = new MaterialSharedAxis(MaterialSharedAxis.X, /* entering */ false);
+        transition.SetDuration(300);
+        global::Android.Transitions.TransitionManager.BeginDelayedTransition(m_navigationContainer, transition);
+
+        // Remove current, restore previous
+        m_navigationContainer.RemoveView(m_currentNativeContentView);
+        previousNativeView.Visibility = ViewStates.Visible;
+        m_currentNativeContentView = previousNativeView;
+
+        // Disconnect handlers for the popped MAUI view
+        popped.Content.DisconnectHandlers();
+
+        // Update the toolbar: either restore root state or show previous pushed entry
+        if (m_nativeNavigationStack.Count == 0)
+        {
+            UpdateHeaderToolbarFromBottomSheet();
+        }
+        else
+        {
+            var previousEntry = m_bottomSheet.NavigationStack.Peek();
+            UpdateHeaderToolbarForNavigation(previousEntry.Title);
+        }
+
+        m_navigationBackCallback?.UpdateEnabled();
+    }
+
+    private MaterialToolbar CreateHeaderToolbar(Context context)
+    {
+        var toolbar = new MaterialToolbar(context)
+        {
+            LayoutParameters = new LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.MatchParent,
+                ViewGroup.LayoutParams.WrapContent)
+        };
+        toolbar.SetBackgroundColor(Colors.GetColor(ColorName.color_surface_default).ToPlatform());
+        toolbar.SetTitleTextColor(Colors.GetColor(ColorName.color_text_default).ToPlatform());
+        // Ensure standard action-bar height even before children are laid out
+        toolbar.SetMinimumHeight((int)context.ToPixels(56));
+
+        toolbar.NavigationClick += OnHeaderToolbarNavigationClick;
+        toolbar.MenuItemClick += OnHeaderToolbarMenuItemClick;
+
+        // Listen for changes that affect the header
+        m_bottomSheet.PropertyChanged += OnBottomSheetPropertyChanged;
+        if (m_bottomSheet.BottomSheetHeaderBehavior is { } behavior)
+        {
+            behavior.PropertyChanged += OnHeaderBehaviorPropertyChanged;
+        }
+
+        return toolbar;
+    }
+
+    private void OnBottomSheetPropertyChanged(object? sender, PropertyChangedEventArgs e)
+    {
+        if (e.PropertyName == nameof(BottomSheet.Title) && m_nativeNavigationStack.Count == 0)
+        {
+            UpdateHeaderToolbarFromBottomSheet();
+        }
+    }
+
+    private void OnHeaderBehaviorPropertyChanged(object? sender, PropertyChangedEventArgs e)
+    {
+        if (e.PropertyName is nameof(BottomSheetHeaderBehavior.IsBackButtonVisible)
+            or nameof(BottomSheetHeaderBehavior.IsCloseButtonVisible)
+            or nameof(BottomSheetHeaderBehavior.IsVisible)
+            or nameof(BottomSheetHeaderBehavior.TitleAndBackButtonContainerCommand)
+            or nameof(BottomSheetHeaderBehavior.CloseButtonCommand))
+        {
+            // Re-apply for the current navigation level; close visibility applies in both
+            if (m_nativeNavigationStack.Count == 0)
+            {
+                UpdateHeaderToolbarFromBottomSheet();
+            }
+            else
+            {
+                var currentEntry = m_bottomSheet.NavigationStack.Peek();
+                UpdateHeaderToolbarForNavigation(currentEntry.Title);
+            }
+        }
+    }
+
+    private void UpdateHeaderToolbarFromBottomSheet()
+    {
+        ApplyHeaderToolbarState(m_bottomSheet.Title, useBehaviorBackButton: true);
+    }
+
+    private void UpdateHeaderToolbarForNavigation(string? title)
+    {
+        ApplyHeaderToolbarState(title, useBehaviorBackButton: false);
+    }
+
+    private void ApplyHeaderToolbarState(string? title, bool useBehaviorBackButton)
+    {
+        if (m_headerToolbar is null) return;
+
+        var behavior = m_bottomSheet.BottomSheetHeaderBehavior;
+
+        // Visibility (only honored at root; pushed navigation always shows the toolbar)
+        var isVisible = useBehaviorBackButton ? (behavior?.IsVisible ?? true) : true;
+        m_headerToolbar.Visibility = isVisible ? ViewStates.Visible : ViewStates.Gone;
+
+        // Title
+        m_headerToolbar.Title = title ?? string.Empty;
+
+        // Back button
+        var showBack = useBehaviorBackButton
+            ? (behavior?.IsBackButtonVisible ?? false)
+            : true;
+        m_headerToolbar.NavigationIcon = showBack ? GetNavigationIcon() : null;
+        if (showBack)
+        {
+            m_headerToolbar.NavigationContentDescription = DUILocalizedStrings.Back;
+        }
+
+        // Close button (right) — controlled by behavior; shown both at root and during pushed navigation
+        m_headerToolbar.Menu?.Clear();
+        var showClose = behavior?.IsCloseButtonVisible ?? true;
+        if (showClose)
+        {
+            var menuItem = m_headerToolbar.Menu?.Add(global::Android.Views.IMenu.None, CloseMenuItemId, global::Android.Views.IMenu.None, DUILocalizedStrings.Close);
+            if (Icons.TryGetDrawable(IconName.close_line, out var icon) && icon is not null)
+            {
+                ADrawableCompat.SetTint(icon, Colors.GetColor(ColorName.color_icon_subtle).ToPlatform());
+                menuItem?.SetIcon(BuildCircularBackgroundIcon(icon));
+            }
+            menuItem?.SetShowAsAction(ShowAsAction.Always);
+        }
+    }
+
+    private Drawable BuildCircularBackgroundIcon(Drawable icon)
+    {
+        // Mimic the original `ButtonStyle.CloseIconSmall`: a circular `color_fill_neutral` background with the icon centered.
+        var background = new global::Android.Graphics.Drawables.GradientDrawable();
+        background.SetShape(global::Android.Graphics.Drawables.ShapeType.Oval);
+        background.SetColor(Colors.GetColor(ColorName.color_fill_neutral).ToPlatform());
+
+        var layered = new global::Android.Graphics.Drawables.LayerDrawable([background, icon]);
+        // Inset the icon so the circle is visible around it
+        var inset = (int)Context.ToPixels(8);
+        layered.SetLayerInset(1, inset, inset, inset, inset);
+        return layered;
+    }
+
+    private Drawable GetNavigationIcon()
+    {
+        var iconColor = Colors.GetColor(ColorName.color_icon_default).ToPlatform();
+        var drawable = new DrawerArrowDrawable(Context)
+        {
+            Progress = 1.0f // Fully arrow
+        };
+        ADrawableCompat.SetTint(drawable, iconColor);
+        return drawable;
+    }
+
+    private void OnHeaderToolbarNavigationClick(object? sender, global::AndroidX.AppCompat.Widget.Toolbar.NavigationClickEventArgs e)
+    {
+        // If we're inside a pushed navigation, pop. Otherwise delegate to the back-button command.
+        if (m_nativeNavigationStack.Count > 0)
+        {
+            _ = m_bottomSheet.PopAsync();
+            return;
+        }
+
+        m_bottomSheet.BottomSheetHeaderBehavior?.TitleAndBackButtonContainerCommand?.Execute(null);
+    }
+
+    private void OnHeaderToolbarMenuItemClick(object? sender, global::AndroidX.AppCompat.Widget.Toolbar.MenuItemClickEventArgs e)
+    {
+        if (e.Item?.ItemId != CloseMenuItemId) return;
+
+        var behavior = m_bottomSheet.BottomSheetHeaderBehavior;
+        if (behavior?.CloseButtonCommand is not null)
+        {
+            behavior.CloseButtonCommand.Execute((Action)(() => m_bottomSheet.Close()));
+        }
+        else
+        {
+            m_bottomSheet.Close();
+        }
+    }
+
+    private void CleanupHeaderToolbar()
+    {
+        m_bottomSheet.PropertyChanged -= OnBottomSheetPropertyChanged;
+        if (m_bottomSheet.BottomSheetHeaderBehavior is { } behavior)
+        {
+            behavior.PropertyChanged -= OnHeaderBehaviorPropertyChanged;
+        }
+
+        if (m_headerToolbar is null) return;
+
+        m_headerToolbar.NavigationClick -= OnHeaderToolbarNavigationClick;
+        m_headerToolbar.MenuItemClick -= OnHeaderToolbarMenuItemClick;
+        m_bottomSheetLayout?.RemoveView(m_headerToolbar);
+        m_headerToolbar.Dispose();
+        m_headerToolbar = null;
+    }
+
+    private void CleanupNavigationStack()
+    {
+        while (m_nativeNavigationStack.Count > 0)
+        {
+            m_nativeNavigationStack.Pop();
+        }
+        
+        while (m_bottomSheet.NavigationStack.Count > 0)
+        {
+            var entry = m_bottomSheet.NavigationStack.Pop();
+            entry.Content.DisconnectHandlers();
+        }
+    }
+
     protected override void DisconnectHandler(ContentViewGroup platformView)
     {
         base.DisconnectHandler(platformView);
+        
+        // Clean up navigation stack
+        CleanupNavigationStack();
         
         if (m_bottomSheetCallback is not null)
         {
@@ -247,8 +526,15 @@ public partial class BottomSheetHandler : ContentViewHandler
         m_bottomSheet.BottomSheetDialog.SetOnKeyListener(null);
         m_keyListener = null;
 
+        if (m_navigationBackCallback is not null)
+        {
+            m_navigationBackCallback.Remove();
+            m_navigationBackCallback.Dispose();
+            m_navigationBackCallback = null;
+        }
+
         s_mEmptyNonFitToContentView?.RemoveFromParent();
-        m_bottomSheetHeader.DisconnectHandlers();
+        CleanupHeaderToolbar();
 
         foreach (var weakSearchBar in m_weakSearchBars)
         {
@@ -298,6 +584,13 @@ public partial class BottomSheetHandler : ContentViewHandler
             return false;
         }
 
+        // If there is navigation content to pop, pop it instead of closing the sheet
+        if (m_bottomSheet.CanPopNavigation)
+        {
+            _ = m_bottomSheet.PopAsync();
+            return true;
+        }
+
         m_bottomSheet.OnBackButtonPressedCommand?.Execute(() =>
         {
             m_bottomSheet.Close();
@@ -343,6 +636,32 @@ public partial class BottomSheetHandler : ContentViewHandler
 
         public bool OnKey(IDialogInterface? dialog, Keycode keyCode, KeyEvent? e) =>
             m_bottomSheetHandler.OnKey(dialog, keyCode, e);
+    }
+
+    internal class NavigationBackPressedCallback : global::AndroidX.Activity.OnBackPressedCallback
+    {
+        private readonly BottomSheetHandler m_bottomSheetHandler;
+
+        public NavigationBackPressedCallback(BottomSheetHandler bottomSheetHandler)
+            : base(enabled: true)
+        {
+            m_bottomSheetHandler = bottomSheetHandler;
+            UpdateEnabled();
+        }
+
+        public void UpdateEnabled()
+        {
+            // Only intercept back when there is navigation content to pop
+            Enabled = m_bottomSheetHandler.m_bottomSheet?.CanPopNavigation ?? false;
+        }
+
+        public override void HandleOnBackPressed()
+        {
+            if (m_bottomSheetHandler.m_bottomSheet?.CanPopNavigation ?? false)
+            {
+                _ = m_bottomSheetHandler.m_bottomSheet.PopAsync();
+            }
+        }
     }
 }
 

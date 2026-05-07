@@ -43,6 +43,50 @@ namespace DIPS.Mobile.UI.Components.BottomSheets
             return BottomSheetService.Open(this);
         }
 
+        /// <summary>
+        /// Pushes new content onto the bottom sheet's internal navigation stack.
+        /// The content will be displayed with an animated transition and a back button to return.
+        /// </summary>
+        /// <param name="content">The view to display.</param>
+        /// <param name="title">The title to display in the navigation bar for the pushed content.</param>
+        public async Task PushAsync(View content, string? title = null)
+        {
+            NavigationStack.Push(new BottomSheetNavigationEntry(content, title));
+            await PlatformPushAsync(content, title);
+        }
+
+        /// <summary>
+        /// Pops the current content from the bottom sheet's internal navigation stack and returns to the previous content.
+        /// </summary>
+        public async Task PopAsync()
+        {
+            if (NavigationStack.Count == 0) return;
+            var popped = NavigationStack.Pop();
+            await PlatformPopAsync(popped);
+        }
+
+        /// <summary>
+        /// Whether there is content that can be popped from the navigation stack.
+        /// </summary>
+        public bool CanPopNavigation => NavigationStack.Count > 0;
+        
+        internal Stack<BottomSheetNavigationEntry> NavigationStack { get; } = new();
+
+        /// <summary>
+        /// Called by platform code when the user interactively pops (e.g., iOS swipe-back gesture).
+        /// Keeps the managed navigation stack in sync.
+        /// </summary>
+        internal void HandleInteractivePop(View content)
+        {
+            if (NavigationStack.TryPeek(out var top) && top.Content == content)
+            {
+                NavigationStack.Pop();
+            }
+        }
+        
+        private partial Task PlatformPushAsync(View content, string? title);
+        private partial Task PlatformPopAsync(BottomSheetNavigationEntry popped);
+
         internal SearchBar SearchBar { get; private set; }
 
         internal void SendClose()
