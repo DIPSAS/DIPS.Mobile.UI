@@ -77,6 +77,11 @@ public partial class MainPage
         }
     }
 
+    private void GoToItemPickerRefreshRepro(object sender, EventArgs e)
+    {
+        Shell.Current.Navigation.PushAsync(new ItemPickerRefreshRepro());
+    }
+
     private void GoToCollectionViewTests(object sender, EventArgs e)
     {
         Shell.Current.Navigation.PushAsync(new CollectionViewTests());

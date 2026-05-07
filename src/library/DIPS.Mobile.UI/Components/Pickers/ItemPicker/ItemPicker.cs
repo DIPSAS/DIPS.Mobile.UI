@@ -149,11 +149,6 @@ public partial class ItemPicker : ContentView
             return;
         }
 
-        if (picker.Mode == PickerMode.ContextMenu)
-        {
-            picker.AddContextMenuItems();
-        }
-
         if (oldValue is INotifyCollectionChanged oldNotifyCollectionChanged)
         {
             oldNotifyCollectionChanged.CollectionChanged -= picker.OnCollectionChanged;
@@ -164,14 +159,28 @@ public partial class ItemPicker : ContentView
             notifyCollectionChanged.CollectionChanged += picker.OnCollectionChanged;
         }
 
-        //Make sure to remove selected item if its not a part of the new items source
+        // Re-seat SelectedItem to a matching reference in the new items source.
+        // When BindableLayout rebuilds with new VM instances, the old SelectedItem reference
+        // won't exist in the new collection. Find the equivalent item by display property
+        // so that downstream reference equality checks (e.g. AddContextMenuItems) work correctly.
         if (picker is {ItemsSource: not null, SelectedItem: not null})
         {
-            var itemsSource = picker.ItemsSource.Cast<object?>();
+            var itemsSource = picker.ItemsSource.Cast<object?>().ToList();
             if (!itemsSource.Contains(picker.SelectedItem))
             {
-                picker.SelectedItem = null;
+                var selectedDisplayValue = picker.SelectedItem.GetPropertyValue(picker.ItemDisplayProperty);
+                var matchingItem = !string.IsNullOrEmpty(selectedDisplayValue)
+                    ? itemsSource.FirstOrDefault(item =>
+                        selectedDisplayValue.Equals(item.GetPropertyValue(picker.ItemDisplayProperty),
+                            StringComparison.InvariantCulture))
+                    : null;
+                picker.SelectedItem = matchingItem;
             }
+        }
+
+        if (picker.Mode == PickerMode.ContextMenu)
+        {
+            picker.AddContextMenuItems();
         }
     }
 
