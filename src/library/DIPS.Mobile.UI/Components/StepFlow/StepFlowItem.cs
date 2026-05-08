@@ -31,8 +31,6 @@ public partial class StepFlowItem : ContentView
     private const uint PressDownMs = 90;
     private const uint PressUpMs = 240;
 
-    private const double ExpandStartTranslationY = -12;
-
     private readonly double m_indicatorSlotWidth;
 
     private readonly Grid m_root = new();
@@ -114,9 +112,12 @@ public partial class StepFlowItem : ContentView
         m_headerGrid.GestureRecognizers.Add(headerTap);
 
         // ---- Body container (animated) ----
+        // IsClippedToBounds lets us animate only HeightRequest while content stays at its
+        // natural size and is masked. This removes the need for parallel fade/translate
+        // animations on the body, cutting per-frame work during expand/collapse.
         m_bodyContainer.HeightRequest = 0;
         m_bodyContainer.IsVisible = false;
-        m_bodyContainer.Opacity = 0;
+        m_bodyContainer.IsClippedToBounds = true;
         m_bodyContainer.Margin = new Thickness(0, Sizes.GetSize(SizeName.size_3), 0, 0);
 
         // ---- Root grid (header + body inside a Border) ----
@@ -226,7 +227,6 @@ public partial class StepFlowItem : ContentView
                     Opacity = DisabledOpacity;
                     m_bodyContainer.IsVisible = false;
                     m_bodyContainer.HeightRequest = 0;
-                    m_bodyContainer.Opacity = 0;
                 }
                 StopCompletionAnimation();
                 AnimateIndicator(show: false, animate);
@@ -242,7 +242,7 @@ public partial class StepFlowItem : ContentView
                 if (animate)
                 {
                     _ = AnimateLiftAsync();
-                    _ = ExpandAsync();
+                    ExpandAsync();
                 }
                 else
                 {
@@ -251,7 +251,6 @@ public partial class StepFlowItem : ContentView
                     m_bodyContainer.IsVisible = true;
                     m_bodyContainer.HeightRequest = -1;
                     m_bodyContainer.Opacity = 1;
-                    m_bodyContainer.TranslationY = 0;
                 }
                 break;
 
@@ -268,7 +267,6 @@ public partial class StepFlowItem : ContentView
                     Opacity = CompletedOpacity;
                     m_bodyContainer.IsVisible = false;
                     m_bodyContainer.HeightRequest = 0;
-                    m_bodyContainer.Opacity = 0;
                     LayoutEffect.SetStroke(m_root, Colors.GetColor(ColorName.color_border_default));
                     AnimateIndicator(show: true, animate: false);
                     // Snap the Lottie to its final frame without animating.
@@ -295,7 +293,7 @@ public partial class StepFlowItem : ContentView
         }
     }
 
-    private async Task ExpandAsync()
+    private void ExpandAsync()
     {
         if (Content is null)
         {
@@ -303,91 +301,53 @@ public partial class StepFlowItem : ContentView
             return;
         }
 
-        // Make the body part of the layout pass at its natural height while invisible, so we
-        // can read the actually-laid-out Height. A manual Measure() call here gives a
-        // different result than the real layout pass on Android (it doesn't account for the
-        // outer Border stroke and other parent constraints), which causes the visible
-        // "snap" when we later switch HeightRequest back to auto.
+        // Measure the body at its natural size (without committing it to layout) so we can
+        // animate HeightRequest from 0 → measured height. Using Measure() avoids the
+        // dispatcher round-trip + visible "flash at full height, snap to 0" that the
+        // previous implementation relied on.
         m_bodyContainer.IsVisible = true;
         m_bodyContainer.HeightRequest = -1;
-        m_bodyContainer.Opacity = 0;
-        m_bodyContainer.TranslationY = ExpandStartTranslationY;
 
-        var dispatcher = Dispatcher ?? Application.Current?.Dispatcher;
-        if (dispatcher is not null)
-        {
-            // Yield one dispatcher turn so MAUI completes the layout pass before we read Height.
-            await dispatcher.DispatchAsync(() => { });
-        }
+        var available = m_root.Width > 0 ? m_root.Width - m_root.Padding.HorizontalThickness : double.PositiveInfinity;
+        var measured = m_bodyContainer.Measure(available, double.PositiveInfinity);
+        // Measure() returns DesiredSize which includes the View's own Margin. HeightRequest
+        // sets the inner size (excluding margin), so we must subtract it or the animation
+        // overshoots the natural height and snaps back when layout settles.
+        var targetHeight = measured.Height - m_bodyContainer.Margin.VerticalThickness;
 
-        if (Handler is null) return;
-
-        var targetHeight = m_bodyContainer.Height;
         if (double.IsNaN(targetHeight) || targetHeight <= 0)
         {
             // Fallback: just show without height animation.
             m_bodyContainer.HeightRequest = -1;
-            m_bodyContainer.Opacity = 1;
-            m_bodyContainer.TranslationY = 0;
             return;
         }
 
-        // Pin the height to the laid-out value, then animate from 0 → that exact value.
-        // Keeping HeightRequest pinned (instead of switching back to -1) eliminates the
-        // measure-vs-layout discrepancy that caused the snap. If the body's natural size
-        // later grows (e.g. async content), SizeChanged re-pins it.
         m_bodyContainer.HeightRequest = 0;
+        m_bodyContainer.Opacity = 0;
 
-        // Drive height, fade and translate from a single ease-out curve so the content
-        // tracks the container's growth instead of bouncing independently. Fade starts
-        // immediately so the body is never visible as an empty box mid-expand.
+        // Height drives the slot growth; opacity fades the content in over the same curve.
+        // Both share one parent Animation so they're kicked from a single tick handle.
         var heightAnim = new Animation(v => m_bodyContainer.HeightRequest = v, 0, targetHeight, easing: Easing.CubicOut);
         var fadeAnim = new Animation(v => m_bodyContainer.Opacity = v, 0, 1, easing: Easing.CubicOut);
-        var translateAnim = new Animation(v => m_bodyContainer.TranslationY = v, ExpandStartTranslationY, 0, easing: Easing.CubicOut);
 
         var parent = new Animation();
         parent.Add(0, 1, heightAnim);
         parent.Add(0, 1, fadeAnim);
-        parent.Add(0, 1, translateAnim);
 
         this.AbortAnimation(m_animationToken + "-body");
         parent.Commit(this, m_animationToken + "-body", rate: 16, length: ExpandDurationMs,
             easing: Easing.Linear, finished: (_, _) =>
             {
-                m_bodyContainer.HeightRequest = targetHeight;
-                m_bodyContainer.SizeChanged -= OnExpandedBodySizeChanged;
-                m_bodyContainer.SizeChanged += OnExpandedBodySizeChanged;
+                if (State != StepFlowItemState.Active || Handler is null) return;
+                // Hand the slot back to auto-sizing so future content changes (async loads,
+                // text wraps) just work without a re-measure dance.
+                m_bodyContainer.HeightRequest = -1;
+                m_bodyContainer.Opacity = 1;
             });
-    }
-
-    private void OnExpandedBodySizeChanged(object? sender, EventArgs e)
-    {
-        if (State != StepFlowItemState.Active) return;
-        // Re-pin the height to the natural content height when it changes (e.g. async content
-        // loaded after expand finished). Temporarily detach to avoid recursion while we read.
-        m_bodyContainer.SizeChanged -= OnExpandedBodySizeChanged;
-        m_bodyContainer.HeightRequest = -1;
-        var dispatcher = Dispatcher ?? Application.Current?.Dispatcher;
-        if (dispatcher is null)
-        {
-            m_bodyContainer.SizeChanged += OnExpandedBodySizeChanged;
-            return;
-        }
-        dispatcher.Dispatch(() =>
-        {
-            if (State != StepFlowItemState.Active || Handler is null) return;
-            var h = m_bodyContainer.Height;
-            if (h > 0 && !double.IsNaN(h))
-            {
-                m_bodyContainer.HeightRequest = h;
-            }
-            m_bodyContainer.SizeChanged += OnExpandedBodySizeChanged;
-        });
     }
 
     private Task CollapseAsync()
     {
-        m_bodyContainer.SizeChanged -= OnExpandedBodySizeChanged;
         if (!m_bodyContainer.IsVisible) return Task.CompletedTask;
 
         var current = m_bodyContainer.Height > 0 ? m_bodyContainer.Height : (double)m_bodyContainer.HeightRequest;
@@ -395,16 +355,16 @@ public partial class StepFlowItem : ContentView
 
         m_bodyContainer.HeightRequest = current;
 
-        var heightAnim = new Animation(v => m_bodyContainer.HeightRequest = v, current, 0);
-        var fadeAnim = new Animation(v => m_bodyContainer.Opacity = v, m_bodyContainer.Opacity, 0);
+        var heightAnim = new Animation(v => m_bodyContainer.HeightRequest = v, current, 0, easing: StepFlowEasings.CollapseCubic);
+        var fadeAnim = new Animation(v => m_bodyContainer.Opacity = v, m_bodyContainer.Opacity, 0, easing: StepFlowEasings.CollapseCubic);
 
         var parent = new Animation();
         parent.Add(0, 1, heightAnim);
         parent.Add(0, 0.85, fadeAnim);
 
         this.AbortAnimation(m_animationToken + "-body");
-        parent.Commit(this, m_animationToken + "-body", rate: 8, length: CollapseDurationMs,
-            easing: StepFlowEasings.CollapseCubic, finished: (_, _) =>
+        parent.Commit(this, m_animationToken + "-body", rate: 16, length: CollapseDurationMs,
+            easing: Easing.Linear, finished: (_, _) =>
             {
                 m_bodyContainer.IsVisible = false;
             });
@@ -439,22 +399,22 @@ public partial class StepFlowItem : ContentView
 
     /// <summary>
     /// Slides the title left/right to make room for the Lottie checkmark, and crossfades the
-    /// Lottie itself. Uses Margin (layout) for the title and Opacity for the Lottie so taps on
-    /// the header still hit the right region.
+    /// Lottie itself. Uses TranslationX (transform, no layout cost) for the title so the
+    /// header is never re-measured during the shift.
     /// </summary>
     private void AnimateIndicator(bool show, bool animate)
     {
-        var marginToken = m_animationToken + "-indicator-margin";
+        var translateToken = m_animationToken + "-indicator-translate";
         var fadeToken = m_animationToken + "-indicator-fade";
-        this.AbortAnimation(marginToken);
+        this.AbortAnimation(translateToken);
         this.AbortAnimation(fadeToken);
 
-        var targetLeft = show ? m_indicatorSlotWidth : 0;
+        var targetX = show ? m_indicatorSlotWidth : 0;
         var targetOpacity = show ? 1d : 0d;
 
         if (!animate)
         {
-            m_titleStack.Margin = new Thickness(targetLeft, 0, 0, 0);
+            m_titleStack.TranslationX = targetX;
             m_completionAnimation.Opacity = targetOpacity;
             m_completionAnimation.IsVisible = show;
             return;
@@ -462,9 +422,9 @@ public partial class StepFlowItem : ContentView
 
         if (show) m_completionAnimation.IsVisible = true;
 
-        var startLeft = m_titleStack.Margin.Left;
-        new Animation(v => m_titleStack.Margin = new Thickness(v, 0, 0, 0), startLeft, targetLeft)
-            .Commit(this, marginToken, rate: 16, length: IndicatorShiftDurationMs, easing: Easing.CubicInOut);
+        var startX = m_titleStack.TranslationX;
+        new Animation(v => m_titleStack.TranslationX = v, startX, targetX)
+            .Commit(this, translateToken, rate: 16, length: IndicatorShiftDurationMs, easing: Easing.CubicInOut);
 
         var startOpacity = m_completionAnimation.Opacity;
         new Animation(v => m_completionAnimation.Opacity = v, startOpacity, targetOpacity)
@@ -502,8 +462,6 @@ public partial class StepFlowItem : ContentView
             this.AbortAnimation(m_animationToken + "-press-up");
 
             m_completionAnimation.IsAnimationEnabled = false;
-
-            m_bodyContainer.SizeChanged -= OnExpandedBodySizeChanged;
 
             foreach (var gr in m_headerGrid.GestureRecognizers.OfType<TapGestureRecognizer>().ToList())
             {
