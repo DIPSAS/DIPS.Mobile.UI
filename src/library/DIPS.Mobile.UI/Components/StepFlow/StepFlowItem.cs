@@ -76,8 +76,8 @@ public partial class StepFlowItem : ContentView
         };
 
         // Indicator slot — overlays the title at the start of the header. The title slides
-        // right (via Margin animation) to make room when the Lottie checkmark appears on
-        // completion, so non-completed steps render their title flush left.
+        // right (via TranslationX animation) to make room when the Lottie checkmark appears
+        // on completion, so non-completed steps render their title flush left.
         m_indicatorHost.HorizontalOptions = LayoutOptions.Start;
         m_indicatorHost.VerticalOptions = LayoutOptions.Center;
         m_indicatorHost.Content = m_completionAnimation;
@@ -255,6 +255,8 @@ public partial class StepFlowItem : ContentView
                 break;
 
             case StepFlowItemState.Completed:
+                LayoutEffect.SetStroke(m_root, Colors.GetColor(ColorName.color_border_default));
+                m_titleLabel.TextColor = Colors.GetColor(ColorName.color_text_default);
                 if (animate)
                 {
                     _ = CollapseAsync();
@@ -267,7 +269,6 @@ public partial class StepFlowItem : ContentView
                     Opacity = CompletedOpacity;
                     m_bodyContainer.IsVisible = false;
                     m_bodyContainer.HeightRequest = 0;
-                    LayoutEffect.SetStroke(m_root, Colors.GetColor(ColorName.color_border_default));
                     AnimateIndicator(show: true, animate: false);
                     // Snap the Lottie to its final frame without animating.
                     m_completionAnimation.IsAnimationEnabled = false;
