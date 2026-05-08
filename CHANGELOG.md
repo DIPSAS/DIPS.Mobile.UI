@@ -1,9 +1,24 @@
-## [56.0.3]
+## [57.1.1]
 - [iOS][Camera] Fixed focus locking on startup by enabling continuous autofocus and auto-exposure when camera session starts
 - [iOS][Camera] Fixed tap-to-focus permanently locking focus by returning to continuous autofocus after one-shot focus completes
 - [iOS][Camera] Fixed zoom not triggering refocus by re-engaging continuous autofocus after pinch-to-zoom and slider zoom changes
 - [Android][Camera] Fixed zoom not triggering refocus by starting a new focus metering action after pinch-to-zoom
 - [Android][Camera] Fixed tap-to-focus indicator appearing at wrong position by using view-relative touch coordinates and correcting for preview translation offset
+
+## [57.1.0]
+- [LayoutDiagnostics] Added runtime layout diagnostics API for profiling measure/arrange counts per element type. Includes a floating overlay visible over modals and bottom sheets, automatic snapshot capture during page and bottom sheet lifecycle, per-instance thrashing detection, and JSON export.
+
+## [57.0.0]
+- Use SourceGen compilation.
+
+## [56.2.0] 
+- Resources was updated from DIPS.Mobile.DesignTokens
+
+## [56.1.0]
+- Add new animation.
+
+## [56.0.3]
+- [ItemPicker] Fixed bug where SelectedItem was lost in ContextMenu mode when BindableLayout rebuilds with new VM instances, due to reference equality checks in ItemsSource change handling
 
 ## [56.0.2]
 - [iOS][ItemPicker] Fixed bug where selected item could reset randomly

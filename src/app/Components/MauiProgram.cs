@@ -11,6 +11,7 @@ public static class MauiProgram
     public static MauiApp CreateMauiApp()
     {
         var builder = MauiApp.CreateBuilder();
+        builder.Services.AddMetrics(); // Required for MAUI diagnostics metrics
         builder
             .UseMauiApp<App>()
             .UseDIPSUI(configurator =>
