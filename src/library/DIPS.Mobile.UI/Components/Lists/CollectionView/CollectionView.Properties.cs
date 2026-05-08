@@ -30,7 +30,7 @@ public partial class CollectionView
     /// <summary>
     /// Determines if input fields should be unfocused when the user scrolls the <see cref="CollectionView"/>. (ScrollBar, Editor etc..) 
     /// </summary>
-    public bool RemoveFocusOnScroll { get; init; }
+    public bool RemoveFocusOnScroll { get; set; }
 
     public static readonly BindableProperty ShouldBounceProperty = BindableProperty.Create(
         nameof(ShouldBounce),
@@ -59,8 +59,8 @@ public partial class CollectionView
     /// <remarks>Default value is HorizontalThickness: size_3<br/> Left and right must be uniform. <br/><b>NB:</b> Top padding not implemented yet</remarks>
     public Thickness Padding { get; set; } = new(Sizes.GetSize(SizeName.content_margin_medium), 0);
     
-    public CornerRadius FirstItemCornerRadius { get; init; }
-    public CornerRadius LastItemCornerRadius { get; init; }
+    public CornerRadius FirstItemCornerRadius { get; set; }
+    public CornerRadius LastItemCornerRadius { get; set; }
     
     public static readonly BindableProperty HasAdditionalSizeAtTheEndProperty = BindableProperty.Create(
         nameof(HasAdditionalSpaceAtTheEnd),

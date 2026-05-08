@@ -27,6 +27,7 @@
         <!--<MauiEnableXamlCBindingWithSourceCompilation>true</MauiEnableXamlCBindingWithSourceCompilation>-->
         <!--<WarningsAsErrors>XC0022;XC0023;XC0045</WarningsAsErrors>-->
         <!--<MauiStrictXamlCompilation>true</MauiStrictXamlCompilation>-->
+        <MauiXamlInflator>SourceGen</MauiXamlInflator>
     </PropertyGroup>
     
     <ItemGroup>

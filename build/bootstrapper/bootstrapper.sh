@@ -50,9 +50,9 @@ fi
 # Check if you are running macos
 if [[ "$(uname -s 2>/dev/null)" == "Darwin" ]]; then
    echo "✅ You are running on Apple software."
-   echo "Trying to select Xcode 26.3"
-   sudo xcode-select -s /Applications/Xcode_26.3.app #This is mainly used to force Azure to use a specific Xcode version, Xcode Azure paths are found here: https://github.com/actions/runner-images/blob/macos-14/20240923.101/images/macos/macos-14-Readme.md#xcode
-   echo "✅ You are now running on Xcode 26.3"
+   echo "Trying to select Xcode 26.4.1"
+   sudo xcode-select -s /Applications/Xcode_26.4.1.app #This is mainly used to force Azure to use a specific Xcode version, Xcode Azure paths are found here: hhttps://github.com/actions/runner-images/blob/main/images/macos/macos-26-arm64-Readme.md
+   echo "✅ You are now running on Xcode 26.4.1"
 else
    echo "❌ You are not running on  software. This build system requires you to run on a Mac."
    exit 0

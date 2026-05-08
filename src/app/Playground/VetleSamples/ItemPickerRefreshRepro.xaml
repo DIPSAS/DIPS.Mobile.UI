@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<dui:ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                 xmlns:dui="http://dips.com/mobile.ui"
+                 xmlns:vetleSamples="clr-namespace:Playground.VetleSamples"
+                 x:Class="Playground.VetleSamples.ItemPickerRefreshRepro"
+                 x:DataType="{x:Type vetleSamples:ItemPickerRefreshReproViewModel}"
+                 Title="ItemPicker Refresh Repro">
+
+    <dui:ScrollView>
+        <dui:VerticalStackLayout Spacing="16" Padding="16">
+
+            <dui:Label Text="Reproduces: ItemPicker in ContextMenu mode loses SelectedItem when BindableLayout ItemsSource is replaced with new VM instances."
+                       Style="{dui:Styles Label=Body200}" />
+
+            <!-- Simulate "answer criterion" → server returns Refresh → rebuild all VMs -->
+            <dui:Button Text="Simulate Refresh (rebuild all groups)"
+                        Clicked="OnSimulateRefresh" />
+
+            <!-- Groups rendered via BindableLayout, just like CriterionGroupCard -->
+            <dui:VerticalStackLayout BindableLayout.ItemsSource="{Binding Groups}"
+                                     Spacing="12">
+                <BindableLayout.ItemTemplate>
+                    <DataTemplate x:DataType="{x:Type vetleSamples:ReproCriterionGroupViewModel}">
+                        <Border Padding="12"
+                                StrokeShape="RoundRectangle 8"
+                                Stroke="{dui:Colors color_border_default}"
+                                BackgroundColor="{dui:Colors color_surface_default}">
+                            <dui:VerticalStackLayout Spacing="8">
+                                <dui:Label Text="{Binding GroupName}"
+                                           Style="{dui:Styles Label=UI400}" />
+
+                                <!-- The problematic ItemPicker in ContextMenu mode -->
+                                <dui:ItemPicker ItemsSource="{Binding Criterion.Options}"
+                                                SelectedItem="{Binding SelectedOption, Mode=OneWay}"
+                                                ItemDisplayProperty="Value"
+                                                Mode="ContextMenu"
+                                                SelectedItemCommand="{Binding SelectedItemCommand}" />
+
+                                <!-- ChipGroup (Radio) for comparison - typically works -->
+                                <dui:ChipGroup ItemsSource="{Binding Criterion.Options}"
+                                               ItemDisplayProperty="Value"
+                                               SelectionMode="Single"
+                                               SelectedItems="{Binding SelectedChipOptions, Mode=TwoWay}" />
+                            </dui:VerticalStackLayout>
+                        </Border>
+                    </DataTemplate>
+                </BindableLayout.ItemTemplate>
+            </dui:VerticalStackLayout>
+
+        </dui:VerticalStackLayout>
+    </dui:ScrollView>
+
+</dui:ContentPage>
