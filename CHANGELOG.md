@@ -1,3 +1,6 @@
+## [57.1.0]
+- [LayoutDiagnostics] Added runtime layout diagnostics API for profiling measure/arrange counts per element type. Includes a floating overlay visible over modals and bottom sheets, automatic snapshot capture during page and bottom sheet lifecycle, per-instance thrashing detection, and JSON export.
+
 ## [57.0.0]
 - Use SourceGen compilation.
 
