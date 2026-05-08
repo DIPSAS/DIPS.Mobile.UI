@@ -1,3 +1,6 @@
+## [56.2.0] 
+- Resources was updated from DIPS.Mobile.DesignTokens
+
 ## [56.1.0]
 - Add new animation.
 
