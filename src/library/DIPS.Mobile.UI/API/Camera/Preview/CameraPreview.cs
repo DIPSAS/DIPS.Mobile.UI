@@ -167,11 +167,7 @@ public partial class CameraPreview : ContentView
         m_indicatorWrapper.TranslationX = percentX * PreviewView.Width - m_indicator.WidthRequest / 2;
         m_indicatorWrapper.TranslationY = percentY * PreviewView.Height;
 
-#if __IOS__
         m_indicatorWrapper.TranslationY -= (m_indicator.HeightRequest / 2) - PreviewView.TranslationY;
-#else
-        m_indicatorWrapper.TranslationY -= m_indicator.HeightRequest / 1.25f;
-#endif
         
         m_indicator.ScaleTo(1, easing: Easing.SpringOut);
         m_indicator.FadeTo(1);
