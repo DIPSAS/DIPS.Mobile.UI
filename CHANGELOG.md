@@ -1,6 +1,15 @@
 ## [57.0.0]
 - Use SourceGen compilation.
 
+## [56.2.0] 
+- Resources was updated from DIPS.Mobile.DesignTokens
+
+## [56.1.0]
+- Add new animation.
+
+## [56.0.3]
+- [ItemPicker] Fixed bug where SelectedItem was lost in ContextMenu mode when BindableLayout rebuilds with new VM instances, due to reference equality checks in ItemsSource change handling
+
 ## [56.0.2]
 - [iOS][ItemPicker] Fixed bug where selected item could reset randomly
 

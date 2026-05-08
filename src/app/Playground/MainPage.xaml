@@ -21,6 +21,8 @@
                                     Tapped="GoToEirik" />
             <dui:NavigationListItem Title="CollectionViewTests"
                                     Tapped="GoToCollectionViewTests" />
+            <dui:NavigationListItem Title="ItemPicker Refresh Repro"
+                                    Tapped="GoToItemPickerRefreshRepro" />
             <dui:Button Text="Tap me"
                         Clicked="TapMe" />
         </VerticalStackLayout>
