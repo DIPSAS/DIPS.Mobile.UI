@@ -91,6 +91,7 @@ public partial class StepFlow : ContentView
             var item = m_items[i];
             item.Index = i;
             item.DisplayNumber = i + 1;
+            item.TotalSteps = m_items.Count;
             item.RefreshTitleText();
             if (!m_stack.Children.Contains(item))
             {

@@ -57,6 +57,36 @@ namespace DIPS.Mobile.UI.Resources.LocalizedStrings.LocalizedStrings {
             }
         }
         
+        internal static string StepFlow_Accessibility_StepXOfY {
+            get {
+                return ResourceManager.GetString("StepFlow.Accessibility.StepXOfY", resourceCulture);
+            }
+        }
+        
+        internal static string StepFlow_Accessibility_Active {
+            get {
+                return ResourceManager.GetString("StepFlow.Accessibility.Active", resourceCulture);
+            }
+        }
+        
+        internal static string StepFlow_Accessibility_Completed {
+            get {
+                return ResourceManager.GetString("StepFlow.Accessibility.Completed", resourceCulture);
+            }
+        }
+        
+        internal static string StepFlow_Accessibility_Disabled {
+            get {
+                return ResourceManager.GetString("StepFlow.Accessibility.Disabled", resourceCulture);
+            }
+        }
+        
+        internal static string StepFlow_Accessibility_Error {
+            get {
+                return ResourceManager.GetString("StepFlow.Accessibility.Error", resourceCulture);
+            }
+        }
+        
         internal static string Yesterday {
             get {
                 return ResourceManager.GetString("Yesterday", resourceCulture);

@@ -1,4 +1,5 @@
 using DIPS.Mobile.UI.Effects.Layout;
+using DIPS.Mobile.UI.Effects.Touch;
 using DIPS.Mobile.UI.Resources.Animations;
 using DIPS.Mobile.UI.Resources.LocalizedStrings.LocalizedStrings;
 using DIPS.Mobile.UI.Resources.Sizes;
@@ -21,15 +22,12 @@ public partial class StepFlowItem : ContentView
 {
     private const double DisabledOpacity = 0.45;
     private const double CompletedOpacity = 0.78;
-    private const double HeaderPressScale = 0.97;
 
     internal const uint ExpandDurationMs = 420;
     private const uint CollapseDurationMs = 320;
     private const uint LiftDurationMs = 380;
     private const uint CompletionDimDurationMs = 500;
     private const uint IndicatorShiftDurationMs = 360;
-    private const uint PressDownMs = 90;
-    private const uint PressUpMs = 240;
 
     private readonly double m_indicatorSlotWidth;
 
@@ -46,6 +44,9 @@ public partial class StepFlowItem : ContentView
 
     /// <summary>The 1-based number rendered in the default indicator.</summary>
     internal int DisplayNumber { get; set; } = 1;
+
+    /// <summary>The total number of steps in the parent <see cref="StepFlow"/>. Used for accessibility announcements.</summary>
+    internal int TotalSteps { get; set; } = 1;
 
     /// <summary>Internal index in the parent <see cref="StepFlow"/>.</summary>
     internal int Index { get; set; } = -1;
@@ -84,13 +85,13 @@ public partial class StepFlowItem : ContentView
 
         // ---- Title / subtitle stack ----
         m_titleLabel.Style = Styles.GetLabelStyle(LabelStyle.UI300);
-        m_titleLabel.LineBreakMode = LineBreakMode.TailTruncation;
+        m_titleLabel.LineBreakMode = LineBreakMode.WordWrap;
         m_titleLabel.VerticalOptions = LayoutOptions.Center;
 
         m_subtitleLabel.Style = Styles.GetLabelStyle(LabelStyle.UI100);
         m_subtitleLabel.TextColor = Colors.GetColor(ColorName.color_text_subtle);
         m_subtitleLabel.IsVisible = false;
-        m_subtitleLabel.LineBreakMode = LineBreakMode.TailTruncation;
+        m_subtitleLabel.LineBreakMode = LineBreakMode.WordWrap;
 
         m_titleStack.Spacing = 0;
         m_titleStack.VerticalOptions = LayoutOptions.Center;
@@ -107,9 +108,19 @@ public partial class StepFlowItem : ContentView
         m_headerGrid.Add(m_titleStack, 0, 0);
         m_headerGrid.Add(m_indicatorHost, 0, 0);
 
-        var headerTap = new TapGestureRecognizer();
-        headerTap.Tapped += OnHeaderTapped;
-        m_headerGrid.GestureRecognizers.Add(headerTap);
+        // The title stack and indicator host are purely visual; their text is composed into
+        // a single accessibility announcement on the header. Excluding them keeps screen
+        // readers from navigating into individual labels and animation views.
+        AutomationProperties.SetExcludedWithChildren(m_titleStack, true);
+        AutomationProperties.SetExcludedWithChildren(m_indicatorHost, true);
+
+        // Use the canonical DUI Touch effect for tap handling so the platform applies the
+        // "Button" accessibility trait (UIAccessibilityTrait.Button on iOS, button role on
+        // Android via the accessibility delegate). Setting SemanticProperties.Description
+        // before the effect is required for the trait to be applied.
+        Touch.SetIsButtonTraitEnabled(m_headerGrid, true);
+        Touch.SetCommand(m_headerGrid, new Command(InvokeHeaderTapped));
+        RefreshAccessibilityDescription();
 
         // ---- Body container (animated) ----
         // IsClippedToBounds lets us animate only HeightRequest while content stays at its
@@ -153,6 +164,7 @@ public partial class StepFlowItem : ContentView
     {
         m_subtitleLabel.Text = Subtitle ?? string.Empty;
         m_subtitleLabel.IsVisible = !string.IsNullOrEmpty(Subtitle);
+        RefreshAccessibilityDescription();
     }
 
     private void OnContentChanged()
@@ -187,15 +199,40 @@ public partial class StepFlowItem : ContentView
         // Renders the header as "<Step> N: <Title>", e.g. "Step 2: Confirm patient" /
         // "Steg 2: Confirm patient" depending on culture.
         m_titleLabel.Text = $"{DUILocalizedStrings.StepFlow_Step} {DisplayNumber}: {Title}";
+        RefreshAccessibilityDescription();
     }
 
-    private void OnHeaderTapped(object? sender, TappedEventArgs e)
+    /// <summary>
+    /// Builds a single accessibility announcement that conveys position, title, subtitle and
+    /// state to screen readers. The visual children of the header are excluded from the
+    /// accessibility tree so VoiceOver / TalkBack focus the header as one unit.
+    /// </summary>
+    private void RefreshAccessibilityDescription()
+    {
+        var position = string.Format(DUILocalizedStrings.StepFlow_Accessibility_StepXOfY, DisplayNumber, TotalSteps);
+        var description = string.IsNullOrEmpty(Subtitle)
+            ? $"{position}: {Title}"
+            : $"{position}: {Title}. {Subtitle}";
+
+        SemanticProperties.SetDescription(m_headerGrid, description);
+        SemanticProperties.SetHint(m_headerGrid, GetStateHint(State));
+    }
+
+    private static string GetStateHint(StepFlowItemState state) => state switch
+    {
+        StepFlowItemState.Active => DUILocalizedStrings.StepFlow_Accessibility_Active,
+        StepFlowItemState.Completed => DUILocalizedStrings.StepFlow_Accessibility_Completed,
+        StepFlowItemState.Disabled => DUILocalizedStrings.StepFlow_Accessibility_Disabled,
+        StepFlowItemState.Error => DUILocalizedStrings.StepFlow_Accessibility_Error,
+        _ => string.Empty
+    };
+
+    private void InvokeHeaderTapped()
     {
         if (!IsEnabled) return;
         if (State == StepFlowItemState.Completed && LockWhenCompleted) return;
         if (State == StepFlowItemState.Disabled && Parent is StepFlow flow && !flow.AllowDirectStepActivation) return;
 
-        AnimatePressFeedback();
         HeaderTapped?.Invoke(this, EventArgs.Empty);
     }
 
@@ -203,6 +240,7 @@ public partial class StepFlowItem : ContentView
     {
         if (oldState == newState) return;
         ApplyStateVisuals(newState, animate: true);
+        RefreshAccessibilityDescription();
     }
 
     /// <summary>
@@ -438,18 +476,6 @@ public partial class StepFlowItem : ContentView
         m_completionAnimation.IsAnimationEnabled = false;
     }
 
-    private void AnimatePressFeedback()
-    {
-        var down = new Animation(v => m_headerGrid.Scale = v, 1.0, HeaderPressScale);
-        this.AbortAnimation(m_animationToken + "-press");
-        down.Commit(m_headerGrid, m_animationToken + "-press", rate: 16, length: PressDownMs,
-            easing: Easing.CubicOut, finished: (_, _) =>
-            {
-                var up = new Animation(v => m_headerGrid.Scale = v, HeaderPressScale, 1.0, easing: StepFlowEasings.SpringOut);
-                up.Commit(m_headerGrid, m_animationToken + "-press-up", rate: 16, length: PressUpMs);
-            });
-    }
-
     protected override void OnHandlerChanging(HandlerChangingEventArgs args)
     {
         base.OnHandlerChanging(args);
@@ -459,16 +485,12 @@ public partial class StepFlowItem : ContentView
             this.AbortAnimation(m_animationToken + "-body");
             this.AbortAnimation(m_animationToken + "-opacity");
             this.AbortAnimation(m_animationToken + "-lift");
-            this.AbortAnimation(m_animationToken + "-press");
-            this.AbortAnimation(m_animationToken + "-press-up");
 
             m_completionAnimation.IsAnimationEnabled = false;
 
-            foreach (var gr in m_headerGrid.GestureRecognizers.OfType<TapGestureRecognizer>().ToList())
-            {
-                gr.Tapped -= OnHeaderTapped;
-            }
-            m_headerGrid.GestureRecognizers.Clear();
+            // Clear the Touch command so the platform effect detaches and releases its
+            // gesture recognizer / handler references.
+            Touch.SetCommand(m_headerGrid, null!);
         }
     }
 }
