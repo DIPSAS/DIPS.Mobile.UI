@@ -23,7 +23,7 @@ public partial class StepFlowItem : ContentView
     private const double CompletedOpacity = 0.78;
     private const double HeaderPressScale = 0.97;
 
-    private const uint ExpandDurationMs = 420;
+    internal const uint ExpandDurationMs = 420;
     private const uint CollapseDurationMs = 320;
     private const uint LiftDurationMs = 380;
     private const uint CompletionDimDurationMs = 500;
@@ -63,7 +63,7 @@ public partial class StepFlowItem : ContentView
 
         m_completionAnimation = new SKLottieView
         {
-            Source = Animations.GetAnimation(AnimationName.saved),
+            Source = Animations.GetAnimation(AnimationName.task_complete),
             HeightRequest = Sizes.GetSize(SizeName.size_6),
             WidthRequest = Sizes.GetSize(SizeName.size_6),
             HorizontalOptions = LayoutOptions.Start,

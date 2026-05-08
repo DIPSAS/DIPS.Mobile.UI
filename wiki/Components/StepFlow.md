@@ -92,6 +92,7 @@ public class SamplingViewModel : ViewModel
 | `Items` | The steps, in order. XAML default `ContentProperty`. |
 | `Controller` | The `StepFlowController` driving the flow. The container creates one automatically if you omit it. |
 | `AllowDirectStepActivation` | When `true`, tapping a `Disabled` step's header activates it. Defaults to `false`. |
+| `AutoScrollIntoView` | When `true` (default), the closest ancestor `ScrollView` is scrolled so the newly active step is pinned to the top. See [Auto-scroll](#auto-scroll). |
 | `FlowCompleted` | Mirrors `Controller.FlowCompleted`. |
 
 ### `StepFlowItem`
@@ -122,6 +123,24 @@ The component is choreographed for a premium feel — every timing and easing is
 - **Completed dimming**: opacity fades to 0.78 over 500 ms.
 
 All animations use a unique token per item instance, so multiple `StepFlow`s on the same page do not interfere.
+
+## Auto-scroll
+
+When the `StepFlow` lives inside a `ScrollView`, it automatically scrolls the newly active step to the top of the scroller as the flow advances. There is no need to subscribe to `Controller.StepActivated` or call `ScrollToAsync` from the hosting page — the component walks up the visual tree to find the closest ancestor `ScrollView` and uses `ScrollToPosition.Start`, so the freshly expanded body is fully visible rather than half-cropped at the bottom of the viewport.
+
+The scroll is timed to start once the expand animation has finished, so the target rect reflects the body's measured height rather than the still-animating zero-height rect.
+
+Set `AutoScrollIntoView="False"` on the `StepFlow` to opt out — for example when you want to handle scrolling yourself, or when the flow is not hosted inside a scroller.
+
+```xml
+<dui:ScrollView>
+    <dui:StepFlow Controller="{Binding Flow}" AutoScrollIntoView="True">
+        <!-- steps -->
+    </dui:StepFlow>
+</dui:ScrollView>
+```
+
+If no ancestor `ScrollView` is found, `AutoScrollIntoView` is a silent no-op. Non-MAUI scrollers (`CollectionView` etc.) are not supported.
 
 ## Escape hatch (binding-only)
 

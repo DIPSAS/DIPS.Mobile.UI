@@ -1,6 +1,8 @@
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using System.ComponentModel;
 using DIPS.Mobile.UI.Resources.Sizes;
+using MauiScrollView = Microsoft.Maui.Controls.ScrollView;
 
 namespace DIPS.Mobile.UI.Components.StepFlow;
 
@@ -16,12 +18,18 @@ public partial class StepFlow : ContentView
     private readonly ObservableCollection<StepFlowItem> m_items = new();
     private StepFlowController? m_attachedController;
 
+    // Cached closest ancestor scroller. Resolved lazily on first activation and invalidated
+    // whenever this StepFlow is re-parented.
+    private MauiScrollView? m_cachedScroller;
+    private bool m_scrollerResolved;
+
     public StepFlow()
     {
         m_stack.Spacing = Sizes.GetSize(SizeName.size_3);
         base.Content = m_stack;
 
         m_items.CollectionChanged += OnItemsCollectionChanged;
+        ParentChanged += OnParentChangedInvalidateScroller;
     }
 
     /// <summary>The steps in display order. This is the XAML default ContentProperty.</summary>
@@ -52,11 +60,16 @@ public partial class StepFlow : ContentView
     private void AttachItem(StepFlowItem item)
     {
         item.HeaderTapped += OnItemHeaderTapped;
+        // Watching the item's State directly works for both controller-driven activation
+        // (controller mutates State on the item) and the controller-less escape hatch where
+        // the consumer assigns State manually.
+        item.PropertyChanged += OnItemPropertyChanged;
     }
 
     private void DetachItem(StepFlowItem item)
     {
         item.HeaderTapped -= OnItemHeaderTapped;
+        item.PropertyChanged -= OnItemPropertyChanged;
         m_stack.Children.Remove(item);
         // Manually disconnect handlers so the native handler chain on the item and its children
         // does not keep the visual tree alive after removal.
@@ -173,6 +186,76 @@ public partial class StepFlow : ContentView
                 DetachItem(item);
             }
             m_items.CollectionChanged -= OnItemsCollectionChanged;
+            ParentChanged -= OnParentChangedInvalidateScroller;
+            m_cachedScroller = null;
+            m_scrollerResolved = false;
+        }
+    }
+
+    private void OnItemPropertyChanged(object? sender, PropertyChangedEventArgs e)
+    {
+        if (e.PropertyName != nameof(StepFlowItem.State)) return;
+        if (sender is not StepFlowItem item) return;
+        if (item.State != StepFlowItemState.Active) return;
+        if (!AutoScrollIntoView) return;
+
+        _ = ScrollItemIntoViewAsync(item);
+    }
+
+    private void OnParentChangedInvalidateScroller(object? sender, EventArgs e)
+    {
+        m_cachedScroller = null;
+        m_scrollerResolved = false;
+    }
+
+    private MauiScrollView? ResolveScroller()
+    {
+        if (m_scrollerResolved) return m_cachedScroller;
+        m_scrollerResolved = true;
+
+        Element? walker = Parent;
+        while (walker is not null)
+        {
+            if (walker is MauiScrollView sv)
+            {
+                m_cachedScroller = sv;
+                return m_cachedScroller;
+            }
+            // ContentPage whose root is a ScrollView is covered by the parent walk above —
+            // the StepFlow's Parent chain already passes through that ScrollView before
+            // reaching the ContentPage.
+            walker = walker.Parent;
+        }
+
+        m_cachedScroller = null;
+        return null;
+    }
+
+    private async Task ScrollItemIntoViewAsync(StepFlowItem item)
+    {
+        var scroller = ResolveScroller();
+        if (scroller is null) return;
+
+        // Wait for the expand animation to finish so the body's measured height is settled
+        // before we ask the ScrollView to scroll. Otherwise we would target a too-short rect
+        // and the freshly-revealed body would still be off-screen once the animation completes.
+        await Task.Delay((int)StepFlowItem.ExpandDurationMs + 20);
+
+        // The item or its scroller may have been torn down while we were waiting.
+        if (Handler is null || item.Handler is null || scroller.Handler is null) return;
+        if (!ReferenceEquals(scroller, ResolveScroller())) return;
+
+        try
+        {
+            // Pin the active step to the top of the scroller. MakeVisible only scrolls the
+            // minimum needed to bring the item on-screen, which leaves the header low on the
+            // screen and most of the freshly expanded body still below the fold.
+            await scroller.ScrollToAsync(item, ScrollToPosition.Start, animated: true);
+        }
+        catch
+        {
+            // ScrollToAsync can throw if the item is detached mid-scroll — swallow because
+            // there is nothing the consumer or this component can do about it.
         }
     }
 }

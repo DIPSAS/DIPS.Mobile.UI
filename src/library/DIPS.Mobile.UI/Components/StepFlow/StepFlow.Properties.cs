@@ -22,6 +22,20 @@ public partial class StepFlow
         set => SetValue(AllowDirectStepActivationProperty, value);
     }
 
+    /// <summary>
+    /// When <c>true</c> (the default), the <see cref="StepFlow"/> automatically scrolls its
+    /// closest ancestor <see cref="Microsoft.Maui.Controls.ScrollView"/> so that the newly
+    /// activated <see cref="StepFlowItem"/> is pinned to the top of the scroller (using
+    /// <see cref="ScrollToPosition.Start"/>) — ensuring the freshly expanded body is fully
+    /// visible. If no ancestor <see cref="Microsoft.Maui.Controls.ScrollView"/> exists, this
+    /// property has no effect.
+    /// </summary>
+    public bool AutoScrollIntoView
+    {
+        get => (bool)GetValue(AutoScrollIntoViewProperty);
+        set => SetValue(AutoScrollIntoViewProperty, value);
+    }
+
     /// <summary>Raised when the controller's <see cref="StepFlowController.FlowCompleted"/> fires.</summary>
     public event EventHandler? FlowCompleted;
 
@@ -36,4 +50,10 @@ public partial class StepFlow
         typeof(bool),
         typeof(StepFlow),
         defaultValue: false);
+
+    public static readonly BindableProperty AutoScrollIntoViewProperty = BindableProperty.Create(
+        nameof(AutoScrollIntoView),
+        typeof(bool),
+        typeof(StepFlow),
+        defaultValue: true);
 }
