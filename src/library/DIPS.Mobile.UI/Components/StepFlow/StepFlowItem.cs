@@ -76,8 +76,8 @@ public partial class StepFlowItem : ContentView
         };
 
         // Indicator slot — overlays the title at the start of the header. The title slides
-        // right (via Margin animation) to make room when the Lottie checkmark appears on
-        // completion, so non-completed steps render their title flush left.
+        // right (via TranslationX animation) to make room when the Lottie checkmark appears
+        // on completion, so non-completed steps render their title flush left.
         m_indicatorHost.HorizontalOptions = LayoutOptions.Start;
         m_indicatorHost.VerticalOptions = LayoutOptions.Center;
         m_indicatorHost.Content = m_completionAnimation;
