@@ -11,7 +11,8 @@ public static class TestRegistrator
                         .Register<ModalTests>()
                         .Register<SimpleModalTests>()
                         .Register<NavigationTests>()
-                        .Register<ShellItemChangedTests>();
+                        .Register<ShellItemChangedTests>()
+                        .Register<BottomSheetTests>();
 
         // Component tests
         serviceContainer.Register<EntryTest>()

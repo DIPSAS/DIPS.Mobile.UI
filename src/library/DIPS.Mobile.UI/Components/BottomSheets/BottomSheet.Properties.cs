@@ -28,6 +28,29 @@ public partial class BottomSheet
     public bool HasBottomBarButtons => BottombarButtons.Any();
 
     /// <summary>
+    /// When <see langword="true"/>, the <see cref="BottombarButtons"/> declared on the root
+    /// <see cref="BottomSheet"/> are kept visible on every sub-view pushed via
+    /// <see cref="PushAsync"/>. The buttons remain bound to the root sheet's
+    /// <see cref="BindableObject.BindingContext"/> — so commands continue to target the
+    /// root sheet's view model rather than the pushed sub-view.
+    /// </summary>
+    /// <remarks>
+    /// Defaults to <see langword="false"/>, preserving the current behaviour where only
+    /// the root sheet renders the bottom bar.
+    /// </remarks>
+    public bool ShowBottombarButtonsOnSubViews
+    {
+        get => (bool)GetValue(ShowBottombarButtonsOnSubViewsProperty);
+        set => SetValue(ShowBottombarButtonsOnSubViewsProperty, value);
+    }
+
+    public static readonly BindableProperty ShowBottombarButtonsOnSubViewsProperty = BindableProperty.Create(
+        nameof(ShowBottombarButtonsOnSubViews),
+        typeof(bool),
+        typeof(BottomSheet),
+        defaultValue: false);
+
+    /// <summary>
     /// Determines whether the <see cref="BottomSheet"/> is closeable by interacting with the <see cref="BottomSheet"/>
     /// </summary>
     /// <remarks>

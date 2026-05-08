@@ -51,7 +51,15 @@ public class BottomSheetViewController : UIViewController
             return;
         
         m_container.AddToView(View);
-        m_bottomBar = new BottomBarView(View, BottomSheet);
+        // Attach the bottom bar to the navigation controller's view when the consumer
+        // wants the bar to remain visible on pushed sub-views; otherwise pin it to this
+        // view controller's own view (current behaviour — the bar is naturally hidden by
+        // the pushed view controller's view).
+        var bottomBarHost = BottomSheet.ShowBottombarButtonsOnSubViews
+                            && NavigationController?.View is { } navView
+            ? navView
+            : View;
+        m_bottomBar = new BottomBarView(bottomBarHost, BottomSheet);
         
         m_navigationBarHelper = new BottomSheetNavigationBarHelper(BottomSheet, NavigationItem, NavigationController);
         m_navigationBarHelper.Configure();

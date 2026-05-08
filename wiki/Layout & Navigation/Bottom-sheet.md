@@ -177,5 +177,23 @@ The bottom sheet supports `BottombarButtons`, which can be used similarly to `To
 ```
 > Most likely you will want to set `VerticalOptions="End"` on the buttons, otherwise the they will fill out its vertical height to the container.
 
+### Persisting the bottom bar across `PushAsync` sub-views
+By default, when you push a sub-view onto the sheet via `PushAsync`, the bottom bar is only rendered on the root sheet. Set `ShowBottombarButtonsOnSubViews="True"` to keep the same `BottombarButtons` visible across every pushed sub-view. The buttons remain bound to the root sheet's `BindingContext`, so commands continue to target the root sheet's view model rather than the sub-view.
+
+```xml
+<dui:BottomSheet ShowBottombarButtonsOnSubViews="True">
+    <dui:BottomSheet.BottombarButtons>
+        <dui:Button Text="Reset"
+                    Command="{Binding ResetCommand}"
+                    Style="{dui:Styles Button=GhostLarge}"
+                    VerticalOptions="End" />
+        <dui:Button Text="Apply"
+                    Command="{Binding ApplyCommand}"
+                    HorizontalOptions="Fill"
+                    VerticalOptions="End" />
+    </dui:BottomSheet.BottombarButtons>
+</dui:BottomSheet>
+```
+
 # Properties
 Inspect the [components properties class](https://github.com/DIPSAS/DIPS.Mobile.UI/blob/main/src/library/DIPS.Mobile.UI/Components/BottomSheets/BottomSheet.Properties.cs) to further customise and use it.
