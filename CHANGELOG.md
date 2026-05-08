@@ -1,3 +1,6 @@
+## [57.0.0]
+- Use SourceGen compilation.
+
 ## [56.2.0] 
 - Resources was updated from DIPS.Mobile.DesignTokens
 
