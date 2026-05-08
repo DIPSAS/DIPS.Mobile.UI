@@ -1,3 +1,6 @@
+## [57.1.2]
+- Bumped MAUI controls.
+
 ## [57.1.1]
 - [iOS][Camera] Fixed focus locking on startup by enabling continuous autofocus and auto-exposure when camera session starts
 - [iOS][Camera] Fixed tap-to-focus permanently locking focus by returning to continuous autofocus after one-shot focus completes
