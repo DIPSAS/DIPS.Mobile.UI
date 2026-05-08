@@ -1,5 +1,8 @@
-## [56.2.0]
+## [56.3.0]
 - [StepFlow] Added new accordion-style multi-step flow component.
+
+## [56.2.0] 
+- Resources was updated from DIPS.Mobile.DesignTokens
 
 ## [56.1.0]
 - Add new animation.
