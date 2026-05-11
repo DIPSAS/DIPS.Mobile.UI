@@ -30,8 +30,12 @@ public partial class BarcodeScanner : CameraSession
     {
         m_barcodeScanningSettingsIos = barcodeScanningSettings;
         m_captureMetadataOutput = new AVCaptureMetadataOutput();
+        var scanRunId = CurrentScanRunId;
         m_captureDelegate = new CaptureDelegate(s =>
         {
+            if (scanRunId != CurrentScanRunId)
+                return;
+
             if (!string.IsNullOrEmpty(s.StringValue))
             {
                 RectF? overlayBounds = null;
@@ -61,7 +65,7 @@ public partial class BarcodeScanner : CameraSession
                     }
                 }
 
-                InvokeBarcodeFound(new Barcode(s.StringValue, s.Type.ToString()), overlayBounds);
+                InvokeBarcodeFound(new Barcode(s.StringValue, s.Type.ToString()), overlayBounds, scanRunId);
             }
         });
         return ConfigureAndStart(m_cameraPreview, null, m_captureMetadataOutput, cameraFailedDelegate);

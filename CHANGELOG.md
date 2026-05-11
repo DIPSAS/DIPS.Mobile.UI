@@ -1,7 +1,12 @@
-## [56.1.0]
+## [57.0.0]
+- [BarcodeScanner] **BREAKING**: Moved scan callbacks, progress options, duplicate scan cooldown, and barcode detection timing into `BarcodeScanningSettings`. Use `BarcodeScanner.Start(CameraPreview, CameraFailed, BarcodeScanningSettings)` or configure settings in the `Start` callback
 - [BarcodeScanner] **BREAKING**: Removed `TopContent`, `BottomContent`, and `TooltipView` from `BarcodeScanningSettings`. Use `CameraPreview.AddTopToolbarView()`, `CameraPreview.AddBottomToolbarView()`, and `BarcodeScanner.SetTooltipView()` in code-behind instead
 - [BarcodeScanner] Added visible focused scan rectangle overlay controlled by `BarcodeScanningSettings.ShowScanRectangle`, `ScanRectangleWidthFraction`, and `ScanRectangleHeightFraction`
 - [BarcodeScanner][Android] Barcode results are now filtered to only include barcodes within the visible scan rectangle region
+- [BarcodeScanner] Added validation-aware success and failure animations, optional required scan count progress with animated bottom counter and barcode collection animation, duplicate scan cooldown, completion callbacks, and temporary scanning stop support that keeps overlays attached
+- [BarcodeScanner] Positioned the scan progress counter at the top of the bottom toolbar and made the collection animation land on the counter label
+- [BarcodeScanner][Android] Fixed duplicate scan suppression so an already-confirmed barcode is not retried while validation and success animations are running
+- [BarcodeScanner] Stabilized barcode detection by tolerating short detection dropouts, ignoring stale platform callbacks after scanner restarts, and serializing scanner state updates on the main thread
 
 ## [56.0.2]
 - [iOS][ItemPicker] Fixed bug where selected item could reset randomly

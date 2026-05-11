@@ -548,6 +548,12 @@ namespace DIPS.Mobile.UI.Resources.LocalizedStrings.LocalizedStrings {
                 return ResourceManager.GetString("Of", resourceCulture);
             }
         }
+
+        internal static string BarcodeScanProgress {
+            get {
+                return ResourceManager.GetString("BarcodeScanProgress", resourceCulture);
+            }
+        }
         
         internal static string KeepCameraStill {
             get {

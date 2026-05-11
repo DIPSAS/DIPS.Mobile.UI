@@ -7,51 +7,86 @@ namespace DIPS.Mobile.UI.API.Camera.BarcodeScanning;
 
 public partial class BarcodeScanner : ICameraUseCase
 {
+    private const int BarcodeLostTimeout = 650;
+    private const int CooldownTimeout = 500;
+
     private Timer? m_barCodesFoundTimer;
     private Timer? m_barcodeLostTimer;
     private List<BarcodeObservation> m_barcodeObservations = new();
-    private DidFindBarcodeCallback? m_barCodeCallback;
     private CameraFailed? m_cameraFailedDelegate;
     private BarcodeScanRectangleOverlay? m_scanRectangleOverlay;
     private bool m_isTrackingBarcode;
     private bool m_bracketsArrived;
     private bool m_isForming;
     private bool m_isCoolingDown;
+    private bool m_isDisposed;
+    private bool m_isPlatformStarted;
     private Timer? m_cooldownTimer;
-    private HashSet<Barcode> m_confirmedBarcodes = new();
-    
-    /// <summary>
-    /// How long (ms) without a barcode detection before we consider the barcode lost
-    /// and cancel the bracket animation.
-    /// </summary>
-    private const int BarcodeLostTimeout = 250;
-    
-    /// <summary>
-    /// How long (ms) after a successful scan before the scanner accepts new detections.
-    /// Gives the overlay time to reset and avoids immediately re-scanning the same barcode.
-    /// </summary>
-    private const int CooldownTimeout = 500;
+    private readonly HashSet<string> m_confirmedBarcodeValues = new(StringComparer.Ordinal);
+    private BarcodeScanningSettings m_currentBarcodeScanningSettings = new();
+    private BarcodeScanSession? m_scanSession;
+    private int m_scanRunId;
+
+    internal int CurrentScanRunId => Volatile.Read(ref m_scanRunId);
 
     private void Log(string message)
     {
         DUILogService.LogDebug<BarcodeScanner>(message);
     }
 
-    public async Task Start(CameraPreview cameraPreview, DidFindBarcodeCallback didFindBarcodeCallback,CameraFailed cameraFailedDelegate, Action<BarcodeScanningSettings>? configure = null)
+    /// <summary>
+    /// Starts barcode scanning using settings configured in <paramref name="configure"/>.
+    /// </summary>
+    public Task Start(CameraPreview cameraPreview, CameraFailed cameraFailedDelegate, Action<BarcodeScanningSettings>? configure = null)
     {
         var barcodeScanningSettings = new BarcodeScanningSettings();
         configure?.Invoke(barcodeScanningSettings);
+        return Start(cameraPreview, cameraFailedDelegate, barcodeScanningSettings);
+    }
 
+    /// <summary>
+    /// Starts barcode scanning using the provided <paramref name="barcodeScanningSettings"/> instance.
+    /// </summary>
+    public async Task Start(CameraPreview cameraPreview, CameraFailed cameraFailedDelegate, BarcodeScanningSettings barcodeScanningSettings)
+    {
+        m_isDisposed = false;
+        BeginNewScanRun();
+        RemoveOverlayViews();
+        m_currentBarcodeScanningSettings = barcodeScanningSettings;
         m_cameraPreview = cameraPreview;
         m_cameraPreview.AddUseCase(this);
-        m_barCodeCallback = didFindBarcodeCallback;
         m_cameraFailedDelegate = cameraFailedDelegate;
+        ResetScanState();
+        DisposeBarcodeLostTimer();
+        DisposeCooldownTimer();
+        m_confirmedBarcodeValues.Clear();
+
+        m_scanSession?.Dispose();
+        m_scanSession = new BarcodeScanSession(m_currentBarcodeScanningSettings, StopPlatformIfNeeded);
+
         if (await CameraPermissions.CanUseCamera())
         {
+            if (m_isDisposed)
+                return;
+
             Log("Permitted to use camera");
             await m_cameraPreview.HasLoaded();
-            ConstructOverlayViews(barcodeScanningSettings);
-            await PlatformStart(barcodeScanningSettings, m_cameraFailedDelegate);
+
+            if (m_isDisposed)
+                return;
+
+            ConstructOverlayViews(m_currentBarcodeScanningSettings);
+            m_scanSession.AttachProgressCounter(m_cameraPreview);
+            await PlatformStart(m_currentBarcodeScanningSettings, m_cameraFailedDelegate);
+
+            if (m_isDisposed)
+            {
+                await PlatformStop();
+                return;
+            }
+
+            m_isPlatformStarted = true;
+            m_scanSession.Start();
             
             if (m_cameraPreview?.CameraZoomView is not null)
             {
@@ -72,13 +107,13 @@ public partial class BarcodeScanner : ICameraUseCase
                 settings.ScanRectangleWidthFraction,
                 settings.ScanRectangleHeightFraction);
             
-            m_cameraPreview?.AddViewToRoot(m_scanRectangleOverlay, usePreviewViewTranslation: true);
+            m_cameraPreview?.AddViewToRoot(m_scanRectangleOverlay);
         }
     }
 
     /// <summary>
     /// Sets a tooltip view above the scan rectangle (e.g., instructional text).
-    /// Must be called after <see cref="Start"/> when <see cref="BarcodeScanningSettings.ShowScanRectangle"/> is <c>true</c>.
+    /// Must be called after <see cref="Start(CameraPreview, CameraFailed, Action{BarcodeScanningSettings}?)"/> when <see cref="BarcodeScanningSettings.ShowScanRectangle"/> is <c>true</c>.
     /// </summary>
     public void SetTooltipView(View tooltipView)
     {
@@ -98,12 +133,11 @@ public partial class BarcodeScanner : ICameraUseCase
     {
         try
         {
-            PlatformStop();
+            m_isDisposed = true;
+            StopScanningCore(resetOverlay: false);
             RemoveOverlayViews();
             m_cameraPreview = null!;
-            m_barCodeCallback = null;
-            StopAndDisposeTimerAndResults();
-            DisposeCooldownTimer();
+            m_cameraFailedDelegate = null;
         }
         catch (Exception e)
         {
@@ -111,14 +145,55 @@ public partial class BarcodeScanner : ICameraUseCase
         }
     }
 
+    /// <summary>
+    /// Stops camera analysis while keeping scanner overlay views attached to the camera preview.
+    /// Use this when temporarily showing UI, such as a result bottom sheet, before starting the scanner again.
+    /// </summary>
+    public void StopScanning(bool resetOverlay = true)
+    {
+        try
+        {
+            StopScanningCore(resetOverlay);
+        }
+        catch (Exception e)
+        {
+            Log(e.Message);
+        }
+    }
+
+    private void StopScanningCore(bool resetOverlay)
+    {
+        EndCurrentScanRun();
+        StopPlatformIfNeeded();
+        StopAndDisposeTimerAndResults(resetOverlay);
+        DisposeBarcodeLostTimer();
+        DisposeCooldownTimer();
+        m_scanSession?.Dispose();
+        m_scanSession = null;
+    }
+
     internal partial Task PlatformStop();
 
-    internal void InvokeBarcodeFound(Barcode barcode, RectF? overlayBounds = null)
+    internal void InvokeBarcodeFound(Barcode barcode, RectF? overlayBounds = null, int scanRunId = 0)
     {
-        if (m_confirmedBarcodes.Contains(barcode))
+        if (!MainThread.IsMainThread)
         {
-            // Barcode already confirmed — keep the lost timer alive so it only
-            // fires when the barcode actually leaves the camera view.
+            MainThread.BeginInvokeOnMainThread(() => InvokeBarcodeFound(barcode, overlayBounds, scanRunId));
+            return;
+        }
+
+        if (scanRunId is not 0 && scanRunId != CurrentScanRunId)
+            return;
+
+        if (m_isDisposed || m_scanSession?.CanProcessBarcode != true)
+            return;
+
+        var barcodeKey = GetBarcodeKey(barcode);
+        if (string.IsNullOrWhiteSpace(barcodeKey))
+            return;
+
+        if (m_confirmedBarcodeValues.Contains(barcodeKey))
+        {
             ResetBarcodeLostTimer();
             return;
         }
@@ -126,9 +201,23 @@ public partial class BarcodeScanner : ICameraUseCase
         if (m_isCoolingDown)
             return;
         
-        // Accumulate observations regardless of mode
+        AddBarcodeObservation(barcode);
+
+        if (m_scanRectangleOverlay is not null && overlayBounds is not null)
+        {
+            InvokeBarcodeFoundWithOverlay(overlayBounds.Value);
+        }
+        else
+        {
+            InvokeBarcodeFoundWithTimer();
+        }
+    }
+
+    private void AddBarcodeObservation(Barcode barcode)
+    {
+        var barcodeKey = GetBarcodeKey(barcode);
         var barcodeObservation =
-            m_barcodeObservations.FirstOrDefault(observation => Equals(observation.Barcode, barcode));
+            m_barcodeObservations.FirstOrDefault(observation => GetBarcodeKey(observation.Barcode) == barcodeKey);
         if (barcodeObservation == null)
         {
             m_barcodeObservations.Add(new BarcodeObservation(barcode, 1));
@@ -139,17 +228,6 @@ public partial class BarcodeScanner : ICameraUseCase
             m_barcodeObservations.Remove(barcodeObservation);
             m_barcodeObservations.Add(new BarcodeObservation(barcode, numberOfDetections));
         }
-
-        if (m_scanRectangleOverlay is not null && overlayBounds is not null)
-        {
-            // Overlay mode: animation-driven confirmation
-            InvokeBarcodeFoundWithOverlay(overlayBounds.Value);
-        }
-        else
-        {
-            // No overlay: use the existing timer-based approach
-            InvokeBarcodeFoundWithTimer();
-        }
     }
 
     /// <summary>
@@ -158,12 +236,10 @@ public partial class BarcodeScanner : ICameraUseCase
     /// </summary>
     private void InvokeBarcodeFoundWithOverlay(RectF overlayBounds)
     {
-        // Reset "lost" timer — barcode is still visible
         ResetBarcodeLostTimer();
 
         if (!m_isTrackingBarcode)
         {
-            // First detection — start tracking
             m_isTrackingBarcode = true;
             m_bracketsArrived = false;
             m_isForming = false;
@@ -177,15 +253,14 @@ public partial class BarcodeScanner : ICameraUseCase
                     m_bracketsArrived = true;
                     
                     if (!m_isTrackingBarcode)
-                        return; // Lost while animating
+                        return;
 
-                    // Brackets arrived — start forming the rectangle (~2 seconds)
                     m_isForming = true;
                     Log("Brackets arrived, forming rectangle...");
                     m_scanRectangleOverlay?.StartFormingAnimation(onFormed: () =>
                     {
                         if (!m_isTrackingBarcode)
-                            return; // Lost while forming
+                            return;
                         
                         Log("Rectangle formed — barcode confirmed.");
                         ReportMostDetectedBarcode();
@@ -193,15 +268,8 @@ public partial class BarcodeScanner : ICameraUseCase
                 });
             });
         }
-        else if (!m_bracketsArrived)
+        else if (!m_bracketsArrived || m_isForming)
         {
-            // Animation still in progress — update bracket target to track the barcode
-            MainThread.BeginInvokeOnMainThread(() =>
-                m_scanRectangleOverlay?.UpdateBracketTarget(overlayBounds));
-        }
-        else if (m_isForming)
-        {
-            // Forming in progress — keep tracking the barcode position
             MainThread.BeginInvokeOnMainThread(() =>
                 m_scanRectangleOverlay?.UpdateBracketTarget(overlayBounds));
         }
@@ -209,25 +277,36 @@ public partial class BarcodeScanner : ICameraUseCase
 
     private void ResetBarcodeLostTimer()
     {
+        var scanRunId = CurrentScanRunId;
         if (m_barcodeLostTimer is not null)
         {
             m_barcodeLostTimer.Change(BarcodeLostTimeout, Timeout.Infinite);
         }
         else
         {
-            m_barcodeLostTimer = new Timer(_ => OnBarcodeLost(), null, BarcodeLostTimeout, Timeout.Infinite);
+            m_barcodeLostTimer = new Timer(_ => OnBarcodeLost(scanRunId), null, BarcodeLostTimeout, Timeout.Infinite);
         }
     }
 
-    private void OnBarcodeLost()
+    private void OnBarcodeLost(int scanRunId)
     {
+        if (!MainThread.IsMainThread)
+        {
+            MainThread.BeginInvokeOnMainThread(() => OnBarcodeLost(scanRunId));
+            return;
+        }
+
+        if (scanRunId != CurrentScanRunId)
+            return;
+
         Log("Barcode lost — cancelling.");
-        m_isTrackingBarcode = false;
-        m_bracketsArrived = false;
-        m_isForming = false;
-        m_barcodeObservations = [];
-        m_confirmedBarcodes.Clear();
         DisposeBarcodeLostTimer();
+
+        if (m_scanSession?.CanProcessBarcode != true)
+            return;
+
+        m_confirmedBarcodeValues.Clear();
+        ResetScanState();
         MainThread.BeginInvokeOnMainThread(() => m_scanRectangleOverlay?.ResetBarcodeDetection());
     }
 
@@ -240,12 +319,31 @@ public partial class BarcodeScanner : ICameraUseCase
 
     private void ReportMostDetectedBarcode()
     {
+        ReportMostDetectedBarcode(CurrentScanRunId);
+    }
+
+    private void ReportMostDetectedBarcode(int scanRunId)
+    {
+        if (!MainThread.IsMainThread)
+        {
+            MainThread.BeginInvokeOnMainThread(() => ReportMostDetectedBarcode(scanRunId));
+            return;
+        }
+
+        if (scanRunId != CurrentScanRunId)
+            return;
+
+        if (m_isDisposed || m_scanSession?.CanProcessBarcode != true)
+            return;
+
         var allBarCodesOrderedByDetections =
             m_barcodeObservations.OrderByDescending(observation => observation.Detections).ToList();
-        var mostDetectedBarcodeObservation =
-            allBarCodesOrderedByDetections.FirstOrDefault();
+        var mostDetectedBarcodeObservation = allBarCodesOrderedByDetections.FirstOrDefault();
 
         if (mostDetectedBarcodeObservation == null)
+            return;
+
+        if (m_scanSession?.TryBeginProcessing() != true)
             return;
 
         mostDetectedBarcodeObservation.HasMostDetections = true;
@@ -263,13 +361,34 @@ public partial class BarcodeScanner : ICameraUseCase
         var barCodeResults = allBarCodesOrderedByDetections.ToList();
         foreach (var obs in allBarCodesOrderedByDetections)
         {
-            m_confirmedBarcodes.Add(obs.Barcode);
+            m_confirmedBarcodeValues.Add(GetBarcodeKey(obs.Barcode));
         }
-        StopAndDisposeTimerAndResults(playSuccessAnimation: true);
-        StartCooldown();
-        MainThread.BeginInvokeOnMainThread(() =>
-            m_barCodeCallback?.Invoke(new BarcodeScanResult(mostDetectedBarcodeObservation.Barcode,
-                barCodeResults)));
+
+        StopAndDisposeTimerAndResults(resetOverlay: false);
+        DisposeBarcodeLostTimer();
+
+        var barcodeScanResult = new BarcodeScanResult(mostDetectedBarcodeObservation.Barcode,
+            barCodeResults);
+        var scanSession = m_scanSession;
+        MainThread.BeginInvokeOnMainThread(async () =>
+        {
+            try
+            {
+                if (scanSession is null)
+                    return;
+
+                var shouldResumeScanning = await scanSession.ProcessBarcodeScanResultAsync(barcodeScanResult, m_scanRectangleOverlay);
+                if (shouldResumeScanning)
+                {
+                    ResumeScanningAfterAnimation();
+                }
+            }
+            catch (Exception exception)
+            {
+                DUILogService.LogError<BarcodeScanner>(exception.Message);
+                ResumeScanningAfterAnimation();
+            }
+        });
     }
 
     /// <summary>
@@ -279,9 +398,10 @@ public partial class BarcodeScanner : ICameraUseCase
     {
         if (m_barCodesFoundTimer == null)
         {
-            Log($"First bar code found, observing for {BarcodeDetectionTime}ms.");
-            m_barCodesFoundTimer = new Timer(_ => ReportMostDetectedBarcode(),
-                null, (long)BarcodeDetectionTime, Timeout.Infinite);
+            var scanRunId = CurrentScanRunId;
+            Log($"First bar code found, observing for {m_currentBarcodeScanningSettings.BarcodeDetectionTime}ms.");
+            m_barCodesFoundTimer = new Timer(_ => ReportMostDetectedBarcode(scanRunId),
+                null, m_currentBarcodeScanningSettings.BarcodeDetectionTime, Timeout.Infinite);
         }
     }
 
@@ -289,12 +409,23 @@ public partial class BarcodeScanner : ICameraUseCase
     {
         m_isCoolingDown = true;
         m_cooldownTimer?.Dispose();
-        m_cooldownTimer = new Timer(_ =>
+        var scanRunId = CurrentScanRunId;
+        m_cooldownTimer = new Timer(_ => MainThread.BeginInvokeOnMainThread(() => FinishCooldown(scanRunId)),
+            null, (int)Math.Max(m_currentBarcodeScanningSettings.DuplicateScanCooldown.TotalMilliseconds, CooldownTimeout), Timeout.Infinite);
+    }
+
+    private void FinishCooldown(int scanRunId)
+    {
+        if (scanRunId != CurrentScanRunId)
+            return;
+
+        m_isCoolingDown = false;
+        if (m_scanRectangleOverlay is null)
         {
-            m_isCoolingDown = false;
-            m_cooldownTimer?.Dispose();
-            m_cooldownTimer = null;
-        }, null, CooldownTimeout, Timeout.Infinite);
+            m_confirmedBarcodeValues.Clear();
+        }
+        m_cooldownTimer?.Dispose();
+        m_cooldownTimer = null;
     }
 
     private void DisposeCooldownTimer()
@@ -304,25 +435,48 @@ public partial class BarcodeScanner : ICameraUseCase
         m_isCoolingDown = false;
     }
 
-    private void StopAndDisposeTimerAndResults(bool playSuccessAnimation = false)
+    private void StopAndDisposeTimerAndResults(bool resetOverlay = true)
     {
         m_barCodesFoundTimer?.Change(Timeout.Infinite, Timeout.Infinite);
+        m_barCodesFoundTimer?.Dispose();
         m_barCodesFoundTimer = null;
+        ResetScanState();
+        
+        if (resetOverlay)
+        {
+            MainThread.BeginInvokeOnMainThread(() => m_scanRectangleOverlay?.ResetBarcodeDetection());
+        }
+    }
+
+    private void ResetScanState()
+    {
         m_barcodeObservations = [];
         m_isTrackingBarcode = false;
         m_bracketsArrived = false;
         m_isForming = false;
-        
-        // Don't dispose the barcode lost timer here — keep it running so that
-        // OnBarcodeLost fires when the barcode leaves the view, clearing confirmed barcodes.
-        
-        if (playSuccessAnimation && m_scanRectangleOverlay is not null)
-        {
-            MainThread.BeginInvokeOnMainThread(() => m_scanRectangleOverlay?.PlaySuccessAndReset());
-        }
-        else
-        {
-            MainThread.BeginInvokeOnMainThread(() => m_scanRectangleOverlay?.ResetBarcodeDetection());
-        }
+    }
+
+    private void ResumeScanningAfterAnimation()
+    {
+        if (m_isDisposed || m_scanSession is null || m_scanSession.State == BarcodeScannerState.Completed)
+            return;
+
+        StartCooldown();
+        m_scanSession.ResumeScanning();
+    }
+
+    private int BeginNewScanRun() => Interlocked.Increment(ref m_scanRunId);
+
+    private int EndCurrentScanRun() => Interlocked.Increment(ref m_scanRunId);
+
+    private static string GetBarcodeKey(Barcode barcode) => barcode.RawValue ?? string.Empty;
+
+    private void StopPlatformIfNeeded()
+    {
+        if (!m_isPlatformStarted)
+            return;
+
+        m_isPlatformStarted = false;
+        _ = PlatformStop();
     }
 }

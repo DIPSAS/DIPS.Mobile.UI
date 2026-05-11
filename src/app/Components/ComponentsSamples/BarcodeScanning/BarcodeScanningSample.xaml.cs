@@ -21,7 +21,10 @@ public partial class BarcodeScanningSample
     {
         try
         {
-            await m_barcodeScanner.Start(CameraPreview, DidFindBarcode, CameraFailed);
+            await m_barcodeScanner.Start(CameraPreview, CameraFailed, settings =>
+            {
+                settings.OnValidBarcodeScanned = DidFindBarcode;
+            });
         }
         catch (Exception exception)
         {

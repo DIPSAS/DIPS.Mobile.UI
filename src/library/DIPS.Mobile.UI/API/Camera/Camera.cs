@@ -28,15 +28,38 @@ public class Camera
         }
     }
 
-    public async Task StartBarcodeScanning(DidFindBarcodeCallback didFindBarcodeCallback,
-        CameraFailed cameraFailedDelegate)
+    /// <summary>
+    /// Starts barcode scanning in a modal camera preview using settings configured in <paramref name="configure"/>.
+    /// </summary>
+    public async Task StartBarcodeScanning(CameraFailed cameraFailedDelegate,
+        Action<BarcodeScanningSettings>? configure = null)
     {
         try
         {
             var cameraPreview = await OpenAndSetCameraPreview();
             if (cameraPreview == null) return;
             m_barCodeScanner ??= new BarcodeScanner();
-            await m_barCodeScanner.Start(cameraPreview, didFindBarcodeCallback, cameraFailedDelegate);
+            await m_barCodeScanner.Start(cameraPreview, cameraFailedDelegate, configure);
+        }
+        catch (Exception e)
+        {
+            await Stop();
+            throw;
+        }
+    }
+
+    /// <summary>
+    /// Starts barcode scanning in a modal camera preview using the provided <paramref name="barcodeScanningSettings"/> instance.
+    /// </summary>
+    public async Task StartBarcodeScanning(CameraFailed cameraFailedDelegate,
+        BarcodeScanningSettings barcodeScanningSettings)
+    {
+        try
+        {
+            var cameraPreview = await OpenAndSetCameraPreview();
+            if (cameraPreview == null) return;
+            m_barCodeScanner ??= new BarcodeScanner();
+            await m_barCodeScanner.Start(cameraPreview, cameraFailedDelegate, barcodeScanningSettings);
         }
         catch (Exception e)
         {

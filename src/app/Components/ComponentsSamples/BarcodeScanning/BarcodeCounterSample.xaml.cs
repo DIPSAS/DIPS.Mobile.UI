@@ -1,57 +1,37 @@
 using DIPS.Mobile.UI.API.Camera;
 using DIPS.Mobile.UI.API.Camera.BarcodeScanning;
-using DIPS.Mobile.UI.Resources.Styles;
-using DIPS.Mobile.UI.Resources.Styles.Label;
-using Colors = Microsoft.Maui.Graphics.Colors;
 
 namespace Components.ComponentsSamples.BarcodeScanning;
 
 public partial class BarcodeCounterSample
 {
+    private const int RequiredScanCount = 5;
     private readonly BarcodeScanner m_barcodeScanner;
-    private int m_scanCount;
-    private Label? m_counterLabel;
+    private readonly BarcodeScanningSettings m_barcodeScanningSettings;
+    private readonly HashSet<string> m_acceptedBarcodes = [];
 
     public BarcodeCounterSample()
     {
         InitializeComponent();
         m_barcodeScanner = new BarcodeScanner();
+        m_barcodeScanningSettings = new BarcodeScanningSettings
+        {
+            RequiredScanCount = RequiredScanCount,
+            ShowScanRectangle = true,
+            ScanRectangleWidthFraction = 0.8f,
+            ScanRectangleHeightFraction = 0.3f,
+            OnValidBarcodeScanned = DidFindBarcode,
+            ValidateBarcodeAsync = ValidateBarcodeAsync,
+            OnInvalidBarcodeScannedAsync = OnInvalidBarcodeScannedAsync,
+            OnRequiredScanCountCompletedAsync = OnRequiredScanCountCompletedAsync
+        };
     }
 
     private async Task Start()
     {
         try
         {
-            await m_barcodeScanner.Start(CameraPreview, DidFindBarcode, CameraFailed, settings =>
-            {
-                settings.ShowScanRectangle = true;
-                settings.ScanRectangleWidthFraction = 0.8f;
-                settings.ScanRectangleHeightFraction = 0.3f;
-            });
-
-            m_counterLabel = new Label
-            {
-                Text = "Scanned: 0",
-                Style = Styles.GetLabelStyle(LabelStyle.UI200),
-                TextColor = Colors.White,
-                HorizontalTextAlignment = TextAlignment.Center
-            };
-
-            CameraPreview.AddTopToolbarView(new VerticalStackLayout
-            {
-                Spacing = 4,
-                Children =
-                {
-                    new Label
-                    {
-                        Text = "Barcode counter",
-                        Style = Styles.GetLabelStyle(LabelStyle.UI200),
-                        TextColor = Colors.White,
-                        HorizontalTextAlignment = TextAlignment.Center
-                    },
-                    m_counterLabel
-                }
-            });
+            await m_barcodeScanner.Start(CameraPreview, CameraFailed, m_barcodeScanningSettings);
         }
         catch (Exception exception)
         {
@@ -67,11 +47,34 @@ public partial class BarcodeCounterSample
 
     private void DidFindBarcode(BarcodeScanResult barcodeScanResult)
     {
-        m_scanCount++;
-        if (m_counterLabel is not null)
+        m_acceptedBarcodes.Add(barcodeScanResult.Barcode.RawValue);
+        Console.WriteLine($"Accepted barcode: {barcodeScanResult.Barcode.RawValue}");
+    }
+
+    private async Task<BarcodeScanValidationResult> ValidateBarcodeAsync(string barcode)
+    {
+        await Task.Delay(150);
+
+        if (string.IsNullOrWhiteSpace(barcode))
         {
-            m_counterLabel.Text = $"Scanned: {m_scanCount}";
+            return BarcodeScanValidationResult.Invalid();
         }
+
+        return m_acceptedBarcodes.Contains(barcode)
+            ? BarcodeScanValidationResult.Invalid()
+            : BarcodeScanValidationResult.Valid();
+    }
+
+    private Task OnInvalidBarcodeScannedAsync(BarcodeScanResult barcodeScanResult, BarcodeScanValidationResult validationResult)
+    {
+        Console.WriteLine($"Rejected barcode: {barcodeScanResult.Barcode.RawValue}. {validationResult.ErrorMessage}");
+        return Task.CompletedTask;
+    }
+
+    private Task OnRequiredScanCountCompletedAsync()
+    {
+        Console.WriteLine("Required barcode scan count completed.");
+        return Task.CompletedTask;
     }
 
     protected override void OnAppearing()

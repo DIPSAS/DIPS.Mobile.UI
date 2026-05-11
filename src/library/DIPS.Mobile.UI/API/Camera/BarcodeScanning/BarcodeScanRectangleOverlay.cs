@@ -1,5 +1,10 @@
 using DIPS.Mobile.UI.API.Camera.Preview;
+using DIPS.Mobile.UI.Resources.Colors;
+using DIPS.Mobile.UI.Resources.Icons;
 using DIPS.Mobile.UI.Resources.Sizes;
+using Microsoft.Maui.Controls.Shapes;
+using DuiColors = DIPS.Mobile.UI.Resources.Colors.Colors;
+using DuiImage = DIPS.Mobile.UI.Components.Images.Image.Image;
 
 namespace DIPS.Mobile.UI.API.Camera.BarcodeScanning;
 
@@ -14,11 +19,20 @@ internal class BarcodeScanRectangleOverlay : Grid
     private readonly CornerBracketsDrawable m_cornersDrawable;
     private readonly GraphicsView m_dimGraphicsView;
     private readonly GraphicsView m_cornersGraphicsView;
+    private readonly Border m_collectionToken;
     private View? m_tooltipView;
     private readonly float m_widthFraction;
     private readonly float m_heightFraction;
+    private RectF? m_trackingTargetRect;
+    private long m_lastTrackingTargetUpdateMilliseconds;
+    private bool m_isAnimatingToBarcode;
     
     private const float HighlightPadding = 6f;
+    private const long TrackingTargetUpdateThrottleMilliseconds = 32;
+    private const float TrackingTargetSmallChangeThreshold = 1.5f;
+    private const float TrackingTargetLargeChangeThreshold = 48f;
+    private const float TrackingTargetSmoothing = .35f;
+    private const float TrackingTargetFastSmoothing = .65f;
 
     public BarcodeScanRectangleOverlay(float widthFraction, float heightFraction)
     {
@@ -42,11 +56,49 @@ internal class BarcodeScanRectangleOverlay : Grid
             BackgroundColor = Microsoft.Maui.Graphics.Colors.Transparent
         };
 
+        m_collectionToken = new Border
+        {
+            InputTransparent = true,
+            HorizontalOptions = LayoutOptions.Center,
+            VerticalOptions = LayoutOptions.Start,
+            WidthRequest = Sizes.GetSize(SizeName.size_14),
+            HeightRequest = Sizes.GetSize(SizeName.size_14),
+            BackgroundColor = DuiColors.GetColor(ColorName.color_fill_success),
+            Stroke = DuiColors.GetColor(ColorName.color_border_success),
+            StrokeThickness = Sizes.GetSize(SizeName.stroke_small),
+            StrokeShape = new RoundRectangle
+            {
+                CornerRadius = new CornerRadius(Sizes.GetSize(SizeName.radius_large))
+            },
+            Content = new DuiImage
+            {
+                Source = Icons.GetIcon(IconName.barcode_fill),
+                TintColor = DuiColors.GetColor(ColorName.color_icon_on_fill_success),
+                WidthRequest = Sizes.GetSize(SizeName.size_7),
+                HeightRequest = Sizes.GetSize(SizeName.size_7),
+                HorizontalOptions = LayoutOptions.Center,
+                VerticalOptions = LayoutOptions.Center
+            },
+            Shadow = new Shadow
+            {
+                Brush = new SolidColorBrush(DuiColors.GetColor(ColorName.color_surface_backdrop, .65f)),
+                Offset = new Point(0, Sizes.GetSize(SizeName.size_1)),
+                Radius = (float)Sizes.GetSize(SizeName.size_2),
+                Opacity = .75f
+            },
+            IsVisible = false,
+            Opacity = 0,
+            Scale = .65
+        };
+
         InputTransparent = true;
         BackgroundColor = Microsoft.Maui.Graphics.Colors.Transparent;
 
         Children.Add(m_dimGraphicsView);
         Children.Add(m_cornersGraphicsView);
+        Children.Add(m_collectionToken);
+
+        SizeChanged += OnSizeChanged;
 
         StartBreathingAnimation();
     }
@@ -87,7 +139,6 @@ internal class BarcodeScanRectangleOverlay : Grid
 
         Children.Add(m_tooltipView);
 
-        SizeChanged += OnSizeChanged;
         m_tooltipView.SizeChanged += OnTooltipSizeChanged;
     }
 
@@ -132,6 +183,8 @@ internal class BarcodeScanRectangleOverlay : Grid
         m_cornersGraphicsView.AbortAnimation("BracketsReturn");
         m_cornersGraphicsView.AbortAnimation("BracketsForming");
         m_cornersGraphicsView.AbortAnimation("BracketsSuccess");
+        m_cornersGraphicsView.AbortAnimation("BracketsFailure");
+        m_collectionToken.AbortAnimation("CollectionToken");
     }
 
     internal void SetBarcodeDetected()
@@ -167,10 +220,9 @@ internal class BarcodeScanRectangleOverlay : Grid
         var startW = startRect.Width;
         var startH = startRect.Height;
 
-        var endX = barcodeRect.X - HighlightPadding;
-        var endY = barcodeRect.Y - HighlightPadding;
-        var endW = barcodeRect.Width + HighlightPadding * 2;
-        var endH = barcodeRect.Height + HighlightPadding * 2;
+        m_trackingTargetRect = GetHighlightedBarcodeRect(barcodeRect);
+        m_lastTrackingTargetUpdateMilliseconds = Environment.TickCount64;
+        m_isAnimatingToBarcode = true;
 
         // Also abort BracketsReturn — if brackets are mid-return and a new barcode is detected,
         // we must cancel the return so its finished callback does not call StartBreathingAnimation.
@@ -180,11 +232,12 @@ internal class BarcodeScanRectangleOverlay : Grid
         var animation = new Animation(v =>
         {
             var t = (float)v;
+            var targetRect = m_trackingTargetRect ?? GetHighlightedBarcodeRect(barcodeRect);
             m_cornersDrawable.OverrideRect = new RectF(
-                startX + (endX - startX) * t,
-                startY + (endY - startY) * t,
-                startW + (endW - startW) * t,
-                startH + (endH - startH) * t);
+                startX + (targetRect.X - startX) * t,
+                startY + (targetRect.Y - startY) * t,
+                startW + (targetRect.Width - startW) * t,
+                startH + (targetRect.Height - startH) * t);
             m_cornersGraphicsView.Invalidate();
         }, 0, 1, Easing.CubicOut);
 
@@ -193,6 +246,7 @@ internal class BarcodeScanRectangleOverlay : Grid
             length: 400,
             finished: (_, cancelled) =>
             {
+                m_isAnimatingToBarcode = false;
                 if (!cancelled)
                     onArrived?.Invoke();
             });
@@ -244,26 +298,70 @@ internal class BarcodeScanRectangleOverlay : Grid
     /// </summary>
     internal void UpdateBracketTarget(RectF barcodeRect)
     {
-        m_cornersDrawable.OverrideRect = new RectF(
-            barcodeRect.X - HighlightPadding,
-            barcodeRect.Y - HighlightPadding,
-            barcodeRect.Width + HighlightPadding * 2,
-            barcodeRect.Height + HighlightPadding * 2);
+        var targetRect = GetHighlightedBarcodeRect(barcodeRect);
+        var currentTargetRect = m_trackingTargetRect;
+        if (currentTargetRect is not null)
+        {
+            var targetDelta = GetMaximumRectDelta(currentTargetRect.Value, targetRect);
+            if (targetDelta < TrackingTargetSmallChangeThreshold)
+                return;
+
+            var now = Environment.TickCount64;
+            if (now - m_lastTrackingTargetUpdateMilliseconds < TrackingTargetUpdateThrottleMilliseconds &&
+                targetDelta < TrackingTargetLargeChangeThreshold)
+            {
+                return;
+            }
+
+            m_lastTrackingTargetUpdateMilliseconds = now;
+            targetRect = Lerp(currentTargetRect.Value, targetRect,
+                targetDelta > TrackingTargetLargeChangeThreshold ? TrackingTargetFastSmoothing : TrackingTargetSmoothing);
+        }
+        else
+        {
+            m_lastTrackingTargetUpdateMilliseconds = Environment.TickCount64;
+        }
+
+        m_trackingTargetRect = targetRect;
+
+        if (m_isAnimatingToBarcode)
+            return;
+
+        var currentRect = m_cornersDrawable.OverrideRect ?? targetRect;
+        m_cornersDrawable.OverrideRect = Lerp(currentRect, targetRect, TrackingTargetFastSmoothing);
         m_cornersGraphicsView.Invalidate();
     }
+
+    private static RectF GetHighlightedBarcodeRect(RectF barcodeRect) => new(
+        barcodeRect.X - HighlightPadding,
+        barcodeRect.Y - HighlightPadding,
+        barcodeRect.Width + HighlightPadding * 2,
+        barcodeRect.Height + HighlightPadding * 2);
+
+    private static RectF Lerp(RectF startRect, RectF endRect, float progress) => new(
+        startRect.X + (endRect.X - startRect.X) * progress,
+        startRect.Y + (endRect.Y - startRect.Y) * progress,
+        startRect.Width + (endRect.Width - startRect.Width) * progress,
+        startRect.Height + (endRect.Height - startRect.Height) * progress);
+
+    private static float GetMaximumRectDelta(RectF startRect, RectF endRect) => Math.Max(
+        Math.Max(Math.Abs(startRect.X - endRect.X), Math.Abs(startRect.Y - endRect.Y)),
+        Math.Max(Math.Abs(startRect.Width - endRect.Width), Math.Abs(startRect.Height - endRect.Height)));
 
     /// <summary>
     /// Plays a polished success animation: brackets pulse outward with a spring-like
     /// overshoot, color transitions to green, holds briefly, then resets to idle.
     /// All animation happens inside the drawable for crisp rendering.
     /// </summary>
-    internal void PlaySuccessAndReset()
+    internal Task PlaySuccessAndResetAsync()
     {
         m_cornersGraphicsView.AbortAnimation("BracketsForming");
         
         m_cornersDrawable.BracketColor = CornerBracketsDrawable.SuccessBracketColor;
         m_cornersDrawable.MaxStrokeWidth = CornerBracketsDrawable.SuccessStrokeWidth;
         m_cornersGraphicsView.Invalidate();
+
+        var taskCompletionSource = new TaskCompletionSource<bool>();
 
         var animation = new Animation
         {
@@ -300,7 +398,84 @@ internal class BarcodeScanRectangleOverlay : Grid
                 m_cornersDrawable.Inset = 0;
                 if (!cancelled)
                     ResetBarcodeDetection();
+                taskCompletionSource.TrySetResult(true);
             });
+
+        return taskCompletionSource.Task;
+    }
+
+    internal Task PlayCollectionTokenAsync(Point? targetCenter = null)
+    {
+        if (Height <= 0 || Width <= 0)
+            return Task.CompletedTask;
+
+        var tokenSourceRect = m_cornersDrawable.OverrideRect ?? m_trackingTargetRect ?? GetScanRectangleForDrawable();
+        var startX = tokenSourceRect.X + tokenSourceRect.Width / 2 - Width / 2;
+        var startY = tokenSourceRect.Y + tokenSourceRect.Height / 2 - m_collectionToken.HeightRequest / 2;
+        var endX = 0d;
+        var endY = Math.Max(startY, Height - Sizes.GetSize(SizeName.size_18));
+        if (targetCenter is { } landingPoint)
+        {
+            endX = landingPoint.X - Width / 2;
+            endY = landingPoint.Y - m_collectionToken.HeightRequest / 2;
+        }
+        var arcDirection = startX >= 0 ? -1 : 1;
+        var arcHeight = Sizes.GetSize(SizeName.size_8);
+        var arcWidth = Sizes.GetSize(SizeName.size_5) * arcDirection;
+
+        m_collectionToken.AbortAnimation("CollectionToken");
+        m_collectionToken.IsVisible = true;
+        m_collectionToken.Opacity = 0;
+        m_collectionToken.Scale = .65;
+        m_collectionToken.Rotation = 0;
+        m_collectionToken.TranslationX = startX;
+        m_collectionToken.TranslationY = startY;
+
+        var taskCompletionSource = new TaskCompletionSource<bool>();
+        var animation = new Animation(progress =>
+        {
+            var easedProgress = Easing.CubicInOut.Ease(progress);
+            var arcProgress = Math.Sin(progress * Math.PI);
+            var popProgress = Math.Sin(Math.Min(progress, .36) / .36 * Math.PI);
+
+            m_collectionToken.TranslationX = startX + (endX - startX) * easedProgress + arcWidth * arcProgress;
+            m_collectionToken.TranslationY = startY + (endY - startY) * easedProgress - arcHeight * arcProgress;
+            m_collectionToken.Scale = .65 + .46 * popProgress - .28 * easedProgress;
+            m_collectionToken.Opacity = progress < .18 ? progress / .18 : Math.Max(.18, 1 - Math.Max(0, progress - .68) / .32);
+            m_collectionToken.Rotation = -10 * arcDirection * arcProgress;
+        }, 0, 1, Easing.Linear);
+
+        animation.Commit(m_collectionToken, "CollectionToken",
+            rate: 16,
+            length: 680,
+            finished: (_, _) =>
+            {
+                m_collectionToken.IsVisible = false;
+                m_collectionToken.Opacity = 0;
+                m_collectionToken.Scale = .65;
+                m_collectionToken.Rotation = 0;
+                m_collectionToken.TranslationX = 0;
+                m_collectionToken.TranslationY = startY;
+                taskCompletionSource.TrySetResult(true);
+            });
+
+        return taskCompletionSource.Task;
+    }
+
+    internal async Task PlayFailureAndResetAsync(string? errorMessage)
+    {
+        m_cornersGraphicsView.AbortAnimation("BracketsForming");
+        m_cornersDrawable.BracketColor = CornerBracketsDrawable.FailureBracketColor;
+        m_cornersDrawable.MaxStrokeWidth = CornerBracketsDrawable.FailureStrokeWidth;
+        m_cornersGraphicsView.Invalidate();
+
+        var shakeDistance = Sizes.GetSize(SizeName.size_2);
+        await m_cornersGraphicsView.TranslateTo(-shakeDistance, 0, 55, Easing.CubicOut);
+        await m_cornersGraphicsView.TranslateTo(shakeDistance, 0, 80, Easing.CubicInOut);
+        await m_cornersGraphicsView.TranslateTo(-shakeDistance / 2, 0, 65, Easing.CubicInOut);
+        await m_cornersGraphicsView.TranslateTo(0, 0, 80, Easing.CubicOut);
+
+        ResetBarcodeDetection();
     }
 
     internal void ResetBarcodeDetection()
@@ -308,6 +483,10 @@ internal class BarcodeScanRectangleOverlay : Grid
         m_cornersGraphicsView.AbortAnimation("BracketsToBarcode");
         m_cornersGraphicsView.AbortAnimation("BracketsReturn");
         m_cornersGraphicsView.AbortAnimation("BracketsForming");
+        m_isAnimatingToBarcode = false;
+        m_trackingTargetRect = null;
+        m_lastTrackingTargetUpdateMilliseconds = 0;
+        m_cornersGraphicsView.TranslationX = 0;
         m_cornersDrawable.FormingProgress = 0;
         m_cornersDrawable.BracketColor = CornerBracketsDrawable.DefaultBracketColor;
         m_cornersDrawable.MaxStrokeWidth = CornerBracketsDrawable.DefaultStrokeWidth;
@@ -351,7 +530,6 @@ internal class BarcodeScanRectangleOverlay : Grid
         }
 
     }
-
     private RectF GetScanRectangleForDrawable()
     {
         var w = (float)Width;
@@ -430,22 +608,31 @@ internal class BarcodeScanRectangleOverlay : Grid
             var rectX = (dirtyRect.Width - rectWidth) / 2f;
             var centerY = GetCameraFeedCenterY(dirtyRect.Width, dirtyRect.Height);
             var rectY = centerY - rectHeight / 2f;
-            var cornerRadius = (float)Sizes.GetSize(SizeName.radius_medium);
 
             LastScanRect = new RectF(rectX, rectY, rectWidth, rectHeight);
 
             // Only dim the camera feed area, leaving top and bottom toolbars unaffected
             var actualPreviewHeight = Math.Min(dirtyRect.Width / CameraPreview.ThreeFourRatio, dirtyRect.Height);
             var cameraFeedTop = centerY - actualPreviewHeight / 2f;
-            var cameraFeedRect = new RectF(0, cameraFeedTop, dirtyRect.Width, actualPreviewHeight);
+            var cameraFeedBottom = cameraFeedTop + actualPreviewHeight;
+            var scanTop = Math.Max(rectY, cameraFeedTop);
+            var scanBottom = Math.Min(rectY + rectHeight, cameraFeedBottom);
+            var scanHeight = Math.Max(scanBottom - scanTop, 0);
+            var scanRight = rectX + rectWidth;
 
             canvas.FillColor = Microsoft.Maui.Graphics.Color.FromRgba(0, 0, 0, 0.5f);
-            canvas.FillRectangle(cameraFeedRect);
+            FillRectangleIfVisible(canvas, 0, cameraFeedTop, dirtyRect.Width, scanTop - cameraFeedTop);
+            FillRectangleIfVisible(canvas, 0, scanBottom, dirtyRect.Width, cameraFeedBottom - scanBottom);
+            FillRectangleIfVisible(canvas, 0, scanTop, rectX, scanHeight);
+            FillRectangleIfVisible(canvas, scanRight, scanTop, dirtyRect.Width - scanRight, scanHeight);
+        }
 
-            // Cut out the scan rectangle
-            canvas.BlendMode = BlendMode.Clear;
-            canvas.FillRoundedRectangle(rectX, rectY, rectWidth, rectHeight, cornerRadius);
-            canvas.BlendMode = BlendMode.Normal;
+        private static void FillRectangleIfVisible(ICanvas canvas, float x, float y, float width, float height)
+        {
+            if (width <= 0 || height <= 0)
+                return;
+
+            canvas.FillRectangle(x, y, width, height);
         }
     }
 
@@ -463,10 +650,12 @@ internal class BarcodeScanRectangleOverlay : Grid
         internal const float DefaultStrokeWidth = 4f;
         
         internal static readonly Color DefaultBracketColor = Microsoft.Maui.Graphics.Colors.White;
-        internal static readonly Color DetectedBracketColor = Microsoft.Maui.Graphics.Color.FromRgba(255, 214, 10, 255);
-        internal static readonly Color SuccessBracketColor = Microsoft.Maui.Graphics.Color.FromRgba(48, 209, 88, 255);
+        internal static readonly Color DetectedBracketColor = DuiColors.GetColor(ColorName.color_border_warning);
+        internal static readonly Color SuccessBracketColor = DuiColors.GetColor(ColorName.color_border_success);
+        internal static readonly Color FailureBracketColor = DuiColors.GetColor(ColorName.color_border_danger);
         internal const float DetectedStrokeWidth = 2f;
         internal const float SuccessStrokeWidth = 3f;
+        internal const float FailureStrokeWidth = 3f;
 
         /// <summary>
         /// Inset in points applied to the bracket corner positions. Animated to create a breathing effect.

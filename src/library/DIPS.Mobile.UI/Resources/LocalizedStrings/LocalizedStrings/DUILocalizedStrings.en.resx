@@ -263,6 +263,9 @@
     <data name="Of" xml:space="preserve">
         <value>{0} of {1}</value>
     </data>
+    <data name="BarcodeScanProgress" xml:space="preserve">
+        <value>{0} of {1} scanned</value>
+    </data>
     <data name="KeepCameraStill" xml:space="preserve">
         <value>Hold camera still…</value>
     </data>

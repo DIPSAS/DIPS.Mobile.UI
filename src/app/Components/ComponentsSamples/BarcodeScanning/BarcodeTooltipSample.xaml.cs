@@ -21,8 +21,9 @@ public partial class BarcodeTooltipSample
     {
         try
         {
-            await m_barcodeScanner.Start(CameraPreview, DidFindBarcode, CameraFailed, settings =>
+            await m_barcodeScanner.Start(CameraPreview, CameraFailed, settings =>
             {
+                settings.OnValidBarcodeScanned = DidFindBarcode;
                 settings.ShowScanRectangle = true;
             });
             
@@ -56,7 +57,7 @@ public partial class BarcodeTooltipSample
         m_barCodeResultBottomSheet = new BarcodeScanningResultBottomSheet();
         m_barCodeResultBottomSheet.Closed += BottomSheetClosed;
         m_barCodeResultBottomSheet.OpenWithBarCode(barcodeScanResult);
-        m_barcodeScanner.StopAndDispose();
+        m_barcodeScanner.StopScanning(resetOverlay: false);
     }
 
     private void BottomSheetClosed(object? sender, EventArgs e)

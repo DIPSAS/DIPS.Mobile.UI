@@ -270,6 +270,9 @@
     <data name="Of" xml:space="preserve">
         <value>{0} av {1}</value>
     </data>
+    <data name="BarcodeScanProgress" xml:space="preserve">
+        <value>{0} av {1} skannet</value>
+    </data>
     <data name="KeepCameraStill" xml:space="preserve">
         <value>Hold kameraet stille...</value>
     </data>
