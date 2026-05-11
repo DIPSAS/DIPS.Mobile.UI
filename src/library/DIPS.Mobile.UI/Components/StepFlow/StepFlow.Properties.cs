@@ -13,7 +13,7 @@ public partial class StepFlow
     }
 
     /// <summary>
-    /// When <c>true</c>, tapping a <see cref="StepFlowItemState.Disabled"/> step's header activates
+    /// When <c>true</c>, tapping a <see cref="StepFlowItemState.Disabled"/> step card activates
     /// it. Defaults to <c>false</c> — the controller normally drives activation.
     /// </summary>
     public bool AllowDirectStepActivation

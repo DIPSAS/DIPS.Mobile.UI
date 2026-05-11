@@ -23,6 +23,11 @@ public partial class StepFlow : ContentView
     private MauiScrollView? m_cachedScroller;
     private bool m_scrollerResolved;
 
+    // True while the controller is being initialized (e.g. when the page is first shown).
+    // Suppresses auto-scroll for the initial Active state so that navigating to a page that
+    // hosts a StepFlow does not yank the page back to the top of the flow.
+    private bool m_isInitializing;
+
     public StepFlow()
     {
         m_stack.Spacing = Sizes.GetSize(SizeName.size_3);
@@ -59,7 +64,7 @@ public partial class StepFlow : ContentView
 
     private void AttachItem(StepFlowItem item)
     {
-        item.HeaderTapped += OnItemHeaderTapped;
+        item.CardTapped += OnItemCardTapped;
         // Watching the item's State directly works for both controller-driven activation
         // (controller mutates State on the item) and the controller-less escape hatch where
         // the consumer assigns State manually.
@@ -68,7 +73,7 @@ public partial class StepFlow : ContentView
 
     private void DetachItem(StepFlowItem item)
     {
-        item.HeaderTapped -= OnItemHeaderTapped;
+        item.CardTapped -= OnItemCardTapped;
         item.PropertyChanged -= OnItemPropertyChanged;
         m_stack.Children.Remove(item);
         // Manually disconnect handlers so the native handler chain on the item and its children
@@ -131,10 +136,18 @@ public partial class StepFlow : ContentView
         if (m_attachedController is null) return;
         if (m_items.Count == 0) return;
 
-        m_attachedController.Initialize(m_items.Count);
-        for (var i = 0; i < m_items.Count; i++)
+        m_isInitializing = true;
+        try
         {
-            m_items[i].State = m_attachedController.States[i];
+            m_attachedController.Initialize(m_items.Count);
+            for (var i = 0; i < m_items.Count; i++)
+            {
+                m_items[i].State = m_attachedController.States[i];
+            }
+        }
+        finally
+        {
+            m_isInitializing = false;
         }
     }
 
@@ -151,7 +164,7 @@ public partial class StepFlow : ContentView
         FlowCompleted?.Invoke(this, EventArgs.Empty);
     }
 
-    private void OnItemHeaderTapped(object? sender, EventArgs e)
+    private void OnItemCardTapped(object? sender, EventArgs e)
     {
         if (!IsEnabled) return;
         if (sender is not StepFlowItem item) return;
@@ -199,6 +212,9 @@ public partial class StepFlow : ContentView
         if (sender is not StepFlowItem item) return;
         if (item.State != StepFlowItemState.Active) return;
         if (!AutoScrollIntoView) return;
+        // Don't scroll on the initial activation (e.g. when navigating to the page) — the
+        // user has not interacted yet and yanking the page to the top of the flow is jarring.
+        if (m_isInitializing) return;
 
         _ = ScrollItemIntoViewAsync(item);
     }

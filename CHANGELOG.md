@@ -1,3 +1,6 @@
+## [56.3.1]
+- [StepFlow] Fixed Android header text clipping for long completed step titles, made collapsed cards tappable across the full card surface, smoothed expand/collapse motion, and prevented the initial active step from auto-scrolling when the flow is initialized.
+
 ## [56.3.0]
 - [StepFlow] Added new accordion-style multi-step flow component.
 

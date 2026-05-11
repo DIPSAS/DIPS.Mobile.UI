@@ -1,12 +1,19 @@
 namespace DIPS.Mobile.UI.Components.StepFlow;
 
 /// <summary>
-/// Battle-tested easing functions used throughout <see cref="StepFlow"/>. Defined as
+/// Easing functions used throughout <see cref="StepFlow"/>. Defined as
 /// static <see cref="Easing"/> instances so the underlying delegates are not allocated
 /// per animation invocation.
 /// </summary>
 internal static class StepFlowEasings
 {
+    /// <summary>Smooth ease-out for layout expansion.</summary>
+    public static readonly Easing ExpandSmooth = new(t =>
+    {
+        var u = 1 - t;
+        return 1 - u * u * u * u;
+    });
+
     /// <summary>
     /// easeOutQuint with a tiny damped-sine "settle" at the end:
     /// <c>1 - (1-t)^5 + sin(t * pi * 2.2) * exp(-t * 5) * 0.04</c>.
@@ -19,8 +26,11 @@ internal static class StepFlowEasings
         return ease + settle;
     });
 
-    /// <summary>easeInCubic: <c>t^3</c>. Used for collapse animations.</summary>
-    public static readonly Easing CollapseCubic = new(t => t * t * t);
+    /// <summary>Smooth cubic in/out for collapse animations.</summary>
+    public static readonly Easing CollapseSmooth = new(t =>
+        t < 0.5
+            ? 4 * t * t * t
+            : 1 - Math.Pow(-2 * t + 2, 3) / 2);
 
     /// <summary>
     /// Critically-damped sine spring-out, used for icon settles, press releases and lift animations.

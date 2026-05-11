@@ -23,11 +23,11 @@ public partial class StepFlowItem : ContentView
     private const double DisabledOpacity = 0.45;
     private const double CompletedOpacity = 0.78;
 
-    internal const uint ExpandDurationMs = 420;
-    private const uint CollapseDurationMs = 320;
-    private const uint LiftDurationMs = 380;
-    private const uint CompletionDimDurationMs = 500;
-    private const uint IndicatorShiftDurationMs = 360;
+    internal const uint ExpandDurationMs = 380;
+    private const uint CollapseDurationMs = 280;
+    private const uint LiftDurationMs = 300;
+    private const uint CompletionDimDurationMs = 360;
+    private const uint IndicatorShiftDurationMs = 260;
 
     private readonly double m_indicatorSlotWidth;
 
@@ -39,6 +39,7 @@ public partial class StepFlowItem : ContentView
     private readonly VerticalStackLayout m_titleStack = new();
     private readonly ContentView m_bodyContainer = new();
     private readonly SKLottieView m_completionAnimation;
+    private readonly Command m_cardTappedCommand;
 
     private string m_animationToken;
 
@@ -51,12 +52,13 @@ public partial class StepFlowItem : ContentView
     /// <summary>Internal index in the parent <see cref="StepFlow"/>.</summary>
     internal int Index { get; set; } = -1;
 
-    /// <summary>Raised when the user taps the header. The container decides whether the tap should activate the step.</summary>
-    internal event EventHandler? HeaderTapped;
+    /// <summary>Raised when the user taps the card. The container decides whether the tap should activate the step.</summary>
+    internal event EventHandler? CardTapped;
 
     public StepFlowItem()
     {
         m_animationToken = "stepflow-item-" + Guid.NewGuid().ToString("N");
+        m_cardTappedCommand = new Command(InvokeCardTapped);
         m_indicatorSlotWidth = Sizes.GetSize(SizeName.size_6) + Sizes.GetSize(SizeName.size_3);
 
         BackgroundColor = GraphicsColors.Transparent;
@@ -76,9 +78,9 @@ public partial class StepFlowItem : ContentView
             InputTransparent = true
         };
 
-        // Indicator slot — overlays the title at the start of the header. The title slides
-        // right (via TranslationX animation) to make room when the Lottie checkmark appears
-        // on completion, so non-completed steps render their title flush left.
+        // Indicator slot — overlays the title at the start of the header. The title gets a
+        // measured left margin when the Lottie checkmark appears on completion, so Android
+        // re-wraps long titles using the reduced width instead of clipping transformed text.
         m_indicatorHost.HorizontalOptions = LayoutOptions.Start;
         m_indicatorHost.VerticalOptions = LayoutOptions.Center;
         m_indicatorHost.Content = m_completionAnimation;
@@ -86,12 +88,14 @@ public partial class StepFlowItem : ContentView
         // ---- Title / subtitle stack ----
         m_titleLabel.Style = Styles.GetLabelStyle(LabelStyle.UI300);
         m_titleLabel.LineBreakMode = LineBreakMode.WordWrap;
+        m_titleLabel.HorizontalOptions = LayoutOptions.Fill;
         m_titleLabel.VerticalOptions = LayoutOptions.Center;
 
         m_subtitleLabel.Style = Styles.GetLabelStyle(LabelStyle.UI100);
         m_subtitleLabel.TextColor = Colors.GetColor(ColorName.color_text_subtle);
         m_subtitleLabel.IsVisible = false;
         m_subtitleLabel.LineBreakMode = LineBreakMode.WordWrap;
+        m_subtitleLabel.HorizontalOptions = LayoutOptions.Fill;
 
         m_titleStack.Spacing = 0;
         m_titleStack.VerticalOptions = LayoutOptions.Center;
@@ -109,17 +113,16 @@ public partial class StepFlowItem : ContentView
         m_headerGrid.Add(m_indicatorHost, 0, 0);
 
         // The title stack and indicator host are purely visual; their text is composed into
-        // a single accessibility announcement on the header. Excluding them keeps screen
+        // a single accessibility announcement on the card. Excluding them keeps screen
         // readers from navigating into individual labels and animation views.
         AutomationProperties.SetExcludedWithChildren(m_titleStack, true);
         AutomationProperties.SetExcludedWithChildren(m_indicatorHost, true);
 
-        // Use the canonical DUI Touch effect for tap handling so the platform applies the
-        // "Button" accessibility trait (UIAccessibilityTrait.Button on iOS, button role on
-        // Android via the accessibility delegate). Setting SemanticProperties.Description
+        // Use the canonical DUI Touch effect for card tap handling so the platform applies
+        // the "Button" accessibility trait (UIAccessibilityTrait.Button on iOS, button role
+        // on Android via the accessibility delegate). Setting SemanticProperties.Description
         // before the effect is required for the trait to be applied.
-        Touch.SetIsButtonTraitEnabled(m_headerGrid, true);
-        Touch.SetCommand(m_headerGrid, new Command(InvokeHeaderTapped));
+        Touch.SetIsButtonTraitEnabled(m_root, true);
         RefreshAccessibilityDescription();
 
         // ---- Body container (animated) ----
@@ -204,8 +207,8 @@ public partial class StepFlowItem : ContentView
 
     /// <summary>
     /// Builds a single accessibility announcement that conveys position, title, subtitle and
-    /// state to screen readers. The visual children of the header are excluded from the
-    /// accessibility tree so VoiceOver / TalkBack focus the header as one unit.
+    /// state to screen readers. The visual header children are excluded from the
+    /// accessibility tree so VoiceOver / TalkBack focus the card as one unit.
     /// </summary>
     private void RefreshAccessibilityDescription()
     {
@@ -214,8 +217,8 @@ public partial class StepFlowItem : ContentView
             ? $"{position}: {Title}"
             : $"{position}: {Title}. {Subtitle}";
 
-        SemanticProperties.SetDescription(m_headerGrid, description);
-        SemanticProperties.SetHint(m_headerGrid, GetStateHint(State));
+        SemanticProperties.SetDescription(m_root, description);
+        SemanticProperties.SetHint(m_root, GetStateHint(State));
     }
 
     private static string GetStateHint(StepFlowItemState state) => state switch
@@ -227,13 +230,22 @@ public partial class StepFlowItem : ContentView
         _ => string.Empty
     };
 
-    private void InvokeHeaderTapped()
+    private void InvokeCardTapped()
     {
         if (!IsEnabled) return;
+        if (State == StepFlowItemState.Active) return;
         if (State == StepFlowItemState.Completed && LockWhenCompleted) return;
         if (State == StepFlowItemState.Disabled && Parent is StepFlow flow && !flow.AllowDirectStepActivation) return;
 
-        HeaderTapped?.Invoke(this, EventArgs.Empty);
+        CardTapped?.Invoke(this, EventArgs.Empty);
+    }
+
+    private void UpdateCardTapTarget(StepFlowItemState state)
+    {
+        var command = state == StepFlowItemState.Active ? null : m_cardTappedCommand;
+        if (ReferenceEquals(Touch.GetCommand(m_root), command)) return;
+
+        Touch.SetCommand(m_root, command!);
     }
 
     private void OnStateChanged(StepFlowItemState oldState, StepFlowItemState newState)
@@ -250,6 +262,8 @@ public partial class StepFlowItem : ContentView
     /// </summary>
     internal void ApplyStateVisuals(StepFlowItemState state, bool animate)
     {
+        UpdateCardTapTarget(state);
+
         switch (state)
         {
             case StepFlowItemState.Disabled:
@@ -289,6 +303,7 @@ public partial class StepFlowItem : ContentView
                     m_bodyContainer.IsVisible = true;
                     m_bodyContainer.HeightRequest = -1;
                     m_bodyContainer.Opacity = 1;
+                    m_bodyContainer.TranslationY = 0;
                 }
                 break;
 
@@ -307,6 +322,7 @@ public partial class StepFlowItem : ContentView
                     Opacity = CompletedOpacity;
                     m_bodyContainer.IsVisible = false;
                     m_bodyContainer.HeightRequest = 0;
+                    m_bodyContainer.TranslationY = 0;
                     AnimateIndicator(show: true, animate: false);
                     // Snap the Lottie to its final frame without animating.
                     m_completionAnimation.IsAnimationEnabled = false;
@@ -363,15 +379,19 @@ public partial class StepFlowItem : ContentView
 
         m_bodyContainer.HeightRequest = 0;
         m_bodyContainer.Opacity = 0;
+        var contentOffset = Sizes.GetSize(SizeName.size_1);
+        m_bodyContainer.TranslationY = -contentOffset;
 
-        // Height drives the slot growth; opacity fades the content in over the same curve.
+        // Height drives the slot growth while opacity and a tiny Y offset soften the reveal.
         // Both share one parent Animation so they're kicked from a single tick handle.
-        var heightAnim = new Animation(v => m_bodyContainer.HeightRequest = v, 0, targetHeight, easing: Easing.CubicOut);
+        var heightAnim = new Animation(v => m_bodyContainer.HeightRequest = v, 0, targetHeight, easing: StepFlowEasings.ExpandSmooth);
         var fadeAnim = new Animation(v => m_bodyContainer.Opacity = v, 0, 1, easing: Easing.CubicOut);
+        var offsetAnim = new Animation(v => m_bodyContainer.TranslationY = v, -contentOffset, 0, easing: Easing.CubicOut);
 
         var parent = new Animation();
         parent.Add(0, 1, heightAnim);
-        parent.Add(0, 1, fadeAnim);
+        parent.Add(0.12, 1, fadeAnim);
+        parent.Add(0, 1, offsetAnim);
 
         this.AbortAnimation(m_animationToken + "-body");
         parent.Commit(this, m_animationToken + "-body", rate: 16, length: ExpandDurationMs,
@@ -382,6 +402,7 @@ public partial class StepFlowItem : ContentView
                 // text wraps) just work without a re-measure dance.
                 m_bodyContainer.HeightRequest = -1;
                 m_bodyContainer.Opacity = 1;
+                m_bodyContainer.TranslationY = 0;
             });
     }
 
@@ -393,19 +414,23 @@ public partial class StepFlowItem : ContentView
         if (current <= 0) current = 1;
 
         m_bodyContainer.HeightRequest = current;
+        var contentOffset = Sizes.GetSize(SizeName.size_1);
 
-        var heightAnim = new Animation(v => m_bodyContainer.HeightRequest = v, current, 0, easing: StepFlowEasings.CollapseCubic);
-        var fadeAnim = new Animation(v => m_bodyContainer.Opacity = v, m_bodyContainer.Opacity, 0, easing: StepFlowEasings.CollapseCubic);
+        var heightAnim = new Animation(v => m_bodyContainer.HeightRequest = v, current, 0, easing: StepFlowEasings.CollapseSmooth);
+        var fadeAnim = new Animation(v => m_bodyContainer.Opacity = v, m_bodyContainer.Opacity, 0, easing: Easing.CubicOut);
+        var offsetAnim = new Animation(v => m_bodyContainer.TranslationY = v, m_bodyContainer.TranslationY, -contentOffset, easing: Easing.CubicOut);
 
         var parent = new Animation();
         parent.Add(0, 1, heightAnim);
-        parent.Add(0, 0.85, fadeAnim);
+        parent.Add(0, 0.82, fadeAnim);
+        parent.Add(0, 0.9, offsetAnim);
 
         this.AbortAnimation(m_animationToken + "-body");
         parent.Commit(this, m_animationToken + "-body", rate: 16, length: CollapseDurationMs,
             easing: Easing.Linear, finished: (_, _) =>
             {
                 m_bodyContainer.IsVisible = false;
+                m_bodyContainer.TranslationY = 0;
             });
 
         return Task.CompletedTask;
@@ -413,14 +438,19 @@ public partial class StepFlowItem : ContentView
 
     private Task AnimateLiftAsync()
     {
-        Scale = 0.97;
-        var scaleAnim = new Animation(v => Scale = v, 0.97, 1.0, easing: StepFlowEasings.SpringOut);
-        var fadeAnim = new Animation(v => Opacity = v, Opacity, 1, easing: Easing.CubicOut);
+        Scale = 0.985;
+        var scaleAnim = new Animation(v => Scale = v, 0.985, 1.0, easing: Easing.CubicOut);
+        var fadeAnim = new Animation(v => Opacity = v, Opacity, 1, easing: StepFlowEasings.FadeOutQuart);
         var parent = new Animation();
         parent.Add(0, 1, scaleAnim);
         parent.Add(0, 1, fadeAnim);
         this.AbortAnimation(m_animationToken + "-lift");
-        parent.Commit(this, m_animationToken + "-lift", rate: 16, length: LiftDurationMs);
+        parent.Commit(this, m_animationToken + "-lift", rate: 16, length: LiftDurationMs,
+            finished: (_, _) =>
+            {
+                Scale = 1;
+                Opacity = 1;
+            });
         return Task.CompletedTask;
     }
 
@@ -437,23 +467,23 @@ public partial class StepFlowItem : ContentView
     }
 
     /// <summary>
-    /// Slides the title left/right to make room for the Lottie checkmark, and crossfades the
-    /// Lottie itself. Uses TranslationX (transform, no layout cost) for the title so the
-    /// header is never re-measured during the shift.
+    /// Indents the title to make room for the Lottie checkmark, and crossfades the Lottie
+    /// itself. Uses Margin instead of a transform so long Android titles are measured and
+    /// wrapped at the width they visually occupy.
     /// </summary>
     private void AnimateIndicator(bool show, bool animate)
     {
-        var translateToken = m_animationToken + "-indicator-translate";
+        var marginToken = m_animationToken + "-indicator-margin";
         var fadeToken = m_animationToken + "-indicator-fade";
-        this.AbortAnimation(translateToken);
+        this.AbortAnimation(marginToken);
         this.AbortAnimation(fadeToken);
 
-        var targetX = show ? m_indicatorSlotWidth : 0;
+        var targetMargin = show ? m_indicatorSlotWidth : 0;
         var targetOpacity = show ? 1d : 0d;
 
         if (!animate)
         {
-            m_titleStack.TranslationX = targetX;
+            SetTitleStartMargin(targetMargin);
             m_completionAnimation.Opacity = targetOpacity;
             m_completionAnimation.IsVisible = show;
             return;
@@ -461,14 +491,20 @@ public partial class StepFlowItem : ContentView
 
         if (show) m_completionAnimation.IsVisible = true;
 
-        var startX = m_titleStack.TranslationX;
-        new Animation(v => m_titleStack.TranslationX = v, startX, targetX)
-            .Commit(this, translateToken, rate: 16, length: IndicatorShiftDurationMs, easing: Easing.CubicInOut);
+        var startMargin = m_titleStack.Margin.Left;
+        new Animation(SetTitleStartMargin, startMargin, targetMargin)
+            .Commit(this, marginToken, rate: 16, length: IndicatorShiftDurationMs, easing: Easing.CubicInOut);
 
         var startOpacity = m_completionAnimation.Opacity;
         new Animation(v => m_completionAnimation.Opacity = v, startOpacity, targetOpacity)
             .Commit(this, fadeToken, rate: 16, length: IndicatorShiftDurationMs, easing: Easing.CubicInOut,
                 finished: (_, __) => { if (!show) m_completionAnimation.IsVisible = false; });
+    }
+
+    private void SetTitleStartMargin(double startMargin)
+    {
+        var currentMargin = m_titleStack.Margin;
+        m_titleStack.Margin = new Thickness(startMargin, currentMargin.Top, currentMargin.Right, currentMargin.Bottom);
     }
 
     private void StopCompletionAnimation()
@@ -485,12 +521,14 @@ public partial class StepFlowItem : ContentView
             this.AbortAnimation(m_animationToken + "-body");
             this.AbortAnimation(m_animationToken + "-opacity");
             this.AbortAnimation(m_animationToken + "-lift");
+            this.AbortAnimation(m_animationToken + "-indicator-margin");
+            this.AbortAnimation(m_animationToken + "-indicator-fade");
 
             m_completionAnimation.IsAnimationEnabled = false;
 
             // Clear the Touch command so the platform effect detaches and releases its
             // gesture recognizer / handler references.
-            Touch.SetCommand(m_headerGrid, null!);
+            Touch.SetCommand(m_root, null!);
         }
     }
 }

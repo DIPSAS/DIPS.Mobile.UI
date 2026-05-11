@@ -54,15 +54,17 @@
                         <dui:Label Style="{dui:Styles Label=UI100}"
                                    Text="Tap to add a fake scanned label. After 3 labels you can finish."  />
 
-                        <dui:CollectionView ItemsSource="{Binding ScannedLabels}"
-                                            HeightRequest="120">
-                            <dui:CollectionView.ItemTemplate>
+                        <dui:VerticalStackLayout Spacing="{dui:Sizes size_2}"
+                                                 BindableLayout.ItemsSource="{Binding ScannedLabels}">
+                            <BindableLayout.ItemTemplate>
                                 <DataTemplate x:DataType="x:String">
-                                    <dui:Label Text="{Binding .}"
-                                               Style="{dui:Styles Label=UI200}" />
+                                    <dui:ListItem Title="{Binding .}"
+                                                  Icon="{dui:Icons barcode_fill}"
+                                                  BackgroundColor="{dui:Colors color_surface_subtle}"
+                                                  dui:Layout.CornerRadius="{dui:CornerRadius size_2}" />
                                 </DataTemplate>
-                            </dui:CollectionView.ItemTemplate>
-                        </dui:CollectionView>
+                            </BindableLayout.ItemTemplate>
+                        </dui:VerticalStackLayout>
 
                         <BoxView HeightRequest="160"
                                  BackgroundColor="{dui:Colors color_surface_neutral}" />

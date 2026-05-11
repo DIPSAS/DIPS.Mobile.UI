@@ -91,7 +91,7 @@ public class SamplingViewModel : ViewModel
 | --- | --- |
 | `Items` | The steps, in order. XAML default `ContentProperty`. |
 | `Controller` | The `StepFlowController` driving the flow. The container creates one automatically if you omit it. |
-| `AllowDirectStepActivation` | When `true`, tapping a `Disabled` step's header activates it. Defaults to `false`. |
+| `AllowDirectStepActivation` | When `true`, tapping a `Disabled` step card activates it. Defaults to `false`. |
 | `AutoScrollIntoView` | When `true` (default), the closest ancestor `ScrollView` is scrolled so the newly active step is pinned to the top. See [Auto-scroll](#auto-scroll). |
 | `FlowCompleted` | Mirrors `Controller.FlowCompleted`. |
 
@@ -114,19 +114,19 @@ public class SamplingViewModel : ViewModel
 
 The component is choreographed for a premium feel — every timing and easing is intentional:
 
-- **Expand**: animated `HeightRequest` with a tiny damped-sine "settle" near the end (`easeOutQuint + sin·exp damping`), paired with a 15 % delayed opacity fade-in and a `-12 → 0` Y-translation. 420 ms.
-- **Collapse**: `easeInCubic` (`t³`) over 320 ms.
-- **Stagger**: when one panel collapses and another expands, the expand waits ≈ 110 ms ("breath") before starting.
-- **Completion climax**: the check icon does a wind-up (scale `0 → 1.25`, rotation `-18° → +8°` over 220 ms) then settles to `1.0, 0°` via a critically-damped sine spring. A success-colored ring scales `0.6 → 2.4` while opacity fades `0.7 → 0` over 600 ms — the iconic "tap success" pulse.
-- **Press feedback**: 1.0 → 0.97 → 1.0 with a spring on the release.
-- **Lift**: when an item goes `Disabled → Active`, scale springs `0.97 → 1.0` while opacity ramps to `1.0` (380 ms).
-- **Completed dimming**: opacity fades to 0.78 over 500 ms.
+- **Expand**: animated `HeightRequest` with a smooth quartic ease-out, paired with a slightly delayed opacity fade-in and a subtle upward Y-offset settling to `0`. 380 ms.
+- **Collapse**: smooth cubic in/out height collapse, paired with an early opacity fade and subtle upward Y-offset. 280 ms.
+- **Completion indicator**: the check animation fades in while the title is indented to reserve measured space for the indicator. 260 ms.
+- **Lift**: when an item goes `Disabled → Active`, scale eases from `0.985 → 1.0` while opacity ramps to `1.0`. 300 ms.
+- **Completed dimming**: opacity fades to 0.78 over 360 ms.
 
 All animations use a unique token per item instance, so multiple `StepFlow`s on the same page do not interfere.
 
 ## Auto-scroll
 
 When the `StepFlow` lives inside a `ScrollView`, it automatically scrolls the newly active step to the top of the scroller as the flow advances. There is no need to subscribe to `Controller.StepActivated` or call `ScrollToAsync` from the hosting page — the component walks up the visual tree to find the closest ancestor `ScrollView` and uses `ScrollToPosition.Start`, so the freshly expanded body is fully visible rather than half-cropped at the bottom of the viewport.
+
+The initial active step created while the controller is initialized does not auto-scroll. This keeps page navigation from jumping back to step 1 before the user has interacted with the flow.
 
 The scroll is timed to start once the expand animation has finished, so the target rect reflects the body's measured height rather than the still-animating zero-height rect.
 
