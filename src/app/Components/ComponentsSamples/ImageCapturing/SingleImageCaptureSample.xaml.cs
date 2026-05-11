@@ -13,13 +13,13 @@ using Button = DIPS.Mobile.UI.Components.Buttons.Button;
 
 namespace Components.ComponentsSamples.ImageCapturing;
 
-public partial class ImageCaptureSample
+public partial class SingleImageCaptureSample
 {
     private readonly List<CapturedImage> m_images;
     private readonly ImageCapture m_imageCapture;
     private bool m_firstTime = true;
 
-    public ImageCaptureSample()
+    public SingleImageCaptureSample()
     {
         InitializeComponent();
         m_images = [];
@@ -35,13 +35,14 @@ public partial class ImageCaptureSample
     private async Task StartImageCapture()
     {
         ToggleCamera(true);
-        await m_imageCapture.Start(CameraPreview, OnImageCaptured, OnCameraFailed,
-            settings =>
-            {
-                settings.PostCaptureAction = PostCaptureAction.Close;
-                settings.CanChangeMaxHeightOrWidth = true;
-                settings.DoneButtonCommand = new Command(Close);
-            });
+
+        var cameraOptions = new CameraOptions
+        {
+            CanChangeMaxHeightOrWidth = true, 
+            CancelButtonCommand = new Command(Close)
+        };
+        
+        await m_imageCapture.StartSingleImageCapture(CameraPreview, OnImageCaptured, OnCameraFailed, cameraOptions);
     }
 
     private void Close()

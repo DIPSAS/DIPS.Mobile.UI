@@ -8,7 +8,7 @@ public partial class ImageCapture
 
     internal CameraPreview m_cameraPreview;
     
-    private partial Task PlatformStart(ImageCaptureSettings imageCaptureSettings, CameraFailed cameraFailedDelegate)
+    private partial Task PlatformStart(CameraOptions cameraOptions, CameraFailed cameraFailedDelegate)
     {
         return Task.CompletedTask;
     }

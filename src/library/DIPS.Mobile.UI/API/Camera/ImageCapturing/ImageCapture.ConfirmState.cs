@@ -72,25 +72,21 @@ public partial class ImageCapture : IConfirmStateObserver
     void IConfirmStateObserver.OnUsePhotoButtonTapped()
     {
         m_onImageCapturedDelegate?.Invoke(m_currentlyCapturedImage);
-
-        switch (m_imageCaptureSettings.PostCaptureAction)
+        
+        if (m_cameraSession is MultiCaptureSession)
         {
-            case PostCaptureAction.Close:
-                ResetAllVisuals();
-                PlatformStop();
-                break;
-            case PostCaptureAction.Continue:
-                GoToStreamingState();
-                PlatformStart(m_imageCaptureSettings, m_cameraFailedDelegate);
-                break;
-            default:
-                throw new ArgumentOutOfRangeException();
+            GoToStreamingState();
+            _ = PlatformStart(m_cameraSession.CameraOptions, m_cameraFailedDelegate);
+            return;
         }
+        
+        ResetAllVisuals();
+        PlatformStop();
     }
 
     void IConfirmStateObserver.OnRetakePhotoButtonTapped()
     {
         GoToStreamingState();
-        PlatformStart(m_imageCaptureSettings, m_cameraFailedDelegate);
+        _ = PlatformStart(m_cameraSession.CameraOptions, m_cameraFailedDelegate);
     }
 }
