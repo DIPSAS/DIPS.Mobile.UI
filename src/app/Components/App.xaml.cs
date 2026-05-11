@@ -1,4 +1,5 @@
-﻿using Components.Resources.LocalizedStrings;
+﻿using Components.DiagnosticsSamples;
+using Components.Resources.LocalizedStrings;
 using DIPS.Mobile.UI.API.Library;
 using Enum = System.Enum;
 
@@ -45,6 +46,19 @@ public partial class App
         }
         
         shell.Items.Add(tabBar);
+
+        var diagnosticsTab = new Tab
+        {
+            Title = "Diagnostics",
+            Items =
+            {
+                new ShellContent
+                {
+                    ContentTemplate = new DataTemplate(() => new LayoutDiagnosticsPage())
+                }
+            }
+        };
+        tabBar.Items.Add(diagnosticsTab);
 
         if (Current != null)
         {

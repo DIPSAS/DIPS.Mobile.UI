@@ -83,6 +83,7 @@ public class CapturedImage
         }
 
         await image.RotateTo(rotation, 500, easing: Easing.CubicInOut);
+        
         switch (rotation)
         {
             case > 270:

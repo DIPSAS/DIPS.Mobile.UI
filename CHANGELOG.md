@@ -1,8 +1,28 @@
-## [56.3.1]
-- [StepFlow] Fixed Android header text clipping for long completed step titles, made collapsed cards tappable across the full card surface, smoothed expand/collapse motion, and prevented the initial active step from auto-scrolling when the flow is initialized.
-
-## [56.3.0]
+## [58.1.0]
 - [StepFlow] Added new accordion-style multi-step flow component.
+
+## [58.0.0] 
+- [ImageCapture] Added support for capturing multiple images in one session, with optional confirmation of each image. 
+- [ImageCapture] **Breaking change:** `ImageCaptureSettings` and `PostCaptureAction` are removed. `ImageCapture.Start` 
+is replaced by `StartSingleImageCapture` (matches the previous single-capture flow) and `StartMultiImageCapture` 
+(covers the previous `PostCaptureAction.Continue` behaviour). 
+See the [ImageCapture wiki page](https://github.com/DIPSAS/DIPS.Mobile.UI/wiki/Media/ImageCapture) for migration guidance.
+
+## [57.1.2]
+- Bumped MAUI controls.
+
+## [57.1.1]
+- [iOS][Camera] Fixed focus locking on startup by enabling continuous autofocus and auto-exposure when camera session starts
+- [iOS][Camera] Fixed tap-to-focus permanently locking focus by returning to continuous autofocus after one-shot focus completes
+- [iOS][Camera] Fixed zoom not triggering refocus by re-engaging continuous autofocus after pinch-to-zoom and slider zoom changes
+- [Android][Camera] Fixed zoom not triggering refocus by starting a new focus metering action after pinch-to-zoom
+- [Android][Camera] Fixed tap-to-focus indicator appearing at wrong position by using view-relative touch coordinates and correcting for preview translation offset
+
+## [57.1.0]
+- [LayoutDiagnostics] Added runtime layout diagnostics API for profiling measure/arrange counts per element type. Includes a floating overlay visible over modals and bottom sheets, automatic snapshot capture during page and bottom sheet lifecycle, per-instance thrashing detection, and JSON export.
+
+## [57.0.0]
+- Use SourceGen compilation.
 
 ## [56.2.0] 
 - Resources was updated from DIPS.Mobile.DesignTokens
