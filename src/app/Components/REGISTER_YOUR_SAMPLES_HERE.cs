@@ -19,6 +19,7 @@ using Components.ComponentsSamples.Saving;
 using Components.ComponentsSamples.Searching;
 using Components.ComponentsSamples.Selection;
 using Components.ComponentsSamples.Sorting;
+using Components.ComponentsSamples.StepFlow;
 using Components.ComponentsSamples.SyntaxHighlighting;
 using Components.ComponentsSamples.TabView;
 using Components.ComponentsSamples.Toolbar;
@@ -69,6 +70,7 @@ public static class REGISTER_YOUR_SAMPLES_HERE
             new(SampleType.Components, "Amplitude View", () => new AmplitudeViewSamples()),
             new(SampleType.Components, "Text", () => new TextSamples()),
             new(SampleType.Components, "Tag", () => new TagsSamples()),
+            new(SampleType.Components, "Step Flow", () => new StepFlowSamples()),
             new(SampleType.Components, "Counters", () => new CountersSamples()),
             new(SampleType.Components, "TabView", () => new TabViewSamples()),
             new(SampleType.Components, "Zoom Container", () => new PanZoomContainerSample()),

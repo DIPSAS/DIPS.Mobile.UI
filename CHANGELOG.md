@@ -1,3 +1,6 @@
+## [58.1.0]
+- [StepFlow] Added new accordion-style multi-step flow component.
+
 ## [58.0.0] 
 - [ImageCapture] Added support for capturing multiple images in one session, with optional confirmation of each image. 
 - [ImageCapture] **Breaking change:** `ImageCaptureSettings` and `PostCaptureAction` are removed. `ImageCapture.Start` 

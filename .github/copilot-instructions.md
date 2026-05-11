@@ -254,6 +254,7 @@ Format: `[Component/Feature] Description` (see existing entries for style)
 6. **Don't** use `FontFamily="monospace"` - use `FontFamily="Body"`, `"UI"`, or `"Header"`
 7. **Don't** forget to test on both platforms - behavior often differs
 8. **When reusing an existing component in a new context** (e.g. embedding a component inside a new handler, effect, or renderer), always read the component's existing canonical platform consumer first and replicate **all** of its event subscriptions, lifecycle hooks, and teardown logic. Never assume that rendering the component is sufficient. Components often have additional contracts (update events, binding context propagation, etc.) that only the canonical consumer reveals. Missing these causes silent regressions where the component renders correctly initially but fails to update afterwards.
+9. **StepFlow tap targets**: A collapsed/activatable StepFlow card should be tappable across the whole card surface, not only on the header text. Preserve interactive content behavior when the active body contains buttons, inputs, or other controls.
 
 ## Key Files to Reference
 - `API/Builder/AppHostBuilderExtensions.cs` - Library initialization and handler registration
