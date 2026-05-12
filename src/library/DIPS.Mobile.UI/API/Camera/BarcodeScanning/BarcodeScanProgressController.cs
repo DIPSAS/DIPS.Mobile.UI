@@ -40,7 +40,6 @@ internal sealed class BarcodeScanProgressController
         if (m_progressView is null)
             return;
 
-        m_progressView.IsReducedMotionEnabled = m_settings.IsReducedMotionEnabled;
         await m_progressView.AnimateCounterChangedAsync();
     }
 
@@ -51,7 +50,6 @@ internal sealed class BarcodeScanProgressController
         if (m_progressView is null)
             return;
 
-        m_progressView.IsReducedMotionEnabled = m_settings.IsReducedMotionEnabled;
         await m_progressView.AnimateCompletedAsync();
     }
 
@@ -98,10 +96,7 @@ internal sealed class BarcodeScanProgressController
         if (m_progressView is not null)
             return;
 
-        m_progressView = new BarcodeScanProgressView
-        {
-            IsReducedMotionEnabled = m_settings.IsReducedMotionEnabled
-        };
+        m_progressView = new BarcodeScanProgressView();
         m_cameraPreview?.AddBottomToolbarView(m_progressView);
         UpdateCounterText();
     }

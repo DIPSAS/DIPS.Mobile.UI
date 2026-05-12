@@ -92,10 +92,5 @@ public class BarcodeScanningSettings
     /// </summary>
     public TimeSpan DuplicateScanCooldown { get; set; } = TimeSpan.FromMilliseconds(800);
 
-    /// <summary>
-    /// Gets or sets a value indicating whether the scanner should use reduced motion for progress animations.
-    /// </summary>
-    public bool IsReducedMotionEnabled { get; set; }
-
     internal event Action? ProgressChanged;
 }

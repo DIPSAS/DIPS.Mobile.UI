@@ -32,8 +32,6 @@ internal class BarcodeScanProgressView : Grid
         Add(m_counterLabel);
     }
 
-    public bool IsReducedMotionEnabled { get; set; }
-
     public void UpdateCounter(int currentScanCount, int requiredScanCount)
     {
         m_counterLabel.Text = string.Format(DUILocalizedStrings.BarcodeScanProgress, currentScanCount, requiredScanCount);
@@ -70,12 +68,6 @@ internal class BarcodeScanProgressView : Grid
 
     public async Task AnimateCounterChangedAsync()
     {
-        if (IsReducedMotionEnabled)
-        {
-            await m_counterLabel.FadeTo(1, 80, Easing.CubicOut);
-            return;
-        }
-
         m_counterLabel.AbortAnimation(nameof(AnimateCounterChangedAsync));
         var landingDistance = Sizes.GetSize(SizeName.size_2);
         var reboundDistance = Sizes.GetSize(SizeName.size_1);
@@ -95,9 +87,6 @@ internal class BarcodeScanProgressView : Grid
 
     public async Task AnimateCompletedAsync()
     {
-        if (IsReducedMotionEnabled)
-            return;
-
         await Task.WhenAll(
             m_counterLabel.ScaleTo(1.28, 150, Easing.CubicOut),
             m_counterLabel.FadeTo(.82, 150, Easing.CubicOut));
