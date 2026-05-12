@@ -23,6 +23,7 @@
         <Nullable>enable</Nullable>
         
         <MauiEnableXamlCBindingWithSourceCompilation>true</MauiEnableXamlCBindingWithSourceCompilation>
+        <MauiXamlInflator>SourceGen</MauiXamlInflator>
     </PropertyGroup>
 
     <PropertyGroup Condition="'$(Configuration)' == 'Debug' AND $(TargetFramework.Contains('ios'))">
@@ -69,6 +70,7 @@
     </ItemGroup>
     <ItemGroup>
         <PackageReference Include="BitMiracle.LibTiff.NET" />
+        <PackageReference Include="Microsoft.Extensions.Diagnostics" />
         <PackageReference Include="Microsoft.Maui.Controls" />
         <PackageReference Include="Microsoft.Extensions.Logging.Debug"  />
         <PackageReference Include="Newtonsoft.Json"  />

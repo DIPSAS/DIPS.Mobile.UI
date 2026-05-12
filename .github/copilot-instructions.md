@@ -254,7 +254,6 @@ Format: `[Component/Feature] Description` (see existing entries for style)
 6. **Don't** use `FontFamily="monospace"` - use `FontFamily="Body"`, `"UI"`, or `"Header"`
 7. **Don't** forget to test on both platforms - behavior often differs
 8. **When reusing an existing component in a new context** (e.g. embedding a component inside a new handler, effect, or renderer), always read the component's existing canonical platform consumer first and replicate **all** of its event subscriptions, lifecycle hooks, and teardown logic. Never assume that rendering the component is sufficient. Components often have additional contracts (update events, binding context propagation, etc.) that only the canonical consumer reveals. Missing these causes silent regressions where the component renders correctly initially but fails to update afterwards.
-9. **Barcode scanner overlay tracking**: When optimizing barcode scan rectangle animations, do not freeze the detected barcode target to avoid Android jitter. The overlay must continue following the barcode; smooth or throttle bounds updates instead of disabling tracking.
 
 ## Key Files to Reference
 - `API/Builder/AppHostBuilderExtensions.cs` - Library initialization and handler registration

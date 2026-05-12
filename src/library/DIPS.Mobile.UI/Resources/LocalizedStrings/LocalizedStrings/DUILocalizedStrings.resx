@@ -21,6 +21,24 @@
     <data name="Today" xml:space="preserve">
         <value>I dag</value>
     </data>
+    <data name="StepFlow.Step" xml:space="preserve">
+        <value>Steg</value>
+    </data>
+    <data name="StepFlow.Accessibility.StepXOfY" xml:space="preserve">
+        <value>Steg {0} av {1}</value>
+    </data>
+    <data name="StepFlow.Accessibility.Active" xml:space="preserve">
+        <value>Aktivt steg</value>
+    </data>
+    <data name="StepFlow.Accessibility.Completed" xml:space="preserve">
+        <value>Fullført</value>
+    </data>
+    <data name="StepFlow.Accessibility.Disabled" xml:space="preserve">
+        <value>Ikke tilgjengelig ennå</value>
+    </data>
+    <data name="StepFlow.Accessibility.Error" xml:space="preserve">
+        <value>Feil</value>
+    </data>
     <data name="Yesterday" xml:space="preserve">
         <value>I går</value>
     </data>
