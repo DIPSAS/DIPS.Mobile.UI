@@ -10,7 +10,7 @@ this file is generated
             {
                 ["none"] = "none.json",
                 ["saved"] = "saved.json",
-["task_complete"] = "task_complete.json",
+["task_completed"] = "task_completed.json",
 
             };
         }

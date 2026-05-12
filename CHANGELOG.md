@@ -1,3 +1,6 @@
+## [58.2.0] 
+- Resources was updated from DIPS.Mobile.DesignTokens
+
 ## [58.1.0]
 - [StepFlow] Added new accordion-style multi-step flow component.
 
