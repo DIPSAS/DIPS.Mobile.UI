@@ -37,10 +37,7 @@ public class Camera
     public async Task StartBarcodeScanning(BarcodeScannerStartOptions startOptions)
     {
         ArgumentNullException.ThrowIfNull(startOptions);
-        if (startOptions.OnCameraFailed is null)
-        {
-            throw new ArgumentException($"{nameof(BarcodeScannerStartOptions.OnCameraFailed)} must be set.", nameof(startOptions));
-        }
+        ArgumentNullException.ThrowIfNull(startOptions.OnCameraFailed, nameof(startOptions.OnCameraFailed));
 
         try
         {

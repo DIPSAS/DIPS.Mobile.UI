@@ -510,8 +510,11 @@ public partial class BarcodeScanner : ICameraUseCase
     {
         ArgumentNullException.ThrowIfNull(startOptions);
 
-        var cameraPreview = startOptions.Preview ?? throw new ArgumentException($"{nameof(BarcodeScannerStartOptions.Preview)} must be set.", nameof(startOptions));
-        var onCameraFailed = startOptions.OnCameraFailed ?? throw new ArgumentException($"{nameof(BarcodeScannerStartOptions.OnCameraFailed)} must be set.", nameof(startOptions));
+        var cameraPreview = startOptions.Preview;
+        ArgumentNullException.ThrowIfNull(cameraPreview, nameof(startOptions.Preview));
+
+        var onCameraFailed = startOptions.OnCameraFailed;
+        ArgumentNullException.ThrowIfNull(onCameraFailed, nameof(startOptions.OnCameraFailed));
 
         return (cameraPreview, onCameraFailed);
     }

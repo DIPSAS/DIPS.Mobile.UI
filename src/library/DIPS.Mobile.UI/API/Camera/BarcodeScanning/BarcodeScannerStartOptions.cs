@@ -16,6 +16,7 @@ public class BarcodeScannerStartOptions
     /// <summary>
     /// Gets or sets the callback invoked when camera startup or analysis fails.
     /// </summary>
+    /// <remarks>This property is required for barcode scanner sessions. The scanner throws if it is not set.</remarks>
     public CameraFailed? OnCameraFailed { get; set; }
 
     /// <summary>

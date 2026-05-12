@@ -1,6 +1,5 @@
 using AVFoundation;
 using CoreFoundation;
-using DIPS.Mobile.UI.API.Camera.Preview;
 using DIPS.Mobile.UI.API.Camera.Shared.iOS;
 
 namespace DIPS.Mobile.UI.API.Camera.BarcodeScanning;
@@ -31,41 +30,19 @@ public partial class BarcodeScanner : CameraSession
         m_startOptionsIos = startOptions;
         m_captureMetadataOutput = new AVCaptureMetadataOutput();
         var scanRunId = CurrentScanRunId;
-        m_captureDelegate = new CaptureDelegate(s =>
+        m_captureDelegate = new CaptureDelegate(readableCodeObject =>
         {
             if (scanRunId != CurrentScanRunId)
                 return;
 
-            if (!string.IsNullOrEmpty(s.StringValue))
+            if (!string.IsNullOrEmpty(readableCodeObject.StringValue))
             {
-                RectF? overlayBounds = null;
-                if (PreviewLayer is not null && m_scanRectangleOverlay is not null)
-                {
-                    var transformed = PreviewLayer.GetTransformedMetadataObject(s);
-                    if (transformed is not null)
-                    {
-                        // GetTransformedMetadataObject returns bounds in the preview layer's
-                        // point coordinate space. The layer uses ResizeAspect, so the camera
-                        // feed is centered with letterboxing. Normalize relative to the camera
-                        // feed area, then map to overlay coordinates (same approach as Android).
-                        var b = transformed.Bounds;
-                        var layerWidth = (float)PreviewLayer.Bounds.Width;
-                        var layerHeight = (float)PreviewLayer.Bounds.Height;
-                        var feedHeight = Math.Min(layerWidth / CameraPreview.ThreeFourRatio, layerHeight);
-                        var feedTop = (layerHeight - feedHeight) / 2f;
+                var overlayBounds = BarcodeScanOverlayBoundsMapper.TryGetBarcodeBoundsInOverlay(
+                    readableCodeObject,
+                    PreviewLayer,
+                    m_scanRectangleOverlay);
 
-                        var normalized = new RectF(
-                            (float)b.X / layerWidth,
-                            ((float)b.Y - feedTop) / feedHeight,
-                            (float)b.Width / layerWidth,
-                            (float)b.Height / feedHeight);
-
-                        overlayBounds = m_scanRectangleOverlay.NormalizedBoundsToOverlay(
-                            normalized.X, normalized.Y, normalized.Width, normalized.Height);
-                    }
-                }
-
-                InvokeBarcodeFound(new Barcode(s.StringValue, s.Type.ToString()), overlayBounds, scanRunId);
+                InvokeBarcodeFound(new Barcode(readableCodeObject.StringValue, readableCodeObject.Type.ToString()), overlayBounds, scanRunId);
             }
         });
         return ConfigureAndStart(m_cameraPreview, null, m_captureMetadataOutput, cameraFailedDelegate);
