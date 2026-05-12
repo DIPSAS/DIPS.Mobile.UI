@@ -31,39 +31,26 @@ public class Camera
     }
 
     /// <summary>
-    /// Starts barcode scanning in a modal camera preview using settings configured in <paramref name="configure"/>.
+    /// Starts barcode scanning in a modal camera preview using the provided <paramref name="startOptions"/> instance.
     /// </summary>
-    public async Task StartBarcodeScanning(CameraFailed cameraFailedDelegate,
-        Action<BarcodeScanningSettings>? configure = null)
+    /// <remarks>The modal camera API creates the preview and assigns <see cref="BarcodeScannerStartOptions.Preview"/> before starting the scanner.</remarks>
+    public async Task StartBarcodeScanning(BarcodeScannerStartOptions startOptions)
     {
-        try
+        ArgumentNullException.ThrowIfNull(startOptions);
+        if (startOptions.OnCameraFailed is null)
         {
-            var cameraPreview = await OpenAndSetCameraPreview();
-            if (cameraPreview == null) return;
-            m_barCodeScanner ??= new BarcodeScanner();
-            await m_barCodeScanner.Start(cameraPreview, cameraFailedDelegate, configure);
+            throw new ArgumentException($"{nameof(BarcodeScannerStartOptions.OnCameraFailed)} must be set.", nameof(startOptions));
         }
-        catch (Exception e)
-        {
-            await Stop();
-            throw;
-        }
-    }
 
-    /// <summary>
-    /// Starts barcode scanning in a modal camera preview using the provided <paramref name="barcodeScanningSettings"/> instance.
-    /// </summary>
-    public async Task StartBarcodeScanning(CameraFailed cameraFailedDelegate,
-        BarcodeScanningSettings barcodeScanningSettings)
-    {
         try
         {
             var cameraPreview = await OpenAndSetCameraPreview();
             if (cameraPreview == null) return;
             m_barCodeScanner ??= new BarcodeScanner();
-            await m_barCodeScanner.Start(cameraPreview, cameraFailedDelegate, barcodeScanningSettings);
+            startOptions.Preview = cameraPreview;
+            await m_barCodeScanner.Start(startOptions);
         }
-        catch (Exception e)
+        catch
         {
             await Stop();
             throw;

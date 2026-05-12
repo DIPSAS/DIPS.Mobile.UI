@@ -16,6 +16,11 @@ public enum BarcodeScannerState
     Scanning,
 
     /// <summary>
+    /// The scanner is temporarily ignoring barcode detections.
+    /// </summary>
+    Paused,
+
+    /// <summary>
     /// The scanner is waiting for consumer validation.
     /// </summary>
     Validating,

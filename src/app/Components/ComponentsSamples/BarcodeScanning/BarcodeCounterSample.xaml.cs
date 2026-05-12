@@ -7,23 +7,30 @@ public partial class BarcodeCounterSample
 {
     private const int RequiredScanCount = 5;
     private readonly BarcodeScanner m_barcodeScanner;
-    private readonly BarcodeScanningSettings m_barcodeScanningSettings;
+    private readonly BarcodeScannerStartOptions m_barcodeScannerStartOptions;
     private readonly HashSet<string> m_acceptedBarcodes = [];
 
     public BarcodeCounterSample()
     {
         InitializeComponent();
         m_barcodeScanner = new BarcodeScanner();
-        m_barcodeScanningSettings = new BarcodeScanningSettings
+        m_barcodeScannerStartOptions = new BarcodeScannerStartOptions
         {
-            RequiredScanCount = RequiredScanCount,
-            ShowScanRectangle = true,
-            ScanRectangleWidthFraction = 0.8f,
-            ScanRectangleHeightFraction = 0.3f,
-            OnValidBarcodeScanned = DidFindBarcode,
+            Preview = CameraPreview,
+            OnCameraFailed = CameraFailed,
+            ScanRectangle = new BarcodeScanRectangleOptions
+            {
+                WidthFraction = 0.8f,
+                HeightFraction = 0.3f
+            },
+            Completion = new BarcodeScanCompletionOptions
+            {
+                RequiredCount = RequiredScanCount,
+                OnCompletedAsync = OnScanCountCompletedAsync
+            },
+            OnBarcodeAcceptedAsync = HandleBarcodeAcceptedAsync,
             ValidateBarcodeAsync = ValidateBarcodeAsync,
-            OnInvalidBarcodeScannedAsync = OnInvalidBarcodeScannedAsync,
-            OnRequiredScanCountCompletedAsync = OnRequiredScanCountCompletedAsync
+            OnBarcodeRejectedAsync = OnBarcodeRejectedAsync
         };
     }
 
@@ -31,7 +38,7 @@ public partial class BarcodeCounterSample
     {
         try
         {
-            await m_barcodeScanner.Start(CameraPreview, CameraFailed, m_barcodeScanningSettings);
+            await m_barcodeScanner.Start(m_barcodeScannerStartOptions);
         }
         catch (Exception exception)
         {
@@ -45,10 +52,11 @@ public partial class BarcodeCounterSample
         App.Current.MainPage.DisplayAlert("Something failed!", e.Message, "Ok");
     }
 
-    private void DidFindBarcode(BarcodeScanResult barcodeScanResult)
+    private Task HandleBarcodeAcceptedAsync(BarcodeScanResult barcodeScanResult)
     {
         m_acceptedBarcodes.Add(barcodeScanResult.Barcode.RawValue);
         Console.WriteLine($"Accepted barcode: {barcodeScanResult.Barcode.RawValue}");
+        return Task.CompletedTask;
     }
 
     private async Task<BarcodeScanValidationResult> ValidateBarcodeAsync(string barcode)
@@ -65,13 +73,13 @@ public partial class BarcodeCounterSample
             : BarcodeScanValidationResult.Valid();
     }
 
-    private Task OnInvalidBarcodeScannedAsync(BarcodeScanResult barcodeScanResult, BarcodeScanValidationResult validationResult)
+    private Task OnBarcodeRejectedAsync(BarcodeScanResult barcodeScanResult, BarcodeScanValidationResult validationResult)
     {
         Console.WriteLine($"Rejected barcode: {barcodeScanResult.Barcode.RawValue}. {validationResult.ErrorMessage}");
         return Task.CompletedTask;
     }
 
-    private Task OnRequiredScanCountCompletedAsync()
+    private Task OnScanCountCompletedAsync()
     {
         Console.WriteLine("Required barcode scan count completed.");
         return Task.CompletedTask;

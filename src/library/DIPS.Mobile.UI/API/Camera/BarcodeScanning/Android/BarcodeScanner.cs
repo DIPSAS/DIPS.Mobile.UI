@@ -21,14 +21,14 @@ public partial class BarcodeScanner : CameraFragment, IObserver
 {
     private IBarcodeScanner? m_barcodeScanner;
     private ImageAnalysis? m_imageAnalysisUseCase;
-    private BarcodeScanningSettings? m_barcodeScanningSettings;
+    private BarcodeScannerStartOptions? m_startOptions;
     private IExecutorService? m_imageAnalysisExecutor;
 
-    internal partial Task PlatformStart(BarcodeScanningSettings barcodeScanningSettings, CameraFailed cameraFailedDelegate)
+    internal partial Task PlatformStart(BarcodeScannerStartOptions startOptions, CameraFailed cameraFailedDelegate)
     {
         if (Context == null) return Task.CompletedTask;
         
-        m_barcodeScanningSettings = barcodeScanningSettings;
+        m_startOptions = startOptions;
         
         var resolutionSelector = new ResolutionSelector.Builder()
             .SetResolutionStrategy(ResolutionStrategy.HighestAvailableStrategy)
@@ -166,7 +166,7 @@ public partial class BarcodeScanner : CameraFragment, IObserver
 
     private bool IsBarcodeInsideScanRectangle(Xamarin.Google.MLKit.Vision.Barcode.Common.Barcode mlBarcode, int effectiveWidth, int effectiveHeight)
     {
-        if (m_barcodeScanningSettings is not { ShowScanRectangle: true })
+        if (m_startOptions?.ScanRectangle is not { IsVisible: true } scanRectangleOptions)
             return true;
         
         var boundingBox = mlBarcode.BoundingBox;
@@ -181,8 +181,8 @@ public partial class BarcodeScanner : CameraFragment, IObserver
         var barcodeCenterY = (boundingBox.Top + boundingBox.Bottom) / 2.0f / effectiveHeight;
 
         // Compute scan rectangle in normalized coordinates
-        var rectWidthFraction = m_barcodeScanningSettings.ScanRectangleWidthFraction;
-        var rectHeightFraction = m_barcodeScanningSettings.ScanRectangleHeightFraction;
+        var rectWidthFraction = scanRectangleOptions.WidthFraction;
+        var rectHeightFraction = scanRectangleOptions.HeightFraction;
         var rectLeft = (1.0f - rectWidthFraction) / 2.0f;
         var rectTop = (1.0f - rectHeightFraction) / 2.0f;
         var rectRight = rectLeft + rectWidthFraction;

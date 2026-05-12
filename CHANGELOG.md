@@ -1,8 +1,9 @@
 ## [59.0.0]
-- [BarcodeScanner] **BREAKING**: Moved scan callbacks `BarcodeScanningSettings`. Use `BarcodeScanner.Start(CameraPreview, CameraFailed, BarcodeScanningSettings)` or configure settings in the `Start` callback.
-- [BarcodeScanner] Added visible focused scan rectangle overlay controlled by `BarcodeScanningSettings.ShowScanRectangle`, `ScanRectangleWidthFraction`, and `ScanRectangleHeightFraction`
+- [BarcodeScanner] **BREAKING**: Replaced positional `Start` parameters and `BarcodeScanningSettings` with `BarcodeScanner.Start(BarcodeScannerStartOptions)` so preview, camera failure handling, validation, async callbacks, scan rectangle, and completion behavior are configured in one scanner session contract.
+- [BarcodeScanner] Added visible focused scan rectangle overlay controlled by `BarcodeScannerStartOptions.ScanRectangle` and `BarcodeScanRectangleOptions`
 - [BarcodeScanner] Barcode results are now filtered to only include barcodes within the visible scan rectangle region
-- [BarcodeScanner] Added validation-aware success and failure animations, optional required scan count progress with animated bottom counter and barcode collection animation, duplicate scan cooldown, completion callbacks, and temporary scanning stop support that keeps overlays attached
+- [BarcodeScanner] Added validation-aware success and failure animations, optional required scan count progress with animated bottom counter and barcode collection animation, initial count support, duplicate scan cooldown, completion callbacks, and pause/resume support that keeps overlays attached
+- [BarcodeScanner] Added validation results with optional typed state for accepted barcodes and optional reason codes for rejected barcodes
 - [BarcodeScanner] Fixed duplicate scan suppression so an already-confirmed barcode is not retried while validation and success animations are running
 
 ## [58.1.0]

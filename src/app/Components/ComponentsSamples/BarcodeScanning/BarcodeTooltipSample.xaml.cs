@@ -21,10 +21,12 @@ public partial class BarcodeTooltipSample
     {
         try
         {
-            await m_barcodeScanner.Start(CameraPreview, CameraFailed, settings =>
+            await m_barcodeScanner.Start(new BarcodeScannerStartOptions
             {
-                settings.OnValidBarcodeScanned = DidFindBarcode;
-                settings.ShowScanRectangle = true;
+                Preview = CameraPreview,
+                OnCameraFailed = CameraFailed,
+                OnBarcodeAcceptedAsync = HandleBarcodeAcceptedAsync,
+                ScanRectangle = new BarcodeScanRectangleOptions()
             });
             
             m_barcodeScanner.SetTooltipView(new Label
@@ -47,17 +49,18 @@ public partial class BarcodeTooltipSample
         App.Current.MainPage.DisplayAlert("Something failed!", e.Message, "Ok");
     }
 
-    private void DidFindBarcode(BarcodeScanResult barcodeScanResult)
+    private Task HandleBarcodeAcceptedAsync(BarcodeScanResult barcodeScanResult)
     {
         if (m_barCodeResultBottomSheet is { HasBarCode: true })
         {
-            return;
+            return Task.CompletedTask;
         }
 
         m_barCodeResultBottomSheet = new BarcodeScanningResultBottomSheet();
         m_barCodeResultBottomSheet.Closed += BottomSheetClosed;
         m_barCodeResultBottomSheet.OpenWithBarCode(barcodeScanResult);
-        m_barcodeScanner.StopScanning(resetOverlay: false);
+        m_barcodeScanner.PauseScanning(resetOverlay: false);
+        return Task.CompletedTask;
     }
 
     private void BottomSheetClosed(object? sender, EventArgs e)
@@ -68,7 +71,7 @@ public partial class BarcodeTooltipSample
         }
 
         m_barCodeResultBottomSheet = null;
-        _ = Start();
+        m_barcodeScanner.ResumeScanning();
     }
 
     protected override void OnAppearing()
@@ -79,6 +82,7 @@ public partial class BarcodeTooltipSample
 
     private void Close(object? sender, EventArgs e)
     {
+        m_barcodeScanner.StopAndDispose();
         Shell.Current.Navigation.PopModalAsync();
     }
 }

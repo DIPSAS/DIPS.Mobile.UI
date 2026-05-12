@@ -5,24 +5,26 @@ namespace DIPS.Mobile.UI.API.Camera.BarcodeScanning;
 
 internal sealed class BarcodeScanSession
 {
-    private readonly BarcodeScanningSettings m_settings;
+    private readonly BarcodeScannerStartOptions m_startOptions;
+    private readonly BarcodeScanProgress? m_progress;
     private readonly BarcodeScanProgressController m_progressController;
-    private readonly Action m_stopScanning;
+    private readonly Func<Task> m_stopCameraAnalysisAsync;
     private bool m_hasReportedCompletion;
     private bool m_isDisposed;
 
-    public BarcodeScanSession(BarcodeScanningSettings settings, Action stopScanning)
+    public BarcodeScanSession(BarcodeScannerStartOptions startOptions, Func<Task> stopCameraAnalysisAsync)
     {
-        m_settings = settings;
-        m_stopScanning = stopScanning;
-        m_progressController = new BarcodeScanProgressController(settings);
+        m_startOptions = startOptions;
+        m_progress = startOptions.Completion is not null ? new BarcodeScanProgress(startOptions.Completion) : null;
+        m_stopCameraAnalysisAsync = stopCameraAnalysisAsync;
+        m_progressController = new BarcodeScanProgressController(m_progress);
     }
 
     public BarcodeScannerState State { get; private set; } = BarcodeScannerState.Idle;
 
     public bool CanProcessBarcode => !m_isDisposed && State == BarcodeScannerState.Scanning;
 
-    public bool ShouldShowProgressCounter => m_settings.RequiredScanCount.GetValueOrDefault() > 0;
+    private bool ShouldShowProgressCounter => m_progress?.ShouldShowCounter == true;
 
     public void AttachProgressCounter(CameraPreview cameraPreview)
     {
@@ -43,6 +45,14 @@ internal sealed class BarcodeScanSession
         State = BarcodeScannerState.Scanning;
     }
 
+    public void PauseScanning()
+    {
+        if (m_isDisposed || State == BarcodeScannerState.Completed)
+            return;
+
+        State = BarcodeScannerState.Paused;
+    }
+
     public bool TryBeginProcessing()
     {
         if (!CanProcessBarcode)
@@ -61,28 +71,33 @@ internal sealed class BarcodeScanSession
 
     public async Task<bool> ProcessBarcodeScanResultAsync(BarcodeScanResult barcodeScanResult, BarcodeScanRectangleOverlay? scanRectangleOverlay)
     {
-        if (m_isDisposed)
+        if (m_isDisposed || State == BarcodeScannerState.Paused)
             return false;
 
         State = BarcodeScannerState.Validating;
         var validationResult = await ValidateBarcodeScanResultAsync(barcodeScanResult);
 
-        if (m_isDisposed)
+        if (m_isDisposed || State == BarcodeScannerState.Paused)
             return false;
 
-        return validationResult.IsValid
-            ? await AcceptBarcodeScanResultAsync(barcodeScanResult, scanRectangleOverlay)
-            : await RejectBarcodeScanResultAsync(barcodeScanResult, validationResult, scanRectangleOverlay);
+        barcodeScanResult.SetValidationResult(validationResult);
+
+        if (validationResult.IsValid)
+        {
+            return await AcceptBarcodeScanResultAsync(barcodeScanResult, scanRectangleOverlay);
+        }
+
+        return await RejectBarcodeScanResultAsync(barcodeScanResult, validationResult, scanRectangleOverlay);
     }
 
     private async Task<BarcodeScanValidationResult> ValidateBarcodeScanResultAsync(BarcodeScanResult barcodeScanResult)
     {
-        if (m_settings.ValidateBarcodeAsync is null)
+        if (m_startOptions.ValidateBarcodeAsync is null)
             return BarcodeScanValidationResult.Valid();
 
         try
         {
-            return await m_settings.ValidateBarcodeAsync.Invoke(barcodeScanResult.Barcode.RawValue) ??
+            return await m_startOptions.ValidateBarcodeAsync.Invoke(barcodeScanResult.Barcode.RawValue) ??
                    BarcodeScanValidationResult.Invalid();
         }
         catch (Exception exception)
@@ -106,29 +121,30 @@ internal sealed class BarcodeScanSession
         if (m_isDisposed)
             return false;
 
-        m_settings.CurrentScanCount++;
+        m_progress?.Increment();
+
         await m_progressController.AnimateCounterChangedAsync();
 
         if (m_isDisposed)
             return false;
 
-        await NotifyValidBarcodeScannedAsync(barcodeScanResult);
+        await NotifyBarcodeAcceptedAsync(barcodeScanResult);
 
         if (m_isDisposed)
             return false;
 
-        if (IsRequiredScanCountCompleted())
+        if (IsScanCountCompleted())
         {
             await successAnimationTask;
             if (m_isDisposed)
                 return false;
 
-            await CompleteRequiredScanCountAsync();
+            await CompleteScanCountAsync();
             return false;
         }
 
         await successAnimationTask;
-        return !m_isDisposed;
+        return !m_isDisposed && State != BarcodeScannerState.Paused;
     }
 
     private async Task<bool> RejectBarcodeScanResultAsync(BarcodeScanResult barcodeScanResult, BarcodeScanValidationResult validationResult, BarcodeScanRectangleOverlay? scanRectangleOverlay)
@@ -143,18 +159,17 @@ internal sealed class BarcodeScanSession
         if (m_isDisposed)
             return false;
 
-        await NotifyInvalidBarcodeScannedAsync(barcodeScanResult, validationResult);
-        return !m_isDisposed;
+        await NotifyBarcodeRejectedAsync(barcodeScanResult, validationResult);
+        return !m_isDisposed && State != BarcodeScannerState.Paused;
     }
 
-    private async Task NotifyValidBarcodeScannedAsync(BarcodeScanResult barcodeScanResult)
+    private async Task NotifyBarcodeAcceptedAsync(BarcodeScanResult barcodeScanResult)
     {
         try
         {
-            m_settings.OnValidBarcodeScanned?.Invoke(barcodeScanResult);
-            if (m_settings.OnValidBarcodeScannedAsync is not null)
+            if (m_startOptions.OnBarcodeAcceptedAsync is not null)
             {
-                await m_settings.OnValidBarcodeScannedAsync.Invoke(barcodeScanResult);
+                await m_startOptions.OnBarcodeAcceptedAsync.Invoke(barcodeScanResult);
             }
         }
         catch (Exception exception)
@@ -163,13 +178,13 @@ internal sealed class BarcodeScanSession
         }
     }
 
-    private async Task NotifyInvalidBarcodeScannedAsync(BarcodeScanResult barcodeScanResult, BarcodeScanValidationResult validationResult)
+    private async Task NotifyBarcodeRejectedAsync(BarcodeScanResult barcodeScanResult, BarcodeScanValidationResult validationResult)
     {
         try
         {
-            if (m_settings.OnInvalidBarcodeScannedAsync is not null)
+            if (m_startOptions.OnBarcodeRejectedAsync is not null)
             {
-                await m_settings.OnInvalidBarcodeScannedAsync.Invoke(barcodeScanResult, validationResult);
+                await m_startOptions.OnBarcodeRejectedAsync.Invoke(barcodeScanResult, validationResult);
             }
         }
         catch (Exception exception)
@@ -178,7 +193,7 @@ internal sealed class BarcodeScanSession
         }
     }
 
-    private async Task CompleteRequiredScanCountAsync()
+    private async Task CompleteScanCountAsync()
     {
         if (m_isDisposed || m_hasReportedCompletion)
             return;
@@ -187,28 +202,23 @@ internal sealed class BarcodeScanSession
         State = BarcodeScannerState.Completed;
 
         await m_progressController.AnimateCompletedAsync();
+        await m_stopCameraAnalysisAsync.Invoke();
 
         try
         {
-            if (m_settings.OnRequiredScanCountCompletedAsync is not null)
+            if (m_startOptions.Completion?.OnCompletedAsync is not null)
             {
-                await m_settings.OnRequiredScanCountCompletedAsync.Invoke();
+                await m_startOptions.Completion.OnCompletedAsync.Invoke();
             }
         }
         catch (Exception exception)
         {
             DUILogService.LogError<BarcodeScanner>($"Barcode completion callback failed: {exception.Message}");
         }
-
-        if (m_settings.StopScanningWhenCompleted)
-        {
-            m_stopScanning.Invoke();
-        }
     }
 
-    private bool IsRequiredScanCountCompleted()
+    private bool IsScanCountCompleted()
     {
-        return m_settings.RequiredScanCount is > 0 &&
-               m_settings.CurrentScanCount >= m_settings.RequiredScanCount.Value;
+        return m_progress?.IsCompleted == true;
     }
 }

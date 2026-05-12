@@ -22,12 +22,16 @@ public partial class BarcodeOverlaySample
     {
         try
         {
-            await m_barcodeScanner.Start(CameraPreview, CameraFailed, settings =>
+            await m_barcodeScanner.Start(new BarcodeScannerStartOptions
             {
-                settings.OnValidBarcodeScanned = DidFindBarcode;
-                settings.ShowScanRectangle = true;
-                settings.ScanRectangleWidthFraction = 0.8f;
-                settings.ScanRectangleHeightFraction = 0.3f;
+                Preview = CameraPreview,
+                OnCameraFailed = CameraFailed,
+                OnBarcodeAcceptedAsync = HandleBarcodeAcceptedAsync,
+                ScanRectangle = new BarcodeScanRectangleOptions
+                {
+                    WidthFraction = 0.8f,
+                    HeightFraction = 0.3f
+                }
             });
             
             CameraPreview.AddTopToolbarView(GetTopToolbarView());
@@ -70,17 +74,18 @@ public partial class BarcodeOverlaySample
         };
     }
 
-    private void DidFindBarcode(BarcodeScanResult barcodeScanResult)
+    private Task HandleBarcodeAcceptedAsync(BarcodeScanResult barcodeScanResult)
     {
         if (m_barCodeResultBottomSheet is { HasBarCode: true })
         {
-            return;
+            return Task.CompletedTask;
         }
 
         m_barCodeResultBottomSheet = new BarcodeScanningResultBottomSheet();
         m_barCodeResultBottomSheet.Closed += BottomSheetClosed;
         m_barCodeResultBottomSheet.OpenWithBarCode(barcodeScanResult);
-        m_barcodeScanner.StopScanning(resetOverlay: false);
+        m_barcodeScanner.PauseScanning(resetOverlay: false);
+        return Task.CompletedTask;
     }
 
     private void BottomSheetClosed(object? sender, EventArgs e)
@@ -91,7 +96,7 @@ public partial class BarcodeOverlaySample
         }
 
         m_barCodeResultBottomSheet = null;
-        _ = Start();
+        m_barcodeScanner.ResumeScanning();
     }
 
     protected override void OnAppearing()
@@ -102,6 +107,7 @@ public partial class BarcodeOverlaySample
 
     private void Close(object? sender, EventArgs e)
     {
+        m_barcodeScanner.StopAndDispose();
         Shell.Current.Navigation.PopModalAsync();
     }
 }

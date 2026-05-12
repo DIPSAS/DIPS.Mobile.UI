@@ -4,14 +4,17 @@ namespace DIPS.Mobile.UI.API.Camera.BarcodeScanning;
 
 internal sealed class BarcodeScanProgressController
 {
-    private readonly BarcodeScanningSettings m_settings;
+    private readonly BarcodeScanProgress? m_progress;
     private CameraPreview? m_cameraPreview;
     private BarcodeScanProgressView? m_progressView;
 
-    public BarcodeScanProgressController(BarcodeScanningSettings settings)
+    public BarcodeScanProgressController(BarcodeScanProgress? progress)
     {
-        m_settings = settings;
-        m_settings.ProgressChanged += OnProgressChanged;
+        m_progress = progress;
+        if (m_progress is not null)
+        {
+            m_progress.ProgressChanged += OnProgressChanged;
+        }
     }
 
     public void Attach(CameraPreview cameraPreview)
@@ -28,7 +31,11 @@ internal sealed class BarcodeScanProgressController
             return;
         }
 
-        m_settings.ProgressChanged -= OnProgressChanged;
+        if (m_progress is not null)
+        {
+            m_progress.ProgressChanged -= OnProgressChanged;
+        }
+
         RemoveProgressView();
         m_cameraPreview = null;
     }
@@ -109,11 +116,11 @@ internal sealed class BarcodeScanProgressController
 
     private void UpdateCounterText()
     {
-        if (m_progressView is not null && m_settings.RequiredScanCount is > 0)
+        if (m_progressView is not null && m_progress?.RequiredCount is > 0)
         {
-            m_progressView.UpdateCounter(m_settings.CurrentScanCount, m_settings.RequiredScanCount.Value);
+            m_progressView.UpdateCounter(m_progress.CurrentCount, m_progress.RequiredCount.Value);
         }
     }
 
-    private bool ShouldShowProgressCounter => m_settings.RequiredScanCount.GetValueOrDefault() > 0;
+    private bool ShouldShowProgressCounter => m_progress?.ShouldShowCounter == true;
 }
