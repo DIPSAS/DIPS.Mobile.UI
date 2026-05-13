@@ -1,3 +1,7 @@
+## [59.1.0]
+- [CollectionView] `RemoveFocusOnScroll` bruker nå native plattform-API-er (iOS `KeyboardDismissMode`, Android `OnScrollListener`) i stedet for managed Unfocus. Listener ryddes opp ved disconnect for å unngå minnelekkasjer.
+- [ScrollView] `RemoveFocusOnScroll` bruker nå native plattform-API-er (iOS `KeyboardDismissMode`, Android `Scrolled`-event med `InputMethodManager`). Event-abonnement fjernes ved disconnect.
+
 ## [59.0.0]
 - [BarcodeScanner] **BREAKING**: Replaced positional `Start` parameters and `BarcodeScanningSettings` with `BarcodeScanner.Start(BarcodeScannerStartOptions)` so preview, camera failure handling, validation, async callbacks, scan rectangle, and completion behavior are configured in one scanner session contract.
 - [BarcodeScanner] Added visible focused scan rectangle overlay controlled by `BarcodeScannerStartOptions.ScanRectangle` and `BarcodeScanRectangleOptions`

@@ -17,10 +17,22 @@ public partial class ScrollView
         set => SetValue(ShouldBounceProperty, value);
     }
     
+    public static readonly BindableProperty RemoveFocusOnScrollProperty = BindableProperty.Create(
+        nameof(RemoveFocusOnScroll),
+        typeof(bool),
+        typeof(ScrollView),
+        defaultValue: false);
+
     /// <summary>
-    /// Determines if input fields should be unfocused when the user scrolls the <see cref="ScrollView"/>. (ScrollBar, Editor etc..)
+    /// Determines if the keyboard should be dismissed when the user scrolls the <see cref="ScrollView"/>.
+    /// On iOS this sets UIScrollView.KeyboardDismissMode to OnDrag.
+    /// On Android this hides the soft input via InputMethodManager on scroll.
     /// </summary>
-    public bool RemoveFocusOnScroll { get; set; }
+    public bool RemoveFocusOnScroll
+    {
+        get => (bool)GetValue(RemoveFocusOnScrollProperty);
+        set => SetValue(RemoveFocusOnScrollProperty, value);
+    }
 
     public static readonly BindableProperty HasAdditionalSpaceAtTheEndProperty = BindableProperty.Create(
         nameof(HasAdditionalSpaceAtTheEnd),

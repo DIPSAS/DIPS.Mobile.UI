@@ -16,6 +16,8 @@ namespace DIPS.Mobile.UI.Components.Lists;
 
 public partial class CollectionViewHandler
 {
+    private KeyboardDismissOnScrollListener? m_keyboardDismissOnScrollListener;
+    
     protected override RecyclerView CreatePlatformView()
     {
         return new MauiRecyclerView(Context, GetItemsLayout, CreateAdapter);
@@ -52,6 +54,37 @@ public partial class CollectionViewHandler
             handler.PlatformView.OverScrollMode =
                 collectionView.ShouldBounce ? OverScrollMode.Always : OverScrollMode.Never;
         }
+    }
+    
+    private static partial void MapRemoveFocusOnScroll(CollectionViewHandler handler,
+        Microsoft.Maui.Controls.CollectionView virtualView)
+    {
+        if (virtualView is not CollectionView collectionView)
+            return;
+
+        // Remove any existing listener first
+        if (handler.m_keyboardDismissOnScrollListener != null)
+        {
+            handler.PlatformView.RemoveOnScrollListener(handler.m_keyboardDismissOnScrollListener);
+            handler.m_keyboardDismissOnScrollListener = null;
+        }
+
+        if (collectionView.RemoveFocusOnScroll)
+        {
+            handler.m_keyboardDismissOnScrollListener = new KeyboardDismissOnScrollListener();
+            handler.PlatformView.AddOnScrollListener(handler.m_keyboardDismissOnScrollListener);
+        }
+    }
+
+    protected override void DisconnectHandler(RecyclerView platformView)
+    {
+        if (m_keyboardDismissOnScrollListener != null)
+        {
+            platformView.RemoveOnScrollListener(m_keyboardDismissOnScrollListener);
+            m_keyboardDismissOnScrollListener = null;
+        }
+        
+        base.DisconnectHandler(platformView);
     }
 
     internal partial void ReloadData(CollectionViewHandler handler)

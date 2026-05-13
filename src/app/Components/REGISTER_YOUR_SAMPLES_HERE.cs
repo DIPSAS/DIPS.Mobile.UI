@@ -11,6 +11,7 @@ using Components.ComponentsSamples.Counters;
 using Components.ComponentsSamples.ImageCapturing;
 using Components.ComponentsSamples.Labels;
 using Components.ComponentsSamples.ListItems;
+using Components.ComponentsSamples.Lists;
 using Components.ComponentsSamples.Loading;
 using Components.ComponentsSamples.Navigation;
 using Components.ComponentsSamples.PanZoomContainer;
@@ -78,6 +79,7 @@ public static class REGISTER_YOUR_SAMPLES_HERE
             new(SampleType.Components, "TIFF Viewer", () => new TiffViewerSample()),
             new(SampleType.Components, "Toolbar", () => new ToolbarSamples(), isModal: true),
             new(SampleType.Accessibility, "VoiceOver/TalkBack", () => new VoiceOverSamples()),
+            new(SampleType.Components, "Lists", () => new ListsSamples()),
             
 
 
