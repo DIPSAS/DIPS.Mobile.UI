@@ -1,3 +1,6 @@
+## [59.0.1] 
+- Resources was updated from DIPS.Mobile.DesignTokens
+
 ## [59.0.0]
 - [BarcodeScanner] **BREAKING**: Replaced positional `Start` parameters and `BarcodeScanningSettings` with `BarcodeScanner.Start(BarcodeScannerStartOptions)` so preview, camera failure handling, validation, async callbacks, scan rectangle, and completion behavior are configured in one scanner session contract.
 - [BarcodeScanner] Added visible focused scan rectangle overlay controlled by `BarcodeScannerStartOptions.ScanRectangle` and `BarcodeScanRectangleOptions`
