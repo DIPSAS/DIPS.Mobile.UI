@@ -30,17 +30,24 @@ public class Camera
         }
     }
 
-    public async Task StartBarcodeScanning(DidFindBarcodeCallback didFindBarcodeCallback,
-        CameraFailed cameraFailedDelegate)
+    /// <summary>
+    /// Starts barcode scanning in a modal camera preview using the provided <paramref name="startOptions"/> instance.
+    /// </summary>
+    /// <remarks>The modal camera API creates the preview and assigns <see cref="BarcodeScannerStartOptions.Preview"/> before starting the scanner.</remarks>
+    public async Task StartBarcodeScanning(BarcodeScannerStartOptions startOptions)
     {
+        ArgumentNullException.ThrowIfNull(startOptions);
+        ArgumentNullException.ThrowIfNull(startOptions.OnCameraFailed, nameof(startOptions.OnCameraFailed));
+
         try
         {
             var cameraPreview = await OpenAndSetCameraPreview();
             if (cameraPreview == null) return;
             m_barCodeScanner ??= new BarcodeScanner();
-            await m_barCodeScanner.Start(cameraPreview, didFindBarcodeCallback, cameraFailedDelegate);
+            startOptions.Preview = cameraPreview;
+            await m_barCodeScanner.Start(startOptions);
         }
-        catch (Exception e)
+        catch
         {
             await Stop();
             throw;

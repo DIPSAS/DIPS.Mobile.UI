@@ -9,6 +9,7 @@ public partial class BarcodeScanner : CameraSession
     //The rectangle that people see in the preview which we will focus on scanning bar codes in
     private AVCaptureMetadataOutput? m_captureMetadataOutput;
     private double m_rectOfInterestWidth;
+    private BarcodeScannerStartOptions? m_startOptionsIos;
 
     private readonly DispatchQueue m_metadataObjectsQueue = new(label: "metadata objects queue", attributes: new(), target: null);
     
@@ -24,14 +25,24 @@ public partial class BarcodeScanner : CameraSession
         return StopCameraSession();
     }
 
-    internal partial Task PlatformStart(BarcodeScanningSettings barcodeScanningSettings, CameraFailed cameraFailedDelegate)
+    internal partial Task PlatformStart(BarcodeScannerStartOptions startOptions, CameraFailed cameraFailedDelegate)
     {
+        m_startOptionsIos = startOptions;
         m_captureMetadataOutput = new AVCaptureMetadataOutput();
-        m_captureDelegate = new CaptureDelegate(s =>
+        var scanRunId = CurrentScanRunId;
+        m_captureDelegate = new CaptureDelegate(readableCodeObject =>
         {
-            if (!string.IsNullOrEmpty(s.StringValue))
+            if (scanRunId != CurrentScanRunId)
+                return;
+
+            if (!string.IsNullOrEmpty(readableCodeObject.StringValue))
             {
-                InvokeBarcodeFound(new Barcode(s.StringValue, s.Type.ToString()));
+                var overlayBounds = BarcodeScanOverlayBoundsMapper.TryGetBarcodeBoundsInOverlay(
+                    readableCodeObject,
+                    PreviewLayer,
+                    m_scanRectangleOverlay);
+
+                InvokeBarcodeFound(new Barcode(readableCodeObject.StringValue, readableCodeObject.Type.ToString()), overlayBounds, scanRunId);
             }
         });
         return ConfigureAndStart(m_cameraPreview, null, m_captureMetadataOutput, cameraFailedDelegate);
@@ -66,7 +77,14 @@ public partial class BarcodeScanner : CameraSession
                                                       | AVMetadataObjectType.PDF417Code
                                                       | AVMetadataObjectType.QRCode;
         
-        PreviewView.TryAddOrUpdateRectOfInterest();
+        if (m_startOptionsIos?.ScanRectangle is { IsVisible: true } scanRectangleOptions)
+        {
+            PreviewView.TryAddOrUpdateRectOfInterest(scanRectangleOptions.WidthFraction, scanRectangleOptions.HeightFraction);
+        }
+        else
+        {
+            PreviewView.TryAddOrUpdateRectOfInterest();
+        }
         SetRecommendedZoomFactor();
     }
 

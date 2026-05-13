@@ -47,9 +47,15 @@ protected override void OnAppearing()
 {
     try
     {
-        await m_scanner.Start(CameraPreview, result =>
+        await m_scanner.Start(new BarcodeScannerStartOptions
         {
-            var theBarCode = result.Barcode.RawValue;
+            Preview = CameraPreview,
+            OnCameraFailed = CameraFailed,
+            OnBarcodeAcceptedAsync = result =>
+            {
+                var theBarCode = result.Barcode.RawValue;
+                return Task.CompletedTask;
+            }
         });
     }
     catch (Exception e)
@@ -62,15 +68,84 @@ protected override void OnAppearing()
 
 > Notice that `CameraPreview` is the code behind reference from the preview guide.
 
+## Validate barcodes before accepting them
+Use `ValidateBarcodeAsync` when the scanner should ask your app whether a detected barcode belongs in the current workflow before playing the success animation. If validation returns invalid, the scanner plays the failure animation, does not increment the progress counter, and resumes scanning after a short cooldown.
+
+```csharp
+private readonly BarcodeScanner m_scanner = new();
+
+await m_scanner.Start(new BarcodeScannerStartOptions
+{
+    Preview = CameraPreview,
+    OnCameraFailed = CameraFailed,
+    ScanRectangle = new BarcodeScanRectangleOptions
+    {
+        WidthFraction = 0.8f,
+        HeightFraction = 0.25f
+    },
+    Completion = new BarcodeScanCompletionOptions
+    {
+        RequiredCount = 5,
+        InitialCount = alreadyScannedCount,
+        OnCompletedAsync = OnScanCountCompletedAsync
+    },
+    OnBarcodeAcceptedAsync = OnBarcodeAcceptedAsync,
+    ValidateBarcodeAsync = ValidateBarcodeAsync,
+    OnBarcodeRejectedAsync = OnBarcodeRejectedAsync
+});
+
+private Task OnBarcodeAcceptedAsync(BarcodeScanResult result)
+{
+    var acceptedBarcode = result.Barcode.RawValue;
+
+    if (result.TryGetValidationState<BarcodeMatch>(out var match))
+    {
+        ViewModel.UseMatch(match);
+    }
+
+    return Task.CompletedTask;
+}
+
+private async Task<BarcodeScanValidationResult> ValidateBarcodeAsync(string barcode)
+{
+    var match = await ViewModel.FindBarcodeMatchAsync(barcode);
+
+    return match is not null
+        ? BarcodeScanValidationResult.Valid(match)
+        : BarcodeScanValidationResult.Invalid("Barcode does not belong to this step.", "not-in-step");
+}
+
+private Task OnBarcodeRejectedAsync(BarcodeScanResult result, BarcodeScanValidationResult validationResult)
+{
+    return Task.CompletedTask;
+}
+
+private Task OnScanCountCompletedAsync()
+{
+    return Task.CompletedTask;
+}
+```
+
+When `Completion.RequiredCount` is greater than zero, the scanner displays a simple counter at the top of the bottom toolbar, such as `3 av 5 skannet`. Set `Completion.InitialCount` when the session starts with already accepted barcodes; after that, the scanner owns the active count and increments it after each accepted scan. Rejected scans do not change the counter. When the active count reaches `Completion.RequiredCount`, scanner analysis stops and `Completion.OnCompletedAsync` is invoked.
+
+If `ValidateBarcodeAsync` throws, the scanner treats the barcode as invalid, plays the failure animation, logs the exception, and resumes scanning.
+
 ## Stop scanning
 Remember to release resources to make sure your page does not leak memory.
+
+Use `PauseScanning()` when you only need to pause barcode processing temporarily, for example while a result bottom sheet is open. This keeps overlay views attached so the scan rectangle does not disappear behind the sheet. Call `ResumeScanning()` when the temporary UI is dismissed.
+
+```csharp
+m_scanner.PauseScanning(resetOverlay: false);
+m_scanner.ResumeScanning();
+```
 
 In most cases it makes sense to do this when the page disappear. Other cases can be when people got the result.
 ```csharp
 protected override void OnDisappearing()
 {
     base.OnDisappearing();
-    m_scanner.Stop();
+    m_scanner.StopAndDispose();
 }
 ```
 

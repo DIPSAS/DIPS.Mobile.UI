@@ -1,22 +1,23 @@
-using System;
-using System.Threading.Tasks;
 using DIPS.Mobile.UI.API.Camera;
 using DIPS.Mobile.UI.API.Camera.BarcodeScanning;
+using DIPS.Mobile.UI.Resources.Styles;
+using DIPS.Mobile.UI.Resources.Styles.Label;
+using Colors = Microsoft.Maui.Graphics.Colors;
 
 namespace Components.ComponentsSamples.BarcodeScanning;
 
-public partial class BarcodeScanningSample
+public partial class BarcodeOverlaySample
 {
     private readonly BarcodeScanner m_barcodeScanner;
     private BarcodeScanningResultBottomSheet? m_barCodeResultBottomSheet;
+    private View? m_topToolbarView;
 
-    public BarcodeScanningSample()
+    public BarcodeOverlaySample()
     {
         InitializeComponent();
         m_barcodeScanner = new BarcodeScanner();
     }
 
-    
     private async Task Start()
     {
         try
@@ -25,8 +26,15 @@ public partial class BarcodeScanningSample
             {
                 Preview = CameraPreview,
                 OnCameraFailed = CameraFailed,
-                OnBarcodeAcceptedAsync = HandleBarcodeAcceptedAsync
+                OnBarcodeAcceptedAsync = HandleBarcodeAcceptedAsync,
+                ScanRectangle = new BarcodeScanRectangleOptions
+                {
+                    WidthFraction = 0.8f,
+                    HeightFraction = 0.3f
+                }
             });
+            
+            CameraPreview.AddTopToolbarView(GetTopToolbarView());
         }
         catch (Exception exception)
         {
@@ -40,12 +48,35 @@ public partial class BarcodeScanningSample
         App.Current.MainPage.DisplayAlert("Something failed!", e.Message, "Ok");
     }
 
+    private View GetTopToolbarView()
+    {
+        return m_topToolbarView ??= new VerticalStackLayout
+        {
+            Spacing = 4,
+            Children =
+            {
+                new Label
+                {
+                    Text = "Scan barcode",
+                    Style = Styles.GetLabelStyle(LabelStyle.UI200),
+                    TextColor = Colors.White,
+                    HorizontalTextAlignment = TextAlignment.Center
+                },
+                new Label
+                {
+                    Text = "Point the camera at a barcode",
+                    Style = Styles.GetLabelStyle(LabelStyle.UI100),
+                    TextColor = Colors.White,
+                    HorizontalTextAlignment = TextAlignment.Center,
+                    Opacity = 0.7
+                }
+            }
+        };
+    }
+
     private Task HandleBarcodeAcceptedAsync(BarcodeScanResult barcodeScanResult)
     {
-        if (m_barCodeResultBottomSheet is
-            {
-                HasBarCode: true
-            })
+        if (m_barCodeResultBottomSheet is { HasBarCode: true })
         {
             return Task.CompletedTask;
         }
@@ -53,7 +84,7 @@ public partial class BarcodeScanningSample
         m_barCodeResultBottomSheet = new BarcodeScanningResultBottomSheet();
         m_barCodeResultBottomSheet.Closed += BottomSheetClosed;
         m_barCodeResultBottomSheet.OpenWithBarCode(barcodeScanResult);
-        m_barcodeScanner.PauseScanning();
+        m_barcodeScanner.PauseScanning(resetOverlay: false);
         return Task.CompletedTask;
     }
 
@@ -72,11 +103,6 @@ public partial class BarcodeScanningSample
     {
         _ = Start();
         base.OnAppearing();
-    }
-    
-    private void ShowTip(object? sender, EventArgs e)
-    {
-        CameraPreview.ShowZoomSliderTip("Om strekkoden er liten, er det bedre å bruke zoom funksjonen istedet for å ha mobilen for nært strekkoden. Du kan også dra i slideren for å justere zoomen.");  
     }
 
     private void Close(object? sender, EventArgs e)

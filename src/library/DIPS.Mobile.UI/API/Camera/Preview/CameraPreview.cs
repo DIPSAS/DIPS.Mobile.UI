@@ -37,12 +37,6 @@ public partial class CameraPreview : ContentView
         
 #if __IOS__
         Content = ConstructView();
-
-        if (UIApplication.SharedApplication.KeyWindow != null)
-        {
-            Padding = new Thickness(0, UIApplication.SharedApplication.KeyWindow.SafeAreaInsets.Top, 0,
-                UIApplication.SharedApplication.KeyWindow.SafeAreaInsets.Bottom);
-        }
 #else
         
 #endif
@@ -50,6 +44,13 @@ public partial class CameraPreview : ContentView
 
     private void OnLoaded(object? sender, EventArgs e)
     {
+#if __IOS__
+        if (IsInFullscreen && UIApplication.SharedApplication.KeyWindow != null)
+        {
+            Padding = new Thickness(0, UIApplication.SharedApplication.KeyWindow.SafeAreaInsets.Top, 0,
+                UIApplication.SharedApplication.KeyWindow.SafeAreaInsets.Bottom);
+        }
+#endif
         m_hasLoadedTcs.TrySetResult();
     }
     
@@ -94,6 +95,19 @@ public partial class CameraPreview : ContentView
     }
 
     /// <summary>
+    /// Computes the top toolbar height for the given dimensions, applying a minimum so the
+    /// toolbar remains usable even when a navigation bar reduces the available letterbox space.
+    /// </summary>
+    internal static float ComputeTopToolbarHeight(float width, float frameHeight)
+    {
+        var actualPreviewHeight = Math.Min(width / ThreeFourRatio, frameHeight);
+        var totalLetterBoxHeight = frameHeight - actualPreviewHeight;
+        return (float)Math.Max(
+            totalLetterBoxHeight * TopToolbarPercentHeightOfLetterBox,
+            Sizes.GetSize(SizeName.size_11));
+    }
+
+    /// <summary>
     /// Here we set the height of the top and bottom toolbar relative to the <see cref="ThreeFourRatio"/>
     /// </summary>
     /// <param name="frameHeight"></param>
@@ -107,12 +121,12 @@ public partial class CameraPreview : ContentView
         var actualPreviewHeight = (Width / ThreeFourRatio);
         var totalLetterBoxHeight = frameHeight - actualPreviewHeight;
 
-        // Looks like the top toolbar is about 25% of the total letterbox height looking at android/ios' native camera app
-        m_topToolbarContainer.HeightRequest = totalLetterBoxHeight * TopToolbarPercentHeightOfLetterBox;
-        m_bottomToolbarContainer.HeightRequest = totalLetterBoxHeight * BottomToolbarPercentHeightOfLetterBox;
+        var topToolbarHeight = ComputeTopToolbarHeight((float)Width, frameHeight);
+        m_topToolbarContainer.HeightRequest = topToolbarHeight;
+        m_bottomToolbarContainer.HeightRequest = Math.Max(totalLetterBoxHeight - topToolbarHeight, 0);
 
         CameraZoomView!.Margin = new Thickness(0, 0, 0, Sizes.GetSize(SizeName.content_margin_small) + m_bottomToolbarContainer.HeightRequest);
-        PreviewView.TranslationY -= m_topToolbarContainer.HeightRequest;
+        PreviewView.TranslationY -= topToolbarHeight;
 
         m_hasSetToolbarHeights = true;
     }
