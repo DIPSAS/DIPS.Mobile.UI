@@ -18,7 +18,24 @@ public class BarcodeScanResult(Barcode barcode, List<BarcodeObservation> observa
     public List<BarcodeObservation> Observations { get; } = observations;
 
     /// <summary>
+    /// Gets the validation result used for this scan result.
+    /// </summary>
+    public BarcodeScanValidationResult ValidationResult { get; private set; } = BarcodeScanValidationResult.Valid();
+
+    /// <summary>
     /// Determines if there was more than one barcode observation during scanning.
     /// </summary>
     public bool HasMultipleObservations => Observations.Count > 1;
+
+    /// <summary>
+    /// Tries to get the consumer state carried by the validation result.
+    /// </summary>
+    /// <typeparam name="TState">The expected state type.</typeparam>
+    /// <param name="state">The typed state when present.</param>
+    public bool TryGetValidationState<TState>(out TState? state) => ValidationResult.TryGetState(out state);
+
+    internal void SetValidationResult(BarcodeScanValidationResult validationResult)
+    {
+        ValidationResult = validationResult;
+    }
 }

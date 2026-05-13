@@ -1,5 +1,13 @@
-## [58.2.0] 
+## [59.0.1] 
 - Resources was updated from DIPS.Mobile.DesignTokens
+
+## [59.0.0]
+- [BarcodeScanner] **BREAKING**: Replaced positional `Start` parameters and `BarcodeScanningSettings` with `BarcodeScanner.Start(BarcodeScannerStartOptions)` so preview, camera failure handling, validation, async callbacks, scan rectangle, and completion behavior are configured in one scanner session contract.
+- [BarcodeScanner] Added visible focused scan rectangle overlay controlled by `BarcodeScannerStartOptions.ScanRectangle` and `BarcodeScanRectangleOptions`
+- [BarcodeScanner] Barcode results are now filtered to only include barcodes within the visible scan rectangle region
+- [BarcodeScanner] Added validation-aware success and failure animations, optional required scan count progress with animated bottom counter and barcode collection animation, initial count support, duplicate scan cooldown, completion callbacks, and pause/resume support that keeps overlays attached
+- [BarcodeScanner] Added validation results with optional typed state for accepted barcodes and optional reason codes for rejected barcodes
+- [BarcodeScanner] Fixed duplicate scan suppression so an already-confirmed barcode is not retried while validation and success animations are running
 
 ## [58.1.0]
 - [StepFlow] Added new accordion-style multi-step flow component.
