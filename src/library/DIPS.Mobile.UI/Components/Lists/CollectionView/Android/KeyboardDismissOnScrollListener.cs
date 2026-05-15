@@ -5,29 +5,34 @@ using Microsoft.Maui.Platform;
 
 namespace DIPS.Mobile.UI.Components.Lists;
 
-internal class KeyboardDismissOnScrollListener : RecyclerView.OnScrollListener, global::Android.Views.View.IOnTouchListener
+internal class KeyboardDismissOnScrollListener : RecyclerView.OnScrollListener, RecyclerView.IOnItemTouchListener
 {
     private bool m_isUserTouching;
     private bool m_hasHiddenKeyboard;
 
-    public bool OnTouch(global::Android.Views.View? v, MotionEvent? e)
+    public bool OnInterceptTouchEvent(RecyclerView rv, MotionEvent e)
     {
-        if (e != null)
+        switch (e.Action)
         {
-            switch (e.Action)
-            {
-                case MotionEventActions.Down:
-                    m_isUserTouching = true;
-                    break;
-                case MotionEventActions.Up:
-                case MotionEventActions.Cancel:
-                    m_isUserTouching = false;
-                    m_hasHiddenKeyboard = false;
-                    break;
-            }
+            case MotionEventActions.Down:
+                m_isUserTouching = true;
+                break;
+            case MotionEventActions.Up:
+            case MotionEventActions.Cancel:
+                m_isUserTouching = false;
+                m_hasHiddenKeyboard = false;
+                break;
         }
 
-        return false; // Don't consume the event
+        return false;
+    }
+
+    public void OnTouchEvent(RecyclerView rv, MotionEvent e)
+    {
+    }
+
+    public void OnRequestDisallowInterceptTouchEvent(bool disallowIntercept)
+    {
     }
 
     public override void OnScrolled(RecyclerView recyclerView, int dx, int dy)

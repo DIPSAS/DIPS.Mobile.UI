@@ -16,6 +16,7 @@ internal class ScrollViewKeyboardDismissOnScrollListener : Java.Lang.Object, AVi
             switch (e.Action)
             {
                 case MotionEventActions.Down:
+                case MotionEventActions.Move:
                     m_isUserTouching = true;
                     break;
                 case MotionEventActions.Up:

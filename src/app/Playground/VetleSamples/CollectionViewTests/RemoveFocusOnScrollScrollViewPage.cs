@@ -26,11 +26,16 @@ public class RemoveFocusOnScrollScrollViewPage : ContentPage
 
         for (var i = 1; i <= 200; i++)
         {
-            stackLayout.Children.Add(new Label
+            var label = new Label
             {
                 Text = $"Item {i}",
                 Padding = new Thickness(16, 12)
+            };
+            label.GestureRecognizers.Add(new TapGestureRecognizer
+            {
+                Command = new Command(() => System.Diagnostics.Debug.WriteLine("Item tapped"))
             });
+            stackLayout.Children.Add(label);
         }
 
         var scrollView = new ScrollView

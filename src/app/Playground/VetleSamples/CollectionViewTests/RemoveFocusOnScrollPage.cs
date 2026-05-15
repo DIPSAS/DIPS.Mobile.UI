@@ -36,6 +36,10 @@ public class RemoveFocusOnScrollPage : ContentPage
                 var label = new Label();
                 label.SetBinding(Label.TextProperty, ".");
                 label.Padding = new Thickness(16, 12);
+                label.GestureRecognizers.Add(new TapGestureRecognizer
+                {
+                    Command = new Command(() => System.Diagnostics.Debug.WriteLine("Item tapped"))
+                });
                 return label;
             })
         };
