@@ -1,4 +1,4 @@
-## [59.2.0]
+## [59.1.1]
 - [CollectionView] Fixed `RemoveFocusOnScroll` on Android: uses `OnScrolled` with `ScrollStateDragging` check instead of `OnScrollStateChanged` to reliably dismiss keyboard in all view hierarchies. Also clears focus from the active input field.
 - [ScrollView] Fixed `RemoveFocusOnScroll` on Android: replaced MAUI `Scrolled` event with native touch+scroll listeners to only dismiss keyboard on user-initiated drags, not layout-induced scrolls. Also clears focus from the active input field.
 
