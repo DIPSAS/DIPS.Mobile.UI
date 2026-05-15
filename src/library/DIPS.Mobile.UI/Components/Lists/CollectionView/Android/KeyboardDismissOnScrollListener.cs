@@ -17,7 +17,7 @@ internal class KeyboardDismissOnScrollListener : RecyclerView.OnScrollListener
         if (context == null)
             return;
 
-        var imm = (InputMethodManager?)context.GetSystemService(global::Android.Content.Context.InputMethodService);
+        var imm = context.GetSystemService(global::Android.Content.Context.InputMethodService) as InputMethodManager;
         imm?.HideSoftInputFromWindow(recyclerView.WindowToken, HideSoftInputFlags.None);
     }
 }

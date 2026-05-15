@@ -49,7 +49,7 @@ public partial class ScrollViewHandler
         if (context == null)
             return;
 
-        var imm = (InputMethodManager?)context.GetSystemService(global::Android.Content.Context.InputMethodService);
+        var imm = context.GetSystemService(global::Android.Content.Context.InputMethodService) as InputMethodManager;
         imm?.HideSoftInputFromWindow(handler.PlatformView.WindowToken, HideSoftInputFlags.None);
     }
 }
