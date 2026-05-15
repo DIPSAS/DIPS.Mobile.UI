@@ -5,12 +5,12 @@ using Microsoft.Maui.Platform;
 
 namespace DIPS.Mobile.UI.Components.Lists;
 
-internal class KeyboardDismissOnScrollListener : RecyclerView.OnScrollListener, Android.Views.View.IOnTouchListener
+internal class KeyboardDismissOnScrollListener : RecyclerView.OnScrollListener, global::Android.Views.View.IOnTouchListener
 {
     private bool m_isUserTouching;
     private bool m_hasHiddenKeyboard;
 
-    public bool OnTouch(Android.Views.View? v, MotionEvent? e)
+    public bool OnTouch(global::Android.Views.View? v, MotionEvent? e)
     {
         if (e != null)
         {
