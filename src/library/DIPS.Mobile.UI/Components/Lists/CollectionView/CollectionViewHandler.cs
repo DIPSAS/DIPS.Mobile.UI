@@ -14,10 +14,13 @@ public partial class CollectionViewHandler : CollectionViewHandlerImpl
 
     public static readonly PropertyMapper CollectionViewPropertyMapper = new PropertyMapper<Microsoft.Maui.Controls.CollectionView, CollectionViewHandler>(Mapper)
     {
-        [nameof(CollectionView.ShouldBounce)] = MapShouldBounce
+        [nameof(CollectionView.ShouldBounce)] = MapShouldBounce,
+        [nameof(CollectionView.RemoveFocusOnScroll)] = MapRemoveFocusOnScroll
     };
 
     private static partial void MapShouldBounce(CollectionViewHandler handler, Microsoft.Maui.Controls.CollectionView virtualView);
+    
+    private static partial void MapRemoveFocusOnScroll(CollectionViewHandler handler, Microsoft.Maui.Controls.CollectionView virtualView);
 
     internal partial void ReloadData(CollectionViewHandler handler);
 }

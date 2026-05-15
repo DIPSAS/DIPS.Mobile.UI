@@ -1,3 +1,7 @@
+## [59.1.0]
+- [CollectionView] `RemoveFocusOnScroll` now uses native platform APIs instead of managed Unfocus. Listener is cleaned up on disconnect.
+- [ScrollView] `RemoveFocusOnScroll` now uses native platform APIs. Event subscription is removed on disconnect.
+
 ## [59.0.0]
 - [BarcodeScanner] **BREAKING**: Replaced positional `Start` parameters and `BarcodeScanningSettings` with `BarcodeScanner.Start(BarcodeScannerStartOptions)` so preview, camera failure handling, validation, async callbacks, scan rectangle, and completion behavior are configured in one scanner session contract.
 - [BarcodeScanner] Added visible focused scan rectangle overlay controlled by `BarcodeScannerStartOptions.ScanRectangle` and `BarcodeScanRectangleOptions`

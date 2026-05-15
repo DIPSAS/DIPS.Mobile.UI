@@ -42,6 +42,20 @@ public partial class CollectionViewHandler
             }
         }
     }
+    
+    private static partial void MapRemoveFocusOnScroll(CollectionViewHandler handler,
+        Microsoft.Maui.Controls.CollectionView virtualView)
+    {
+        if (handler.PlatformView.Subviews[0] is not UICollectionView uiCollectionView)
+            return;
+
+        if (virtualView is CollectionView collectionView)
+        {
+            uiCollectionView.KeyboardDismissMode = collectionView.RemoveFocusOnScroll
+                ? UIScrollViewKeyboardDismissMode.OnDrag
+                : UIScrollViewKeyboardDismissMode.None;
+        }
+    }
 
     internal partial void ReloadData(CollectionViewHandler handler)
     {

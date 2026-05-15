@@ -1,13 +1,11 @@
 ﻿using System.Collections;
 using DIPS.Mobile.UI.Components.Dividers;
 using Microsoft.Maui.Platform;
-using SearchBar = DIPS.Mobile.UI.Components.Searching.SearchBar;
 
 namespace DIPS.Mobile.UI.Components.Lists;
 
 public partial class CollectionView : Microsoft.Maui.Controls.CollectionView
 {
-    private readonly List<WeakReference<VisualElement>> m_inputFields = [];
     private double m_previousHeightDifference;
 
     public CollectionView()
@@ -25,34 +23,6 @@ public partial class CollectionView : Microsoft.Maui.Controls.CollectionView
             Dispose();
             return;
         }
-
-        
-        if (!RemoveFocusOnScroll)
-            return;
-
-        var page = this.FindParentOfType<ContentPage>();
-        RetrieveInputFields(page);
-    }
-
-    private void RetrieveInputFields(IVisualTreeElement? visualTreeElement)
-    {
-        foreach (var child in visualTreeElement?.GetVisualTreeDescendants() ?? [])
-        {
-            if(Equals(child, visualTreeElement))
-                continue;
-            
-            switch (child)
-            {
-                case InputView editor:
-                    m_inputFields.Add(new WeakReference<VisualElement>(editor));
-                    break;
-                case SearchBar searchBar:
-                    m_inputFields.Add(new WeakReference<VisualElement>(searchBar));
-                    break;
-            }
-            
-            RetrieveInputFields(child);
-        }
     }
     
     protected override void OnScrolled(ItemsViewScrolledEventArgs e)
@@ -65,7 +35,6 @@ public partial class CollectionView : Microsoft.Maui.Controls.CollectionView
             return; //0 is idle
 #endif
         TryCollapseOrExpandElements(e);
-        TryRemoveScroll();
     }
 
     private void TryCollapseOrExpandElements(ItemsViewScrolledEventArgs e)
@@ -117,23 +86,6 @@ public partial class CollectionView : Microsoft.Maui.Controls.CollectionView
         CollapsibleElement.TrySetInputTransparent();
     }
 
-    private void TryRemoveScroll()
-    {
-        if (!RemoveFocusOnScroll)
-            return;
-
-        foreach (var inputFieldReference in m_inputFields)
-        {
-            if (inputFieldReference.TryGetTarget(out var inputField))
-            {
-                if(inputField is SearchBar searchBar)
-                    searchBar.Unfocus();
-                else
-                    inputField.Unfocus();
-            }
-        }
-    }
-    
     private bool IsBouncing(ItemsViewScrolledEventArgs e)
     {
 #if __IOS__

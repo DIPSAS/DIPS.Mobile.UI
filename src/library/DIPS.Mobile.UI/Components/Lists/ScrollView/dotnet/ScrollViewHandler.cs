@@ -7,4 +7,8 @@ public partial class ScrollViewHandler
     private static partial void MapShouldBounce(ScrollViewHandler handler,
         Microsoft.Maui.Controls.ScrollView virtualView) =>
         throw new Only_Here_For_UnitTests();
+    
+    private static partial void MapRemoveFocusOnScroll(ScrollViewHandler handler,
+        Microsoft.Maui.Controls.ScrollView virtualView) =>
+        throw new Only_Here_For_UnitTests();
 }

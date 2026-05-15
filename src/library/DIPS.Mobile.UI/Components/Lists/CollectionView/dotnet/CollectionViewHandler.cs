@@ -10,6 +10,10 @@ public partial class CollectionViewHandler
         Microsoft.Maui.Controls.CollectionView virtualView) =>
         throw new Only_Here_For_UnitTests();
 
+    private static partial void MapRemoveFocusOnScroll(CollectionViewHandler handler,
+        Microsoft.Maui.Controls.CollectionView virtualView) =>
+        throw new Only_Here_For_UnitTests();
+
     internal partial void ReloadData(CollectionViewHandler handler) => throw new Only_Here_For_UnitTests();
 
 }

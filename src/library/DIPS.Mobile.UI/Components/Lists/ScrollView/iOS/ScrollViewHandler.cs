@@ -15,4 +15,15 @@ public partial class ScrollViewHandler
             }
         }
     }
+    
+    private static partial void MapRemoveFocusOnScroll(ScrollViewHandler handler,
+        Microsoft.Maui.Controls.ScrollView virtualView)
+    {
+        if (handler.PlatformView is { } uiScrollView && virtualView is ScrollView scrollView)
+        {
+            uiScrollView.KeyboardDismissMode = scrollView.RemoveFocusOnScroll
+                ? UIScrollViewKeyboardDismissMode.OnDrag
+                : UIScrollViewKeyboardDismissMode.None;
+        }
+    }
 }

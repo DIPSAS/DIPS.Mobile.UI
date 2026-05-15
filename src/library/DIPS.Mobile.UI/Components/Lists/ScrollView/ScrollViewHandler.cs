@@ -8,8 +8,11 @@ public partial class ScrollViewHandler : Microsoft.Maui.Handlers.ScrollViewHandl
 
     public static readonly PropertyMapper ScrollViewPropertyMapper = new PropertyMapper<Microsoft.Maui.Controls.ScrollView, ScrollViewHandler>(Mapper)
     {
-        [nameof(CollectionView.ShouldBounce)] = MapShouldBounce
+        [nameof(CollectionView.ShouldBounce)] = MapShouldBounce,
+        [nameof(ScrollView.RemoveFocusOnScroll)] = MapRemoveFocusOnScroll
     };
     
     private static partial void MapShouldBounce(ScrollViewHandler handler, Microsoft.Maui.Controls.ScrollView virtualView);
+    
+    private static partial void MapRemoveFocusOnScroll(ScrollViewHandler handler, Microsoft.Maui.Controls.ScrollView virtualView);
 }
