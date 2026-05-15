@@ -5,20 +5,36 @@ using Microsoft.Maui.Platform;
 
 namespace DIPS.Mobile.UI.Components.Lists;
 
-internal class KeyboardDismissOnScrollListener : RecyclerView.OnScrollListener
+internal class KeyboardDismissOnScrollListener : RecyclerView.OnScrollListener, Android.Views.View.IOnTouchListener
 {
+    private bool m_isUserTouching;
     private bool m_hasHiddenKeyboard;
+
+    public bool OnTouch(Android.Views.View? v, MotionEvent? e)
+    {
+        if (e != null)
+        {
+            switch (e.Action)
+            {
+                case MotionEventActions.Down:
+                    m_isUserTouching = true;
+                    break;
+                case MotionEventActions.Up:
+                case MotionEventActions.Cancel:
+                    m_isUserTouching = false;
+                    m_hasHiddenKeyboard = false;
+                    break;
+            }
+        }
+
+        return false; // Don't consume the event
+    }
 
     public override void OnScrolled(RecyclerView recyclerView, int dx, int dy)
     {
         base.OnScrolled(recyclerView, dx, dy);
 
-        if (m_hasHiddenKeyboard || dy == 0)
-            return;
-
-        // Only dismiss on user-initiated drag scrolls, not layout-induced scrolls
-        // (e.g. keyboard appearing causes a re-layout that triggers OnScrolled with ScrollState still Idle)
-        if (recyclerView.ScrollState != RecyclerView.ScrollStateDragging)
+        if (!m_isUserTouching || m_hasHiddenKeyboard || dy == 0)
             return;
 
         m_hasHiddenKeyboard = true;
@@ -36,13 +52,5 @@ internal class KeyboardDismissOnScrollListener : RecyclerView.OnScrollListener
         recyclerView.DescendantFocusability = DescendantFocusability.BlockDescendants;
         recyclerView.FindFocus()?.ClearFocus();
         recyclerView.DescendantFocusability = previousFocusability;
-    }
-
-    public override void OnScrollStateChanged(RecyclerView recyclerView, int newState)
-    {
-        base.OnScrollStateChanged(recyclerView, newState);
-
-        if (newState == RecyclerView.ScrollStateIdle)
-            m_hasHiddenKeyboard = false;
     }
 }
