@@ -115,7 +115,7 @@ public partial class ContentPage
     /// <summary>
     /// Sets the title, back button, and toolbar item color of the navigation bar when this page is shown inside a modal navigation page.
     /// </summary>
-    /// <remarks>When unset, the modal navigation bar uses the Shell title color, the navigation page text color, or the default Shell title color.</remarks>
+    /// <remarks>When unset, the modal navigation bar uses the navigation page text color, the Shell title color, or the default Shell title color.</remarks>
     public Color? NavigationBarTextColor
     {
         get => (Color?)GetValue(NavigationBarTextColorProperty);

@@ -4,7 +4,7 @@ We have added a [ContentPage](https://github.com/DIPSAS/DIPS.Mobile.UI/blob/main
 
 # Modal navigation bar color
 
-`ContentPage` applies navigation bar colors when it is shown inside a modal `NavigationPage`. Set `NavigationBarColor` to override the background color for a specific page, and `NavigationBarTextColor` to override the title, back button, and toolbar item color. When they are unset, the modal navigation bar uses the Shell navigation bar colors.
+`ContentPage` applies navigation bar colors when it is shown inside a modal `NavigationPage`. Set `NavigationBarColor` to override the background color for a specific page, and `NavigationBarTextColor` to override the title, back button, and toolbar item color. When they are unset, the modal navigation bar uses the parent `NavigationPage` colors, then the Shell navigation bar colors.
 
 On iOS, the status bar content mode is explicitly resolved from `NavigationBarColor`, so light modal navigation bars use dark status bar text and dark modal navigation bars use light status bar text.
 

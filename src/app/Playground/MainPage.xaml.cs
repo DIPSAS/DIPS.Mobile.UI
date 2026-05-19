@@ -48,7 +48,23 @@ public partial class MainPage
 
     private async void TapMe(object sender, EventArgs e)
     {
-        await Shell.Current.Navigation.PushModalAsync(new NavigationPage(new NavigationBarColorSample()));
+        var tabBar = new TabBar {Route = $"root1"};
+
+        tabBar.Items.Add(new Tab
+        {
+            Items =
+            {
+                new ShellContent
+                {
+                    ContentTemplate = new DataTemplate(() => new SecondRootPage())
+                }
+            }
+        });
+
+        Shell.Current.Items.Clear();
+        Shell.Current.Items.Add(tabBar);
+
+        await Shell.Current.GoToAsync($"//root1", true);
     }
 
     protected override void OnHandlerChanging(HandlerChangingEventArgs args)

@@ -22,22 +22,22 @@ public partial class ContentPage
             return;
 
         var backgroundColor = NavigationBarColor
+                              ?? navigationPage.BarBackgroundColor
                               ?? GetShellBackgroundColor(this)
                               ?? GetShellBackgroundColor(navigationPage)
                               ?? GetShellBackgroundColor(MauiShell.Current)
-                              ?? navigationPage.BarBackgroundColor
                               ?? Colors.GetColor(Shell.Shell.BackgroundColorName);
-        var titleColor = NavigationBarTextColor
-                 ?? GetShellTitleColor(this)
-                         ?? GetShellTitleColor(navigationPage)
-                         ?? GetShellTitleColor(MauiShell.Current)
-                         ?? navigationPage.BarTextColor
-                         ?? Colors.GetColor(Shell.Shell.TitleTextColorName);
+        var textColor = NavigationBarTextColor
+                        ?? navigationPage.BarTextColor
+                        ?? GetShellTitleColor(this)
+                        ?? GetShellTitleColor(navigationPage)
+                        ?? GetShellTitleColor(MauiShell.Current)
+                        ?? Colors.GetColor(Shell.Shell.TitleTextColorName);
 
         navigationPage.BarBackgroundColor = backgroundColor;
-        navigationPage.BarTextColor = titleColor;
+        navigationPage.BarTextColor = textColor;
 
-        //navigationController.NavigationBar.TintColor = titleColor.ToPlatform();
+        navigationController.NavigationBar.TintColor = textColor.ToPlatform();
         navigationController.SetNeedsStatusBarAppearanceUpdate();
     }
 

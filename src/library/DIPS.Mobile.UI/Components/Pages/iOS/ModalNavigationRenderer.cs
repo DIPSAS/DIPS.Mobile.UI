@@ -26,10 +26,10 @@ internal class ModalNavigationRenderer : NavigationRenderer
             return null;
 
         var backgroundColor = contentPage.NavigationBarColor
+                              ?? navigationPage.BarBackgroundColor
                               ?? GetShellBackgroundColor(contentPage)
                               ?? GetShellBackgroundColor(navigationPage)
                               ?? GetShellBackgroundColor(MauiShell.Current)
-                              ?? navigationPage.BarBackgroundColor
                               ?? Colors.GetColor(Shell.Shell.BackgroundColorName);
 
         return backgroundColor.GetLuminosity() > 0.5 ? UIStatusBarStyle.DarkContent : UIStatusBarStyle.LightContent;

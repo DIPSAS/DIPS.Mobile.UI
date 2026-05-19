@@ -27,39 +27,39 @@ public partial class ContentPage
             return;
 
         var backgroundColor = NavigationBarColor
-                              ?? GetShellBackgroundColor()
                               ?? navigationPage.BarBackgroundColor
+                      ?? GetShellBackgroundColor(this)
+                      ?? GetShellBackgroundColor(navigationPage)
+                      ?? GetShellBackgroundColor(MauiShell.Current)
                               ?? Colors.GetColor(DuiShell.BackgroundColorName);
-        var foregroundColor = NavigationBarTextColor
-                      ?? GetShellForegroundColor()
-                              ?? navigationPage.BarTextColor
-                              ?? Colors.GetColor(DuiShell.ForegroundColorName);
-        var titleColor = NavigationBarTextColor
-                 ?? GetShellTitleColor()
-                         ?? navigationPage.BarTextColor
-                         ?? Colors.GetColor(DuiShell.TitleTextColorName);
+        var textColor = NavigationBarTextColor
+                ?? navigationPage.BarTextColor
+                ?? GetShellTitleColor(this)
+                ?? GetShellTitleColor(navigationPage)
+                ?? GetShellTitleColor(MauiShell.Current)
+                ?? Colors.GetColor(DuiShell.TitleTextColorName);
 
         materialToolbar.SetBackgroundColor(backgroundColor.ToPlatform());
-        materialToolbar.SetTitleTextColor(titleColor.ToPlatform());
-        materialToolbar.NavigationIcon?.SetTint(foregroundColor.ToPlatform());
-        materialToolbar.OverflowIcon?.SetTint(foregroundColor.ToPlatform());
+        materialToolbar.SetTitleTextColor(textColor.ToPlatform());
+        materialToolbar.NavigationIcon?.SetTint(textColor.ToPlatform());
+        materialToolbar.OverflowIcon?.SetTint(textColor.ToPlatform());
         StatusBarHandler.TrySetStatusBarColor(this, backgroundColor);
 
         const float shadowDp = 6f;
         var shadowPx = materialToolbar.Context?.Resources?.DisplayMetrics?.Density * shadowDp ?? 0;
         materialToolbar.Elevation = shadowPx;
 
-        var foregroundColorStateList = foregroundColor.ToDefaultColorStateList();
+        var textColorStateList = textColor.ToDefaultColorStateList();
         for (var i = 0; i < materialToolbar.Menu?.Size(); i++)
         {
             var item = materialToolbar.Menu.GetItem(i);
-            item?.SetIconTintList(foregroundColorStateList);
+            item?.SetIconTintList(textColorStateList);
 
             if (item?.TitleFormatted is null)
                 continue;
 
             var span = new SpannableString(item.TitleFormatted);
-            span.SetSpan(new global::Android.Text.Style.ForegroundColorSpan(foregroundColor.ToPlatform()), 0, span.Length(), 0);
+            span.SetSpan(new global::Android.Text.Style.ForegroundColorSpan(textColor.ToPlatform()), 0, span.Length(), 0);
             item.SetTitle(span);
         }
     }
@@ -90,21 +90,13 @@ public partial class ContentPage
                || Application.Current?.Windows.Any(window => window.Page?.Navigation.ModalStack.Contains(navigationPage) == true) == true;
     }
 
-    private static Color? GetShellBackgroundColor()
+    private static Color? GetShellBackgroundColor(BindableObject? bindableObject)
     {
-        var currentShell = MauiShell.Current;
-        return currentShell is null ? null : MauiShell.GetBackgroundColor(currentShell);
+        return bindableObject is null ? null : MauiShell.GetBackgroundColor(bindableObject);
     }
 
-    private static Color? GetShellForegroundColor()
+    private static Color? GetShellTitleColor(BindableObject? bindableObject)
     {
-        var currentShell = MauiShell.Current;
-        return currentShell is null ? null : MauiShell.GetForegroundColor(currentShell);
-    }
-
-    private static Color? GetShellTitleColor()
-    {
-        var currentShell = MauiShell.Current;
-        return currentShell is null ? null : MauiShell.GetTitleColor(currentShell);
+        return bindableObject is null ? null : MauiShell.GetTitleColor(bindableObject);
     }
 }
