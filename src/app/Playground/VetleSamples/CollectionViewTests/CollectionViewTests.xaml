@@ -12,6 +12,11 @@
         <dui:NavigationListItem Title="Grouped CollectionView"
                                 Tapped="GroupedCollectionView"
                                 HasBottomDivider="True" />
+        
+        <Label Text="Focus Cases" 
+               FontAttributes="Bold" 
+               Padding="16,24,16,8" />
+        
         <dui:NavigationListItem Title="SearchBar outside, no RefreshView"
                                 Tapped="SearchBarOutside"
                                 HasBottomDivider="True" />
@@ -23,6 +28,15 @@
                                 HasBottomDivider="True" />
         <dui:NavigationListItem Title="SearchBar in Header + RefreshView"
                                 Tapped="SearchBarInHeaderWithRefresh"
+                                HasBottomDivider="True" />
+        <dui:NavigationListItem Title="Delayed: SearchBar in Header"
+                                Tapped="DelayedSearchBarInHeader"
+                                HasBottomDivider="True" />
+        <dui:NavigationListItem Title="Delayed: SearchBar in Header + RefreshView"
+                                Tapped="DelayedSearchBarInHeaderWithRefresh"
+                                HasBottomDivider="True" />
+        <dui:NavigationListItem Title="Observable Add: SearchBar in Header"
+                                Tapped="ObservableAddSearchBarInHeader"
                                 HasBottomDivider="True" />
         <dui:NavigationListItem Title="ScrollView: SearchBar outside"
                                 Tapped="ScrollViewSearchBarOutside"
