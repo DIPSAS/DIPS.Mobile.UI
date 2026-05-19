@@ -23,6 +23,8 @@
                                     Tapped="GoToCollectionViewTests" />
             <dui:NavigationListItem Title="ItemPicker Refresh Repro"
                                     Tapped="GoToItemPickerRefreshRepro" />
+            <dui:NavigationListItem Title="Navigation bar color"
+                                    Tapped="GoToNavigationBarColorSample" />
             <dui:Button Text="Tap me"
                         Clicked="TapMe" />
         </VerticalStackLayout>

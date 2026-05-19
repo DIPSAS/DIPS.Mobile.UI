@@ -1,4 +1,7 @@
 ## [59.1.0]
+- [ContentPage] Added `NavigationBarColor` for modal navigation pages. When unset, modal navigation bars use the Shell navigation bar colors.
+- [ContentPage] Added `NavigationBarTextColor` for modal navigation page titles, back buttons, and toolbar items.
+- [iOS][ContentPage] Fixed modal status bar text contrast so it explicitly follows the modal navigation bar background color.
 - [CollectionView] `RemoveFocusOnScroll` now uses native platform APIs instead of managed Unfocus. Listener is cleaned up on disconnect.
 - [ScrollView] `RemoveFocusOnScroll` now uses native platform APIs. Event subscription is removed on disconnect.
 

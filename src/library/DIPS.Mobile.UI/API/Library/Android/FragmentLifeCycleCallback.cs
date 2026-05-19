@@ -1,16 +1,11 @@
 using Android.OS;
-using Android.Text;
 using Android.Views;
-using Android.Widget;
 using AndroidX.Core.View;
 using AndroidX.Fragment.App;
 using DIPS.Mobile.UI.API.Diagnostics;
 using DIPS.Mobile.UI.API.Library.Android;
 using DIPS.Mobile.UI.Internal.Logging;
-using Google.Android.Material.AppBar;
 using Google.Android.Material.BottomSheet;
-using Microsoft.Maui.Platform;
-using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
 using ContentPage = DIPS.Mobile.UI.Components.Pages.ContentPage;
 using Shell = DIPS.Mobile.UI.Components.Shell.Shell;
 using View = Android.Views.View;
@@ -25,13 +20,17 @@ public class FragmentLifeCycleCallback : FragmentManager.FragmentLifecycleCallba
         {
             if (f is not BottomSheetDialogFragment)
             {
-                SetColorsOnModal(dialogFragment);
                 TryInheritWindowFlags(dialogFragment);
                 // Register the DialogFragment so ContentPage can find it
                 // Also immediately set the status bar color since OnAppearing may have already been called
                 StatusBarHandler.RegisterDialogFragmentForPage(dialogFragment);
                 s_currentDialogFragmentReferenceStack ??= new Stack<WeakReference<DialogFragment>?>();
                 s_currentDialogFragmentReferenceStack.Push(new WeakReference<DialogFragment>(dialogFragment));
+
+                if (Shell.Current?.CurrentPage is ContentPage contentPage)
+                {
+                    contentPage.ApplyNavigationBarAppearance();
+                }
             }
             
 
@@ -58,29 +57,7 @@ public class FragmentLifeCycleCallback : FragmentManager.FragmentLifecycleCallba
             
             if (dialogFragment is not BottomSheetDialogFragment)
             {
-                if (s_currentDialogFragmentReferenceStack?.Peek()?.TryGetTarget(out var currentDialogFragment) ?? false)
-                {
-                    // If either Java peer is already disposed, we can't compare via JNI.
-                    // Since this fragment is being destroyed, pop it to avoid a stale entry.
-                    if (currentDialogFragment.Handle == IntPtr.Zero || dialogFragment.Handle == IntPtr.Zero)
-                    {
-                        s_currentDialogFragmentReferenceStack.Pop();
-                    }
-                    else
-                    {
-                        try
-                        {
-                            if (currentDialogFragment.Equals(dialogFragment))
-                            {
-                                s_currentDialogFragmentReferenceStack.Pop();
-                            }
-                        }
-                        catch (ObjectDisposedException)
-                        {
-                            s_currentDialogFragmentReferenceStack.Pop();
-                        }
-                    }
-                }
+                RemoveCurrentDialogFragment(dialogFragment);
             }
         }
 
@@ -117,40 +94,6 @@ public class FragmentLifeCycleCallback : FragmentManager.FragmentLifecycleCallba
         }
     }
 
-    /// <summary>
-    /// TODO: Workaround: .NET MAUI does not inherit the color from the Shell, so we need to set it manually.
-    /// Inspiration from: https://stackoverflow.com/questions/75596420/how-do-i-add-a-listener-to-the-android-toolbar-in-maui/76056039#76056039
-    /// Sets the toolbar item's tint color on icon and title
-    /// </summary>
-    private static void SetColorsOnModal(DialogFragment dialogFragment)
-    {
-        var linearLayout = dialogFragment.Dialog?.Window?.FindViewById<LinearLayout>(_Microsoft.Android.Resource.Designer.Resource.Id.navigationlayout_appbar);
-        
-        var child1 = linearLayout?.GetChildAt(0);
-
-        if (child1 is not MaterialToolbar materialToolbar)
-            return;
-        
-        var stateListColor = Colors.GetColor(Shell.ForegroundColorName)
-            .ToDefaultColorStateList();
-        
-        const float shadowDp = 6f;
-        var shadowPx = materialToolbar.Context?.Resources?.DisplayMetrics?.Density * shadowDp ?? 0;
-
-        materialToolbar.Elevation = shadowPx; 
-        
-        for (var i = 0; i < materialToolbar.Menu?.Size(); i++)
-        {
-            var menuItem = materialToolbar.Menu.GetItem(i);
-            menuItem?.SetIconTintList(stateListColor);
-
-            var item = materialToolbar.Menu.GetItem(i);
-            var span = new SpannableString(item?.TitleFormatted);
-            span.SetSpan(new global::Android.Text.Style.ForegroundColorSpan(Colors.GetColor(Shell.ForegroundColorName).ToPlatform()), 0, span.Length(), 0);
-            item?.SetTitle(span);
-        }
-    }
-
     private void TryInheritWindowFlags(DialogFragment dialogFragment)
     {
         var activity = Platform.CurrentActivity;
@@ -170,10 +113,26 @@ public class FragmentLifeCycleCallback : FragmentManager.FragmentLifecycleCallba
     {
         get
         {
-            if (s_currentDialogFragmentReferenceStack?.Peek()?.TryGetTarget(out var dialogFragment) ?? false)
+            while (s_currentDialogFragmentReferenceStack?.Count > 0)
             {
-                return dialogFragment;   
+                var weakReference = s_currentDialogFragmentReferenceStack.Peek();
+                if (weakReference?.TryGetTarget(out var dialogFragment) == true)
+                {
+                    try
+                    {
+                        if (dialogFragment.Handle != IntPtr.Zero)
+                        {
+                            return dialogFragment;
+                        }
+                    }
+                    catch (ObjectDisposedException)
+                    {
+                    }
+                }
+
+                s_currentDialogFragmentReferenceStack.Pop();
             }
+
             return null;
         }
     }
@@ -181,6 +140,33 @@ public class FragmentLifeCycleCallback : FragmentManager.FragmentLifecycleCallba
     private static Stack<WeakReference<DialogFragment>?>? s_currentDialogFragmentReferenceStack;
     
     private static readonly Stack<WeakReference<DialogFragment>> s_dialogFragmentStack = new();
+
+    private static void RemoveCurrentDialogFragment(DialogFragment target)
+    {
+        while (s_currentDialogFragmentReferenceStack?.Count > 0)
+        {
+            var weakReference = s_currentDialogFragmentReferenceStack.Peek();
+            if (weakReference?.TryGetTarget(out var currentDialogFragment) != true)
+            {
+                s_currentDialogFragmentReferenceStack.Pop();
+                continue;
+            }
+
+            try
+            {
+                if (currentDialogFragment.Handle == IntPtr.Zero || target.Handle == IntPtr.Zero || currentDialogFragment.Equals(target))
+                {
+                    s_currentDialogFragmentReferenceStack.Pop();
+                }
+            }
+            catch (ObjectDisposedException)
+            {
+                s_currentDialogFragmentReferenceStack.Pop();
+            }
+
+            return;
+        }
+    }
 
     private static void RemoveFromDialogStack(DialogFragment target)
     {

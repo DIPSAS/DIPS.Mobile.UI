@@ -177,6 +177,7 @@ The project uses a C# script-based build system (`build/build.csx`) powered by *
 
 ### Sample File Organization
 When creating samples with multiple related files (XAML, code-behind, ViewModel):
+- If the user asks for a sample and later clarifies it should be in Playground, add it under `src/app/Playground` and undo any misplaced Components app sample changes from that turn.
 - **Create a folder** for the sample (e.g., `ListItemInteractiveContentSamples/`)
 - **Place all files** in the folder: `.xaml`, `.xaml.cs`, `ViewModel.cs`
 - **Create dedicated ViewModel** class inheriting from `DIPS.Mobile.UI.MVVM.ViewModel`
@@ -253,7 +254,12 @@ Format: `[Component/Feature] Description` (see existing entries for style)
 5. **Don't** use invalid style names like `Body500` - use `SectionHeader`, `UI100-300`, etc.
 6. **Don't** use `FontFamily="monospace"` - use `FontFamily="Body"`, `"UI"`, or `"Header"`
 7. **Don't** forget to test on both platforms - behavior often differs
-8. **When reusing an existing component in a new context** (e.g. embedding a component inside a new handler, effect, or renderer), always read the component's existing canonical platform consumer first and replicate **all** of its event subscriptions, lifecycle hooks, and teardown logic. Never assume that rendering the component is sufficient. Components often have additional contracts (update events, binding context propagation, etc.) that only the canonical consumer reveals. Missing these causes silent regressions where the component renders correctly initially but fails to update afterwards.
+8. **Use `ContentPage.NavigationBarTextColor`** when a modal navigation bar needs a page-specific title/back/toolbar item color. `NavigationBarColor` controls the modal navigation bar background; `NavigationBarTextColor` controls the modal navigation title and navigation item tint.
+9. **Don't** apply `ContentPage` modal navigation bar appearance from `Loaded`; keep `Loaded` for timer/logging work if needed, but use the handler lifecycle (`OnHandlerChanged`/`HandlerChanged`) for native navigation appearance so native resources are available and stable.
+10. **For `ContentPage` modal navigation bar colors**, Shell title/background colors are the first fallback. Resolve Shell attached colors from the modal page/navigation context before `Shell.Current`, then fall back to `NavigationPage` colors and design defaults. On iOS, toolbar item text/tint follows the resolved title color.
+11. **Don't** use `OverrideUserInterfaceStyle` or `ModalPresentationCapturesStatusBarAppearance` to force iOS `ContentPage` modal status bar text contrast from the navigation bar color. If status bar content mode should follow the modal navigation bar color, keep navigation bar colors in `ContentPage.navigationbar.cs` and use the iOS `ModalNavigationRenderer` only to return the explicit `PreferredStatusBarStyle`; don't change translucency, appearance presets, or shadow visibility.
+12. **Don't** start or repeat a build when diagnostics already show a compile error. Fix the diagnostic first, verify errors are clean, then run the focused build once.
+13. **When reusing an existing component in a new context** (e.g. embedding a component inside a new handler, effect, or renderer), always read the component's existing canonical platform consumer first and replicate **all** of its event subscriptions, lifecycle hooks, and teardown logic. Never assume that rendering the component is sufficient. Components often have additional contracts (update events, binding context propagation, etc.) that only the canonical consumer reveals. Missing these causes silent regressions where the component renders correctly initially but fails to update afterwards.
 
 ## Key Files to Reference
 - `API/Builder/AppHostBuilderExtensions.cs` - Library initialization and handler registration

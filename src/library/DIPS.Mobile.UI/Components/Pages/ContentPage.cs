@@ -38,12 +38,11 @@ namespace DIPS.Mobile.UI.Components.Pages
                 OnRequestedThemeChanged; //Can not use AppThemeBindings because that makes the navigation page bar background flash on Android, so we listen to changes and set the color our self
 
             Loaded += OnLoaded;
-            
         }
 
         private void OnLoaded(object? sender, EventArgs e)
         {
-            if (DUI.IsDebug)
+            if (DUI.IsDebug && m_loadedTimer.IsRunning)
             {
                 m_loadedTimer.Stop();
                 if (ShouldLogLoadingTime)
@@ -78,6 +77,7 @@ namespace DIPS.Mobile.UI.Components.Pages
             LayoutDiagnosticsService.BeginSnapshot($"Page: {GetType().Name}");
 
             HideOrShowFloatingNavigationMenu();
+            ApplyNavigationBarAppearance();
             
             
 #if __ANDROID__
@@ -167,6 +167,7 @@ namespace DIPS.Mobile.UI.Components.Pages
         private void OnRequestedThemeChanged(object? sender, AppThemeChangedEventArgs e)
         {
             SetColors(e.RequestedTheme);
+            ApplyNavigationBarAppearance();
         }
 
         protected override void OnHandlerChanged()
@@ -176,6 +177,7 @@ namespace DIPS.Mobile.UI.Components.Pages
             if (Handler is not null)
             {
                 AttachBottomToolbar();
+                ApplyNavigationBarAppearance();
             }
         }
 
@@ -237,6 +239,17 @@ namespace DIPS.Mobile.UI.Components.Pages
             {
                 AttachBottomToolbar();
             }
+        }
+
+        private void OnNavigationBarColorChanged()
+        {
+            ApplyNavigationBarAppearance();
+        }
+
+        internal void ApplyNavigationBarAppearance()
+        {
+            ApplyNavigationBarAppearanceOnPlatform();
+            Dispatcher.Dispatch(ApplyNavigationBarAppearanceOnPlatform);
         }
 
         private void AttachBottomToolbar()
@@ -318,5 +331,6 @@ namespace DIPS.Mobile.UI.Components.Pages
 
         private partial void AttachBottomToolbarOnPlatform();
         private partial void DetachBottomToolbarOnPlatform();
+        private partial void ApplyNavigationBarAppearanceOnPlatform();
     }
 }
