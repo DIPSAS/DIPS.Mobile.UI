@@ -1,44 +1,25 @@
-using Android.Views;
 using Android.Views.InputMethods;
 using AndroidX.RecyclerView.Widget;
 
 namespace DIPS.Mobile.UI.Components.Lists;
 
-internal class KeyboardDismissOnScrollListener : RecyclerView.OnScrollListener, RecyclerView.IOnItemTouchListener
+internal class KeyboardDismissOnScrollListener : RecyclerView.OnScrollListener
 {
-    private bool m_isUserTouching;
     private bool m_hasHiddenKeyboard;
 
-    public bool OnInterceptTouchEvent(RecyclerView rv, MotionEvent e)
+    public override void OnScrollStateChanged(RecyclerView recyclerView, int newState)
     {
-        switch (e.Action)
-        {
-            case MotionEventActions.Down:
-                m_isUserTouching = true;
-                break;
-            case MotionEventActions.Up:
-            case MotionEventActions.Cancel:
-                m_isUserTouching = false;
-                m_hasHiddenKeyboard = false;
-                break;
-        }
+        base.OnScrollStateChanged(recyclerView, newState);
 
-        return false;
-    }
-
-    public void OnTouchEvent(RecyclerView rv, MotionEvent e)
-    {
-    }
-
-    public void OnRequestDisallowInterceptTouchEvent(bool disallowIntercept)
-    {
+        if (newState == RecyclerView.ScrollStateIdle)
+            m_hasHiddenKeyboard = false;
     }
 
     public override void OnScrolled(RecyclerView recyclerView, int dx, int dy)
     {
         base.OnScrolled(recyclerView, dx, dy);
 
-        if (!m_isUserTouching || m_hasHiddenKeyboard || dy == 0)
+        if (recyclerView.ScrollState == RecyclerView.ScrollStateIdle || m_hasHiddenKeyboard || dy == 0)
             return;
 
         m_hasHiddenKeyboard = true;

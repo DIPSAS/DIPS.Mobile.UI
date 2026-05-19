@@ -87,7 +87,6 @@ public partial class CollectionViewHandler
     {
         m_keyboardDismissOnScrollListener = new KeyboardDismissOnScrollListener();
         PlatformView.AddOnScrollListener(m_keyboardDismissOnScrollListener);
-        PlatformView.AddOnItemTouchListener(m_keyboardDismissOnScrollListener);
         m_listenerRegisteredOn = PlatformView;
     }
 
@@ -99,7 +98,6 @@ public partial class CollectionViewHandler
         if (m_listenerRegisteredOn != null)
         {
             m_listenerRegisteredOn.RemoveOnScrollListener(m_keyboardDismissOnScrollListener);
-            m_listenerRegisteredOn.RemoveOnItemTouchListener(m_keyboardDismissOnScrollListener);
         }
         
         m_keyboardDismissOnScrollListener = null;
