@@ -56,4 +56,9 @@ public partial class CollectionViewTests
     {
         Shell.Current.Navigation.PushAsync(new RemoveFocusOnScrollPage(wrapInRefreshView: true, searchBarInHeader: true, delayedBinding: true));
     }
+
+    private void ObservableAddSearchBarInHeader(object sender, EventArgs e)
+    {
+        Shell.Current.Navigation.PushAsync(new RemoveFocusOnScrollPage(wrapInRefreshView: false, searchBarInHeader: true, incrementalAdd: true));
+    }
 }

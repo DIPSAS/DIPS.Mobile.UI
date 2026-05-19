@@ -1,5 +1,5 @@
 using Android.Views;
-using Android.Views.InputMethods;
+using DIPS.Mobile.UI.Extensions.Android;
 using AView = Android.Views.View;
 
 namespace DIPS.Mobile.UI.Components.Lists;
@@ -37,13 +37,6 @@ internal class ScrollViewKeyboardDismissOnScrollListener : Java.Lang.Object, AVi
 
         m_hasHiddenKeyboard = true;
 
-        var activity = Platform.CurrentActivity;
-        var focusedView = activity?.CurrentFocus;
-        if (focusedView == null)
-            return;
-
-        var imm = activity!.GetSystemService(global::Android.Content.Context.InputMethodService) as InputMethodManager;
-        imm?.HideSoftInputFromWindow(focusedView.WindowToken, HideSoftInputFlags.None);
-        focusedView.ClearFocus();
+        KeyboardHelper.HideKeyboardAndClearFocus(v);
     }
 }

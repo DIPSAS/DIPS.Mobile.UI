@@ -11,12 +11,13 @@ namespace Playground.VetleSamples.CollectionViewTests;
 
 public class RemoveFocusOnScrollPage : ContentPage
 {
-    public RemoveFocusOnScrollPage(bool wrapInRefreshView, bool searchBarInHeader, bool delayedBinding = false)
+    public RemoveFocusOnScrollPage(bool wrapInRefreshView, bool searchBarInHeader, bool delayedBinding = false, bool incrementalAdd = false)
     {
         var parts = new List<string>();
         parts.Add(searchBarInHeader ? "SearchBar in Header" : "SearchBar outside");
         if (wrapInRefreshView) parts.Add("RefreshView");
         if (delayedBinding) parts.Add("Delayed");
+        if (incrementalAdd) parts.Add("Observable Add");
         Title = string.Join(" + ", parts);
 
         var searchBar = new SearchBar
@@ -48,6 +49,7 @@ public class RemoveFocusOnScrollPage : ContentPage
             collectionView.ItemsSource = items;
         }
 
+        
         if (searchBarInHeader)
         {
             collectionView.Header = searchBar;
@@ -85,6 +87,22 @@ public class RemoveFocusOnScrollPage : ContentPage
         if (delayedBinding)
         {
             _ = LoadItemsAsync(collectionView);
+        }
+
+        if (incrementalAdd)
+        {
+            var items = (ObservableCollection<string>)collectionView.ItemsSource;
+            var count = items.Count;
+            collectionView.Footer = new Button
+            {
+                Text = "Add Item",
+                Margin = new Thickness(16),
+                Command = new Command(() =>
+                {
+                    count++;
+                    items.Add($"Added item {count}");
+                })
+            };
         }
     }
 
