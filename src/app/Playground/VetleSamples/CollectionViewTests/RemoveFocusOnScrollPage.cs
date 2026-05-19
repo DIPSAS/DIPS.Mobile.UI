@@ -11,16 +11,13 @@ namespace Playground.VetleSamples.CollectionViewTests;
 
 public class RemoveFocusOnScrollPage : ContentPage
 {
-    public RemoveFocusOnScrollPage(bool wrapInRefreshView, bool searchBarInHeader)
+    public RemoveFocusOnScrollPage(bool wrapInRefreshView, bool searchBarInHeader, bool delayedBinding = false)
     {
         var parts = new List<string>();
         parts.Add(searchBarInHeader ? "SearchBar in Header" : "SearchBar outside");
         if (wrapInRefreshView) parts.Add("RefreshView");
+        if (delayedBinding) parts.Add("Delayed");
         Title = string.Join(" + ", parts);
-
-        var items = new ObservableCollection<string>();
-        for (var i = 1; i <= 200; i++)
-            items.Add($"Item {i}");
 
         var searchBar = new SearchBar
         {
@@ -29,7 +26,6 @@ public class RemoveFocusOnScrollPage : ContentPage
 
         var collectionView = new CollectionView
         {
-            ItemsSource = items,
             RemoveFocusOnScroll = true,
             ItemTemplate = new DataTemplate(() =>
             {
@@ -43,6 +39,14 @@ public class RemoveFocusOnScrollPage : ContentPage
                 return label;
             })
         };
+
+        if (!delayedBinding)
+        {
+            var items = new ObservableCollection<string>();
+            for (var i = 1; i <= 200; i++)
+                items.Add($"Item {i}");
+            collectionView.ItemsSource = items;
+        }
 
         if (searchBarInHeader)
         {
@@ -77,5 +81,19 @@ public class RemoveFocusOnScrollPage : ContentPage
                 }
             };
         }
+
+        if (delayedBinding)
+        {
+            _ = LoadItemsAsync(collectionView);
+        }
+    }
+
+    private static async Task LoadItemsAsync(CollectionView collectionView)
+    {
+        await Task.Delay(1000);
+        var items = new ObservableCollection<string>();
+        for (var i = 1; i <= 200; i++)
+            items.Add($"Item {i}");
+        collectionView.ItemsSource = items;
     }
 }

@@ -37,20 +37,13 @@ internal class ScrollViewKeyboardDismissOnScrollListener : Java.Lang.Object, AVi
 
         m_hasHiddenKeyboard = true;
 
-        var context = v.Context;
-        if (context == null)
+        var activity = Platform.CurrentActivity;
+        var focusedView = activity?.CurrentFocus;
+        if (focusedView == null)
             return;
 
-        var imm = context.GetSystemService(global::Android.Content.Context.InputMethodService) as InputMethodManager;
-        imm?.HideSoftInputFromWindow(v.WindowToken, HideSoftInputFlags.None);
-        
-        // Clear focus from the currently focused view (e.g. SearchBar)
-        if (v is ViewGroup viewGroup)
-        {
-            var previousFocusability = viewGroup.DescendantFocusability;
-            viewGroup.DescendantFocusability = DescendantFocusability.BlockDescendants;
-            viewGroup.FindFocus()?.ClearFocus();
-            viewGroup.DescendantFocusability = previousFocusability;
-        }
+        var imm = activity!.GetSystemService(global::Android.Content.Context.InputMethodService) as InputMethodManager;
+        imm?.HideSoftInputFromWindow(focusedView.WindowToken, HideSoftInputFlags.None);
+        focusedView.ClearFocus();
     }
 }

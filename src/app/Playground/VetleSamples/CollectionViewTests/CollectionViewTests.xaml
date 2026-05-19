@@ -28,7 +28,13 @@
                                 Tapped="ScrollViewSearchBarOutside"
                                 HasBottomDivider="True" />
         <dui:NavigationListItem Title="ScrollView: SearchBar inside"
-                                Tapped="ScrollViewSearchBarInside" />
+                                Tapped="ScrollViewSearchBarInside"
+                                HasBottomDivider="True" />
+        <dui:NavigationListItem Title="Delayed: SearchBar in Header"
+                                Tapped="DelayedSearchBarInHeader"
+                                HasBottomDivider="True" />
+        <dui:NavigationListItem Title="Delayed: SearchBar in Header + RefreshView"
+                                Tapped="DelayedSearchBarInHeaderWithRefresh" />
     </dui:VerticalStackLayout>
     
 </dui:ContentPage>

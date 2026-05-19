@@ -1,7 +1,6 @@
 using Android.Views;
 using Android.Views.InputMethods;
 using AndroidX.RecyclerView.Widget;
-using Microsoft.Maui.Platform;
 
 namespace DIPS.Mobile.UI.Components.Lists;
 
@@ -44,18 +43,13 @@ internal class KeyboardDismissOnScrollListener : RecyclerView.OnScrollListener, 
 
         m_hasHiddenKeyboard = true;
 
-        var context = recyclerView.Context;
-        if (context == null)
+        var activity = Microsoft.Maui.ApplicationModel.Platform.CurrentActivity;
+        var focusedView = activity?.CurrentFocus;
+        if (focusedView == null)
             return;
 
-        var imm = context.GetSystemService(global::Android.Content.Context.InputMethodService) as InputMethodManager;
-        imm?.HideSoftInputFromWindow(recyclerView.WindowToken, HideSoftInputFlags.None);
-        
-        // Clear focus from the currently focused view (e.g. SearchBar)
-        // Temporarily block descendants from receiving focus so ClearFocus doesn't just re-focus another child
-        var previousFocusability = recyclerView.DescendantFocusability;
-        recyclerView.DescendantFocusability = DescendantFocusability.BlockDescendants;
-        recyclerView.FindFocus()?.ClearFocus();
-        recyclerView.DescendantFocusability = previousFocusability;
+        var imm = activity!.GetSystemService(global::Android.Content.Context.InputMethodService) as InputMethodManager;
+        imm?.HideSoftInputFromWindow(focusedView.WindowToken, HideSoftInputFlags.None);
+        focusedView.ClearFocus();
     }
 }
