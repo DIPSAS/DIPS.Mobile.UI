@@ -1,12 +1,12 @@
 using Android.Views;
-using Android.Views.InputMethods;
 using Microsoft.Maui.Platform;
-using AView = Android.Views.View;
 
 namespace DIPS.Mobile.UI.Components.Lists;
 
 public partial class ScrollViewHandler
 {
+    private ScrollViewKeyboardDismissOnScrollListener? m_keyboardDismissOnScrollListener;
+    
     private static partial void MapShouldBounce(ScrollViewHandler handler,
         Microsoft.Maui.Controls.ScrollView virtualView)
     {
@@ -24,32 +24,24 @@ public partial class ScrollViewHandler
 
         if (scrollView.RemoveFocusOnScroll)
         {
-            scrollView.Scrolled += OnScrollViewScrolledForKeyboardDismiss;
+            handler.m_keyboardDismissOnScrollListener = new ScrollViewKeyboardDismissOnScrollListener();
+            handler.PlatformView.SetOnTouchListener(handler.m_keyboardDismissOnScrollListener);
+            handler.PlatformView.SetOnScrollChangeListener(handler.m_keyboardDismissOnScrollListener);
         }
         else
         {
-            scrollView.Scrolled -= OnScrollViewScrolledForKeyboardDismiss;
+            handler.PlatformView.SetOnTouchListener(null);
+            handler.PlatformView.SetOnScrollChangeListener((global::Android.Views.View.IOnScrollChangeListener?)null);
+            handler.m_keyboardDismissOnScrollListener?.Dispose();
+            handler.m_keyboardDismissOnScrollListener = null;
         }
     }
 
     protected override void DisconnectHandler(MauiScrollView platformView)
     {
-        if (VirtualView is ScrollView scrollView)
-        {
-            scrollView.Scrolled -= OnScrollViewScrolledForKeyboardDismiss;
-        }
-    }
-
-    private static void OnScrollViewScrolledForKeyboardDismiss(object? sender, ScrolledEventArgs e)
-    {
-        if (sender is not ScrollView { Handler: ScrollViewHandler handler } scrollView)
-            return;
-
-        var context = handler.PlatformView.Context;
-        if (context == null)
-            return;
-
-        var imm = context.GetSystemService(global::Android.Content.Context.InputMethodService) as InputMethodManager;
-        imm?.HideSoftInputFromWindow(handler.PlatformView.WindowToken, HideSoftInputFlags.None);
+        platformView.SetOnTouchListener(null);
+        platformView.SetOnScrollChangeListener((global::Android.Views.View.IOnScrollChangeListener?)null);
+        m_keyboardDismissOnScrollListener?.Dispose();
+        m_keyboardDismissOnScrollListener = null;
     }
 }
