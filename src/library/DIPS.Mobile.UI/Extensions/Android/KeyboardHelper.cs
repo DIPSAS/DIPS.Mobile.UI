@@ -41,14 +41,19 @@ public static class KeyboardHelper
 
         if (view is ViewGroup viewGroup)
         {
-            var previousFocusability = viewGroup.DescendantFocusability;
-            viewGroup.DescendantFocusability = DescendantFocusability.BlockDescendants;
-            viewGroup.FindFocus()?.ClearFocus();
-            viewGroup.DescendantFocusability = previousFocusability;
+            // First try to find and clear focus among descendants (e.g. search bar in header)
+            var focusedChild = viewGroup.FindFocus();
+            if (focusedChild != null)
+            {
+                var previousFocusability = viewGroup.DescendantFocusability;
+                viewGroup.DescendantFocusability = DescendantFocusability.BlockDescendants;
+                focusedChild.ClearFocus();
+                viewGroup.DescendantFocusability = previousFocusability;
+                return;
+            }
         }
-        else
-        {
-            activity.Window?.DecorView.FindFocus()?.ClearFocus();
-        }
+
+        // Focused view is outside the provided view (or view is not a ViewGroup) — search from root
+        activity.Window?.DecorView.FindFocus()?.ClearFocus();
     }
 }
