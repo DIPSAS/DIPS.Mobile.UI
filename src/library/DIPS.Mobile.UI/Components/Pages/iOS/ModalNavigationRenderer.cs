@@ -5,7 +5,7 @@ using MauiShell = Microsoft.Maui.Controls.Shell;
 
 namespace DIPS.Mobile.UI.Components.Pages;
 
-internal class ModalNavigationRenderer : NavigationRenderer
+public class ModalNavigationRenderer : NavigationRenderer
 {
     public override UIStatusBarStyle PreferredStatusBarStyle()
     {
