@@ -8,6 +8,7 @@ internal class ScrollViewKeyboardDismissOnScrollListener : Java.Lang.Object, AVi
 {
     private bool m_isUserTouching;
     private bool m_hasHiddenKeyboard;
+    private float m_downY;
 
     public bool OnTouch(AView? v, MotionEvent? e)
     {
@@ -16,8 +17,21 @@ internal class ScrollViewKeyboardDismissOnScrollListener : Java.Lang.Object, AVi
             switch (e.Action)
             {
                 case MotionEventActions.Down:
+                    m_isUserTouching = true;
+                    m_downY = e.RawY;
+                    break;
                 case MotionEventActions.Move:
                     m_isUserTouching = true;
+                    if (!m_hasHiddenKeyboard && v != null)
+                    {
+                        var distance = Math.Abs(e.RawY - m_downY);
+                        var touchSlop = ViewConfiguration.Get(v.Context)?.ScaledTouchSlop ?? 8;
+                        if (distance > touchSlop)
+                        {
+                            m_hasHiddenKeyboard = true;
+                            KeyboardHelper.HideKeyboardAndClearFocus(v);
+                        }
+                    }
                     break;
                 case MotionEventActions.Up:
                 case MotionEventActions.Cancel:
