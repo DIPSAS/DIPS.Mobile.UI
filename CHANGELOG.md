@@ -1,5 +1,5 @@
 ## [59.1.3]
-- [Camera][Android] Fixed crash caused by CameraX upgrade to 1.6.1: zoom state cast failure due to CameraPipe backend migration. Uses `JavaCast<IZoomState>()` instead of direct C# cast for cross-proxy interface compatibility.
+- [Camera][Android] Updated CameraX dependencies from 1.4.1 to 1.6.1, fixing crash on startup due to breaking interface change in `ImageAnalysis.IAnalyzer`.
 
 ## [59.1.2]
 - [CollectionView][Android] Fixed keyboard dismiss not working when items are loaded after the page is shown (delayed binding).
