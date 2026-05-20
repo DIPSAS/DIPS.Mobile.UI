@@ -125,7 +125,10 @@ public partial class CameraPreview : ContentView
         m_topToolbarContainer.HeightRequest = topToolbarHeight;
         m_bottomToolbarContainer.HeightRequest = Math.Max(totalLetterBoxHeight - topToolbarHeight, 0);
 
-        CameraZoomView!.Margin = new Thickness(0, 0, 0, Sizes.GetSize(SizeName.content_margin_small) + m_bottomToolbarContainer.HeightRequest);
+        if (CameraZoomView is not null)
+        {
+            CameraZoomView.Margin = new Thickness(0, 0, 0, Sizes.GetSize(SizeName.content_margin_small) + m_bottomToolbarContainer.HeightRequest);
+        }
         PreviewView.TranslationY -= topToolbarHeight;
 
         m_hasSetToolbarHeights = true;

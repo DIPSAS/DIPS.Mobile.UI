@@ -1,3 +1,6 @@
+## [59.1.3]
+- [Camera][Android] Updated CameraX dependencies from 1.4.1 to 1.6.1, fixing crash on startup due to breaking interface change in `ImageAnalysis.IAnalyzer`.
+
 ## [59.1.2]
 - [CollectionView][Android] Fixed keyboard dismiss not working when items are loaded after the page is shown (delayed binding).
 - [CollectionView][Android] Fixed programmatic scroll (e.g. when loading items) incorrectly dismissing keyboard.
