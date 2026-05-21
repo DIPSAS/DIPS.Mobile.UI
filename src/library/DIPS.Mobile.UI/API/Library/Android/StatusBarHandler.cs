@@ -46,7 +46,7 @@ public static class StatusBarHandler
     {
         try
         {
-            if (TryGetCurrentModalContentPage() is ContentPage page)
+            if (Shell.Current?.CurrentPage is ContentPage page)
             {
                 // Clean up old entries
                 CleanupStaleReferences();
@@ -128,7 +128,7 @@ public static class StatusBarHandler
     /// <summary>
     /// Try to retrieve the DialogFragment for a given page if it's presented as a modal
     /// </summary>
-    internal static DialogFragment? TryGetDialogFragmentForPage(ContentPage page)
+    private static DialogFragment? TryGetDialogFragmentForPage(ContentPage page)
     {
         try
         {
@@ -165,17 +165,6 @@ public static class StatusBarHandler
         }
         
         return null;
-    }
-
-    private static ContentPage? TryGetCurrentModalContentPage()
-    {
-        var modalPage = Shell.Current?.Navigation?.ModalStack.LastOrDefault();
-        return modalPage switch
-        {
-            NavigationPage { CurrentPage: ContentPage contentPage } => contentPage,
-            ContentPage contentPage => contentPage,
-            _ => Shell.Current?.CurrentPage as ContentPage
-        };
     }
     
     /// <summary>

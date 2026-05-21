@@ -1,14 +1,10 @@
-## [59.2.0]
-- [Modal] Added modal support for per-page `NavigationPage.BarBackgroundColor`. When unset, modal navigation bars use the Shell navigation bar colors.
-- [Modal] Added modal support for per-page `NavigationPage.BarTextColor` for titles, back buttons, and toolbar items.
-- [Modal] Fixed modal navigation bar colors when popping back from a page with a different per-page navigation bar color.
-- [iOS][Modal] Fixed modal status bar text contrast so it explicitly follows the modal navigation bar background color.
-- [CollectionView] `RemoveFocusOnScroll` now uses native platform APIs instead of managed Unfocus. Listener is cleaned up on disconnect.
-- [ScrollView] `RemoveFocusOnScroll` now uses native platform APIs. Event subscription is removed on disconnect.
-
 ## [59.1.1]
 - [CollectionView] Fixed `RemoveFocusOnScroll` on Android: uses `OnScrolled` with `ScrollStateDragging` check instead of `OnScrollStateChanged` to reliably dismiss keyboard in all view hierarchies. Also clears focus from the active input field.
 - [ScrollView] Fixed `RemoveFocusOnScroll` on Android: replaced MAUI `Scrolled` event with native touch+scroll listeners to only dismiss keyboard on user-initiated drags, not layout-induced scrolls. Also clears focus from the active input field.
+
+## [59.1.0]
+- [CollectionView] `RemoveFocusOnScroll` now uses native platform APIs instead of managed Unfocus. Listener is cleaned up on disconnect.
+- [ScrollView] `RemoveFocusOnScroll` now uses native platform APIs. Event subscription is removed on disconnect.
 
 ## [59.0.0]
 - [BarcodeScanner] **BREAKING**: Replaced positional `Start` parameters and `BarcodeScanningSettings` with `BarcodeScanner.Start(BarcodeScannerStartOptions)` so preview, camera failure handling, validation, async callbacks, scan rectangle, and completion behavior are configured in one scanner session contract.
