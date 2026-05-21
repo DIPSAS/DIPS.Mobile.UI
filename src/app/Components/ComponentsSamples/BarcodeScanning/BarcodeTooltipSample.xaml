@@ -10,5 +10,5 @@
         <ToolbarItem IconImageSource="{dui:Icons close_line}"
                      Clicked="Close" />
     </dui:ContentPage.ToolbarItems>
-    <dui:CameraPreview x:Name="CameraPreview" IsInFullscreen="False"/>
+    <dui:CameraPreview x:Name="CameraPreview"/>
 </dui:ContentPage>

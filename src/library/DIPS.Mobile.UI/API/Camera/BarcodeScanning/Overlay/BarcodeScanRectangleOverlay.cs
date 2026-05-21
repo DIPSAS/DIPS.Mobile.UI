@@ -587,14 +587,12 @@ internal class BarcodeScanRectangleOverlay : Grid
 
     /// <summary>
     /// Computes the Y center of the camera feed in overlay coordinates.
-    /// The overlay is translated up by the top toolbar height, so naively centering
-    /// in dirtyRect lands off-center relative to the actual camera feed.
+    /// The overlay shares the same TranslationY as the PreviewView, so the camera
+    /// feed is centered at height / 2 (the preview layer center).
     /// </summary>
     internal static float GetCameraFeedCenterY(float width, float height)
     {
-        var actualPreviewHeight = Math.Min(width / CameraPreview.ThreeFourRatio, height);
-        var topToolbarHeight = CameraPreview.ComputeTopToolbarHeight(width, height);
-        return topToolbarHeight + actualPreviewHeight / 2f;
+        return height / 2f;
     }
 
     /// <summary>
@@ -623,18 +621,15 @@ internal class BarcodeScanRectangleOverlay : Grid
 
             LastScanRect = new RectF(rectX, rectY, rectWidth, rectHeight);
 
-            // Only dim the camera feed area, leaving top and bottom toolbars unaffected
-            var actualPreviewHeight = Math.Min(dirtyRect.Width / CameraPreview.ThreeFourRatio, dirtyRect.Height);
-            var cameraFeedTop = centerY - actualPreviewHeight / 2f;
-            var cameraFeedBottom = cameraFeedTop + actualPreviewHeight;
-            var scanTop = Math.Max(rectY, cameraFeedTop);
-            var scanBottom = Math.Min(rectY + rectHeight, cameraFeedBottom);
+            // Dim the full overlay area with a cutout for the scan rectangle
+            var scanTop = Math.Max(rectY, 0);
+            var scanBottom = Math.Min(rectY + rectHeight, dirtyRect.Height);
             var scanHeight = Math.Max(scanBottom - scanTop, 0);
             var scanRight = rectX + rectWidth;
 
             canvas.FillColor = Microsoft.Maui.Graphics.Color.FromRgba(0, 0, 0, 0.5f);
-            FillRectangleIfVisible(canvas, 0, cameraFeedTop, dirtyRect.Width, scanTop - cameraFeedTop);
-            FillRectangleIfVisible(canvas, 0, scanBottom, dirtyRect.Width, cameraFeedBottom - scanBottom);
+            FillRectangleIfVisible(canvas, 0, 0, dirtyRect.Width, scanTop);
+            FillRectangleIfVisible(canvas, 0, scanBottom, dirtyRect.Width, dirtyRect.Height - scanBottom);
             FillRectangleIfVisible(canvas, 0, scanTop, rectX, scanHeight);
             FillRectangleIfVisible(canvas, scanRight, scanTop, dirtyRect.Width - scanRight, scanHeight);
         }

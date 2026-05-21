@@ -91,6 +91,13 @@ public partial class BarcodeScanner : ICameraUseCase
             m_scanSession.AttachProgressCounter(m_cameraPreview);
             await PlatformStart(m_currentStartOptions, m_currentStartOptions.OnCameraFailed);
 
+            // The overlay must match the PreviewView's translation so the dim and
+            // scan rectangle cover the same area as the camera feed.
+            if (m_scanRectangleOverlay != null)
+            {
+                m_scanRectangleOverlay.TranslationY = m_cameraPreview!.PreviewView.TranslationY;
+            }
+
             if (ct.IsCancellationRequested)
             {
                 await PlatformStop();
