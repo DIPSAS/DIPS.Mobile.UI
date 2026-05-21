@@ -1,3 +1,6 @@
+## [59.1.4]
+- [ContextMenu][iOS] Fixed context menu items appearing in reversed order when displayed from a ToolbarButton in BottomToolbar.
+
 ## [59.1.3]
 - [Camera][Android] Updated CameraX dependencies from 1.4.1 to 1.6.1, fixing crash on startup due to breaking interface change in `ImageAnalysis.IAnalyzer`.
 
