@@ -6,7 +6,7 @@
                  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                  xmlns:dui="http://dips.com/mobile.ui"
                  xmlns:localizedStrings="clr-namespace:DIPS.Mobile.UI.Resources.LocalizedStrings.LocalizedStrings;assembly=DIPS.Mobile.UI"
-                 x:Class="Components.ComponentsSamples.ImageCapturing.ImageCaptureSample">
+                 x:Class="Components.ComponentsSamples.ImageCapturing.SingleImageCaptureSample">
     
     <dui:ContentPage.ToolbarItems>
         <ToolbarItem Text="{x:Static localizedStrings:DUILocalizedStrings.Close}"

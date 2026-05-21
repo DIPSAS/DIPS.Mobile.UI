@@ -37,18 +37,32 @@ public partial class ImageCapture : ICameraUseCase
 #nullable disable
     private DidCaptureImage m_onImageCapturedDelegate;
     private CameraFailed m_cameraFailedDelegate;
-    private ImageCaptureSettings m_imageCaptureSettings;
     private ImageCaptureTopToolbarView m_topToolbarView;
     private ImageCaptureBottomToolbarView m_bottomToolbarView;
+    private CaptureSession m_cameraSession;
 #nullable enable
 
     private CancellationTokenSource? m_captureProcessingCts;
     
-    public async Task Start(CameraPreview cameraPreview, DidCaptureImage onImageCapturedDelegate, CameraFailed cameraFailedDelegate, Action<ImageCaptureSettings>? configure = null)
+    public async Task StartSingleImageCapture(CameraPreview cameraPreview, DidCaptureImage onImageCapturedDelegate, 
+        CameraFailed cameraFailedDelegate, CameraOptions cameraOptions)
     {
-        m_imageCaptureSettings = new ImageCaptureSettings();
-        configure?.Invoke(m_imageCaptureSettings);
+        m_cameraSession = new SingleCaptureSession(cameraOptions);
 
+        await StartImageCapture(cameraPreview, onImageCapturedDelegate, cameraFailedDelegate);
+    }
+    
+    public async Task StartMultiImageCapture(CameraPreview cameraPreview, DidCaptureImage onImageCapturedDelegate, 
+        CameraFailed cameraFailedDelegate, CameraOptions cameraOptions, MultiImageCaptureOptions multiImageCaptureOptions)
+    {
+        m_cameraSession = new MultiCaptureSession(cameraOptions, multiImageCaptureOptions);
+
+        await StartImageCapture(cameraPreview, onImageCapturedDelegate, cameraFailedDelegate);
+    }
+
+    private async Task StartImageCapture(CameraPreview cameraPreview, DidCaptureImage onImageCapturedDelegate,
+        CameraFailed cameraFailedDelegate)
+    {
         m_cameraPreview = cameraPreview;
         m_cameraPreview.AddUseCase(this);
         m_onImageCapturedDelegate = onImageCapturedDelegate;
@@ -58,7 +72,7 @@ public partial class ImageCapture : ICameraUseCase
             Log("Permitted to use camera");
             await m_cameraPreview.HasLoaded();
             ConstructCrossPlatformViews();
-            await PlatformStart(m_imageCaptureSettings, m_cameraFailedDelegate);
+            await PlatformStart(m_cameraSession.CameraOptions, m_cameraFailedDelegate);
             GoToStreamingState();
         }
         else
@@ -70,7 +84,7 @@ public partial class ImageCapture : ICameraUseCase
     private void ConstructCrossPlatformViews()
     {
         m_bottomToolbarView = [];
-        m_topToolbarView = new ImageCaptureTopToolbarView(m_imageCaptureSettings, OnCancelImageCaptureButtonTapped);
+        m_topToolbarView = new ImageCaptureTopToolbarView(m_cameraSession, OnCancelImageCaptureButtonTapped, OnFinishedImageCaptureButtonTapped);
         
         m_cameraPreview?.AddTopToolbarView(m_topToolbarView);
         m_cameraPreview?.AddBottomToolbarView(m_bottomToolbarView);
@@ -79,7 +93,7 @@ public partial class ImageCapture : ICameraUseCase
     private void OnCameraStartedCrossPlatform(float previewViewHeight, Size cameraResolution)
     {
         m_cameraPreview?.SetToolbarHeights(previewViewHeight);
-        m_imageCaptureSettings.CameraInfo.CurrentCameraResolution = cameraResolution;
+        m_cameraSession.CameraOptions.CameraInfo.CurrentCameraResolution = cameraResolution;
     }
 
     /// <summary>
@@ -91,7 +105,7 @@ public partial class ImageCapture : ICameraUseCase
 
         VibrationService.SelectionChanged();
         
-        if (addActivityIndicator)
+        if (m_cameraSession is SingleCaptureSession && addActivityIndicator)
         {
             m_cameraPreview?.AddViewToRoot(m_activityIndicator, usePreviewViewTranslation: false);
         }
@@ -106,7 +120,7 @@ public partial class ImageCapture : ICameraUseCase
 
     private void OnCancelImageCaptureButtonTapped()
     {
-        m_imageCaptureSettings.DoneButtonCommand?.Execute(null);
+        m_cameraSession.CameraOptions.CancelButtonCommand?.Execute(null);
         ResetAllVisuals();
         PlatformStop();
     }
@@ -154,6 +168,36 @@ public partial class ImageCapture : ICameraUseCase
         PlatformStop();
     }
 
+    private void OnPhotoCaptured(CapturedImage capturedImage)
+    {
+        if (m_cameraSession is MultiCaptureSession { MultiImageCaptureOptions.RequiresConfirmationOnEachImage: false })
+        {
+            m_onImageCapturedDelegate?.Invoke(capturedImage);
+            ContinueInPreviewState();
+            return;
+        }
+            
+        GoToConfirmState(capturedImage);
+    }
+
+    private void ContinueInPreviewState()
+    {
+        m_cameraPreview?.RemoveViewFromRoot(m_activityIndicator);
+        m_cameraPreview?.RemoveViewFromRoot(m_keepCameraStillHint);
+        m_bottomToolbarView?.SetShutterButtonEnabled(true);
+    }
+
+    private void OnFinishedImageCaptureButtonTapped()
+    {
+        if (m_cameraSession is MultiCaptureSession multiCaptureSession)
+        {
+            multiCaptureSession.MultiImageCaptureOptions.FinishedButtonCommand?.Execute(null);
+        }
+        
+        ResetAllVisuals();
+        PlatformStop();
+    }
+
     private void CancelAnyActiveImageProcessing()
     {
         m_captureProcessingCts?.Cancel();
@@ -168,6 +212,6 @@ public partial class ImageCapture : ICameraUseCase
     
     private partial void PlatformOnCameraFailed(CameraException cameraException);
     private partial void PlatformCapturePhoto();
-    private partial Task PlatformStart(ImageCaptureSettings imageCaptureSettings, CameraFailed cameraFailedDelegate);
+    private partial Task PlatformStart(CameraOptions cameraOptions, CameraFailed cameraFailedDelegate);
     private partial Task PlatformStop();
 }

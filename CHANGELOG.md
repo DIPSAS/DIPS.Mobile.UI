@@ -1,3 +1,59 @@
+## [59.1.3]
+- [Camera][Android] Updated CameraX dependencies from 1.4.1 to 1.6.1, fixing crash on startup due to breaking interface change in `ImageAnalysis.IAnalyzer`.
+
+## [59.1.2]
+- [CollectionView][Android] Fixed keyboard dismiss not working when items are loaded after the page is shown (delayed binding).
+- [CollectionView][Android] Fixed programmatic scroll (e.g. when loading items) incorrectly dismissing keyboard.
+- [CollectionView][Android] Now clears focus from the active input field when keyboard is dismissed by scrolling.
+
+## [59.1.1]
+- [CollectionView] Fixed `RemoveFocusOnScroll` on Android: uses `OnScrolled` with `ScrollStateDragging` check instead of `OnScrollStateChanged` to reliably dismiss keyboard in all view hierarchies. Also clears focus from the active input field.
+- [ScrollView] Fixed `RemoveFocusOnScroll` on Android: replaced MAUI `Scrolled` event with native touch+scroll listeners to only dismiss keyboard on user-initiated drags, not layout-induced scrolls. Also clears focus from the active input field.
+
+## [59.1.0]
+- [CollectionView] `RemoveFocusOnScroll` now uses native platform APIs instead of managed Unfocus. Listener is cleaned up on disconnect.
+- [ScrollView] `RemoveFocusOnScroll` now uses native platform APIs. Event subscription is removed on disconnect.
+
+## [59.0.0]
+- [BarcodeScanner] **BREAKING**: Replaced positional `Start` parameters and `BarcodeScanningSettings` with `BarcodeScanner.Start(BarcodeScannerStartOptions)` so preview, camera failure handling, validation, async callbacks, scan rectangle, and completion behavior are configured in one scanner session contract.
+- [BarcodeScanner] Added visible focused scan rectangle overlay controlled by `BarcodeScannerStartOptions.ScanRectangle` and `BarcodeScanRectangleOptions`
+- [BarcodeScanner] Barcode results are now filtered to only include barcodes within the visible scan rectangle region
+- [BarcodeScanner] Added validation-aware success and failure animations, optional required scan count progress with animated bottom counter and barcode collection animation, initial count support, duplicate scan cooldown, completion callbacks, and pause/resume support that keeps overlays attached
+- [BarcodeScanner] Added validation results with optional typed state for accepted barcodes and optional reason codes for rejected barcodes
+- [BarcodeScanner] Fixed duplicate scan suppression so an already-confirmed barcode is not retried while validation and success animations are running
+
+## [58.1.0]
+- [StepFlow] Added new accordion-style multi-step flow component.
+
+## [58.0.0] 
+- [ImageCapture] Added support for capturing multiple images in one session, with optional confirmation of each image. 
+- [ImageCapture] **Breaking change:** `ImageCaptureSettings` and `PostCaptureAction` are removed. `ImageCapture.Start` 
+is replaced by `StartSingleImageCapture` (matches the previous single-capture flow) and `StartMultiImageCapture` 
+(covers the previous `PostCaptureAction.Continue` behaviour). 
+See the [ImageCapture wiki page](https://github.com/DIPSAS/DIPS.Mobile.UI/wiki/Media/ImageCapture) for migration guidance.
+
+## [57.1.2]
+- Bumped MAUI controls.
+
+## [57.1.1]
+- [iOS][Camera] Fixed focus locking on startup by enabling continuous autofocus and auto-exposure when camera session starts
+- [iOS][Camera] Fixed tap-to-focus permanently locking focus by returning to continuous autofocus after one-shot focus completes
+- [iOS][Camera] Fixed zoom not triggering refocus by re-engaging continuous autofocus after pinch-to-zoom and slider zoom changes
+- [Android][Camera] Fixed zoom not triggering refocus by starting a new focus metering action after pinch-to-zoom
+- [Android][Camera] Fixed tap-to-focus indicator appearing at wrong position by using view-relative touch coordinates and correcting for preview translation offset
+
+## [57.1.0]
+- [LayoutDiagnostics] Added runtime layout diagnostics API for profiling measure/arrange counts per element type. Includes a floating overlay visible over modals and bottom sheets, automatic snapshot capture during page and bottom sheet lifecycle, per-instance thrashing detection, and JSON export.
+
+## [57.0.0]
+- Use SourceGen compilation.
+
+## [56.2.0] 
+- Resources was updated from DIPS.Mobile.DesignTokens
+
+## [56.1.0]
+- Add new animation.
+
 ## [56.0.3]
 - [ItemPicker] Fixed bug where SelectedItem was lost in ContextMenu mode when BindableLayout rebuilds with new VM instances, due to reference equality checks in ItemsSource change handling
 

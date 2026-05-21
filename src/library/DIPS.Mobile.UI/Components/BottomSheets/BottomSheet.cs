@@ -1,4 +1,5 @@
 using System.Collections.ObjectModel;
+using DIPS.Mobile.UI.API.Diagnostics;
 using DIPS.Mobile.UI.Components.BottomSheets.Header;
 using DIPS.Mobile.UI.Internal;
 using Colors = Microsoft.Maui.Graphics.Colors;
@@ -91,6 +92,8 @@ namespace DIPS.Mobile.UI.Components.BottomSheets
 
         internal void SendClose()
         {
+            LayoutDiagnosticsService.EndSnapshot();
+            
             Closed?.Invoke(this, EventArgs.Empty);
             ClosedCommand?.Execute(null);
             OnClosed();
@@ -98,6 +101,8 @@ namespace DIPS.Mobile.UI.Components.BottomSheets
 
         internal void SendOpen()
         {
+            LayoutDiagnosticsService.BeginSnapshot($"BottomSheet: {GetType().Name}");
+            
             Opened?.Invoke(this, EventArgs.Empty);
             OpenedCommand?.Execute(null);
             OnOpened();

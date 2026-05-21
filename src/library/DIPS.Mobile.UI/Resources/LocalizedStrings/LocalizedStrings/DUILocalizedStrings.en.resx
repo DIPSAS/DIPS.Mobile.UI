@@ -17,6 +17,24 @@
     <data name="Today" xml:space="preserve">
         <value>Today</value>
     </data>
+    <data name="StepFlow.Step" xml:space="preserve">
+        <value>Step</value>
+    </data>
+    <data name="StepFlow.Accessibility.StepXOfY" xml:space="preserve">
+        <value>Step {0} of {1}</value>
+    </data>
+    <data name="StepFlow.Accessibility.Active" xml:space="preserve">
+        <value>Active step</value>
+    </data>
+    <data name="StepFlow.Accessibility.Completed" xml:space="preserve">
+        <value>Completed</value>
+    </data>
+    <data name="StepFlow.Accessibility.Disabled" xml:space="preserve">
+        <value>Not available yet</value>
+    </data>
+    <data name="StepFlow.Accessibility.Error" xml:space="preserve">
+        <value>Error</value>
+    </data>
     <data name="Yesterday" xml:space="preserve">
         <value>Yesterday</value>
     </data>
@@ -262,6 +280,9 @@
     </data>
     <data name="Of" xml:space="preserve">
         <value>{0} of {1}</value>
+    </data>
+    <data name="BarcodeScanProgress" xml:space="preserve">
+        <value>{0} of {1} scanned</value>
     </data>
     <data name="KeepCameraStill" xml:space="preserve">
         <value>Hold camera still…</value>

@@ -10,7 +10,39 @@
                                 Tapped="RegularCollectionView"
                                 HasBottomDivider="True" />
         <dui:NavigationListItem Title="Grouped CollectionView"
-                                Tapped="GroupedCollectionView" />
+                                Tapped="GroupedCollectionView"
+                                HasBottomDivider="True" />
+        
+        <Label Text="Focus Cases" 
+               FontAttributes="Bold" 
+               Padding="16,24,16,8" />
+        
+        <dui:NavigationListItem Title="SearchBar outside, no RefreshView"
+                                Tapped="SearchBarOutside"
+                                HasBottomDivider="True" />
+        <dui:NavigationListItem Title="SearchBar outside + RefreshView"
+                                Tapped="SearchBarOutsideWithRefresh"
+                                HasBottomDivider="True" />
+        <dui:NavigationListItem Title="SearchBar in Header, no RefreshView"
+                                Tapped="SearchBarInHeader"
+                                HasBottomDivider="True" />
+        <dui:NavigationListItem Title="SearchBar in Header + RefreshView"
+                                Tapped="SearchBarInHeaderWithRefresh"
+                                HasBottomDivider="True" />
+        <dui:NavigationListItem Title="Delayed: SearchBar in Header"
+                                Tapped="DelayedSearchBarInHeader"
+                                HasBottomDivider="True" />
+        <dui:NavigationListItem Title="Delayed: SearchBar in Header + RefreshView"
+                                Tapped="DelayedSearchBarInHeaderWithRefresh"
+                                HasBottomDivider="True" />
+        <dui:NavigationListItem Title="Observable Add: SearchBar in Header"
+                                Tapped="ObservableAddSearchBarInHeader"
+                                HasBottomDivider="True" />
+        <dui:NavigationListItem Title="ScrollView: SearchBar outside"
+                                Tapped="ScrollViewSearchBarOutside"
+                                HasBottomDivider="True" />
+        <dui:NavigationListItem Title="ScrollView: SearchBar inside"
+                                Tapped="ScrollViewSearchBarInside" />
     </dui:VerticalStackLayout>
     
 </dui:ContentPage>

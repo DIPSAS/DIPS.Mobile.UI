@@ -8,7 +8,6 @@ using Android.Hardware.Display;
 using Android.Runtime;
 using Android.Views;
 using AndroidX.Camera.Core;
-using AndroidX.Camera.Core.Internal;
 using AndroidX.Camera.Core.ResolutionSelector;
 using AndroidX.Camera.Lifecycle;
 using AndroidX.Camera.Video;
@@ -290,12 +289,14 @@ public abstract class CameraFragment : Fragment
         if(PreviewViewHandler is not null)
         {
             PreviewViewHandler.OnScaled += OnScaled;
+            PreviewViewHandler.OnScaleEnded += TriggerContinuousAutoFocus;
         }
     }
 
     private void OnScaled(float scaleRatio)
     {
-        if (Camera?.CameraInfo.ZoomState.Value is not AndroidX.Camera.Core.Internal.ImmutableZoomState zoomState)
+        var zoomState = Camera?.CameraInfo.ZoomState.Value?.JavaCast<IZoomState>();
+        if (zoomState is null)
             return;
 
         var desiredZoomRatio = zoomState.ZoomRatio * scaleRatio;
@@ -312,7 +313,7 @@ public abstract class CameraFragment : Fragment
         m_cameraPreview?.CameraZoomView?.OnPinchToZoom(desiredZoomRatio);
     }
 
-    private ImmutableZoomState? ZoomState => Camera?.CameraInfo.ZoomState.Value as ImmutableZoomState; 
+    private IZoomState? ZoomState => Camera?.CameraInfo.ZoomState.Value?.JavaCast<IZoomState>(); 
     
     private void AddZoomView()
     {
@@ -341,6 +342,21 @@ public abstract class CameraFragment : Fragment
         }
 
         CameraControl?.SetZoomRatio(zoomRatio);
+    }
+    
+    private void TriggerContinuousAutoFocus()
+    {
+        if (PreviewView is null || CameraControl is null)
+            return;
+        
+        // Create a center-point focus action to briefly re-engage autofocus after zoom
+        // changes, then automatically return control to the camera's normal behavior.
+        var centerPoint = PreviewView.MeteringPointFactory.CreatePoint(
+            PreviewView.Width / 2f, PreviewView.Height / 2f);
+        var action = new FocusMeteringAction.Builder(centerPoint, FocusMeteringAction.FlagAf)
+            .SetAutoCancelDuration(2, TimeUnit.Seconds)
+            .Build();
+        CameraControl.StartFocusAndMetering(action);
     }
 
     public override void OnConfigurationChanged(Configuration newConfig)
@@ -409,6 +425,7 @@ public abstract class CameraFragment : Fragment
         if (PreviewViewHandler is not null)
         {
             PreviewViewHandler.OnScaled -= OnScaled;
+            PreviewViewHandler.OnScaleEnded -= TriggerContinuousAutoFocus;
             PreviewViewHandler.OnTapped -= PreviewViewOnTapped;
         }
 

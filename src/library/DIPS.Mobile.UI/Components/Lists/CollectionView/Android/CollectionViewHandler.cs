@@ -16,6 +16,9 @@ namespace DIPS.Mobile.UI.Components.Lists;
 
 public partial class CollectionViewHandler
 {
+    private KeyboardDismissOnScrollListener? m_keyboardDismissOnScrollListener;
+    private RecyclerView? m_listenerRegisteredOn;
+    
     protected override RecyclerView CreatePlatformView()
     {
         return new MauiRecyclerView(Context, GetItemsLayout, CreateAdapter);
@@ -52,6 +55,60 @@ public partial class CollectionViewHandler
             handler.PlatformView.OverScrollMode =
                 collectionView.ShouldBounce ? OverScrollMode.Always : OverScrollMode.Never;
         }
+    }
+    
+    private static partial void MapRemoveFocusOnScroll(CollectionViewHandler handler,
+        Microsoft.Maui.Controls.CollectionView virtualView)
+    {
+        if (virtualView is not CollectionView collectionView)
+            return;
+
+        handler.RemoveKeyboardDismissListener();
+
+        if (collectionView.RemoveFocusOnScroll)
+        {
+            handler.AddKeyboardDismissListener();
+        }
+    }
+    
+    partial void OnItemsSourceMapped()
+    {
+        if (VirtualView is not CollectionView { RemoveFocusOnScroll: true })
+            return;
+        
+        // MAUI's MauiRecyclerView.UpdateItemsSource() calls ClearOnScrollListeners(),
+        // which removes ALL scroll listeners — including ours.
+        // This runs via AppendToMapping, guaranteeing it executes AFTER MAUI's mapper.
+        RemoveKeyboardDismissListener();
+        AddKeyboardDismissListener();
+    }
+
+    private void AddKeyboardDismissListener()
+    {
+        m_keyboardDismissOnScrollListener = new KeyboardDismissOnScrollListener();
+        PlatformView.AddOnScrollListener(m_keyboardDismissOnScrollListener);
+        m_listenerRegisteredOn = PlatformView;
+    }
+
+    private void RemoveKeyboardDismissListener()
+    {
+        if (m_keyboardDismissOnScrollListener == null)
+            return;
+        
+        if (m_listenerRegisteredOn != null)
+        {
+            m_listenerRegisteredOn.RemoveOnScrollListener(m_keyboardDismissOnScrollListener);
+        }
+        
+        m_keyboardDismissOnScrollListener = null;
+        m_listenerRegisteredOn = null;
+    }
+
+    protected override void DisconnectHandler(RecyclerView platformView)
+    {
+        RemoveKeyboardDismissListener();
+        
+        base.DisconnectHandler(platformView);
     }
 
     internal partial void ReloadData(CollectionViewHandler handler)
