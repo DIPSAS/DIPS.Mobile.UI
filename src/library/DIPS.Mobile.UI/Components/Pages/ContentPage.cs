@@ -197,17 +197,7 @@ namespace DIPS.Mobile.UI.Components.Pages
         {
             var parentWindow = base.GetParentWindow();
 
-            if (parentWindow == null)
-            {
-                parentWindow = Application.Current?.Windows.FirstOrDefault();
-
-                if (parentWindow is not null && DUI.GetCurrentMauiContext is not null)
-                {
-                    var test = parentWindow.ToPlatform(DUI.GetCurrentMauiContext);
-                }
-            }
-
-            return parentWindow!;
+            return parentWindow;
         }
 
 
