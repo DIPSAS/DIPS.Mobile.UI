@@ -23,6 +23,8 @@
                                     Tapped="GoToCollectionViewTests" />
             <dui:NavigationListItem Title="ItemPicker Refresh Repro"
                                     Tapped="GoToItemPickerRefreshRepro" />
+            <dui:NavigationListItem Title="Barcode Resume Repro (#1415)"
+                                    Tapped="GoToBarcodeScanResumeRepro" />
             <dui:Button Text="Tap me"
                         Clicked="TapMe" />
         </VerticalStackLayout>

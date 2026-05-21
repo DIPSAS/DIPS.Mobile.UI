@@ -5,7 +5,6 @@ using DIPS.Mobile.UI.MemoryManagement;
 using Microsoft.Maui.Controls.Shapes;
 #if __IOS__
 using Microsoft.Maui.Handlers;
-using UIKit;
 #endif
 using Colors = Microsoft.Maui.Graphics.Colors;
 using ContentView = Microsoft.Maui.Controls.ContentView;
@@ -44,13 +43,6 @@ public partial class CameraPreview : ContentView
 
     private void OnLoaded(object? sender, EventArgs e)
     {
-#if __IOS__
-        if (IsInFullscreen && UIApplication.SharedApplication.KeyWindow != null)
-        {
-            Padding = new Thickness(0, UIApplication.SharedApplication.KeyWindow.SafeAreaInsets.Top, 0,
-                UIApplication.SharedApplication.KeyWindow.SafeAreaInsets.Bottom);
-        }
-#endif
         m_hasLoadedTcs.TrySetResult();
     }
     
