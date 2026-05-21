@@ -101,10 +101,6 @@ public partial class ContentPage
         BottomToolbar?.Handler?.DisconnectHandler();
     }
 
-    private partial void RefreshStatusBarTextOnPlatform(NavigationPage navigationPage)
-    {
-    }
-
     private static ViewGroup? FindFrameLayoutParent(AView? view)
     {
         var current = view?.Parent;

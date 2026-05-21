@@ -10,7 +10,6 @@ using DIPS.Mobile.UI.Components.Navigation.FloatingNavigationButton;
 using DIPS.Mobile.UI.MemoryManagement;
 using Microsoft.Maui.Platform;
 using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
-using MauiShell = Microsoft.Maui.Controls.Shell;
 
 namespace DIPS.Mobile.UI.Components.Pages
 {
@@ -42,7 +41,7 @@ namespace DIPS.Mobile.UI.Components.Pages
 
         private void OnLoaded(object? sender, EventArgs e)
         {
-            if (DUI.IsDebug && m_loadedTimer.IsRunning)
+            if (DUI.IsDebug)
             {
                 m_loadedTimer.Stop();
                 if (ShouldLogLoadingTime)
@@ -70,10 +69,7 @@ namespace DIPS.Mobile.UI.Components.Pages
         {
             base.OnAppearing();
 
-            if (Parent is NavigationPage navigationPage && IsModalNavigationPage(navigationPage))
-            {
-                ApplyNavigationBarColors(navigationPage);
-            }
+            ApplyNavigationBarColors();
 
             HasAppeared = true;
 
@@ -84,8 +80,7 @@ namespace DIPS.Mobile.UI.Components.Pages
             HideOrShowFloatingNavigationMenu();
 
 #if __ANDROID__
-            // Update status bar color for this page (works for both modal and non-modal)
-            StatusBarHandler.TrySetStatusBarColor(this, StatusBarColor);
+            StatusBarHandler.TrySetStatusBarColor(this, GetEffectiveStatusBarColor());
 #endif
         }
         
@@ -134,16 +129,6 @@ namespace DIPS.Mobile.UI.Components.Pages
             base.OnNavigatingFrom(args);
         }
 
-        protected override void OnParentSet()
-        {
-            base.OnParentSet();
-
-            if (Parent is NavigationPage navigationPage)
-            {
-                ApplyNavigationBarColors(navigationPage);
-            }
-        }
-
         private void HideOrShowFloatingNavigationMenu()
         {
             if (!HasAppeared)
@@ -176,54 +161,6 @@ namespace DIPS.Mobile.UI.Components.Pages
             };
         }
 
-        private void SetDefaultNavigationBarColors()
-        {
-            SetDefaultNavigationBarColor(
-                NavigationPage.BarBackgroundColorProperty,
-                GetShellBackgroundColor(this) ?? GetShellBackgroundColor(MauiShell.Current) ?? Colors.GetColor(Shell.Shell.BackgroundColorName));
-
-            SetDefaultNavigationBarColor(
-                NavigationPage.BarTextColorProperty,
-                GetShellTitleColor(this) ?? GetShellTitleColor(MauiShell.Current) ?? Colors.GetColor(Shell.Shell.TitleTextColorName));
-        }
-
-        private void ApplyNavigationBarColors(NavigationPage navigationPage)
-        {
-            SetDefaultNavigationBarColors();
-            navigationPage.BarBackgroundColor = GetNavigationBarPropertyColor(NavigationPage.BarBackgroundColorProperty);
-            navigationPage.BarTextColor = GetNavigationBarPropertyColor(NavigationPage.BarTextColorProperty);
-            RefreshStatusBarTextOnPlatform(navigationPage);
-        }
-
-        private Color GetNavigationBarPropertyColor(BindableProperty navigationBarColorProperty)
-        {
-            return (Color)GetValue(navigationBarColorProperty);
-        }
-
-        internal static bool IsModalNavigationPage(NavigationPage navigationPage)
-        {
-            return MauiShell.Current?.Navigation.ModalStack.Contains(navigationPage) == true
-                   || Application.Current?.Windows.Any(window => window.Page?.Navigation.ModalStack.Contains(navigationPage) == true) == true;
-        }
-
-        private void SetDefaultNavigationBarColor(BindableProperty navigationBarColorProperty, Color color)
-        {
-            if (IsSet(navigationBarColorProperty))
-                return;
-
-            SetValue(navigationBarColorProperty, color);
-        }
-
-        private static Color? GetShellBackgroundColor(BindableObject? bindableObject)
-        {
-            return bindableObject is null ? null : MauiShell.GetBackgroundColor(bindableObject);
-        }
-
-        private static Color? GetShellTitleColor(BindableObject? bindableObject)
-        {
-            return bindableObject is null ? null : MauiShell.GetTitleColor(bindableObject);
-        }
-
 
         private void OnRequestedThemeChanged(object? sender, AppThemeChangedEventArgs e)
         {
@@ -236,6 +173,7 @@ namespace DIPS.Mobile.UI.Components.Pages
 
             if (Handler is not null)
             {
+                ApplyNavigationBarColors();
                 AttachBottomToolbar();
             }
         }
@@ -382,6 +320,5 @@ namespace DIPS.Mobile.UI.Components.Pages
 
         private partial void AttachBottomToolbarOnPlatform();
         private partial void DetachBottomToolbarOnPlatform();
-        private partial void RefreshStatusBarTextOnPlatform(NavigationPage navigationPage);
     }
 }

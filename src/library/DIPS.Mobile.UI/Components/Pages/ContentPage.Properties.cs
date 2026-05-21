@@ -93,16 +93,16 @@ public partial class ContentPage
     public static readonly BindableProperty StatusBarColorProperty = BindableProperty.Create(
         nameof(StatusBarColor),
         typeof(Color),
-        typeof(ContentPage),
-        defaultValueCreator: _ => DIPS.Mobile.UI.Resources.Colors.Colors.GetColor(Shell.Shell.BackgroundColorName));
+        typeof(ContentPage));
 
     /// <summary>
-    /// Sets the color of the status bar on Android
+    /// Sets the color of the status bar on Android.
+    /// When not set, automatically uses the navigation bar background color (if inside a NavigationPage) or the Shell background color.
     /// </summary>
     /// <remarks>Note: Only available on Android</remarks>
-    public Color StatusBarColor
+    public Color? StatusBarColor
     {
-        get => (Color)GetValue(StatusBarColorProperty);
+        get => (Color?)GetValue(StatusBarColorProperty);
         set => SetValue(StatusBarColorProperty, value);
     }
     

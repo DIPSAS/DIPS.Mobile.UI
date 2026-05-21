@@ -24,36 +24,13 @@ public static partial class AppHostBuilderExtensions
     static partial void AddPlatformHandlers(IMauiHandlersCollection handlers)
     {
         handlers
-            .AddHandler(typeof(DIPS.Mobile.UI.Components.Searching.Android.IndeterminateProgressBar),
-                typeof(DIPS.Mobile.UI.Components.Searching.Android.IndeterminateProgressBarHandler))
-            .AddHandler(typeof(Chip), typeof(ChipHandler))
+            .AddHandler<Components.Searching.Android.IndeterminateProgressBar, Components.Searching.Android.IndeterminateProgressBarHandler>()
+            .AddHandler<Chip, ChipHandler>()
             .AddHandler<CameraZoomSlider, CameraZoomSliderHandler>()
             .AddHandler<CameraPreview, CameraPreviewHandler>()
             .AddHandler<TabView, TabViewHandler>()
             .AddHandler<Switch, SwitchHandler>()
             .AddHandler<ActivityIndicator, ActivityIndicatorHandler>();
-        
-        ToolbarHandler.Mapper.AppendToMapping<Toolbar, IToolbarHandler>(nameof(Toolbar.ToolbarItems), (h, t) =>
-        {
-            // TODO: Workaround: .NET MAUI does not set the color on Text toolbar items on Shell pages, so we need to set it manually.
-            // TODO: Workaround: .NET MAUI does not set the color on Text and icon toolbar items on Modal pages, so we need to set it manually.
-            for (var i = 0; i < h.PlatformView.Menu?.Size(); i++)
-            {
-                var item = h.PlatformView.Menu.GetItem(i);
-                var span = new Android.Text.SpannableString(item?.TitleFormatted);
-                span.SetSpan(new Android.Text.Style.ForegroundColorSpan(Colors.GetColor(Shell.ForegroundColorName).ToPlatform()), 0, span.Length(), 0);
-                item?.SetTitle(span);
-            }
-        });
-        
-        ToolbarHandler.Mapper.AppendToMapping<Toolbar, IToolbarHandler>(nameof(Toolbar.BackButtonVisible), (h, t) =>
-        {
-            // TODO: Modal Workaround: .NET MAUI does not inherit the color from the Shell, so we need to set it manually.
-            if (h.PlatformView.NavigationIcon is DrawerArrowDrawable icon)
-            {
-                icon.Color = Colors.GetColor(Shell.ForegroundColorName).ToPlatform();
-            }
-        });
     }
 
     static partial void ConfigurePlatformLifecycleEvents(ILifecycleBuilder events)

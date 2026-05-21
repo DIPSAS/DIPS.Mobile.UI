@@ -62,21 +62,6 @@ public partial class ContentPage
         BottomToolbar?.Handler?.DisconnectHandler();
     }
 
-    private partial void RefreshStatusBarTextOnPlatform(NavigationPage navigationPage)
-    {
-        if (navigationPage.Handler?.MauiContext is not { } mauiContext)
-            return;
-
-        var viewController = navigationPage.ToUIViewController(mauiContext);
-        if (viewController is UINavigationController navigationController)
-        {
-            navigationController.SetNeedsStatusBarAppearanceUpdate();
-            return;
-        }
-
-        viewController.NavigationController?.SetNeedsStatusBarAppearanceUpdate();
-    }
-
     private UIViewController? FindViewController()
     {
         if (Handler?.PlatformView is not UIView platformView)

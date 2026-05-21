@@ -1,3 +1,6 @@
+## [59.2.0]
+- [ContentPage] `NavigationPage.BarBackgroundColorProperty` and `NavigationPage.BarTextColorProperty` now properly assigns colors to modal navigation bars, including status bar, back button and toolbar icons. Removed old Android workarounds for modal toolbar coloring.
+
 ## [59.1.1]
 - [CollectionView] Fixed `RemoveFocusOnScroll` on Android: uses `OnScrolled` with `ScrollStateDragging` check instead of `OnScrollStateChanged` to reliably dismiss keyboard in all view hierarchies. Also clears focus from the active input field.
 - [ScrollView] Fixed `RemoveFocusOnScroll` on Android: replaced MAUI `Scrolled` event with native touch+scroll listeners to only dismiss keyboard on user-initiated drags, not layout-induced scrolls. Also clears focus from the active input field.

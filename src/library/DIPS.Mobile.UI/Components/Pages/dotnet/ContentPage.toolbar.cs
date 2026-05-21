@@ -10,10 +10,6 @@ public partial class ContentPage
     {
     }
 
-    private partial void RefreshStatusBarTextOnPlatform(NavigationPage navigationPage)
-    {
-    }
-
     private partial void EnableScrollTrackingForView(VisualElement view)
     {
     }
