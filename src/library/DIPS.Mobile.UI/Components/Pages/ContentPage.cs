@@ -10,6 +10,7 @@ using DIPS.Mobile.UI.Components.Navigation.FloatingNavigationButton;
 using DIPS.Mobile.UI.MemoryManagement;
 using Microsoft.Maui.Platform;
 using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
+using MauiShell = Microsoft.Maui.Controls.Shell;
 
 namespace DIPS.Mobile.UI.Components.Pages
 {
@@ -18,13 +19,12 @@ namespace DIPS.Mobile.UI.Components.Pages
         public static readonly ColorName BackgroundColorName = ColorName.color_background_default;
 
         private CancellationTokenSource? m_garbageCollectionCts;
-        private readonly Stopwatch m_loadedTimer;
+        private readonly Stopwatch m_loadedTimer = new();
 
         public ContentPage()
         {
             if (DUI.IsDebug) //Always start the time, as checking for ShouldLogLoadingTime wont work in the constructor
             {
-                m_loadedTimer = new Stopwatch();
                 m_loadedTimer.Start();
             }
 
@@ -70,6 +70,11 @@ namespace DIPS.Mobile.UI.Components.Pages
         {
             base.OnAppearing();
 
+            if (Parent is NavigationPage navigationPage && IsModalNavigationPage(navigationPage))
+            {
+                ApplyNavigationBarColors(navigationPage);
+            }
+
             HasAppeared = true;
 
             // Complete previous snapshot (captures outgoing page + transition layout)
@@ -77,9 +82,7 @@ namespace DIPS.Mobile.UI.Components.Pages
             LayoutDiagnosticsService.BeginSnapshot($"Page: {GetType().Name}");
 
             HideOrShowFloatingNavigationMenu();
-            ApplyNavigationBarAppearance();
-            
-            
+
 #if __ANDROID__
             // Update status bar color for this page (works for both modal and non-modal)
             StatusBarHandler.TrySetStatusBarColor(this, StatusBarColor);
@@ -131,6 +134,16 @@ namespace DIPS.Mobile.UI.Components.Pages
             base.OnNavigatingFrom(args);
         }
 
+        protected override void OnParentSet()
+        {
+            base.OnParentSet();
+
+            if (Parent is NavigationPage navigationPage)
+            {
+                ApplyNavigationBarColors(navigationPage);
+            }
+        }
+
         private void HideOrShowFloatingNavigationMenu()
         {
             if (!HasAppeared)
@@ -163,11 +176,58 @@ namespace DIPS.Mobile.UI.Components.Pages
             };
         }
 
+        private void SetDefaultNavigationBarColors()
+        {
+            SetDefaultNavigationBarColor(
+                NavigationPage.BarBackgroundColorProperty,
+                GetShellBackgroundColor(this) ?? GetShellBackgroundColor(MauiShell.Current) ?? Colors.GetColor(Shell.Shell.BackgroundColorName));
+
+            SetDefaultNavigationBarColor(
+                NavigationPage.BarTextColorProperty,
+                GetShellTitleColor(this) ?? GetShellTitleColor(MauiShell.Current) ?? Colors.GetColor(Shell.Shell.TitleTextColorName));
+        }
+
+        private void ApplyNavigationBarColors(NavigationPage navigationPage)
+        {
+            SetDefaultNavigationBarColors();
+            navigationPage.BarBackgroundColor = GetNavigationBarPropertyColor(NavigationPage.BarBackgroundColorProperty);
+            navigationPage.BarTextColor = GetNavigationBarPropertyColor(NavigationPage.BarTextColorProperty);
+            RefreshStatusBarTextOnPlatform(navigationPage);
+        }
+
+        private Color GetNavigationBarPropertyColor(BindableProperty navigationBarColorProperty)
+        {
+            return (Color)GetValue(navigationBarColorProperty);
+        }
+
+        internal static bool IsModalNavigationPage(NavigationPage navigationPage)
+        {
+            return MauiShell.Current?.Navigation.ModalStack.Contains(navigationPage) == true
+                   || Application.Current?.Windows.Any(window => window.Page?.Navigation.ModalStack.Contains(navigationPage) == true) == true;
+        }
+
+        private void SetDefaultNavigationBarColor(BindableProperty navigationBarColorProperty, Color color)
+        {
+            if (IsSet(navigationBarColorProperty))
+                return;
+
+            SetValue(navigationBarColorProperty, color);
+        }
+
+        private static Color? GetShellBackgroundColor(BindableObject? bindableObject)
+        {
+            return bindableObject is null ? null : MauiShell.GetBackgroundColor(bindableObject);
+        }
+
+        private static Color? GetShellTitleColor(BindableObject? bindableObject)
+        {
+            return bindableObject is null ? null : MauiShell.GetTitleColor(bindableObject);
+        }
+
 
         private void OnRequestedThemeChanged(object? sender, AppThemeChangedEventArgs e)
         {
             SetColors(e.RequestedTheme);
-            ApplyNavigationBarAppearance();
         }
 
         protected override void OnHandlerChanged()
@@ -177,7 +237,6 @@ namespace DIPS.Mobile.UI.Components.Pages
             if (Handler is not null)
             {
                 AttachBottomToolbar();
-                ApplyNavigationBarAppearance();
             }
         }
 
@@ -204,10 +263,13 @@ namespace DIPS.Mobile.UI.Components.Pages
             {
                 parentWindow = Application.Current?.Windows.FirstOrDefault();
 
-                var test = parentWindow.ToPlatform(DUI.GetCurrentMauiContext!);
+                if (parentWindow is not null && DUI.GetCurrentMauiContext is not null)
+                {
+                    var test = parentWindow.ToPlatform(DUI.GetCurrentMauiContext);
+                }
             }
 
-            return parentWindow;
+            return parentWindow!;
         }
 
 
@@ -239,17 +301,6 @@ namespace DIPS.Mobile.UI.Components.Pages
             {
                 AttachBottomToolbar();
             }
-        }
-
-        private void OnNavigationBarColorChanged()
-        {
-            ApplyNavigationBarAppearance();
-        }
-
-        internal void ApplyNavigationBarAppearance()
-        {
-            ApplyNavigationBarAppearanceOnPlatform();
-            Dispatcher.Dispatch(ApplyNavigationBarAppearanceOnPlatform);
         }
 
         private void AttachBottomToolbar()
@@ -331,6 +382,6 @@ namespace DIPS.Mobile.UI.Components.Pages
 
         private partial void AttachBottomToolbarOnPlatform();
         private partial void DetachBottomToolbarOnPlatform();
-        private partial void ApplyNavigationBarAppearanceOnPlatform();
+        private partial void RefreshStatusBarTextOnPlatform(NavigationPage navigationPage);
     }
 }

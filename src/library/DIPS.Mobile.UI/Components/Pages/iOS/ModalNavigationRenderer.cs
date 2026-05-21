@@ -1,48 +1,78 @@
 using Microsoft.Maui.Controls.Handlers.Compatibility;
+using Microsoft.Maui.Controls.Platform;
+using Microsoft.Maui.Dispatching;
 using UIKit;
-using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
-using MauiShell = Microsoft.Maui.Controls.Shell;
 
 namespace DIPS.Mobile.UI.Components.Pages;
 
-public class ModalNavigationRenderer : NavigationRenderer
+internal class ModalNavigationRenderer : NavigationRenderer
 {
+    protected override void OnElementChanged(VisualElementChangedEventArgs e)
+    {
+        if (e.OldElement is NavigationPage oldNavigationPage)
+        {
+            oldNavigationPage.Popped -= OnNavigationPagePopped;
+        }
+
+        base.OnElementChanged(e);
+
+        if (e.NewElement is NavigationPage newNavigationPage)
+        {
+            newNavigationPage.Popped += OnNavigationPagePopped;
+        }
+    }
+
+    protected override void Dispose(bool disposing)
+    {
+        if (disposing && Element is NavigationPage navigationPage)
+        {
+            navigationPage.Popped -= OnNavigationPagePopped;
+        }
+
+        base.Dispose(disposing);
+    }
+
     public override UIStatusBarStyle PreferredStatusBarStyle()
     {
-        return GetModalStatusBarStyle() ?? base.PreferredStatusBarStyle();
+        return GetStatusBarStyle() ?? base.PreferredStatusBarStyle();
     }
 
     public override UIViewController? ChildViewControllerForStatusBarStyle()
     {
-        return GetModalStatusBarStyle() is null ? base.ChildViewControllerForStatusBarStyle() : null;
+        return GetStatusBarStyle() is null ? base.ChildViewControllerForStatusBarStyle() : null;
     }
 
-    private UIStatusBarStyle? GetModalStatusBarStyle()
+    private UIStatusBarStyle? GetStatusBarStyle()
     {
-        if (Element is not NavigationPage navigationPage || navigationPage.CurrentPage is not ContentPage contentPage)
+        if (Element is not NavigationPage navigationPage
+            || !ContentPage.IsModalNavigationPage(navigationPage)
+            || navigationPage.CurrentPage is not ContentPage contentPage)
             return null;
 
-        if (!IsModalNavigationPage(navigationPage))
+        if (GetNavigationBarColor(contentPage) is not { } backgroundColor)
             return null;
-
-        var backgroundColor = contentPage.NavigationBarColor
-                              ?? navigationPage.BarBackgroundColor
-                              ?? GetShellBackgroundColor(contentPage)
-                              ?? GetShellBackgroundColor(navigationPage)
-                              ?? GetShellBackgroundColor(MauiShell.Current)
-                              ?? Colors.GetColor(Shell.Shell.BackgroundColorName);
 
         return backgroundColor.GetLuminosity() > 0.5 ? UIStatusBarStyle.DarkContent : UIStatusBarStyle.LightContent;
     }
 
-    private static bool IsModalNavigationPage(NavigationPage navigationPage)
+    private void RefreshStatusBarStyleAfterTransition()
     {
-        return MauiShell.Current?.Navigation.ModalStack.Contains(navigationPage) == true
-               || Application.Current?.Windows.Any(window => window.Page?.Navigation.ModalStack.Contains(navigationPage) == true) == true;
+        if (Element?.Dispatcher is { } dispatcher)
+        {
+            dispatcher.Dispatch(SetNeedsStatusBarAppearanceUpdate);
+            return;
+        }
+
+        SetNeedsStatusBarAppearanceUpdate();
     }
 
-    private static Color? GetShellBackgroundColor(BindableObject? bindableObject)
+    private void OnNavigationPagePopped(object? sender, NavigationEventArgs e)
     {
-        return bindableObject is null ? null : MauiShell.GetBackgroundColor(bindableObject);
+        RefreshStatusBarStyleAfterTransition();
+    }
+
+    private static Color? GetNavigationBarColor(BindableObject bindableObject)
+    {
+        return (Color?)bindableObject.GetValue(NavigationPage.BarBackgroundColorProperty);
     }
 }

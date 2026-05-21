@@ -1,0 +1,14 @@
+  Determining projects to restore...
+/Users/finstad/Documents/DIPS.Mobile.UI/src/library/DIPS.Mobile.UI/DIPS.Mobile.UI.csproj : warning NU1608: Detected package version outside of dependency constraint: Xamarin.AndroidX.Concurrent.Futures.Ktx 1.2.0.4 requires Xamarin.AndroidX.Concurrent.Futures (>= 1.2.0.4 && < 1.2.1) but version Xamarin.AndroidX.Concurrent.Futures 1.3.0.1 was resolved.
+  All projects are up-to-date for restore.
+/Users/finstad/Documents/DIPS.Mobile.UI/src/library/DIPS.Mobile.UI/DIPS.Mobile.UI.csproj : warning NU1608: Detected package version outside of dependency constraint: Xamarin.AndroidX.Concurrent.Futures.Ktx 1.2.0.4 requires Xamarin.AndroidX.Concurrent.Futures (>= 1.2.0.4 && < 1.2.1) but version Xamarin.AndroidX.Concurrent.Futures 1.3.0.1 was resolved. [TargetFramework=net10.0-android]
+  XAML source generation is enabled (MauiXamlInflator=SourceGen). This generates C# code from XAML at compile time for better performance. To disable, remove the MauiXamlInflator line from your .csproj file (reverts to configuration-based defaults: Runtime in Debug, XamlC in Release).
+  DIPS.Mobile.UI -> /Users/finstad/Documents/DIPS.Mobile.UI/src/library/DIPS.Mobile.UI/bin/Debug/net10.0-android/DIPS.Mobile.UI.dll
+
+Build succeeded.
+
+/Users/finstad/Documents/DIPS.Mobile.UI/src/library/DIPS.Mobile.UI/DIPS.Mobile.UI.csproj : warning NU1608: Detected package version outside of dependency constraint: Xamarin.AndroidX.Concurrent.Futures.Ktx 1.2.0.4 requires Xamarin.AndroidX.Concurrent.Futures (>= 1.2.0.4 && < 1.2.1) but version Xamarin.AndroidX.Concurrent.Futures 1.3.0.1 was resolved. [TargetFramework=net10.0-android]
+    1 Warning(s)
+    0 Error(s)
+
+Time Elapsed 00:00:01.50

@@ -4,15 +4,17 @@ We have added a [ContentPage](https://github.com/DIPSAS/DIPS.Mobile.UI/blob/main
 
 # Modal navigation bar color
 
-`ContentPage` applies navigation bar colors when it is shown inside a modal `NavigationPage`. Set `NavigationBarColor` to override the background color for a specific page, and `NavigationBarTextColor` to override the title, back button, and toolbar item color. When they are unset, the modal navigation bar uses the parent `NavigationPage` colors, then the Shell navigation bar colors.
+Use the MAUI `NavigationPage.BarBackgroundColorProperty` and `NavigationPage.BarTextColorProperty` values on a `ContentPage` shown inside a modal `NavigationPage` to override the modal navigation bar for that page. DUI `ContentPage` sets unset values from the Shell navigation bar colors and applies the current page values to the active modal `NavigationPage`.
 
-On iOS, the status bar content mode is explicitly resolved from `NavigationBarColor`, so light modal navigation bars use dark status bar text and dark modal navigation bars use light status bar text.
+On iOS, the status bar content mode is explicitly resolved from `NavigationPage.BarBackgroundColorProperty`, so light modal navigation bars use dark status bar text and dark modal navigation bars use light status bar text.
 
-```xml
-<dui:ContentPage NavigationBarColor="{dui:Colors color_surface_default}"
-                 NavigationBarTextColor="{dui:Colors color_text_default}">
-    <!-- Page content -->
-</dui:ContentPage>
+```csharp
+public ModalPage()
+{
+    InitializeComponent();
+    SetValue(NavigationPage.BarBackgroundColorProperty, Colors.White);
+    SetValue(NavigationPage.BarTextColorProperty, Colors.Black);
+}
 ```
 
 # ContentSavePage

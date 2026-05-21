@@ -5,7 +5,6 @@
                  xmlns:dui="http://dips.com/mobile.ui"
                  x:Class="Playground.NavigationBarColorSample"
                  Title="Navigation bar color"
-                 NavigationBarColor="Black"
                  Padding="{dui:Sizes size_4}">
     <dui:ContentPage.ToolbarItems>
         <ToolbarItem Text="Close"
@@ -16,7 +15,7 @@
         <dui:VerticalStackLayout Spacing="{dui:Sizes size_3}">
             <dui:Label Text="Navigation bar color"
                        Style="{dui:Styles Label=SectionHeader}" />
-            <dui:Label Text="This modal sets ContentPage.NavigationBarColor to Black and inherits title and toolbar item colors from Shell."
+            <dui:Label Text="This modal sets NavigationPage.BarBackgroundColor to Black and inherits title and toolbar item colors from Shell."
                        Style="{dui:Styles Label=UI200}"
                        TextColor="{dui:Colors color_text_subtle}" />
             <Grid HeightRequest="{dui:Sizes size_12}"

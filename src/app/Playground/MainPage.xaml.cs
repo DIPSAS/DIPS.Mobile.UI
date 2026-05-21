@@ -21,6 +21,11 @@ public partial class MainPage
         
     }
 
+    private async void GoToModalNavigationBarBackNavigationSample(object sender, EventArgs e)
+    {
+        await Shell.Current.Navigation.PushModalAsync(new NavigationPage(new ModalNavigationBarBackNavigationSample.ModalNavigationBarBackNavigationSample()));
+    }
+
     private async void GoToVetle(object sender, EventArgs e)
     {
         var stopWatch = new Stopwatch();
@@ -89,6 +94,6 @@ public partial class MainPage
 
     private async void GoToNavigationBarColorSample(object sender, EventArgs e)
     {
-        await Shell.Current.Navigation.PushModalAsync(new NavigationPage(new NavigationBarColorSample()));
+        await Shell.Current.Navigation.PushModalAsync(new NavigationPage(new NavigationBarColorSample()){BarBackgroundColor = Microsoft.Maui.Graphics.Colors.White, BarTextColor = Microsoft.Maui.Graphics.Colors.White});
     }
 }

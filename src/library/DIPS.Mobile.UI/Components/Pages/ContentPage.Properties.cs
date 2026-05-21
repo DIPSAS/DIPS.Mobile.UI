@@ -90,38 +90,6 @@ public partial class ContentPage
         set => SetValue(LargeTitleDisplayProperty, value);
     }
 
-    public static readonly BindableProperty NavigationBarColorProperty = BindableProperty.Create(
-        nameof(NavigationBarColor),
-        typeof(Color),
-        typeof(ContentPage),
-        propertyChanged: (bindable, _, _) => ((ContentPage)bindable).OnNavigationBarColorChanged());
-
-    /// <summary>
-    /// Sets the background color of the navigation bar when this page is shown inside a modal navigation page.
-    /// </summary>
-    /// <remarks>When unset, the modal navigation bar uses the navigation page color, the Shell color, or the default Shell color.</remarks>
-    public Color? NavigationBarColor
-    {
-        get => (Color?)GetValue(NavigationBarColorProperty);
-        set => SetValue(NavigationBarColorProperty, value);
-    }
-
-    public static readonly BindableProperty NavigationBarTextColorProperty = BindableProperty.Create(
-        nameof(NavigationBarTextColor),
-        typeof(Color),
-        typeof(ContentPage),
-        propertyChanged: (bindable, _, _) => ((ContentPage)bindable).OnNavigationBarColorChanged());
-
-    /// <summary>
-    /// Sets the title, back button, and toolbar item color of the navigation bar when this page is shown inside a modal navigation page.
-    /// </summary>
-    /// <remarks>When unset, the modal navigation bar uses the navigation page text color, the Shell title color, or the default Shell title color.</remarks>
-    public Color? NavigationBarTextColor
-    {
-        get => (Color?)GetValue(NavigationBarTextColorProperty);
-        set => SetValue(NavigationBarTextColorProperty, value);
-    }
-
     public static readonly BindableProperty StatusBarColorProperty = BindableProperty.Create(
         nameof(StatusBarColor),
         typeof(Color),

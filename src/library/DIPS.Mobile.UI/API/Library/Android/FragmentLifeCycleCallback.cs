@@ -4,10 +4,7 @@ using AndroidX.Core.View;
 using AndroidX.Fragment.App;
 using DIPS.Mobile.UI.API.Diagnostics;
 using DIPS.Mobile.UI.API.Library.Android;
-using DIPS.Mobile.UI.Internal.Logging;
 using Google.Android.Material.BottomSheet;
-using ContentPage = DIPS.Mobile.UI.Components.Pages.ContentPage;
-using Shell = DIPS.Mobile.UI.Components.Shell.Shell;
 using View = Android.Views.View;
 
 namespace DIPS.Mobile.UI.API.Library;
@@ -26,13 +23,7 @@ public class FragmentLifeCycleCallback : FragmentManager.FragmentLifecycleCallba
                 StatusBarHandler.RegisterDialogFragmentForPage(dialogFragment);
                 s_currentDialogFragmentReferenceStack ??= new Stack<WeakReference<DialogFragment>?>();
                 s_currentDialogFragmentReferenceStack.Push(new WeakReference<DialogFragment>(dialogFragment));
-
-                if (Shell.Current?.CurrentPage is ContentPage contentPage)
-                {
-                    contentPage.ApplyNavigationBarAppearance();
-                }
             }
-            
 
             TryEnableCustomHideSoftInputOnTappedImplementation(dialogFragment);
             
