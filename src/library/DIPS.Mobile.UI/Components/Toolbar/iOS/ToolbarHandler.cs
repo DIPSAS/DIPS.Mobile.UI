@@ -226,7 +226,7 @@ public partial class ToolbarHandler : ViewHandler<Toolbar, UIToolbar>
         if (hasMenu)
         {
             var menuItems = ContextMenuHelper.CreateMenuItems(toolbarButton.Menu!.ItemsSource!, toolbarButton.Menu);
-            var uiMenu = UIMenu.Create(menuItems.Select(kvp => kvp.Value).ToArray());
+            var uiMenu = UIMenu.Create(menuItems.Select(kvp => kvp.Value).Reverse().ToArray());
 
             if (hasIcon)
             {
@@ -241,7 +241,7 @@ public partial class ToolbarHandler : ViewHandler<Toolbar, UIToolbar>
             void RebuildMenu()
             {
                 var updatedMenuItems = ContextMenuHelper.CreateMenuItems(toolbarButton.Menu!.ItemsSource!, toolbarButton.Menu);
-                var updatedUiMenu = UIMenu.Create(updatedMenuItems.Select(kvp => kvp.Value).ToArray());
+                var updatedUiMenu = UIMenu.Create(updatedMenuItems.Select(kvp => kvp.Value).Reverse().ToArray());
                 item.Menu = updatedUiMenu;
             }
 

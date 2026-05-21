@@ -8,7 +8,6 @@ using Android.Hardware.Display;
 using Android.Runtime;
 using Android.Views;
 using AndroidX.Camera.Core;
-using AndroidX.Camera.Core.Internal;
 using AndroidX.Camera.Core.ResolutionSelector;
 using AndroidX.Camera.Lifecycle;
 using AndroidX.Camera.Video;
@@ -296,7 +295,8 @@ public abstract class CameraFragment : Fragment
 
     private void OnScaled(float scaleRatio)
     {
-        if (Camera?.CameraInfo.ZoomState.Value is not AndroidX.Camera.Core.Internal.ImmutableZoomState zoomState)
+        var zoomState = Camera?.CameraInfo.ZoomState.Value?.JavaCast<IZoomState>();
+        if (zoomState is null)
             return;
 
         var desiredZoomRatio = zoomState.ZoomRatio * scaleRatio;
@@ -313,7 +313,7 @@ public abstract class CameraFragment : Fragment
         m_cameraPreview?.CameraZoomView?.OnPinchToZoom(desiredZoomRatio);
     }
 
-    private ImmutableZoomState? ZoomState => Camera?.CameraInfo.ZoomState.Value as ImmutableZoomState; 
+    private IZoomState? ZoomState => Camera?.CameraInfo.ZoomState.Value?.JavaCast<IZoomState>(); 
     
     private void AddZoomView()
     {

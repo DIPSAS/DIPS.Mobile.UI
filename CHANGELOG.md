@@ -1,6 +1,17 @@
 ## [59.2.0]
 - [ContentPage] `NavigationPage.BarBackgroundColorProperty` and `NavigationPage.BarTextColorProperty` now properly assigns colors to modal navigation bars, including status bar, back button and toolbar icons. Removed old Android workarounds for modal toolbar coloring.
 
+## [59.1.4]
+- [ContextMenu][iOS] Fixed context menu items appearing in reversed order when displayed from a ToolbarButton in BottomToolbar.
+
+## [59.1.3]
+- [Camera][Android] Updated CameraX dependencies from 1.4.1 to 1.6.1, fixing crash on startup due to breaking interface change in `ImageAnalysis.IAnalyzer`.
+
+## [59.1.2]
+- [CollectionView][Android] Fixed keyboard dismiss not working when items are loaded after the page is shown (delayed binding).
+- [CollectionView][Android] Fixed programmatic scroll (e.g. when loading items) incorrectly dismissing keyboard.
+- [CollectionView][Android] Now clears focus from the active input field when keyboard is dismissed by scrolling.
+
 ## [59.1.1]
 - [CollectionView] Fixed `RemoveFocusOnScroll` on Android: uses `OnScrolled` with `ScrollStateDragging` check instead of `OnScrollStateChanged` to reliably dismiss keyboard in all view hierarchies. Also clears focus from the active input field.
 - [ScrollView] Fixed `RemoveFocusOnScroll` on Android: replaced MAUI `Scrolled` event with native touch+scroll listeners to only dismiss keyboard on user-initiated drags, not layout-induced scrolls. Also clears focus from the active input field.

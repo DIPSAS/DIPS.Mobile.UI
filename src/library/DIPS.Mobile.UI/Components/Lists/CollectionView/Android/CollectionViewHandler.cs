@@ -17,6 +17,7 @@ namespace DIPS.Mobile.UI.Components.Lists;
 public partial class CollectionViewHandler
 {
     private KeyboardDismissOnScrollListener? m_keyboardDismissOnScrollListener;
+    private RecyclerView? m_listenerRegisteredOn;
     
     protected override RecyclerView CreatePlatformView()
     {
@@ -62,30 +63,50 @@ public partial class CollectionViewHandler
         if (virtualView is not CollectionView collectionView)
             return;
 
-        // Remove any existing listener first
-        if (handler.m_keyboardDismissOnScrollListener != null)
-        {
-            handler.PlatformView.RemoveOnScrollListener(handler.m_keyboardDismissOnScrollListener);
-            handler.PlatformView.RemoveOnItemTouchListener(handler.m_keyboardDismissOnScrollListener);
-            handler.m_keyboardDismissOnScrollListener = null;
-        }
+        handler.RemoveKeyboardDismissListener();
 
         if (collectionView.RemoveFocusOnScroll)
         {
-            handler.m_keyboardDismissOnScrollListener = new KeyboardDismissOnScrollListener();
-            handler.PlatformView.AddOnScrollListener(handler.m_keyboardDismissOnScrollListener);
-            handler.PlatformView.AddOnItemTouchListener(handler.m_keyboardDismissOnScrollListener);
+            handler.AddKeyboardDismissListener();
         }
+    }
+    
+    partial void OnItemsSourceMapped()
+    {
+        if (VirtualView is not CollectionView { RemoveFocusOnScroll: true })
+            return;
+        
+        // MAUI's MauiRecyclerView.UpdateItemsSource() calls ClearOnScrollListeners(),
+        // which removes ALL scroll listeners — including ours.
+        // This runs via AppendToMapping, guaranteeing it executes AFTER MAUI's mapper.
+        RemoveKeyboardDismissListener();
+        AddKeyboardDismissListener();
+    }
+
+    private void AddKeyboardDismissListener()
+    {
+        m_keyboardDismissOnScrollListener = new KeyboardDismissOnScrollListener();
+        PlatformView.AddOnScrollListener(m_keyboardDismissOnScrollListener);
+        m_listenerRegisteredOn = PlatformView;
+    }
+
+    private void RemoveKeyboardDismissListener()
+    {
+        if (m_keyboardDismissOnScrollListener == null)
+            return;
+        
+        if (m_listenerRegisteredOn != null)
+        {
+            m_listenerRegisteredOn.RemoveOnScrollListener(m_keyboardDismissOnScrollListener);
+        }
+        
+        m_keyboardDismissOnScrollListener = null;
+        m_listenerRegisteredOn = null;
     }
 
     protected override void DisconnectHandler(RecyclerView platformView)
     {
-        if (m_keyboardDismissOnScrollListener != null)
-        {
-            platformView.RemoveOnScrollListener(m_keyboardDismissOnScrollListener);
-            platformView.RemoveOnItemTouchListener(m_keyboardDismissOnScrollListener);
-            m_keyboardDismissOnScrollListener = null;
-        }
+        RemoveKeyboardDismissListener();
         
         base.DisconnectHandler(platformView);
     }

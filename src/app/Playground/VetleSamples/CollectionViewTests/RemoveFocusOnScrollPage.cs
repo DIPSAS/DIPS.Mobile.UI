@@ -11,16 +11,14 @@ namespace Playground.VetleSamples.CollectionViewTests;
 
 public class RemoveFocusOnScrollPage : ContentPage
 {
-    public RemoveFocusOnScrollPage(bool wrapInRefreshView, bool searchBarInHeader)
+    public RemoveFocusOnScrollPage(bool wrapInRefreshView, bool searchBarInHeader, bool delayedBinding = false, bool incrementalAdd = false)
     {
         var parts = new List<string>();
         parts.Add(searchBarInHeader ? "SearchBar in Header" : "SearchBar outside");
         if (wrapInRefreshView) parts.Add("RefreshView");
+        if (delayedBinding) parts.Add("Delayed");
+        if (incrementalAdd) parts.Add("Observable Add");
         Title = string.Join(" + ", parts);
-
-        var items = new ObservableCollection<string>();
-        for (var i = 1; i <= 200; i++)
-            items.Add($"Item {i}");
 
         var searchBar = new SearchBar
         {
@@ -29,7 +27,6 @@ public class RemoveFocusOnScrollPage : ContentPage
 
         var collectionView = new CollectionView
         {
-            ItemsSource = items,
             RemoveFocusOnScroll = true,
             ItemTemplate = new DataTemplate(() =>
             {
@@ -44,6 +41,15 @@ public class RemoveFocusOnScrollPage : ContentPage
             })
         };
 
+        if (!delayedBinding)
+        {
+            var items = new ObservableCollection<string>();
+            for (var i = 1; i <= 200; i++)
+                items.Add($"Item {i}");
+            collectionView.ItemsSource = items;
+        }
+
+        
         if (searchBarInHeader)
         {
             collectionView.Header = searchBar;
@@ -77,5 +83,35 @@ public class RemoveFocusOnScrollPage : ContentPage
                 }
             };
         }
+
+        if (delayedBinding)
+        {
+            _ = LoadItemsAsync(collectionView);
+        }
+
+        if (incrementalAdd)
+        {
+            var items = (ObservableCollection<string>)collectionView.ItemsSource;
+            var count = items.Count;
+            collectionView.Footer = new Button
+            {
+                Text = "Add Item",
+                Margin = new Thickness(16),
+                Command = new Command(() =>
+                {
+                    count++;
+                    items.Add($"Added item {count}");
+                })
+            };
+        }
+    }
+
+    private static async Task LoadItemsAsync(CollectionView collectionView)
+    {
+        await Task.Delay(1000);
+        var items = new ObservableCollection<string>();
+        for (var i = 1; i <= 200; i++)
+            items.Add($"Item {i}");
+        collectionView.ItemsSource = items;
     }
 }
