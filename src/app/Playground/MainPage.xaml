@@ -25,6 +25,8 @@
                                     Tapped="GoToItemPickerRefreshRepro" />
             <dui:NavigationListItem Title="Barcode Resume Repro (#1415)"
                                     Tapped="GoToBarcodeScanResumeRepro" />
+            <dui:NavigationListItem Title="Barcode Resume Repro (Modal)"
+                                    Tapped="GoToBarcodeScanResumeReproModal" />
             <dui:Button Text="Tap me"
                         Clicked="TapMe" />
         </VerticalStackLayout>

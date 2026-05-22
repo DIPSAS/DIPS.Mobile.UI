@@ -1,3 +1,9 @@
+## [60.0.0]
+- [BarcodeScanner] Refactored the scanner session lifecycle, detection pipeline, and configuration API. As part of this, fixed the scanner not resuming barcode detection after pause/resume.
+- [BarcodeScanner] **BREAKING**: Replaced `BarcodeScannerStartOptions.ScanRectangle` (`BarcodeScanRectangleOptions`) and `BarcodeDetectionTime` with `BarcodeScannerStartOptions.Strategy` of type `BarcodeScanStrategy`. Use `TimerBarcodeScanStrategy { DetectionTime }` for timer-based confirmation without an overlay, or `ScanRectangleBarcodeScanStrategy { WidthFraction, HeightFraction, BracketsTravelDuration, FormingDuration }` for the animated scan rectangle overlay. The default strategy is `TimerBarcodeScanStrategy` (500 ms).
+- [CameraPreview] **BREAKING**: Removed `IsInFullscreen`. The preview always applies safe-area padding on iOS.
+- [BarcodeScanner] Extracted observation collection into a dedicated `BarcodeDetectionAggregator`, reorganised types into `Detection/`, `Overlay/`, and `Progress/` subfolders, and removed unused Android files (`CaptureSessionCallBack`, `CaptureStateCallback`, `QrCodeDrawable`).
+
 ## [59.1.4]
 - [ContextMenu][iOS] Fixed context menu items appearing in reversed order when displayed from a ToolbarButton in BottomToolbar.
 

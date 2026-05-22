@@ -92,4 +92,16 @@ public partial class MainPage
     {
         Shell.Current.Navigation.PushAsync(new BarcodeScanResumeRepro());
     }
+
+    private void GoToBarcodeScanResumeReproModal(object sender, EventArgs e)
+    {
+        var scannerPage = new BarcodeScanResumeRepro();
+        var navigationPage = new NavigationPage(scannerPage);
+        scannerPage.ToolbarItems.Add(new ToolbarItem
+        {
+            Text = "Close",
+            Command = new Command(() => Shell.Current.Navigation.PopModalAsync())
+        });
+        Shell.Current.Navigation.PushModalAsync(navigationPage);
+    }
 }
