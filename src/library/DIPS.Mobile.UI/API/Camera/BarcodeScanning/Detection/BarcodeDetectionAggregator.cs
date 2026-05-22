@@ -33,7 +33,7 @@ internal sealed class BarcodeDetectionAggregator
     /// observation marked via <see cref="BarcodeObservation.HasMostDetections"/>.
     /// Returns null if no observations have been recorded.
     /// </summary>
-    public List<BarcodeObservation>? ResolveOrderedObservations()
+    public List<BarcodeObservation>? GetObservationsOrderedByDetectionCount()
     {
         if (m_observations.Count == 0)
             return null;

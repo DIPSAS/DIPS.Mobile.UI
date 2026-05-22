@@ -287,7 +287,7 @@ public partial class BarcodeScanner : ICameraUseCase
         if (!IsSessionActive)
             return;
 
-        var orderedObservations = m_detectionAggregator.ResolveOrderedObservations();
+        var orderedObservations = m_detectionAggregator.GetObservationsOrderedByDetectionCount();
         if (orderedObservations is null)
             return;
 
