@@ -1,8 +1,7 @@
 ## [60.0.0]
-- [BarcodeScanner] Refactored the scanner session lifecycle, detection pipeline, and configuration API. As part of this, fixed the scanner not resuming barcode detection after pause/resume.
+- [BarcodeScanner] Fixed the scanner not resuming barcode detection after pause/resume.
 - [BarcodeScanner] **BREAKING**: Replaced `BarcodeScannerStartOptions.ScanRectangle` (`BarcodeScanRectangleOptions`) and `BarcodeDetectionTime` with `BarcodeScannerStartOptions.Strategy` of type `BarcodeScanStrategy`. Use `TimerBarcodeScanStrategy { DetectionTime }` for timer-based confirmation without an overlay, or `ScanRectangleBarcodeScanStrategy { WidthFraction, HeightFraction, BracketsTravelDuration, FormingDuration }` for the animated scan rectangle overlay. The default strategy is `TimerBarcodeScanStrategy` (500 ms).
 - [CameraPreview] **BREAKING**: Removed `IsInFullscreen`. The preview always applies safe-area padding on iOS.
-- [BarcodeScanner] Extracted observation collection into a dedicated `BarcodeDetectionAggregator`, reorganised types into `Detection/`, `Overlay/`, and `Progress/` subfolders, and removed unused Android files (`CaptureSessionCallBack`, `CaptureStateCallback`, `QrCodeDrawable`).
 
 ## [59.1.4]
 - [ContextMenu][iOS] Fixed context menu items appearing in reversed order when displayed from a ToolbarButton in BottomToolbar.
@@ -34,11 +33,11 @@
 ## [58.1.0]
 - [StepFlow] Added new accordion-style multi-step flow component.
 
-## [58.0.0] 
-- [ImageCapture] Added support for capturing multiple images in one session, with optional confirmation of each image. 
-- [ImageCapture] **Breaking change:** `ImageCaptureSettings` and `PostCaptureAction` are removed. `ImageCapture.Start` 
-is replaced by `StartSingleImageCapture` (matches the previous single-capture flow) and `StartMultiImageCapture` 
-(covers the previous `PostCaptureAction.Continue` behaviour). 
+## [58.0.0]
+- [ImageCapture] Added support for capturing multiple images in one session, with optional confirmation of each image.
+- [ImageCapture] **Breaking change:** `ImageCaptureSettings` and `PostCaptureAction` are removed. `ImageCapture.Start`
+is replaced by `StartSingleImageCapture` (matches the previous single-capture flow) and `StartMultiImageCapture`
+(covers the previous `PostCaptureAction.Continue` behaviour).
 See the [ImageCapture wiki page](https://github.com/DIPSAS/DIPS.Mobile.UI/wiki/Media/ImageCapture) for migration guidance.
 
 ## [57.1.2]
@@ -57,7 +56,7 @@ See the [ImageCapture wiki page](https://github.com/DIPSAS/DIPS.Mobile.UI/wiki/M
 ## [57.0.0]
 - Use SourceGen compilation.
 
-## [56.2.0] 
+## [56.2.0]
 - Resources was updated from DIPS.Mobile.DesignTokens
 
 ## [56.1.0]
@@ -247,7 +246,7 @@ See the [ImageCapture wiki page](https://github.com/DIPSAS/DIPS.Mobile.UI/wiki/M
 - [Accessibility] Added `Mode` attached property.
 
 ## [53.7.4]
-- Fix error causing index out of range in `TabBadgeService` when tabs have changed 
+- Fix error causing index out of range in `TabBadgeService` when tabs have changed
 
 ## [53.7.3]
 - The shutter button will now get semantic focus when its ready to take photos.
@@ -279,24 +278,24 @@ See the [ImageCapture wiki page](https://github.com/DIPSAS/DIPS.Mobile.UI/wiki/M
 ## [53.4.1]
 - [ImageThumbnailView] Fixed bug where close button could not be tapped.
 
-## [53.4.0] 
+## [53.4.0]
 - [GC] Added `EnableAutomaticModalHandlerDisconnection` to `IDIPSUIOptions` to enable automatic disconnection of modal pages.
 - [GC] Fixed bug where the tooling could not print out actual elements.
 
-## [53.3.0] 
+## [53.3.0]
 - Resources was updated from DIPS.Mobile.DesignTokens
 
-## [53.2.1] 
+## [53.2.1]
 - [DateView] Fix styling.
 - [Counter] Set correct border color when `IsUrgent` is true, and no secondary value.
 
-## [53.2.0] 
+## [53.2.0]
 - Resources was updated from DIPS.Mobile.DesignTokens
 
-## [53.1.1] 
+## [53.1.1]
 - Fix missing icon.
 
-## [53.1.0] 
+## [53.1.0]
 - Resources was updated from DIPS.Mobile.DesignTokens
 
 ## [53.0.2]
@@ -335,7 +334,7 @@ See the [ImageCapture wiki page](https://github.com/DIPSAS/DIPS.Mobile.UI/wiki/M
 
 ## [51.4.1]
 - Add comment on LineBreakMode Property in TitleOptions
- 
+
 ## [51.4.0]
 - InvertedBoolConverter now supports nullable bools.
 
@@ -356,10 +355,10 @@ See the [ImageCapture wiki page](https://github.com/DIPSAS/DIPS.Mobile.UI/wiki/M
 - [CheckTruncatedLabel] Removed redundant constructor.
 - Moved some files.
 
-## [51.2.1] 
+## [51.2.1]
 - [Android][MultiItemsPicker] Fixed issue where ToString of the MultiItemsPicker would be visible if footer on the BottomSheet were not set.
 
-## [51.2.0] 
+## [51.2.0]
 - Resources was updated from DIPS.Mobile.DesignTokens
 
 ## [51.1.0]
@@ -397,36 +396,36 @@ See the [ImageCapture wiki page](https://github.com/DIPSAS/DIPS.Mobile.UI/wiki/M
 ## [49.9.3]
 - [Checkmark][CheckmarkListItem][iOS] Fix bug where checkmark is never visible.
 
-## [49.9.2] 
+## [49.9.2]
 - [ChipGroup][iOS] Chips now won't be truncated when there is available space.
 
-## [49.9.1] 
+## [49.9.1]
 - [Button][iOS] Fix possible crash.
 - [SearchBar][Android] Make sure busy indicator default color is same as searchbar background
 
-## [49.9.0] 
+## [49.9.0]
 - [SearchBar] Updated styling.
 
-## [49.8.0] 
+## [49.8.0]
 - [Android] Retapping tab will now pop to root, similar to iOS.
 
-## [49.7.1] 
+## [49.7.1]
 - [Button] Fixed bug where toggling IsVisible would reset icon's tint color.
 
-## [49.6.0] 
+## [49.6.0]
 - Resources was updated from DIPS.Mobile.DesignTokens
 
-## [49.5.2] 
+## [49.5.2]
 - [Gallery] Fix crash when removing image.
 - Revert previous commit
 
-## [49.5.1] 
+## [49.5.1]
  - [ContextMenu][iOS] Make sure nothing breaks when context menu item is tapped.
 
-## [49.5.0] 
+## [49.5.0]
 - Resources was updated from DIPS.Mobile.DesignTokens
 
-## [49.4.0] 
+## [49.4.0]
 - Resources was updated from DIPS.Mobile.DesignTokens
 
 ## [49.3.0]
@@ -435,60 +434,60 @@ See the [ImageCapture wiki page](https://github.com/DIPSAS/DIPS.Mobile.UI/wiki/M
 ## [49.2.1]
 - [PositionInListConverter] Converter now works properly when list elements are grouped.
 
-## [49.2.0] 
+## [49.2.0]
 - [Button] Changed `CloseButtonIcon` style colors.
 - [BottomSheet] Changed color on `Divider` in header.
 
-## [49.1.1] 
+## [49.1.1]
 - [AlertView] Don't trigger animation from `AlertViewService` if `ShouldAnimate` is set to `false`.
 
-## [49.1.0] 
+## [49.1.0]
 - [ItemPicker] Added `IsReadOnly` property.
 - [AlertView] Fixed bug where animating it, would break consumers' bindings on IsVisible.
 - [AlertView] Fixed bug where title were not centered when description not set.
 
-## [49.0.0] 
+## [49.0.0]
 - Upgrade .NET MAUI to 9.0.100.
 - Change style of `SectionHeader`.
 - [Android][Tip] Fix wrong color.
 
-## [48.6.0] 
-- [ContextMenuEffect] Added `MenuBindingContext` property. 
+## [48.6.0]
+- [ContextMenuEffect] Added `MenuBindingContext` property.
 
-## [48.5.0] 
+## [48.5.0]
 - [LoadableListItem] Changed color when IsBusy.
 - [LoadingOverlay] Changed default colors.
 
-## [48.4.2] 
+## [48.4.2]
 - [LoadingOverlay] Fixed bug where it displayed duplicate loading overlay.
 
-## [48.4.1] 
+## [48.4.1]
 - [AlertView] Fixed bug where triggering animation would make non-visible `AlertView` visible.
 
-## [48.4.0] 
+## [48.4.0]
 - Added `LoadingOverlay`.
 
-## [48.3.0] 
+## [48.3.0]
 - Added `AlertViewService` to easily trigger `AlertView` animation.
 
-## [48.2.0] 
+## [48.2.0]
 - [ItemPicker] Added `CustomTapCommand` property.
 
-## [48.1.2] 
+## [48.1.2]
 - [AlertView] Fixed icon tint colors not being set.
 - [AlertView] Fixed icon size.
 - [AlertView] Now using correct text style on title, if the description is not set.
 - [AlertView] Can now be easily animated.
 - [Animations] Added Scale animation.
 
-## [48.1.1] 
+## [48.1.1]
 - [Touch][iOS] Block touch when context menu is open.
 
-## [48.1.0] 
+## [48.1.0]
 - [ImageCapture] Fixed bug where if you edit an image, the edited image would not be displayed after saving.
 - [CameraPreview] Made methods public to add views to top/bottom toolbar.
 
-## [48.0.0] 
+## [48.0.0]
 - Upgraded to material design 3.
 - [SearchBar][BreakingChange] Renamed iOSSearchFieldBackgroundColor property to SearchFieldBackgroundColor.
 - [SearchBar][Android] Changed styling.
@@ -499,10 +498,10 @@ See the [ImageCapture wiki page](https://github.com/DIPSAS/DIPS.Mobile.UI/wiki/M
 ## [47.15.1]
 - [AlertView][Android] Fixed crash on Android when not setting `TitleMaxLines` or `DescriptionMaxLines`.
 
-## [47.15.0] 
+## [47.15.0]
 - Fixed splash screen color.
 
-## [47.14.0] 
+## [47.14.0]
 - Resources was updated from DIPS.Mobile.DesignTokens
 
 ## [47.13.0]
@@ -511,7 +510,7 @@ See the [ImageCapture wiki page](https://github.com/DIPSAS/DIPS.Mobile.UI/wiki/M
 ## [47.12.0]
 - [Tag] Added `LineBreakMode` property
 
-## [47.11.0] 
+## [47.11.0]
 - Resources was updated from DIPS.Mobile.DesignTokens
 
 ## [47.10.1]
@@ -523,16 +522,16 @@ See the [ImageCapture wiki page](https://github.com/DIPSAS/DIPS.Mobile.UI/wiki/M
 ## [47.9.0]
 - [Counter] Add `IsError`, `IsSecondaryError` and `IsFlipped` properties
 
-## [47.8.1] 
+## [47.8.1]
 - [TabView] Small style fixes
 
-## [47.8.0] 
+## [47.8.0]
 - Resources was updated from DIPS.Mobile.DesignTokens
 
-## [47.7.1] 
+## [47.7.1]
 - [ItemPicker] BottomSheetPickerConfiguration's properties can now be bound.
 
-## [47.7.0] 
+## [47.7.0]
 - [ItemPicker] Added `Large` size, which will transform its layout.
 - [ItemPicker] Added `AdditionalContextMenuItem` property.
 - [Chip][Android] Set tint color to custom icon.
@@ -548,25 +547,25 @@ See the [ImageCapture wiki page](https://github.com/DIPSAS/DIPS.Mobile.UI/wiki/M
 ## [47.5.0]
 - Added `Counter` component
 
-## [47.4.0] 
+## [47.4.0]
 - Resources was updated from DIPS.Mobile.DesignTokens
 
-## [47.3.0] 
+## [47.3.0]
 - [Shell][iOS] You can now control navigation bar separator by using `Shell.NavBarHasShadow`.
 
-## [47.2.0] 
+## [47.2.0]
 - [NavigationListItem] Removed default icon color and set chevron color.
 - [TabBar] Set different background color.
 - [Tag] Add `Information` style.
 
-## [47.1.0] 
+## [47.1.0]
 - Added `Tag` component.
 
-## [47.0.0] 
+## [47.0.0]
 - Removed all old colors.
 - Set remaining colors.
 
-## [46.0.0] 
+## [46.0.0]
 - Set new colors.
 - Updated colors.
 - Obsoleted old colors.
@@ -575,10 +574,10 @@ See the [ImageCapture wiki page](https://github.com/DIPSAS/DIPS.Mobile.UI/wiki/M
 - [Android] Removed workaround for Label
 - Upgraded to .NET MAUI 9.0.80.
 
-## [45.11.0] 
+## [45.11.0]
 - Resources was updated from DIPS.Mobile.DesignTokens
 
-## [45.10.0] 
+## [45.10.0]
 - Resources was updated from DIPS.Mobile.DesignTokens
 
 ## [45.9.7]
@@ -646,44 +645,44 @@ See the [ImageCapture wiki page](https://github.com/DIPSAS/DIPS.Mobile.UI/wiki/M
 ## [45.4.0]
 - [ItemPicker][MultiItemsPicker] Added `FooterTemplate` property to `BottomSheetPickerConfiguration` to allow for setting a footer to item picker bottom sheet.
 
-## [45.3.3] 
+## [45.3.3]
 - [BottomSheet] Fixed memory leak.
 
-## [45.3.2] 
+## [45.3.2]
 - [SegmentedControl][Android] Fixed bug where setting `HorizontalOptions` had no effect.
 
-## [45.3.1] 
+## [45.3.1]
 - [iOS][CollapsibleElement] Fix bug when small list.
 
-## [45.3.0] 
+## [45.3.0]
 - Added `CollapsibleElement` to `dui:CollectionView`.
 
-## [45.2.0] 
+## [45.2.0]
 - Resources was updated from DIPS.Mobile.DesignTokens
 
-## [45.1.0] 
+## [45.1.0]
 - Added `TabBadgeService`.
 
-## [45.0.1] 
+## [45.0.1]
 - [CollectionView][iOS] Support Border as root element for padding.
 
-## [45.0.0] 
+## [45.0.0]
 - Upgraded .NET MAUI to 9.0.60.
 - Added Experimental Features API.
 
-## [44.9.3] 
+## [44.9.3]
 - [CollectionView][iOS] Fixed bug where auto corner radius in grouped collectionview would sometimes be set wrong.
 
-## [44.9.2] 
+## [44.9.2]
 - [Tip][iOS] Fixed bug where text sometimes were clipped and in completely wrong position.
 
-## [44.9.1] 
+## [44.9.1]
 - [ItemPicker] Fixed an issue where keyboard would close if searching with free-text enabled.
 
-## [44.9.0] 
+## [44.9.0]
 - Resources was updated from DIPS.Mobile.DesignTokens
 
-## [44.8.1] 
+## [44.8.1]
 - [Tip][iOS] Fixed bug where you could not present a tip in a modal context.
 
 ## [44.8.0]
@@ -692,40 +691,40 @@ See the [ImageCapture wiki page](https://github.com/DIPSAS/DIPS.Mobile.UI/wiki/M
 ## [44.7.0]
 - Resources was updated from DIPS.Mobile.DesignTokens
 
-## [44.6.0] 
+## [44.6.0]
 - Added `AutoScrollingTextView`.
 - Added `Animation` API.
 
-## [44.5.0] 
+## [44.5.0]
 - Resources was updated from DIPS.Mobile.DesignTokens
 
 ## [44.4.0]
 - [AlertView] Added `ButtonAlignment` property that determines whether the buttons should be aligned underneath the title/description, or to the top right.
 
-## [44.3.0] 
+## [44.3.0]
 - Resources was updated from DIPS.Mobile.DesignTokens
 
-## [44.2.0] 
+## [44.2.0]
 - Resources was updated from DIPS.Mobile.DesignTokens
 
-## [44.1.3] 
-- [ContextMenu][iOS] ContextMenu's with mode `Pressed` will now rebuild the menu when one of the items' properties changes. 
+## [44.1.3]
+- [ContextMenu][iOS] ContextMenu's with mode `Pressed` will now rebuild the menu when one of the items' properties changes.
 
-## [44.1.2] 
+## [44.1.2]
 - [ListItem][iOS] Fixed a bug where setting `FormattedText` sometimes did not wrap on a new line.
 
-## [44.1.1] 
+## [44.1.1]
 - [CollectionView][Android] Fixed a bug where CornerRadius and padding were not set on last element if group footer was not set.
 - [AmplitudeView] Added ElapsedMilliseconds to Controller.
 - [AmplitudeView] Fixed bug where pause animation on timer could be set multiple times.
 
-## [44.1.0] 
+## [44.1.0]
 - Added AmplitudeView.
 
-## [44.0.1] 
+## [44.0.1]
 - [ListItem] Fixed a regression bug where consumers could not fill out title without setting `InlineContent`.
 
-## [44.0.0] 
+## [44.0.0]
 - [BreakingChange][ListItem] Removed `ContextMenu` property.
 - [BreakingChange][ListItem] Removed Horizontal -and Vertical Text alignment properties on `TitleOptions` and `SubtitleOptions`, they never worked anyway.
 - [ListItem] Optimized ListItem.
@@ -733,16 +732,16 @@ See the [ImageCapture wiki page](https://github.com/DIPSAS/DIPS.Mobile.UI/wiki/M
 ## [43.3.0]
 - Added `IncludeInheritance` property to `TypeToObjectConverter` to allow to check for sub-types
 
-## [43.2.0] 
+## [43.2.0]
 - Resources was updated from DIPS.Mobile.DesignTokens
 
-## [43.1.0] 
+## [43.1.0]
 - Resources was updated from DIPS.Mobile.DesignTokens
 
-## [43.0.1] 
+## [43.0.1]
 - [Touch][iOS] Fixed a bug where disabling an element right after touch effect fires, makes the element stay at clicked opacity.
 
-## [43.0.0] 
+## [43.0.0]
 - [Button][Android] Fixed an issue where padding were not added to icon in a button.
 - [Touch] Support to also use `IsEnabled` property on the Element.
 - [SortControl] Fixed padding of elements in the BottomSheet.
@@ -752,27 +751,27 @@ See the [ImageCapture wiki page](https://github.com/DIPSAS/DIPS.Mobile.UI/wiki/M
 ## [42.2.7]
 - [SearchPage, SearchBar] Added property `IsAutocorrectEnabled` for consumer to disable autocorrect in search bar.
 
-## [42.2.6] 
+## [42.2.6]
 - [SearchPage] Fixed an issue where consumer could not modify `AutoHideLastDivider` property.
 
-## [42.2.5] 
+## [42.2.5]
 - [CollectionView][Android] Fixed issue where headers/footers would get same padding as elements in list.
 - [CollectionView] CornerRadius will now get updated to the next item if an item is added to CollectionView using ObservableCollection.
 - Added new property `AutoHideLastDivider`; attempts to hide the last divider in CollectionView/VerticalStacklayout (With BindableLayout)
 
-## [42.2.4] 
+## [42.2.4]
 - [CollectionView][iOS] Fixed regression bug where `AutoCornerRadius` did not work.
 
-## [42.2.3] 
+## [42.2.3]
 - [CollectionView][iOS] Fixed poor performance.
 
-## [42.2.2] 
+## [42.2.2]
 - [Chip][Android] Fixed so that default CornerRadius will be set.
 
-## [42.2.1] 
+## [42.2.1]
 - [SearchPage][ItemPicker] Fixed so that items will get correct default margin and corner radius
 
-## [42.2.0] 
+## [42.2.0]
 - Added Input dialog
 - Refactored DialogService
 
@@ -781,13 +780,13 @@ See the [ImageCapture wiki page](https://github.com/DIPSAS/DIPS.Mobile.UI/wiki/M
 
 ## [42.1.0]
 - Added new global property to `Layout`: AutoCornerRadius. Will set corner radius on elements automatically, in lists, the first and last item in the list will receive corner radius.
-- [CollectionView] Added padding property. 
+- [CollectionView] Added padding property.
 - [CollectionView] We now add more additional space at the bottom using a different method, potentially fixing bugs.
 
-## [42.0.1] 
+## [42.0.1]
 - [Sizes] Convert size to int if BindableProperty expects an int.
 
-## [42.0.0] 
+## [42.0.0]
 - Import semantic colors and sizes.
 - Set semantic colors and sizes on components.
 
@@ -798,10 +797,10 @@ See the [ImageCapture wiki page](https://github.com/DIPSAS/DIPS.Mobile.UI/wiki/M
 - [ContextMenuItem] Added `ShouldSendGlobalClick` which controls if all Context Menu item will send a logging callback. Default false.
 
 ## [40.3.9]
-- [Entry][iOS] Added 'Done' toolbar item. 
+- [Entry][iOS] Added 'Done' toolbar item.
 - [Entry][iOS] Attempt to avoid seemingly random crash.
 
-## [40.3.8] 
+## [40.3.8]
 - [dui:Editor][iOS] Fixed an issue where the top of the page would sometimes scroll down if `dui:Editor` resides in a ScrollView/CollectionView.
 
 ## [40.3.7]
@@ -810,31 +809,31 @@ See the [ImageCapture wiki page](https://github.com/DIPSAS/DIPS.Mobile.UI/wiki/M
 ## [40.3.6]
 - [Label][Android] Fixed a crash that could occur if `TruncatedText` is set, while `Label` has not enough width for the `TruncatedText` to display.
 
-## [40.3.5] 
+## [40.3.5]
 - [Button] Try-catched an unreproducible crash that happened in `ButtonHandler`.
 
-## [40.3.4] 
+## [40.3.4]
 - [ImageButton][Button][Android] Fixed a rare crash when setting `AdditionalHitBoxSize`.
 
-## [40.3.3] 
+## [40.3.3]
 - [Button] Fixed an issue where if a button has bound to a property that returns false, the button would not change its style to disabled.
 
-## [40.3.2] 
+## [40.3.2]
 - [Android15] Opts out of edge-to-edge to fix layout issues.
 
-## [40.3.1] 
+## [40.3.1]
 - [Button][Android] Touch effect on buttons that defines its own CornerRadius will no longer go out of bounds.
 
-## [40.3.0] 
+## [40.3.0]
 - Resources was updated from DIPS.Mobile.DesignTokens
 
-## [40.2.0] 
+## [40.2.0]
 - Added custom implementation of HideSoftInputOnTapped, which works better for custom controls, and works better on Android.
 
 ## [40.1.1]
 - [AlertView] Ensure icon is placed correctly according to whether `Title` is set or not
 
-## [40.1.0] 
+## [40.1.0]
 - Resources was updated from DIPS.Mobile.DesignTokens
 
 ## [40.0.6]
@@ -897,13 +896,13 @@ See the [ImageCapture wiki page](https://github.com/DIPSAS/DIPS.Mobile.UI/wiki/M
 - [ContextMenu] ContextMenu will now respect the property `IsEnabled`, if setting context menu on non-buttons.
 
 ## [38.4.0]
-- [JsonViewer] Added a new JsonViewer that can be used to view JSON with syntax highligthing. 
+- [JsonViewer] Added a new JsonViewer that can be used to view JSON with syntax highligthing.
 
-## [38.3.1] 
+## [38.3.1]
 - Fixed a bug where toggled icon were always visible if a `Chip` was set to be toggleable.
 - Fixed a crash that sometimes would happen when `Layout` effect were detached on navigating away.
 
-## [38.3.0] 
+## [38.3.0]
 - Resources was updated from DIPS.Mobile.DesignTokens
 
 ## [38.2.0]
@@ -931,19 +930,19 @@ See the [ImageCapture wiki page](https://github.com/DIPSAS/DIPS.Mobile.UI/wiki/M
 ## [38.0.0]
 - Upgraded to .NET 9.
 
-## [37.5.0] 
+## [37.5.0]
 - [DialogService] You can now determine if the dialog service is showing a dialog.
 
-## [37.4.3] 
+## [37.4.3]
 - [Android] Fix crash when trying to remove dialog while app minimized.
 
-## [37.4.2] 
+## [37.4.2]
 - [Android] Fix crash when trying to display dialog while app minimized.
 
-## [37.4.1] 
+## [37.4.1]
 - [SaveView] You can now change the opacity of the non-checked animation
 
-## [37.4.0] 
+## [37.4.0]
 - Resources was updated from DIPS.Mobile.DesignTokens
 
 ## [37.3.8]
@@ -959,48 +958,48 @@ See the [ImageCapture wiki page](https://github.com/DIPSAS/DIPS.Mobile.UI/wiki/M
 ## [37.3.5]
 - [ItemPicker] Fixed an issue where `IsEnabled` was ignored.
 
-## [37.3.4] 
+## [37.3.4]
 - [ImageCapture][Android] Fixed an issue where the rotated image would have wrong translation in either X or Y direction, when in edit mode.
 
-## [37.3.3] 
+## [37.3.3]
 - [Button][iOS] Fixed an edge-case where some buttons did not get rounded corners.
 
-## [37.3.2] 
+## [37.3.2]
 - [ImageCapture] Fixed toolbar height on smaller devices.
 
-## [37.3.1] 
+## [37.3.1]
 - [ImageCapture][iOS] Fixed close button on thumbnail
 
-## [37.3.0] 
+## [37.3.0]
 - [ImageCapture][Gallery] Can now rotate images after capturing the photo. Both in gallery and in the actual capturing component.
 - [ImageCapture] Controls will now rotate with the device.
 - [ImageCapture][Android] Fixed a bug where devices with ultra-wide lens would get a lot of decimals in zoom buttons.
 - [ImageCapture] Zoom-slider will now only be visible when the camera is ready.
 
-## [37.2.2] 
-- [Button][iOS] Fixed an issue where buttons with `IconButtonSmall` style would have a glitchy icon. 
+## [37.2.2]
+- [Button][iOS] Fixed an issue where buttons with `IconButtonSmall` style would have a glitchy icon.
 
-## [37.2.1] 
+## [37.2.1]
 - Buttons will now calculate their own size instead of setting static height.
 
-## [37.2.0] 
+## [37.2.0]
 - Resources was updated from DIPS.Mobile.DesignTokens
 
-## [37.1.2] 
+## [37.1.2]
 - [SegmentedControl] Avoid setting static Height, instead use padding of content to calculate height so it scales better with font-size. Removing the static height also reduced its height so its similar to the design.
 - [Switch][iOS] Fixed an issue where the off color would blend into the background color of the view that is below the `Switch`.
 
-## [37.1.1] 
+## [37.1.1]
 - [Chip] Fixed bug where consumer could not bind to `CustomIcon` because BindableProperty name did not correspond to the getter and setter
 - Will now localize text correctly
 
-## [37.1.0] 
+## [37.1.0]
 - Resources was updated from DIPS.Mobile.DesignTokens
 
-## [37.0.3] 
+## [37.0.3]
 - [StateView] Fixed bug where content were not always displayed.
 
-## [37.0.2] 
+## [37.0.2]
 - [Chip] Fixed bug where consumer could not bind to `CustomIcon` because BindableProperty name did not correspond to the getter and setter
 
 ## [37.0.1]
@@ -1014,17 +1013,17 @@ See the [ImageCapture wiki page](https://github.com/DIPSAS/DIPS.Mobile.UI/wiki/M
 - [BarcodeScanner][BreakingChange] Requires you to provide a CameraFailed delegate when starting the barcode scanner.
 - [BottomSheet] Added new property 'IsDraggable', which prevents users from dragging the `BottomSheet`.
 
-## [36.0.1] 
+## [36.0.1]
 - Set default date to `DateTime.Now` on datepickers to avoid a bug where the datepickers jumps two dates forward.
 
-## [36.0.0] 
+## [36.0.0]
 - Upgraded MAUI to 8.0.82.
 
-## [35.5.1] 
+## [35.5.1]
 - [ScrollPicker][iOS] Fixed crash when trying to display scroll pickers.
 - [MemoryLeak] Added navigation testing.
 
-## [35.5.0] 
+## [35.5.0]
 - [Chip][Android] Made sure the text is centered horizontally.
 - [Chip] Changed its styling so that it corresponds better to the design.
 - [Chip][iOS] Changed the implementation from `UIButton` to usage of `Border` instead.
@@ -1034,7 +1033,7 @@ See the [ImageCapture wiki page](https://github.com/DIPSAS/DIPS.Mobile.UI/wiki/M
 - [DatePicker] Consumers can now toggle if the date picker should close when selecting a date.
 - [NullableDatePickers] Now you can clear the date by tapping a button on the `Chip`.
 
-## [35.4.0] 
+## [35.4.0]
 - [MemoryLeak] Will now correctly log GC of modal pages.
 - [MemoryLeak] Added better logging.
 
@@ -1047,13 +1046,13 @@ See the [ImageCapture wiki page](https://github.com/DIPSAS/DIPS.Mobile.UI/wiki/M
 ## [35.3.0]
 - [MultiLineInputField] Add `MaxTextLength` property.
 
-## [35.2.1] 
+## [35.2.1]
 - [Android][DateAndTimePicker] If there is not enough space to show all characters in DateAndTimePicker, the date will be truncated.
 
-## [35.2.0] 
+## [35.2.0]
 - [MemoryLeak] Added a bindable attached property so that consumers can ignore memory leak resolving on certain views/pages.
 
-## [35.1.0] 
+## [35.1.0]
 - Resources was updated from DIPS.Mobile.DesignTokens
 
 ## [35.0.11]
@@ -1117,7 +1116,7 @@ See the [ImageCapture wiki page](https://github.com/DIPSAS/DIPS.Mobile.UI/wiki/M
 - Removed `VirtualListView`.
 
 ## [32.0.1]
-- [Android] Removed old code for a workaround where we created our own toolbar for modals 
+- [Android] Removed old code for a workaround where we created our own toolbar for modals
 
 ## [32.0.0]
 - Upgraded MAUI to 8.0.60.
@@ -1151,43 +1150,43 @@ See the [ImageCapture wiki page](https://github.com/DIPSAS/DIPS.Mobile.UI/wiki/M
 - [Icons] Removed AsImageSource method as its not needed anymore.
 - [FloatingNavigationButton] Added try-catch to prevent app crash and it now logs to the Console for debugging.
 
-## [30.7.0] 
+## [30.7.0]
 - Resources was updated from DIPS.Mobile.DesignTokens
 
-## [30.6.0] 
+## [30.6.0]
 - Resources was updated from DIPS.Mobile.DesignTokens
 
 ## [30.5.1]
  - [AlertView] Corrected icon for Error style.
- 
-## [30.5.0] 
+
+## [30.5.0]
 - Resources was updated from DIPS.Mobile.DesignTokens
 
-## [30.4.1] 
+## [30.4.1]
 - [AlertView] Corrected design.
 
-## [30.4.0] 
+## [30.4.0]
 - Resources was updated from DIPS.Mobile.DesignTokens
 
-## [30.3.1] 
+## [30.3.1]
 - [AlertView] Updated icons for Error and Warning style.
 
-## [30.3.0] 
+## [30.3.0]
 - Resources was updated from DIPS.Mobile.DesignTokens
 
 ## [30.2.0]
 - [AlertView] Added alert view. A new component to use in line when you need to alert people using your app.
 
-## [30.1.0] 
+## [30.1.0]
 - [BottomSheet] Added property `IsBackButtonVisible`.
 
-## [30.0.1] 
+## [30.0.1]
 - Made sure all public image sources has a image source converter so the component do not freeze up on Android when passing strings.
 
-## [30.0.0] 
+## [30.0.0]
 - [Icons] Changed icons from ImageSource to string to prevent memory leaks when using icons.
 
-## [29.5.0] 
+## [29.5.0]
 - Resources was updated from DIPS.Mobile.DesignTokens
 
 ## [29.4.1]
@@ -1207,13 +1206,13 @@ See the [ImageCapture wiki page](https://github.com/DIPSAS/DIPS.Mobile.UI/wiki/M
 ## [29.3.0]
 - Added `ContextMenuToolbarItem`, to set context menu on a `ToolbarItem`.
 
-## [29.2.0] 
+## [29.2.0]
 - Resources was updated from DIPS.Mobile.DesignTokens
 
 ## [29.1.3]
 - [ListItem] Now there is no need to set `Title` or `Subtitle` on `ListItem` in order to use the `FormattedText` in their options.
 - [ListItem][Android] Fixed an issue where a blank `Subtitle` would take up space.
-- [ListItem] Fixed a bug where a `ListItem` in a `CollectionView` sometimes don't give `Title` it's required space. 
+- [ListItem] Fixed a bug where a `ListItem` in a `CollectionView` sometimes don't give `Title` it's required space.
 - [VirtualListView][Android] The `OnScrolled` event will never be invoked now unless user has scrolled.
 
 ## [29.1.2]
@@ -1227,7 +1226,7 @@ See the [ImageCapture wiki page](https://github.com/DIPSAS/DIPS.Mobile.UI/wiki/M
 
 ## [29.1.0]
 - [SegmentedControl] Added property `ShouldDeSelectOnSameItemTapped`.
-- [SegmentedControl] Fixed bug where `DidDeSelectItem` and `DidSelectItem` were fired when consumer tapped on the item that already was selected. 
+- [SegmentedControl] Fixed bug where `DidDeSelectItem` and `DidSelectItem` were fired when consumer tapped on the item that already was selected.
 
 ## [29.0.4]
 - [SaveView] Made sure SaveView SavingText is bindable.
@@ -1242,37 +1241,37 @@ See the [ImageCapture wiki page](https://github.com/DIPSAS/DIPS.Mobile.UI/wiki/M
 ## [29.0.1]
 - [ScrollPicker][iOS] Fixed an issue where you mass pressed on a scroll picker the application would crash
 - [ScrollPicker][iOS] If consumer sets selected index to -1, the scroll picker's popover will be closed.
-- [NullableDatePickers] If consumer sets the date or time to null, the switch will be set to false. 
+- [NullableDatePickers] If consumer sets the date or time to null, the switch will be set to false.
 
-## [29.0.0] 
+## [29.0.0]
 - [BreakingChange][ScrollPicker] Refactored so that it can be nullable.
 
-## [28.6.1] 
+## [28.6.1]
 - [iOS][Chip] Add slightly more width when `IsToggleable=True` in order to not truncate title.
 
-## [28.6.0] 
+## [28.6.0]
 - Added new components: `NullableDatePicker`, `NullableTimePicker` and `NullableDateAndTimePicker`.
-- [iOS] DatePickers will now have exact same design as Chips. 
+- [iOS] DatePickers will now have exact same design as Chips.
 
-## [28.5.0] 
+## [28.5.0]
 - Resources was updated from DIPS.Mobile.DesignTokens
 
 ## [28.4.1]
 - [ChipGroup] Clear old items when `ItemsSource` changes.
 
-## [28.4.0] 
+## [28.4.0]
 - [iOS][InlineDatePicker] Changed the presentation of `InlinedatePicker` from BottomSheet to Popover.
 
 ## [28.3.2]
 - [Tip] Made sure tip can be opened inside bottom sheets on iOS.
 
-## [28.3.1] 
+## [28.3.1]
 - [ItemPicker] Fixed an issue where the context menu did not reflect correctly what item was selected when setting selected item programatically.
 
-## [28.3.0] 
+## [28.3.0]
 - [iOS] Fixed performance of BottomSheet
 
-## [28.2.0] 
+## [28.2.0]
 - Resources was updated from DIPS.Mobile.DesignTokens
 
 ## [28.1.0]
@@ -1292,7 +1291,7 @@ See the [ImageCapture wiki page](https://github.com/DIPSAS/DIPS.Mobile.UI/wiki/M
 - Added 'FormattedText' to Subtitle in `ListItem`.
 
 ## [27.3.0]
-- Added support for MAUI 8.0.14. 
+- Added support for MAUI 8.0.14.
 
 ## [27.2.1]
 - [Android] Ensure `TaskCompletionSource.Result` for `BottomSheetFragment` is set after fragment is removed from stack.
@@ -1315,7 +1314,7 @@ See the [ImageCapture wiki page](https://github.com/DIPSAS/DIPS.Mobile.UI/wiki/M
 ## [26.4.0]
 - Changed default localization to norwegian.
 
-## [26.3.0] 
+## [26.3.0]
 - Resources was updated from DIPS.Mobile.DesignTokens
 
 ## [26.2.0]
@@ -1361,12 +1360,12 @@ See the [ImageCapture wiki page](https://github.com/DIPSAS/DIPS.Mobile.UI/wiki/M
 - Fixed components app.
 
 ## [24.10.0]
-- Added Barcode Scanner. This is not stable yet, but ready to be tested. 
+- Added Barcode Scanner. This is not stable yet, but ready to be tested.
 
-## [24.9.0] 
+## [24.9.0]
 - Pin dotnet SDK and MAUI version (8.0.100 | 8.0.3).
 
-## [24.8.0] 
+## [24.8.0]
 - Resources was updated from DIPS.Mobile.DesignTokens
 
 ## [24.7.5]
@@ -1401,7 +1400,7 @@ See the [ImageCapture wiki page](https://github.com/DIPSAS/DIPS.Mobile.UI/wiki/M
 - Set default `MaxLines` and `LineBreakMode` for subtitle on `ListItem`.
 
 ## [24.5.1]
-- [Android] Added null check to `CornerRadius` effect. 
+- [Android] Added null check to `CornerRadius` effect.
 
 ## [24.5.0]
 - Added 'Layout' effect with attached property `CornerRadius`.
@@ -1437,7 +1436,7 @@ See the [ImageCapture wiki page](https://github.com/DIPSAS/DIPS.Mobile.UI/wiki/M
 ## [23.2.1]
 - [Label] Fixed an issue where label would not be shown if text was set after view was loaded.
 
-## [23.2.0] 
+## [23.2.0]
 - Resources was updated from DIPS.Mobile.DesignTokens
 
 ## [23.1.2]
@@ -1452,7 +1451,7 @@ See the [ImageCapture wiki page](https://github.com/DIPSAS/DIPS.Mobile.UI/wiki/M
 
 ## [23.0.0]
 - [BreakingChange] [StateView] ViewModel is now in charge of creating 'StateViewModel', added new property: 'ShouldUpdateViewWhenStateSetToSame'
-- [iOS] [Label] Added a null check when checking for truncation 
+- [iOS] [Label] Added a null check when checking for truncation
 
 ## [22.6.0]
 - Added two new properties to Label: 'TruncatedText' and 'TruncatedTextColor'
@@ -1481,14 +1480,14 @@ See the [ImageCapture wiki page](https://github.com/DIPSAS/DIPS.Mobile.UI/wiki/M
 
 ## [22.4.0]
 - Fixed an issue where keyboard would still be opened when scrolling in ItemPicker bottomsheet.
-- Added new property: 'ShouldAutoFocusSearchBar' for BottomSheet and ItemPicker. 
+- Added new property: 'ShouldAutoFocusSearchBar' for BottomSheet and ItemPicker.
 
-## [22.3.1] 
+## [22.3.1]
 - Fixed an issue where HorizontalInlineDatePicker took too much height when in landscape mode.
 - Fixed an issue where HorizontalInlineDatePicker would instantly snap to dates when scrolling.
 - DateView now changes its view based on its orientation.
 
-## [22.3.0] 
+## [22.3.0]
 - Resources was updated from DIPS.Mobile.DesignTokens
 
 ## [22.2.2]
@@ -1499,7 +1498,7 @@ See the [ImageCapture wiki page](https://github.com/DIPSAS/DIPS.Mobile.UI/wiki/M
 ## [22.2.1]
 - [Button][iOS] Made sure setting size from the library only happens when the button has a text and a an image.
 
-## [22.2.0] 
+## [22.2.0]
 - Resources was updated from DIPS.Mobile.DesignTokens
 
 ## [22.1.3]
@@ -1516,7 +1515,7 @@ See the [ImageCapture wiki page](https://github.com/DIPSAS/DIPS.Mobile.UI/wiki/M
 - Introduced two new properties on SearchBar.
 - Keyboard now dismisses when pressing return key when having focus on dui:SearchBar
 - SearchPage now changes the text/icon of return key determined by 'SearchMode'
-- [iOS] Fixed an issue where the return key were not set as 'Done' when focusing dui:Entry 
+- [iOS] Fixed an issue where the return key were not set as 'Done' when focusing dui:Entry
 - [Android] Fixed an issue where dui:Entry were not unfocused when pressing the return key
 
 ## [22.0.1]
@@ -1553,7 +1552,7 @@ See the [ImageCapture wiki page](https://github.com/DIPSAS/DIPS.Mobile.UI/wiki/M
 ## [20.12.0]
 - Added `MaxWidth` to `ListItem.TitleOptions`
 
-## [20.11.0] 
+## [20.11.0]
 - Resources was updated from DIPS.Mobile.DesignTokens
 
 ## [20.10.2]
@@ -1613,10 +1612,10 @@ SaveView (Added new property 'Command' to SaveView)
 ## [20.4.0]
 - [BottomSheet] Added BottomBarButtons, to add floating buttons to the bottom of the bottom sheet.
 
-## [20.3.0] 
+## [20.3.0]
 - Resources was updated from DIPS.Mobile.DesignTokens
 
-## [20.2.0] 
+## [20.2.0]
 - Resources was updated from DIPS.Mobile.DesignTokens
 
 ## [20.1.0]
@@ -1634,7 +1633,7 @@ SaveView (Added new property 'Command' to SaveView)
 - [BottomSheet][BreakingChange] ShouldFitContent is replaced with `Position` = `Fit`
 
 ## [19.11.1]
-- [ContextMenu] Group `ContextMenuGroup` if at least one item alongside it. 
+- [ContextMenu] Group `ContextMenuGroup` if at least one item alongside it.
 
 ## [19.11.0]
 - [SearchBar] Made it possible to Focus and Unfocus
@@ -1657,28 +1656,28 @@ SaveView (Added new property 'Command' to SaveView)
 - Added `TextColor` and `Style` properties to `SubtitleOptions`
 
 ## [19.7.0]
-- [CollectionView] Added ReloadData method for consumers to redraw all items without modifying ItemSource. 
+- [CollectionView] Added ReloadData method for consumers to redraw all items without modifying ItemSource.
 
-## [19.6.0] 
+## [19.6.0]
 - Resources was updated from DIPS.Mobile.DesignTokens
 
 ## [19.5.1]
 - Fix not being able to set `LoadableListItem.ContextMenu`
 
-## [19.5.0] 
+## [19.5.0]
 - Resources was updated from DIPS.Mobile.DesignTokens
 
-## [19.4.3] 
+## [19.4.3]
 - Changed default dui:ContentPage background color
 
-## [19.4.2] 
+## [19.4.2]
 - Reverted change where color on Image were default set
 
-## [19.4.1] 
+## [19.4.1]
 - Fixed an issue where SectionHeader style was not correct
-- Changed 'UI' font to a more bold font so that it is easier to differentiate between 'UI' and 'Body' fonts. 
+- Changed 'UI' font to a more bold font so that it is easier to differentiate between 'UI' and 'Body' fonts.
 
-## [19.4.0] 
+## [19.4.0]
 - Changed default page background-color.
 - Added new component: dui:Editor.
 - Changed from 16 -> 12 padding left and right in ListItem
@@ -1698,13 +1697,13 @@ SaveView (Added new property 'Command' to SaveView)
 ## [19.3.1]
 - Ensure correct style is set for toggleable `Chip` when toggled off.
 
-## [19.3.0] 
+## [19.3.0]
 - Resources was updated from DIPS.Mobile.DesignTokens
 
-## [19.2.0] 
+## [19.2.0]
 - Resources was updated from DIPS.Mobile.DesignTokens
 
-## [19.1.0] 
+## [19.1.0]
 - Resources was updated from DIPS.Mobile.DesignTokens
 
 ## [19.0.1]
@@ -1729,10 +1728,10 @@ SaveView (Added new property 'Command' to SaveView)
 - [iOS] Fixed periodic crash on initialization of Button in new .NET MAUI version.
 - Upgraded to newest .NET MAUI version
 
-## [17.26.0] 
+## [17.26.0]
 - Resources was updated from DIPS.Mobile.DesignTokens
 
-## [17.25.0] 
+## [17.25.0]
 - Resources was updated from DIPS.Mobile.DesignTokens
 
 ## [17.24.1]
@@ -1826,70 +1825,70 @@ SaveView (Added new property 'Command' to SaveView)
 - [FilledCheckBox][SaveView][ContentSavePage] Changed the way the filled checkedbox looks when its not checked.
 
 
-## [17.15.1] 
+## [17.15.1]
 - [SaveView] Changed vibration effect to `success` vibration.
 - [Switch] Made sure it takes less space on Android.
 - [SegmentedControl] Made sure it does not clip on Android.
 
-## [17.15.0] 
+## [17.15.0]
 - [FloatingNavigationButton] Changed the colors when opened and closed.
 - [FloatingNavigationButton] Removed opacity.
 - [FloatingNavigationButton] Changed the menu icons when opened and closed.
 - [FloatingNavigationButton] Made sure VoiceOver and TalkBack works better with the component.
 
-## [17.14.1] 
+## [17.14.1]
 - [Android] Fixed an issue where icon in ToolbarItem did not set correct color
 
-## [17.14.0] 
+## [17.14.0]
 - Resources was updated from DIPS.Mobile.DesignTokens
 
 ## [17.13.2]
 - [FloatingNavigationButton] Made sure people can tap the right side of the screen.
 
-## [17.13.1] 
+## [17.13.1]
 - Fixed an issue where app would crash trying to set tint color on Button when using hot reload
 
-## [17.13.0] 
+## [17.13.0]
 - Resources was updated from DIPS.Mobile.DesignTokens
 
-## [17.12.3] 
+## [17.12.3]
 - Fixed an issue where app would crash trying to set tint color on ImageButton when using hot reload
 
-## [17.12.2] 
+## [17.12.2]
 - [FloatingNavigationButton] Fixed an bug where the entire page of the app was not clickable until you opened the Floating Navigation.
 
-## [17.12.1] 
+## [17.12.1]
 - [Layout] Made sure all layouts ignore safe area when its not set by the consumer. Grid, StackLayout etc.
 - [FloatingNavigationButton] Made sure people can tap the background of the FAB to close it.
 - [FloatingNavigationButton] Made sure sizes of the icons are smaller for better UX.
 - [FloatingNavigationButton] Made sure its accesibile for text readers.
 
-## [17.12.0] 
+## [17.12.0]
 - Resources was updated from DIPS.Mobile.DesignTokens
 
-## [17.11.0] 
+## [17.11.0]
 - Changed touch effect color on Android for dui:Buttons
 - Icon size on buttons will now scale down with the Button's height
 
-## [17.10.0] 
+## [17.10.0]
 - Resources was updated from DIPS.Mobile.DesignTokens
 
-## [17.9.0] 
+## [17.9.0]
 - Resources was updated from DIPS.Mobile.DesignTokens
 
-## [17.8.0] 
+## [17.8.0]
 - Added Button styles
 
-## [17.7.0] 
+## [17.7.0]
 - [ItemPicker] Added haptics for when people select a item from ItemPicker with context menu mode.
 - [SortControl] Added haptics for when people select a sort option.
 - [SegmentedControl] Added haptics for when people select/deselect a segment from the segmented control.
 - [ContextMenu] Added more shadow to context menu on Android.
 
-## [17.6.0] 
+## [17.6.0]
 - Resources was updated from DIPS.Mobile.DesignTokens
 
-## [17.5.0] 
+## [17.5.0]
 - Resources was updated from DIPS.Mobile.DesignTokens
 
 ## [17.4.0]
@@ -1916,17 +1915,17 @@ SaveView (Added new property 'Command' to SaveView)
 - Resources was updated from DIPS.Mobile.DesignTokens
 
 ## [17.1.1]
-- [Components] Fixed an issue where iOS appicon did not work. 
+- [Components] Fixed an issue where iOS appicon did not work.
 
-## [17.1.0] 
+## [17.1.0]
 - [Android] Removed workaround for padding on ImageButton
 - Fixed an issue where Components would not build
 
-## [17.0.0] 
+## [17.0.0]
 - Upgraded project to .NET 8
 - Removed Modal effect
 
-## [16.19.0] 
+## [16.19.0]
 - Resources was updated from DIPS.Mobile.DesignTokens
 
 ## [16.18.0]
@@ -1950,48 +1949,48 @@ SaveView (Added new property 'Command' to SaveView)
 ## [16.16.1]
 - [InLineDatePicker] Fixed an bug where it would sometimes not render until people had tapped or slided the layout.
 
-## [16.16.0] 
+## [16.16.0]
 - Resources was updated from DIPS.Mobile.DesignTokens
 
-## [16.15.0] 
+## [16.15.0]
 - [FloatingNavigationButton] Added option to add a navigation button as the last button. This will be respected if a new button is added after the button was added.
 
-## [16.14.0] 
+## [16.14.0]
 - [SearchBar] Added ClearCommand as a command to execute when people tap the clear button (x mark).
 - [SearchPage] Make sure clear the text and state of the view when people tap the clear button.
 - [ItemPicker] Made sure Placeholder gets set the first time it draws.
 
 ## [16.13.1]
-- Selected Item can now be set to null. When its set to null the placeholder will be used. 
+- Selected Item can now be set to null. When its set to null the placeholder will be used.
 
-## [16.13.0] 
+## [16.13.0]
 - Resources was updated from DIPS.Mobile.DesignTokens
 
-## [16.12.0] 
+## [16.12.0]
 - Resources was updated from DIPS.Mobile.DesignTokens
 
-## [16.11.4] 
+## [16.11.4]
 - Added unique identifiers for the animations,sizes and colors resources enum.
 
-## [16.11.3] 
+## [16.11.3]
 - Made sure to do a nullcheck on SearchCommand before executing it.
 
-## [16.11.2] 
+## [16.11.2]
 - Added unique identifiers for the icon resources enum.
 
-## [16.11.1] 
+## [16.11.1]
 - Made sure filled check box touch effect works when the command property changes
 
-## [16.11.0] 
+## [16.11.0]
 - Resources was updated from DIPS.Mobile.DesignTokens
 
-## [16.10.1] 
+## [16.10.1]
 - [Android] Made sure we safely commit the fragmentmanager when the state was lost to prevent app crashes.
 
-## [16.10.0] 
+## [16.10.0]
 - Resources was updated from DIPS.Mobile.DesignTokens
 
-## [16.9.0] 
+## [16.9.0]
 - Resources was updated from DIPS.Mobile.DesignTokens
 
 ## [16.8.2]
@@ -2010,7 +2009,7 @@ SaveView (Added new property 'Command' to SaveView)
 - [ItemPicker] Changed the style of the items to select from.
 - [ComponentsApp] Removed CheckBoxes samples and added Selection samples.
 
-## [16.7.0] 
+## [16.7.0]
 - Resources was updated from DIPS.Mobile.DesignTokens
 
 ## [16.6.0]
@@ -2028,7 +2027,7 @@ SaveView (Added new property 'Command' to SaveView)
 - Added a new property to dui:Label to check if the text were ellipsized.
 - Fixed a bug where setting LineBreakMode on Label would always truncate to one line.
 
-## [16.4.0] 
+## [16.4.0]
 - Resources was updated from DIPS.Mobile.DesignTokens
 
 ## [16.3.1]
@@ -2071,10 +2070,10 @@ SaveView (Added new property 'Command' to SaveView)
 - [ItemPicker] Renamed BottomSheetConfiguration to BottomSheetPickerConfiguration
 
 
-## [14.2.0] 
+## [14.2.0]
 - Resources was updated from DIPS.Mobile.DesignTokens
 
-## [14.1.0] 
+## [14.1.0]
 - Resources was updated from DIPS.Mobile.DesignTokens
 
 ## [14.0.3]
@@ -2119,7 +2118,7 @@ SaveView (Added new property 'Command' to SaveView)
 - Changed default values of column width in ListItem for Title and HorizontalContentItem
 - Consumers can now override column width for Title and HorizontalContentItem in ListItem
 
-## [13.12.0] 
+## [13.12.0]
 - Resources was updated from DIPS.Mobile.DesignTokens
 
 ## [13.11.0]
@@ -2137,10 +2136,10 @@ SaveView (Added new property 'Command' to SaveView)
 - Hooked IsEnabled property on ListItem to enable/disable touch
 
 ## [13.10.3]
-- Fixed a bug where you could not set Command on LoadableListItem 
+- Fixed a bug where you could not set Command on LoadableListItem
 
 ## [13.10.2]
-- Extended LoadableListItem with BusyText and ErrorText, also the possibility to fade content in 
+- Extended LoadableListItem with BusyText and ErrorText, also the possibility to fade content in
 
 ## [13.10.1]
 - Fixed bug where ItemPicker's ItemsSource would not update itself
@@ -2188,7 +2187,7 @@ SaveView (Added new property 'Command' to SaveView)
 - Added ActivityIndicator and RefreshView to reuse same colors and size for indicator.
 - [ComponentsApp] Made sure that only positive sizes are displayed in the samples, as negatives or 0 makes sense.
 
-## [13.1.0] 
+## [13.1.0]
 - Resources was updated from DIPS.Mobile.DesignTokens
 
 ## [13.0.0]
@@ -2239,7 +2238,7 @@ SaveView (Added new property 'Command' to SaveView)
 - Fixed an issue with ios Inline date pickers width being too small.
 - Made sure that Android date picker respects the day of min and max dates.
 
-## [12.3.0] 
+## [12.3.0]
 - Resources was updated from DIPS.Mobile.DesignTokens
 
 ## [12.2.2]
@@ -2249,12 +2248,12 @@ SaveView (Added new property 'Command' to SaveView)
 - Made sure the Touch effect on iOS does not UI freeze when people touch view elements its attached to.
 - Fixed an issue on iOS with Touch effect when people tap and pan, like in a scrollable view.
 
-## [12.2.0] 
+## [12.2.0]
 - Fixed an issue where Title and Subtitle of ListItem would not wrap and continue horizontally, overwriting content.
 - Added possibility to set TopDivider and BottomDivider on ListItem
 - Added dui:Image to set color of an image
 
-## [12.1.0] 
+## [12.1.0]
 - Added option to add custom view to navigationlistitem
 
 ## [12.0.0]
@@ -2270,8 +2269,8 @@ SaveView (Added new property 'Command' to SaveView)
 - [ContextMenu] Changed the style of context menu on Android. It now has more rounded corners, more elevation and the correct surface color as other material components.
 - [ComponentsApp] Added sizes as font sizes and as boxes to size samples.
 - [ImageButton] Made sure a default TintColor is set to make sure it doesnt crash when its not set.
- 
-## [11.4.0] 
+
+## [11.4.0]
 - Resources was updated from DIPS.Mobile.DesignTokens
 
 ## [11.3.0]
@@ -2281,9 +2280,9 @@ SaveView (Added new property 'Command' to SaveView)
 
 ## [11.2.1]
 - Made sure that HorizontalInlineDatePicker do not crash when you change date.
-- [ComponentsApp] Made sure the correct version of gets set to the iOS app. 
+- [ComponentsApp] Made sure the correct version of gets set to the iOS app.
 
-## [11.2.0] 
+## [11.2.0]
 - Resources was updated from DIPS.Mobile.DesignTokens
 
 ## [11.1.0]
@@ -2312,15 +2311,15 @@ SaveView (Added new property 'Command' to SaveView)
 - [Android] Fixed an issue where CollectionView's height inside BottomSheet would expand beyond its items
 - [Android] Fixed an issue where the Handle and Searchbar were scrollable inside BottomSheet
 - [iOS] Fixed an issue where CollectionView's height inside BottomSheet would be cut short
-- Consumers has now the option to include a searchbar in BottomSheet's 
+- Consumers has now the option to include a searchbar in BottomSheet's
 
 ## [8.0.0]
-- Added FloatingNavigationButton 
+- Added FloatingNavigationButton
 - Added new effect: ImageTint
 - Renamed existing effect: DUITouchEffect => Touch
 - Added test project: Playground
 
-## [7.1.0] 
+## [7.1.0]
 - Resources was updated from DIPS.Mobile.DesignTokens
 
 ## [7.0.0]
@@ -2329,10 +2328,10 @@ SaveView (Added new property 'Command' to SaveView)
 - Components app: New Loading page with Skeleton loading.
 - Markup extensions: Added Margin and Padding markup extensions.
 
-## [6.4.0] 
+## [6.4.0]
 - Resources was updated from DIPS.Mobile.DesignTokens
 
-## [6.3.0] 
+## [6.3.0]
 - Resources was updated from DIPS.Mobile.DesignTokens
 
 ## [6.2.0]

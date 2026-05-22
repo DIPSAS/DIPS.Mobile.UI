@@ -16,12 +16,14 @@ public abstract class BarcodeScanStrategy
 /// </summary>
 public class TimerBarcodeScanStrategy : BarcodeScanStrategy
 {
+    public static readonly TimeSpan DefaultDetectionTime = TimeSpan.FromMilliseconds(500);
+
     /// <summary>
     /// Gets or sets how long the scanner collects observations after the first barcode is detected
     /// before picking the most-detected value.
     /// </summary>
     /// <remarks>A longer time can improve precision for low quality barcodes, but makes scanning feel slower.</remarks>
-    public TimeSpan DetectionTime { get; set; } = TimeSpan.FromMilliseconds(500);
+    public TimeSpan DetectionTime { get; set; } = DefaultDetectionTime;
 }
 
 /// <summary>
@@ -52,5 +54,4 @@ public class ScanRectangleBarcodeScanStrategy : BarcodeScanStrategy
     /// This is the observation window during which the scanner keeps collecting detections before accepting.
     /// </summary>
     public TimeSpan FormingDuration { get; set; } = TimeSpan.FromMilliseconds(1000);
-
 }
