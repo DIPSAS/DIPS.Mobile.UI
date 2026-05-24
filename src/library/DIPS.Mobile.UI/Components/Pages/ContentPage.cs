@@ -18,13 +18,12 @@ namespace DIPS.Mobile.UI.Components.Pages
         public static readonly ColorName BackgroundColorName = ColorName.color_background_default;
 
         private CancellationTokenSource? m_garbageCollectionCts;
-        private readonly Stopwatch m_loadedTimer;
+        private readonly Stopwatch m_loadedTimer = new();
 
         public ContentPage()
         {
             if (DUI.IsDebug) //Always start the time, as checking for ShouldLogLoadingTime wont work in the constructor
             {
-                m_loadedTimer = new Stopwatch();
                 m_loadedTimer.Start();
             }
 
@@ -38,7 +37,6 @@ namespace DIPS.Mobile.UI.Components.Pages
                 OnRequestedThemeChanged; //Can not use AppThemeBindings because that makes the navigation page bar background flash on Android, so we listen to changes and set the color our self
 
             Loaded += OnLoaded;
-            
         }
 
         private void OnLoaded(object? sender, EventArgs e)
@@ -71,6 +69,8 @@ namespace DIPS.Mobile.UI.Components.Pages
         {
             base.OnAppearing();
 
+            ApplyNavigationBarColors();
+
             HasAppeared = true;
 
             // Complete previous snapshot (captures outgoing page + transition layout)
@@ -78,11 +78,9 @@ namespace DIPS.Mobile.UI.Components.Pages
             LayoutDiagnosticsService.BeginSnapshot($"Page: {GetType().Name}");
 
             HideOrShowFloatingNavigationMenu();
-            
-            
+
 #if __ANDROID__
-            // Update status bar color for this page (works for both modal and non-modal)
-            StatusBarHandler.TrySetStatusBarColor(this, StatusBarColor);
+            StatusBarHandler.TrySetStatusBarColor(this, GetEffectiveStatusBarColor());
 #endif
         }
         
@@ -175,6 +173,7 @@ namespace DIPS.Mobile.UI.Components.Pages
 
             if (Handler is not null)
             {
+                ApplyNavigationBarColors();
                 AttachBottomToolbar();
             }
         }
@@ -197,13 +196,6 @@ namespace DIPS.Mobile.UI.Components.Pages
         public override Window GetParentWindow()
         {
             var parentWindow = base.GetParentWindow();
-
-            if (parentWindow == null)
-            {
-                parentWindow = Application.Current?.Windows.FirstOrDefault();
-
-                var test = parentWindow.ToPlatform(DUI.GetCurrentMauiContext!);
-            }
 
             return parentWindow;
         }

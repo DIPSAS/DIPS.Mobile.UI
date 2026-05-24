@@ -27,7 +27,7 @@ public static class StatusBarHandler
 
             if (Shell.Current.CurrentPage is ContentPage page)
             {
-                TrySetStatusBarColor(page, field ?? page.StatusBarColor);
+                TrySetStatusBarColor(page, field ?? page.GetEffectiveStatusBarColor());
             }
         }
     }
@@ -56,7 +56,7 @@ public static class StatusBarHandler
                 
                 // Immediately set the status bar color since OnAppearing may have already been called
                 // before the DialogFragment was registered
-                SetStatusBarColorOnModalWindow(dialogFragment, StatusBarColorOverride ?? page.StatusBarColor, page.StatusBarStyle);
+                SetStatusBarColorOnModalWindow(dialogFragment, StatusBarColorOverride ?? page.GetEffectiveStatusBarColor(), page.StatusBarStyle);
             }
         }
         catch (Exception ex)

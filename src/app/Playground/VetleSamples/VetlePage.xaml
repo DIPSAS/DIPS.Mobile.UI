@@ -10,6 +10,10 @@
                  Title="ShouldBounce Repro"
                  Shell.NavBarIsVisible="True">
 
+    <dui:ContentPage.ToolbarItems>
+        <ToolbarItem Text="Close" />
+    </dui:ContentPage.ToolbarItems>
+
     <!-- Reproducing ResistanceMatrixPage ShouldBounce issue -->
     <Grid ColumnDefinitions="Auto, *"
           RowDefinitions="Auto, *"
