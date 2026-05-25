@@ -1,3 +1,6 @@
+## [59.2.1]
+- Bump maui controls
+
 ## [59.2.0]
 - [ContentPage] `NavigationPage.BarBackgroundColorProperty` and `NavigationPage.BarTextColorProperty` now properly assigns colors to modal navigation bars, including status bar, back button and toolbar icons. Removed old Android workarounds for modal toolbar coloring.
 
