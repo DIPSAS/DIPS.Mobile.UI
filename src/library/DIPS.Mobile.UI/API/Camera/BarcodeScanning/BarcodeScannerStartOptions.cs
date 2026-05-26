@@ -35,20 +35,16 @@ public class BarcodeScannerStartOptions
     public Func<BarcodeScanResult, BarcodeScanValidationResult, Task>? OnBarcodeRejectedAsync { get; set; }
 
     /// <summary>
-    /// Gets or sets options for the visible scan rectangle.
+    /// Gets or sets the barcode confirmation strategy.
+    /// Use <see cref="TimerBarcodeScanStrategy"/> for timer-based confirmation,
+    /// or <see cref="ScanRectangleBarcodeScanStrategy"/> for animated scan rectangle overlay confirmation.
     /// </summary>
-    public BarcodeScanRectangleOptions? ScanRectangle { get; set; }
+    public BarcodeScanStrategy Strategy { get; set; } = new TimerBarcodeScanStrategy();
 
     /// <summary>
     /// Gets or sets options for required scan count progress and completion.
     /// </summary>
     public BarcodeScanCompletionOptions? Completion { get; set; }
-
-    /// <summary>
-    /// Gets or sets how long, in milliseconds, the scanner counts observations after the first barcode was detected.
-    /// </summary>
-    /// <remarks>A longer time can improve precision for low quality barcodes, but makes scanning feel slower.</remarks>
-    public int BarcodeDetectionTime { get; set; } = 500;
 
     /// <summary>
     /// Gets or sets the cooldown applied after a scan has been accepted or rejected.

@@ -26,7 +26,7 @@ public partial class BarcodeTooltipSample
                 Preview = CameraPreview,
                 OnCameraFailed = CameraFailed,
                 OnBarcodeAcceptedAsync = HandleBarcodeAcceptedAsync,
-                ScanRectangle = new BarcodeScanRectangleOptions()
+                Strategy = new ScanRectangleBarcodeScanStrategy()
             });
             
             m_barcodeScanner.SetTooltipView(new Label
