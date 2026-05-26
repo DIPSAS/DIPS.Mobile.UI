@@ -121,8 +121,6 @@ public partial class CameraPreview : ContentView
         m_topToolbarContainer.HeightRequest = topToolbarHeight;
         m_bottomToolbarContainer.HeightRequest = Math.Max(totalLetterBoxHeight - topToolbarHeight, 0);
 
-        System.Diagnostics.Debug.WriteLine($"[CameraPreview] frameHeight={frameHeight}, Width={Width}, actualPreviewHeight={actualPreviewHeight}, letterBox={totalLetterBoxHeight}, topToolbar={topToolbarHeight}, bottomToolbar={m_bottomToolbarContainer.HeightRequest}, Padding.Top={Padding.Top}, Padding.Bottom={Padding.Bottom}");
-
         if (CameraZoomView is not null)
         {
             CameraZoomView.Margin = new Thickness(0, 0, 0, Sizes.GetSize(SizeName.content_margin_small) + m_bottomToolbarContainer.HeightRequest);
