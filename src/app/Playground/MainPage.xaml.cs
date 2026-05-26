@@ -109,4 +109,11 @@ public partial class MainPage
         });
         Shell.Current.Navigation.PushModalAsync(navigationPage);
     }
+
+    private void GoToSamplingPatientScanRepro(object sender, EventArgs e)
+    {
+        var scannerPage = new SamplingPatientScanRepro();
+        var navigationPage = new NavigationPage(scannerPage);
+        Shell.Current.Navigation.PushModalAsync(navigationPage);
+    }
 }
