@@ -3,6 +3,9 @@
 - [BarcodeScanner] **BREAKING**: Replaced `BarcodeScannerStartOptions.ScanRectangle` (`BarcodeScanRectangleOptions`) and `BarcodeDetectionTime` with `BarcodeScannerStartOptions.Strategy` of type `BarcodeScanStrategy`. Use `TimerBarcodeScanStrategy { DetectionTime }` for timer-based confirmation without an overlay, or `ScanRectangleBarcodeScanStrategy { WidthFraction, HeightFraction, BracketsTravelDuration, FormingDuration }` for the animated scan rectangle overlay. The default strategy is `TimerBarcodeScanStrategy` (500 ms).
 - [CameraPreview] **BREAKING**: Removed `IsInFullscreen`. The preview always applies safe-area padding on iOS.
 
+## [59.2.2]
+- [ContentPage] Made `ModalNavigationRenderer` public to allow consumer customization.
+
 ## [59.2.1]
 - Bump maui controls
 
