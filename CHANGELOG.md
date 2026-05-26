@@ -1,3 +1,6 @@
+## [60.0.1]
+- Test
+
 ## [60.0.0]
 - [BarcodeScanner] Fixed the scanner not resuming barcode detection after pause/resume.
 - [BarcodeScanner] **BREAKING**: Replaced `BarcodeScannerStartOptions.ScanRectangle` (`BarcodeScanRectangleOptions`) and `BarcodeDetectionTime` with `BarcodeScannerStartOptions.Strategy` of type `BarcodeScanStrategy`. Use `TimerBarcodeScanStrategy { DetectionTime }` for timer-based confirmation without an overlay, or `ScanRectangleBarcodeScanStrategy { WidthFraction, HeightFraction, BracketsTravelDuration, FormingDuration }` for the animated scan rectangle overlay. The default strategy is `TimerBarcodeScanStrategy` (500 ms).
