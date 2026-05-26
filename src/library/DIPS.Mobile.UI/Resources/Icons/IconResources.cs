@@ -183,6 +183,9 @@ this file is generated
 ["clock_line"] = "clock_line.png",
 ["kommunal_journal"] = "kommunal_journal.png",
 ["beaker_off"] = "beaker_off.png",
+["lab_syringe"] = "lab_syringe.png",
+["sort"] = "sort.png",
+["open_in_new"] = "open_in_new.png",
 
 
             };
