@@ -5,6 +5,12 @@ using UIKit;
 
 namespace DIPS.Mobile.UI.Components.Pages;
 
+/// <summary>
+/// iOS navigation renderer for modal <see cref="NavigationPage"/> instances, providing status bar style updates based on the navigation bar background color.
+/// </summary>
+/// <remarks>
+/// Consumers can subclass this renderer and register their subclass as the <see cref="NavigationPage"/> handler to customize modal navigation behavior on iOS.
+/// </remarks>
 public class ModalNavigationRenderer : NavigationRenderer
 {
     protected override void OnElementChanged(VisualElementChangedEventArgs e)
