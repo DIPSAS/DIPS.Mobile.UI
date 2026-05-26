@@ -18,6 +18,8 @@
         
         <dui:ListItem Tapped="ListItem_OnTapped2"></dui:ListItem>
         
+        <dui:SegmentedControl />
+        
     </VerticalStackLayout>
     
 </dui:ContentPage>

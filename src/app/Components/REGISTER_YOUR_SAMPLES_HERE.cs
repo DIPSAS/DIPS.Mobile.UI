@@ -20,6 +20,7 @@ using Components.ComponentsSamples.Saving;
 using Components.ComponentsSamples.Searching;
 using Components.ComponentsSamples.Selection;
 using Components.ComponentsSamples.Sorting;
+using Components.ComponentsSamples.StepFlow;
 using Components.ComponentsSamples.SyntaxHighlighting;
 using Components.ComponentsSamples.TabView;
 using Components.ComponentsSamples.Toolbar;
@@ -63,13 +64,14 @@ public static class REGISTER_YOUR_SAMPLES_HERE
             new(SampleType.Components, LocalizedStrings.Buttons, () => new ButtonsSamples()),
             new(SampleType.Components, "Labels", () => new LabelsSamples()),
             new(SampleType.Components, LocalizedStrings.TextFields, () => new TextFieldsSamples()),
-            new(SampleType.Components, LocalizedStrings.BarcodeScanning, () => new BarcodeScanningSample()),
-            new(SampleType.Components, LocalizedStrings.PhotoCapturing, () => new ImageCaptureSample(), true),
+            new(SampleType.Components, LocalizedStrings.BarcodeScanning, () => new BarcodeScanningHubSamples()),
+            new(SampleType.Components, LocalizedStrings.PhotoCapturing, () => new ImageCapturingSamples()),
             new(SampleType.Components, "Tip", () => new TipSamples()),
             new(SampleType.Components, "Syntax Highlighting", () => new SyntaxHighlightingSamples()),
             new(SampleType.Components, "Amplitude View", () => new AmplitudeViewSamples()),
             new(SampleType.Components, "Text", () => new TextSamples()),
             new(SampleType.Components, "Tag", () => new TagsSamples()),
+            new(SampleType.Components, "Step Flow", () => new StepFlowSamples()),
             new(SampleType.Components, "Counters", () => new CountersSamples()),
             new(SampleType.Components, "TabView", () => new TabViewSamples()),
             new(SampleType.Components, "Zoom Container", () => new PanZoomContainerSample()),

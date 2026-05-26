@@ -21,6 +21,11 @@ public partial class MainPage
         
     }
 
+    private async void GoToModalNavigationBarBackNavigationSample(object sender, EventArgs e)
+    {
+        await Shell.Current.Navigation.PushModalAsync(new NavigationPage(new ModalNavigationBarBackNavigationSample.ModalNavigationBarBackNavigationSample()));
+    }
+
     private async void GoToVetle(object sender, EventArgs e)
     {
         var stopWatch = new Stopwatch();
@@ -60,7 +65,7 @@ public partial class MainPage
                 }
             }
         });
-            
+
         Shell.Current.Items.Clear();
         Shell.Current.Items.Add(tabBar);
 
@@ -77,8 +82,18 @@ public partial class MainPage
         }
     }
 
+    private void GoToItemPickerRefreshRepro(object sender, EventArgs e)
+    {
+        Shell.Current.Navigation.PushAsync(new ItemPickerRefreshRepro());
+    }
+
     private void GoToCollectionViewTests(object sender, EventArgs e)
     {
         Shell.Current.Navigation.PushAsync(new CollectionViewTests());
+    }
+
+    private async void GoToNavigationBarColorSample(object sender, EventArgs e)
+    {
+        await Shell.Current.Navigation.PushModalAsync(new NavigationPage(new NavigationBarColorSample()){BarBackgroundColor = Microsoft.Maui.Graphics.Colors.White, BarTextColor = Microsoft.Maui.Graphics.Colors.White});
     }
 }

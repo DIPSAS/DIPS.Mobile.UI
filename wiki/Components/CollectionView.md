@@ -21,7 +21,7 @@ In our CollectionView this setting is enabled by default. To turn off this behav
 ```
 ## Losing focus on Input fields if the list is scrolled
 
-We have implemented a property to ensure that input views lose focus when the list is scrolled. By losing focus on scroll, it prevents the keyboard hiding the CollectionView's items.
+We have implemented a property to ensure that input views lose focus when the list is scrolled. By losing focus on scroll, it prevents the keyboard from hiding the CollectionView's items.
 
 To enable this feature, set the `RemoveFocusOnScroll` property to true:
 

@@ -18,11 +18,11 @@ public partial class ImageCapture : CameraSession
 #nullable enable
     private bool m_isProcessingPhoto;
 
-    private partial Task PlatformStart(ImageCaptureSettings imageCaptureSettings, CameraFailed cameraFailedDelegate)
+    private partial Task PlatformStart(CameraOptions cameraOptions, CameraFailed cameraFailedDelegate)
     {
         m_capturePhotoOutput = new AVCapturePhotoOutput();
         
-        return base.ConfigureAndStart(m_cameraPreview, imageCaptureSettings.MaxHeightOrWidth, m_capturePhotoOutput, cameraFailedDelegate);
+        return base.ConfigureAndStart(m_cameraPreview, cameraOptions.MaxHeightOrWidth, m_capturePhotoOutput, cameraFailedDelegate);
     }
 
     private partial Task PlatformStop()
@@ -65,22 +65,29 @@ public partial class ImageCapture : CameraSession
         
         m_photoCaptureDelegate?.Dispose();
         m_photoCaptureDelegate = null;
-        
-        if (photo.FileDataRepresentation != null && m_imageCaptureSettings != null)
+
+        try
         {
-            var rotatedImage = CapturedImage.RotateCgImageToPortrait(photo.CGImageRepresentation!, photo.Properties.Orientation.ToUIImageOrientation());
-            var rotatedImageBytes = rotatedImage.Item1.AsJPEG(.8f)?.ToArray() ?? [];
-            
-            var rotatedThumbnail = GetThumbnail(rotatedImageBytes);
-            
-            var correctOrientationDegree = photo.Properties.Orientation.ToUIImageOrientation().ToTrueOrientationDegree();
-            
-            GoToConfirmState(new CapturedImage(rotatedImage.Item1.AsJPEG(.8f)?.ToArray() ?? [],
-                    rotatedThumbnail.Item1,
-                    rotatedImage.Item2,
-                    rotatedThumbnail.Item2,
-                    photo, 
-                    new ImageTransformation(correctOrientationDegree, correctOrientationDegree.ToString())));
+            if (photo.FileDataRepresentation != null && m_cameraSession.CameraOptions != null)
+            {
+                var rotatedImage = CapturedImage.RotateCgImageToPortrait(photo.CGImageRepresentation!, photo.Properties.Orientation.ToUIImageOrientation());
+                var rotatedImageBytes = rotatedImage.Item1.AsJPEG(.8f)?.ToArray() ?? [];
+
+                var rotatedThumbnail = GetThumbnail(rotatedImageBytes);
+
+                var correctOrientationDegree = photo.Properties.Orientation.ToUIImageOrientation().ToTrueOrientationDegree();
+
+                OnPhotoCaptured(new CapturedImage(rotatedImage.Item1.AsJPEG(.8f)?.ToArray() ?? [],
+                        rotatedThumbnail.Item1,
+                        rotatedImage.Item2,
+                        rotatedThumbnail.Item2,
+                        photo,
+                        new ImageTransformation(correctOrientationDegree, correctOrientationDegree.ToString())));
+            }
+        }
+        catch (Exception e)
+        {
+            PlatformOnCameraFailed(new CameraException("PhotoCaptured", e));
         }
     }
 
@@ -111,12 +118,16 @@ public partial class ImageCapture : CameraSession
         m_photoCaptureDelegate = new PhotoCaptureDelegate(PhotoCaptured, PlatformOnCameraFailed, () =>
         {
             m_isProcessingPhoto = true;
-            _ = OnBeforeCapture();
+            _ = SimulateCameraShutter();
         });
         
         UpdateCaptureOrientation(UIDevice.CurrentDevice.Orientation.ToAVCaptureVideoOrientation());
         m_capturePhotoOutput.CapturePhoto(settings, m_photoCaptureDelegate);
-        DisablePreview();
+        
+        if (m_cameraSession is SingleCaptureSession)
+        {
+            DisablePreview();
+        }
     }
 
     private void DisablePreview()

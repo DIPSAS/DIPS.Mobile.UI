@@ -29,6 +29,11 @@ public partial class ToolbarSamples
         }
     }
 
+    private void OnToolbarIsVisibleToggled(object? sender, ToggledEventArgs e)
+    {
+        bottomToolbar.IsVisible = e.Value;
+    }
+
     private void OnHidesOnScrollToggled(object? sender, ToggledEventArgs e)
     {
         bottomToolbar.HidesOnScrollFor = e.Value ? scrollView : null;

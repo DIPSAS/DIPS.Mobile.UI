@@ -89,12 +89,21 @@
                 </Grid>
                 <Grid ColumnDefinitions="*,Auto"
                       Padding="0">
-                    <dui:Label Text="Show/Hide toolbar"
+                    <dui:Label Text="Show/Hide toolbar (animated)"
                                Style="{dui:Styles Label=UI200}"
                                VerticalOptions="Center" />
                     <dui:Switch Grid.Column="1"
                                 IsToggled="True"
                                 Toggled="OnToolbarVisibilityToggled" />
+                </Grid>
+                <Grid ColumnDefinitions="*,Auto"
+                      Padding="0">
+                    <dui:Label Text="Toolbar IsVisible"
+                               Style="{dui:Styles Label=UI200}"
+                               VerticalOptions="Center" />
+                    <dui:Switch Grid.Column="1"
+                                IsToggled="True"
+                                Toggled="OnToolbarIsVisibleToggled" />
                 </Grid>
                 <Grid ColumnDefinitions="*,Auto"
                       Padding="0">

@@ -10,6 +10,8 @@ public partial class Shell : Microsoft.Maui.Controls.Shell
     private IReadOnlyCollection<PageReference>? m_previousNavigationStack;
         
     private List<ModalPageReference> m_previousModalPagesStack = [];
+    
+    private List<PageReference> m_previousShellContentPages = [];
 
     /// <summary>
     /// The root page of the application.
@@ -17,7 +19,7 @@ public partial class Shell : Microsoft.Maui.Controls.Shell
     public static PageReference? RootPage { get; set; }
         
     public static ColorName TitleTextColorName => ColorName.color_text_default;
-    public static ColorName ForegroundColorName => ColorName.color_icon_action;
+    public static ColorName ForegroundColorName => ColorName.color_text_default;
     public static ColorName BackgroundColorName => ColorName.color_background_default;
 
     public Shell()
@@ -56,7 +58,7 @@ public partial class Shell : Microsoft.Maui.Controls.Shell
                         
                 if(m_previousNavigationStack is not null)
                 {
-                    await TryResolvePoppedPages(m_previousNavigationStack.ToList(), e.Source);
+                    await TryResolvePoppedPages(m_previousNavigationStack.ToList(), e.Source, m_previousShellContentPages);
                 }
 
                 break;
@@ -115,6 +117,36 @@ public partial class Shell : Microsoft.Maui.Controls.Shell
         }
 
         m_previousNavigationStack = currentNavigationStack;
+        
+        // Track all pages across all tabs/sections so we can disconnect them when shell items change.
+        m_previousShellContentPages = CollectAllShellContentPages();
+    }
+    
+    private List<PageReference> CollectAllShellContentPages()
+    {
+        var pages = new List<PageReference>();
+        foreach (var shellItem in Items)
+        {
+            foreach (var section in shellItem.Items)
+            {
+                foreach (var content in section.Items)
+                {
+                    if (content is IShellContentController { Page: Page page })
+                    {
+                        pages.Add(new PageReference(page));
+                    }
+                }
+                // Also collect pushed pages in the section's navigation stack (other tabs may have pushed pages)
+                foreach (var page in section.Stack)
+                {
+                    if (page is not null && pages.All(w => w.Target != page))
+                    {
+                        pages.Add(new PageReference(page));
+                    }
+                }
+            }
+        }
+        return pages;
     }
 
     private async Task CheckIfModalIsRemoved()
@@ -149,7 +181,9 @@ public partial class Shell : Microsoft.Maui.Controls.Shell
             {
                 GarbageCollection.Print($"--- 🪟 Attempting to check for leaks in every page that has ever been opened in modal: {modalPage.Name}, number of pages: {modalPage.WeakPages.Count}");
                 
+                ClearToolbarItems(modalPage);
                 TryAutoDisconnectModalNavigationPageHandler(modalPage);
+                ClearToolbarItems(modalPage);
                 
                 // The object has already been garbage collected
                 if (!modalPage.IsAlive)
@@ -244,26 +278,63 @@ public partial class Shell : Microsoft.Maui.Controls.Shell
         }
     }
 
+    /// <summary>
+    /// Clears ToolbarItems on modal pages to break the reference chain from native toolbar infrastructure
+    /// back to the page. Without this, the native navigation bar retains toolbar item handlers which root
+    /// the page, and any x:Name'd elements remain alive through the generated code-behind fields.
+    /// TODO: May remove this method when https://github.com/dotnet/maui/issues/34892 is merged
+    /// </summary>
+    private static void ClearToolbarItems(ModalPageReference modalPage)
+    {
+        GarbageCollection.Print("ℹ️ Clearing ToolbarItems...");
+        
+        foreach (var weakPage in modalPage.WeakPages)
+        {
+            if (weakPage.Target is Page page)
+            {
+                page.ToolbarItems.Clear();
+            }
+        }
+        
+        if (modalPage.Target is Page modalRoot)
+        { 
+            modalRoot.ToolbarItems.Clear();
+        }
+    }
+
     private async static Task TryResolvePoppedPages(List<PageReference> pages,
-        ShellNavigationSource shellNavigatedEventArgs)
+        ShellNavigationSource shellNavigatedEventArgs,
+        List<PageReference> previousShellContentPages)
     {
 
+        var pagesToMonitor = pages;
+        
         if (shellNavigatedEventArgs is ShellNavigationSource.ShellItemChanged)
         {
+            pagesToMonitor = previousShellContentPages;
+            
             // We need a delay here, because it takes some time for Shell to animate to the new root page.
             // Causing it to be still visible, disconnecting the handler while the page is visible, will cause a crash.
             // We set a delay of 5 seconds to be 100% sure that the animation is done, even though we could use a lower delay.
             GarbageCollection.Print("Changed root page, will wait for 5 seconds before trying to resolve/monitor memory leaks");
             await Task.Delay(5000);
+            
+            // Workaround: When Shell items change, MAUI disconnects the page's handler but not its
+            // child components' handlers. Disconnect content handlers for ALL pages across all tabs,
+            // not just the active tab's navigation stack.
+            // TODO: Remove when this is merged https://github.com/dotnet/maui/issues/34898
+            // NOTE: Extracted to a non-async method to avoid the compiler hoisting strong references
+            // to ContentPage as state machine fields, which would root the pages during the GC monitoring loop.
+            DisconnectShellContentPageHandlers(previousShellContentPages);
         }
             
         try
         {
-            foreach (var page in pages)
+            foreach (var page in pagesToMonitor)
             {
                 if (!page.IsAlive) //The object has already been garbage collected
                 {
-                    GarbageCollection.Print($"{page.Name} already garbage collected");
+                    GarbageCollection.Print($"✅ {page.Name} already garbage collected");
                     continue;
                 }
 
@@ -310,5 +381,23 @@ public partial class Shell : Microsoft.Maui.Controls.Shell
         {
             DUILogService.LogDebug<Shell>(e.ToString());
         }
+    }
+
+    private static void DisconnectShellContentPageHandlers(List<PageReference> previousShellContentPages)
+    {
+        var pageNames = new List<string>();
+        foreach (var pageRef in previousShellContentPages)
+        {
+            if (pageRef.Target is not ContentPage { Content: not null } contentPage)
+                continue;
+            
+            pageNames.Add(contentPage.GetType().Name);
+#if __ANDROID__
+            contentPage.DisconnectHandlers();
+#endif
+            contentPage.Content.DisconnectHandlers();
+        }
+        
+        GarbageCollection.Print($"🔧 Disconnected content handlers for: {string.Join(", ", pageNames)}");
     }
 }

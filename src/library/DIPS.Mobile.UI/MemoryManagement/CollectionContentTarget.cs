@@ -49,8 +49,10 @@ public class CollectionContentTarget
             }
                 
             AddEffectsToFlatList(name, element.Effects);
-                
-            if (element.BindingContext != null)
+            
+            // Skip strings: .NET interns strings as static GC roots, so a WeakReference to a string
+            // always survives GC.Collect() and would be reported as a false-positive zombie.
+            if (element.BindingContext is not null && element.BindingContext is not string)
             {
                 if (!FlatBindingContextList.Any(p =>
                     {

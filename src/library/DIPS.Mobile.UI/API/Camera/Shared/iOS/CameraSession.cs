@@ -180,6 +180,8 @@ public abstract class CameraSession
                 m_avCaptureOutput); //this has to be set before setting metadata objects, or else it crashes
             
             ConfigureSession();
+            
+            SetContinuousAutoFocus();
 
             //Commit the configuration
             CaptureSession.CommitConfiguration();
@@ -319,11 +321,36 @@ public abstract class CameraSession
         {
             CaptureDevice.UnlockForConfiguration();
         }
+        
+        SetContinuousAutoFocus();
     }
 
     public abstract void ConfigureSession();
 
     public abstract AVCaptureDevice? SelectCaptureDevice();
+    
+    private void SetContinuousAutoFocus()
+    {
+        if (CaptureDevice is null || !CaptureDevice.LockForConfiguration(out _))
+            return;
+
+        try
+        {
+            if (CaptureDevice.IsFocusModeSupported(AVCaptureFocusMode.ContinuousAutoFocus))
+            {
+                CaptureDevice.FocusMode = AVCaptureFocusMode.ContinuousAutoFocus;
+            }
+
+            if (CaptureDevice.IsExposureModeSupported(AVCaptureExposureMode.ContinuousAutoExposure))
+            {
+                CaptureDevice.ExposureMode = AVCaptureExposureMode.ContinuousAutoExposure;
+            }
+        }
+        finally
+        {
+            CaptureDevice.UnlockForConfiguration();
+        }
+    }
     
     internal void OnCameraFailed<T>(CameraException exception, bool shouldOnlyLog = false) where T : class
     {

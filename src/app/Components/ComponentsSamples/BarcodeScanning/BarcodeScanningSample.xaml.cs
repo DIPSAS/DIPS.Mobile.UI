@@ -21,7 +21,12 @@ public partial class BarcodeScanningSample
     {
         try
         {
-            await m_barcodeScanner.Start(CameraPreview, DidFindBarcode, CameraFailed);
+            await m_barcodeScanner.Start(new BarcodeScannerStartOptions
+            {
+                Preview = CameraPreview,
+                OnCameraFailed = CameraFailed,
+                OnBarcodeAcceptedAsync = HandleBarcodeAcceptedAsync
+            });
         }
         catch (Exception exception)
         {
@@ -35,23 +40,24 @@ public partial class BarcodeScanningSample
         App.Current.MainPage.DisplayAlert("Something failed!", e.Message, "Ok");
     }
 
-    private void DidFindBarcode(BarcodeScanResult barcodeScanResult)
+    private Task HandleBarcodeAcceptedAsync(BarcodeScanResult barcodeScanResult)
     {
         if (m_barCodeResultBottomSheet is
             {
                 HasBarCode: true
             })
         {
-            return;
+            return Task.CompletedTask;
         }
 
         m_barCodeResultBottomSheet = new BarcodeScanningResultBottomSheet();
         m_barCodeResultBottomSheet.Closed += BottomSheetClosed;
         m_barCodeResultBottomSheet.OpenWithBarCode(barcodeScanResult);
-        m_barcodeScanner.StopAndDispose();
+        m_barcodeScanner.PauseScanning();
+        return Task.CompletedTask;
     }
 
-    private async void BottomSheetClosed(object? sender, EventArgs e)
+    private void BottomSheetClosed(object? sender, EventArgs e)
     {
         if (m_barCodeResultBottomSheet != null)
         {
@@ -59,10 +65,10 @@ public partial class BarcodeScanningSample
         }
 
         m_barCodeResultBottomSheet = null;
-        _ = Start();
+        m_barcodeScanner.ResumeScanning();
     }
 
-    protected override async void OnAppearing()
+    protected override void OnAppearing()
     {
         _ = Start();
         base.OnAppearing();
@@ -71,5 +77,11 @@ public partial class BarcodeScanningSample
     private void ShowTip(object? sender, EventArgs e)
     {
         CameraPreview.ShowZoomSliderTip("Om strekkoden er liten, er det bedre å bruke zoom funksjonen istedet for å ha mobilen for nært strekkoden. Du kan også dra i slideren for å justere zoomen.");  
+    }
+
+    private void Close(object? sender, EventArgs e)
+    {
+        m_barcodeScanner.StopAndDispose();
+        Shell.Current.Navigation.PopModalAsync();
     }
 }

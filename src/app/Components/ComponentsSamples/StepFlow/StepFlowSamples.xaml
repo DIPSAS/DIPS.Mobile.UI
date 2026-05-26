@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<dui:ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                 xmlns:dui="http://dips.com/mobile.ui"
+                 xmlns:local="clr-namespace:Components.ComponentsSamples.StepFlow"
+                 x:Class="Components.ComponentsSamples.StepFlow.StepFlowSamples"
+                 x:DataType="local:StepFlowSamplesViewModel"
+                 Title="Step Flow">
+    <dui:ContentPage.BindingContext>
+        <local:StepFlowSamplesViewModel />
+    </dui:ContentPage.BindingContext>
+
+    <dui:ScrollView Padding="{dui:Sizes size_4}">
+        <dui:VerticalStackLayout Spacing="{dui:Sizes size_4}">
+
+            <dui:Label Text="A controller-driven, accordion-style multi-step flow."
+                       Style="{dui:Styles Label=UI100}" />
+
+            <dui:Label Text="The flow auto-scrolls the active step into view as the consumer activates it. Toggle below to see the difference."
+                       Style="{dui:Styles Label=UI100}" />
+
+            <dui:HorizontalStackLayout Spacing="{dui:Sizes size_3}">
+                <dui:Label Text="AutoScrollIntoView"
+                           Style="{dui:Styles Label=UI200}"
+                           VerticalOptions="Center" />
+                <Switch IsToggled="{Binding AutoScrollIntoView}" />
+            </dui:HorizontalStackLayout>
+
+            <!-- Filler so the StepFlow starts off-screen and the auto-scroll is visible. -->
+            <dui:Label Style="{dui:Styles Label=UI100}"
+                       Text="↓ Scroll down to start the flow. As steps complete, the next active step will auto-scroll into view." />
+            <BoxView HeightRequest="320"
+                     BackgroundColor="{dui:Colors color_surface_neutral}" />
+
+            <dui:StepFlow Controller="{Binding Flow}"
+                          AutoScrollIntoView="{Binding AutoScrollIntoView}">
+
+                <!-- Step 1: Confirm patient -->
+                <dui:StepFlowItem Title="Confirm patient">
+                    <dui:VerticalStackLayout Spacing="{dui:Sizes size_3}">
+                        <dui:Label Style="{dui:Styles Label=UI200}"
+                                   Text="{Binding PatientName, StringFormat='Patient: {0}'}" />
+                        <BoxView HeightRequest="160"
+                                 BackgroundColor="{dui:Colors color_surface_neutral}" />
+                        <dui:Button Text="Confirm"
+                                    Command="{Binding ConfirmPatientCommand}" />
+                    </dui:VerticalStackLayout>
+                </dui:StepFlowItem>
+
+                <!-- Step 2: Scan sample labels -->
+                <dui:StepFlowItem Title="Scan sample labels and verify each barcode against the requisition before confirming the patient sampling">
+                    <dui:VerticalStackLayout Spacing="{dui:Sizes size_3}">
+                        <dui:Label Style="{dui:Styles Label=UI100}"
+                                   Text="Tap to add a fake scanned label. After 3 labels you can finish."  />
+
+                        <dui:VerticalStackLayout Spacing="{dui:Sizes size_2}"
+                                                 BindableLayout.ItemsSource="{Binding ScannedLabels}">
+                            <BindableLayout.ItemTemplate>
+                                <DataTemplate x:DataType="x:String">
+                                    <dui:ListItem Title="{Binding .}"
+                                                  Icon="{dui:Icons barcode_fill}"
+                                                  BackgroundColor="{dui:Colors color_surface_subtle}"
+                                                  dui:Layout.CornerRadius="{dui:CornerRadius size_2}" />
+                                </DataTemplate>
+                            </BindableLayout.ItemTemplate>
+                        </dui:VerticalStackLayout>
+
+                        <BoxView HeightRequest="160"
+                                 BackgroundColor="{dui:Colors color_surface_neutral}" />
+
+                        <dui:Button Text="Add scanned label"
+                                    Command="{Binding AddScannedLabelCommand}" />
+                        <dui:Button Text="Done scanning"
+                                    Command="{Binding FinishScanningCommand}" />
+                    </dui:VerticalStackLayout>
+                </dui:StepFlowItem>
+
+                <!-- Step 3: Confirm sampling -->
+                <dui:StepFlowItem Title="Confirm sampling">
+                    <dui:VerticalStackLayout Spacing="{dui:Sizes size_3}">
+                        <dui:Label Style="{dui:Styles Label=UI200}"
+                                   Text="{Binding PatientName, StringFormat='Patient: {0}'}" />
+                        <dui:Label Style="{dui:Styles Label=UI100}"
+                                   Text="{Binding ScannedLabels.Count, StringFormat='Scanned labels: {0}'}" />
+                        <BoxView HeightRequest="160"
+                                 BackgroundColor="{dui:Colors color_surface_neutral}" />
+                        <dui:Button Text="Submit"
+                                    Command="{Binding SubmitSamplingCommand}" />
+                    </dui:VerticalStackLayout>
+                </dui:StepFlowItem>
+
+            </dui:StepFlow>
+
+            <dui:Button Text="Reset flow"
+                        Command="{Binding ResetCommand}" />
+
+            <!-- Trailing filler so the last step still has somewhere to scroll into view. -->
+            <BoxView HeightRequest="320"
+                     BackgroundColor="{dui:Colors color_surface_neutral}" />
+
+        </dui:VerticalStackLayout>
+    </dui:ScrollView>
+</dui:ContentPage>

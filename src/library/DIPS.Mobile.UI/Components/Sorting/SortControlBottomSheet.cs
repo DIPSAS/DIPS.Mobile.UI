@@ -19,7 +19,7 @@ namespace DIPS.Mobile.UI.Components.Sorting;
 
 internal class SortControlBottomSheet : BottomSheet
 {
-    private readonly SortControl m_sortControl;
+    private SortControl m_sortControl;
 
     private readonly CollectionView m_collectionView = new() { ItemSpacing = Sizes.GetSize(SizeName.size_0)};
 
@@ -115,7 +115,16 @@ internal class SortControlBottomSheet : BottomSheet
         return radioButtonListItem;
     }
 
-    
+
+    protected override void OnHandlerChanged()
+    {
+        base.OnHandlerChanged();
+
+        if (Handler is null)
+        {
+            m_sortControl = null;
+        }
+    }
 }
 internal class SortElementHintConverter : IValueConverter
 {

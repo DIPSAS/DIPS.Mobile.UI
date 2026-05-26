@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<dui:BottomSheet xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                 xmlns:dui="http://dips.com/mobile.ui"
+                 x:Class="Playground.VetleSamples.NavigationListItemLeakBottomSheet"
+                 Title="Memory Leak Repro">
+
+    <dui:ScrollView Padding="16">
+        <dui:VerticalStackLayout x:Name="ItemsLayout"
+                                 dui:Layout.AutoHideLastDivider="True">
+            <dui:NavigationListItem Title="Item 1"
+                                    HasBottomDivider="True" />
+            <dui:NavigationListItem Title="Item 2"
+                                    HasBottomDivider="True" />
+            <dui:NavigationListItem Title="Item 3"
+                                    HasBottomDivider="True" />
+            <dui:NavigationListItem Title="Item 4"
+                                    HasBottomDivider="True" />
+            <dui:NavigationListItem Title="Item 5"
+                                    HasBottomDivider="True" />
+        </dui:VerticalStackLayout>
+    </dui:ScrollView>
+</dui:BottomSheet>
