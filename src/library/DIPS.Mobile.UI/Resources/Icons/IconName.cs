@@ -357,5 +357,11 @@ clock_line=211,
 kommunal_journal=212,
 ///<summary><a href="https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/beaker_off.svg">View the icon in the browser</a></summary>
 beaker_off=213,
+///<summary><a href="https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/lab_syringe.svg">View the icon in the browser</a></summary>
+lab_syringe=214,
+///<summary><a href="https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/sort.svg">View the icon in the browser</a></summary>
+sort=215,
+///<summary><a href="https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/open_in_new.svg">View the icon in the browser</a></summary>
+open_in_new=216,
     }
 }
