@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<dui:ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                 xmlns:dui="http://dips.com/mobile.ui"
+                 xmlns:local="clr-namespace:Playground.ModalNavigationBarBackNavigationSample"
+                 x:Class="Playground.ModalNavigationBarBackNavigationSample.ModalNavigationBarBackNavigationThirdPage"
+                 x:DataType="local:ModalNavigationBarBackNavigationSampleViewModel"
+                 Title="Red navigation bar"
+                 Padding="{dui:Sizes size_4}">
+    <dui:ContentPage.BindingContext>
+        <local:ModalNavigationBarBackNavigationSampleViewModel />
+    </dui:ContentPage.BindingContext>
+
+    <dui:ContentPage.ToolbarItems>
+        <ToolbarItem Text="Close"
+                     Clicked="OnCloseClicked" />
+    </dui:ContentPage.ToolbarItems>
+
+    <dui:ScrollView>
+        <dui:VerticalStackLayout Spacing="{dui:Sizes size_3}">
+            <dui:Label Text="Red navigation bar"
+                       Style="{dui:Styles Label=SectionHeader}" />
+            <dui:Label Text="Navigate back from this page. The black page should become black again."
+                       Style="{dui:Styles Label=UI200}"
+                       TextColor="{dui:Colors color_text_subtle}" />
+            <Grid HeightRequest="{dui:Sizes size_12}"
+                  BackgroundColor="Red" />
+            <dui:ListItem Title="Back to black page"
+                          Subtitle="Tap to pop this page"
+                          Tapped="OnBackToBlackPageTapped" />
+        </dui:VerticalStackLayout>
+    </dui:ScrollView>
+</dui:ContentPage>

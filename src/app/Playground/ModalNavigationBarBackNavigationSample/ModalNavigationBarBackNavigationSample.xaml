@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<dui:ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                 xmlns:dui="http://dips.com/mobile.ui"
+                 xmlns:local="clr-namespace:Playground.ModalNavigationBarBackNavigationSample"
+                 x:Class="Playground.ModalNavigationBarBackNavigationSample.ModalNavigationBarBackNavigationSample"
+                 x:DataType="local:ModalNavigationBarBackNavigationSampleViewModel"
+                 Title="White navigation bar"
+                 Padding="{dui:Sizes size_4}">
+    <dui:ContentPage.BindingContext>
+        <local:ModalNavigationBarBackNavigationSampleViewModel />
+    </dui:ContentPage.BindingContext>
+
+    <dui:ContentPage.ToolbarItems>
+        <ToolbarItem Text="Close"
+                     Clicked="OnCloseClicked" />
+    </dui:ContentPage.ToolbarItems>
+
+    <dui:ScrollView>
+        <dui:VerticalStackLayout Spacing="{dui:Sizes size_3}">
+            <dui:Label Text="White navigation bar"
+                       Style="{dui:Styles Label=SectionHeader}" />
+            <dui:Label Text="Open the black page, then navigate back. This page should restore the white modal navigation bar."
+                       Style="{dui:Styles Label=UI200}"
+                       TextColor="{dui:Colors color_text_subtle}" />
+            <Grid HeightRequest="{dui:Sizes size_12}"
+                  BackgroundColor="White" />
+            <dui:ListItem Title="Open black page"
+                          Subtitle="Back navigation should restore white"
+                          Tapped="OnOpenBlackPageTapped" />
+        </dui:VerticalStackLayout>
+    </dui:ScrollView>
+</dui:ContentPage>

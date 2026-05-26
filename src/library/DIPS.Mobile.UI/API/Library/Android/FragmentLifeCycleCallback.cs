@@ -25,7 +25,6 @@ public class FragmentLifeCycleCallback : FragmentManager.FragmentLifecycleCallba
         {
             if (f is not BottomSheetDialogFragment)
             {
-                SetColorsOnModal(dialogFragment);
                 TryInheritWindowFlags(dialogFragment);
                 // Register the DialogFragment so ContentPage can find it
                 // Also immediately set the status bar color since OnAppearing may have already been called
@@ -114,40 +113,6 @@ public class FragmentLifeCycleCallback : FragmentManager.FragmentLifecycleCallba
             {
                 dialogFragment.Dialog.Window.Callback = new UnfocusWindowCallback(originalWindow, originalCallback);
             }
-        }
-    }
-
-    /// <summary>
-    /// TODO: Workaround: .NET MAUI does not inherit the color from the Shell, so we need to set it manually.
-    /// Inspiration from: https://stackoverflow.com/questions/75596420/how-do-i-add-a-listener-to-the-android-toolbar-in-maui/76056039#76056039
-    /// Sets the toolbar item's tint color on icon and title
-    /// </summary>
-    private static void SetColorsOnModal(DialogFragment dialogFragment)
-    {
-        var linearLayout = dialogFragment.Dialog?.Window?.FindViewById<LinearLayout>(_Microsoft.Android.Resource.Designer.Resource.Id.navigationlayout_appbar);
-        
-        var child1 = linearLayout?.GetChildAt(0);
-
-        if (child1 is not MaterialToolbar materialToolbar)
-            return;
-        
-        var stateListColor = Colors.GetColor(Shell.ForegroundColorName)
-            .ToDefaultColorStateList();
-        
-        const float shadowDp = 6f;
-        var shadowPx = materialToolbar.Context?.Resources?.DisplayMetrics?.Density * shadowDp ?? 0;
-
-        materialToolbar.Elevation = shadowPx; 
-        
-        for (var i = 0; i < materialToolbar.Menu?.Size(); i++)
-        {
-            var menuItem = materialToolbar.Menu.GetItem(i);
-            menuItem?.SetIconTintList(stateListColor);
-
-            var item = materialToolbar.Menu.GetItem(i);
-            var span = new SpannableString(item?.TitleFormatted);
-            span.SetSpan(new global::Android.Text.Style.ForegroundColorSpan(Colors.GetColor(Shell.ForegroundColorName).ToPlatform()), 0, span.Length(), 0);
-            item?.SetTitle(span);
         }
     }
 

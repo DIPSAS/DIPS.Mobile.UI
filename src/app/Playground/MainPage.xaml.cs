@@ -22,6 +22,11 @@ public partial class MainPage
         
     }
 
+    private async void GoToModalNavigationBarBackNavigationSample(object sender, EventArgs e)
+    {
+        await Shell.Current.Navigation.PushModalAsync(new NavigationPage(new ModalNavigationBarBackNavigationSample.ModalNavigationBarBackNavigationSample()));
+    }
+
     private async void GoToVetle(object sender, EventArgs e)
     {
         var stopWatch = new Stopwatch();
@@ -61,7 +66,7 @@ public partial class MainPage
                 }
             }
         });
-            
+
         Shell.Current.Items.Clear();
         Shell.Current.Items.Add(tabBar);
 
