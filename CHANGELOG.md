@@ -1,4 +1,4 @@
-## [60.0.2]
+## [60.0.1]
 - [CameraPreview] Removed manual safe-area padding on iOS and set `SafeAreaEdges.None` on internal containers so the top toolbar renders correctly on both modal and regular shell pages.
 
 ## [60.0.0]
