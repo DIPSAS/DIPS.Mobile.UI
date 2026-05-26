@@ -120,8 +120,6 @@
             <ContentView HeightRequest="60"
                          BackgroundColor="{dui:Colors color_surface_default}"
                          Padding="12"
-                         dui:Touch.Command="{Binding ItemTappedCommand}"
-                         dui:Touch.CommandParameter="Touch tapped"
                          SemanticProperties.Description="Long press disabled test"
                          dui:ContextMenuEffect.Mode="LongPressed"
                          dui:ContextMenuEffect.IsEnabled="{Binding IsContextMenuEnabled}">
