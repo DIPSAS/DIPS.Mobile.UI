@@ -1,3 +1,6 @@
+## [59.2.2]
+- [ContentPage] Made `ModalNavigationRenderer` public to allow consumer customization.
+
 ## [59.2.1]
 - Bump maui controls
 

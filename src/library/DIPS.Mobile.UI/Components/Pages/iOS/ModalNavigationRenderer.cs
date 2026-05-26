@@ -5,7 +5,7 @@ using UIKit;
 
 namespace DIPS.Mobile.UI.Components.Pages;
 
-internal class ModalNavigationRenderer : NavigationRenderer
+public class ModalNavigationRenderer : NavigationRenderer
 {
     protected override void OnElementChanged(VisualElementChangedEventArgs e)
     {
