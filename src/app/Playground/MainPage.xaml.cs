@@ -6,6 +6,7 @@ using Playground.SanderSamples;
 using Playground.VetleSamples;
 using Playground.VetleSamples.CollectionViewTests;
 
+
 namespace Playground;
 
 public partial class MainPage
@@ -92,8 +93,20 @@ public partial class MainPage
         Shell.Current.Navigation.PushAsync(new CollectionViewTests());
     }
 
-    private async void GoToNavigationBarColorSample(object sender, EventArgs e)
+    private void GoToBarcodeScanResumeRepro(object sender, EventArgs e)
     {
-        await Shell.Current.Navigation.PushModalAsync(new NavigationPage(new NavigationBarColorSample()){BarBackgroundColor = Microsoft.Maui.Graphics.Colors.White, BarTextColor = Microsoft.Maui.Graphics.Colors.White});
+        Shell.Current.Navigation.PushAsync(new BarcodeScanResumeRepro());
+    }
+
+    private void GoToBarcodeScanResumeReproModal(object sender, EventArgs e)
+    {
+        var scannerPage = new BarcodeScanResumeRepro();
+        var navigationPage = new NavigationPage(scannerPage);
+        scannerPage.ToolbarItems.Add(new ToolbarItem
+        {
+            Text = "Close",
+            Command = new Command(() => Shell.Current.Navigation.PopModalAsync())
+        });
+        Shell.Current.Navigation.PushModalAsync(navigationPage);
     }
 }

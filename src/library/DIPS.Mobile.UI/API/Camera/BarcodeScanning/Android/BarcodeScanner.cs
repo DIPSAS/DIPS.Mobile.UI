@@ -21,14 +21,11 @@ public partial class BarcodeScanner : CameraFragment, IObserver
 {
     private IBarcodeScanner? m_barcodeScanner;
     private ImageAnalysis? m_imageAnalysisUseCase;
-    private BarcodeScannerStartOptions? m_startOptions;
     private IExecutorService? m_imageAnalysisExecutor;
 
     internal partial Task PlatformStart(BarcodeScannerStartOptions startOptions, CameraFailed cameraFailedDelegate)
     {
         if (Context == null) return Task.CompletedTask;
-        
-        m_startOptions = startOptions;
         
         var resolutionSelector = new ResolutionSelector.Builder()
             .SetResolutionStrategy(ResolutionStrategy.HighestAvailableStrategy)
@@ -166,30 +163,23 @@ public partial class BarcodeScanner : CameraFragment, IObserver
 
     private bool IsBarcodeInsideScanRectangle(Xamarin.Google.MLKit.Vision.Barcode.Common.Barcode mlBarcode, int effectiveWidth, int effectiveHeight)
     {
-        if (m_startOptions?.ScanRectangle is not { IsVisible: true } scanRectangleOptions)
+        if (m_currentStartOptions.Strategy is not ScanRectangleBarcodeScanStrategy scanRectangleStrategy)
             return true;
-        
+
         var boundingBox = mlBarcode.BoundingBox;
-        if (boundingBox == null)
+        if (boundingBox == null || effectiveWidth == 0 || effectiveHeight == 0)
             return true;
 
-        if (effectiveWidth == 0 || effectiveHeight == 0)
-            return true;
+        var normalizedCenterX = (boundingBox.Left + boundingBox.Right) / 2.0f / effectiveWidth;
+        var normalizedCenterY = (boundingBox.Top + boundingBox.Bottom) / 2.0f / effectiveHeight;
 
-        // Normalize barcode center to 0-1 range
-        var barcodeCenterX = (boundingBox.Left + boundingBox.Right) / 2.0f / effectiveWidth;
-        var barcodeCenterY = (boundingBox.Top + boundingBox.Bottom) / 2.0f / effectiveHeight;
+        var rectLeft = (1.0f - scanRectangleStrategy.WidthFraction) / 2.0f;
+        var rectTop = (1.0f - scanRectangleStrategy.HeightFraction) / 2.0f;
+        var rectRight = rectLeft + scanRectangleStrategy.WidthFraction;
+        var rectBottom = rectTop + scanRectangleStrategy.HeightFraction;
 
-        // Compute scan rectangle in normalized coordinates
-        var rectWidthFraction = scanRectangleOptions.WidthFraction;
-        var rectHeightFraction = scanRectangleOptions.HeightFraction;
-        var rectLeft = (1.0f - rectWidthFraction) / 2.0f;
-        var rectTop = (1.0f - rectHeightFraction) / 2.0f;
-        var rectRight = rectLeft + rectWidthFraction;
-        var rectBottom = rectTop + rectHeightFraction;
-
-        return barcodeCenterX >= rectLeft && barcodeCenterX <= rectRight &&
-               barcodeCenterY >= rectTop && barcodeCenterY <= rectBottom;
+        return normalizedCenterX >= rectLeft && normalizedCenterX <= rectRight &&
+               normalizedCenterY >= rectTop && normalizedCenterY <= rectBottom;
     }
 
     public void OnChanged(Object? value)
