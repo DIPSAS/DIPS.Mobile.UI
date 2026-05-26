@@ -40,8 +40,35 @@ public partial class ContextMenuPlatformEffect
         }
         else
         {
+            if (ContextMenuEffect.GetIsEnabled(Element))
+            {
+                Control.LongClickable = true;
+                Control.LongClick += m_contextMenuBehaviour.OpenContextMenu;
+            }
+        }
+        
+        Element.PropertyChanged += OnElementPropertyChanged;
+    }
+
+    private void OnElementPropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
+    {
+        if (e.PropertyName != ContextMenuEffect.IsEnabledProperty.PropertyName)
+            return;
+        
+        var isEnabled = ContextMenuEffect.GetIsEnabled(Element);
+        if (m_mode == ContextMenuEffect.ContextMenuMode.Pressed)
+            return; // Pressed mode handles this in OpenContextMenu
+        
+        if (isEnabled)
+        {
             Control.LongClickable = true;
             Control.LongClick += m_contextMenuBehaviour.OpenContextMenu;
+        }
+        else
+        {
+            Control.LongClick -= m_contextMenuBehaviour.OpenContextMenu;
+            if (!Control.HasOnLongClickListeners)
+                Control.LongClickable = false;
         }
     }
 
@@ -100,6 +127,9 @@ public partial class ContextMenuPlatformEffect
         {
             if (m_menuItems.FirstOrDefault(m => m.Value == theTappedNativeItem).Key is ContextMenuItem tappedContextMenuItem)
             {
+                if (!tappedContextMenuItem.IsEnabled)
+                    return true;
+
                 if (theTappedNativeItem!.IsCheckable) //check the item
                 {
                     var singleCheckMode = tappedContextMenuItem.Parent is ContextMenuGroup {IsCheckable: true};
@@ -143,6 +173,8 @@ public partial class ContextMenuPlatformEffect
 
     protected override partial void OnDetached()
     {
+        Element.PropertyChanged -= OnElementPropertyChanged;
+        
         if (m_mode == ContextMenuEffect.ContextMenuMode.Pressed)
         {
             Control.Click -= m_contextMenuBehaviour.OpenContextMenu;
@@ -153,7 +185,7 @@ public partial class ContextMenuPlatformEffect
         {
             Control.LongClick -= m_contextMenuBehaviour.OpenContextMenu;
             if (!Control.HasOnLongClickListeners)
-                Control.Clickable = false;
+                Control.LongClickable = false;
         }
     }
 }

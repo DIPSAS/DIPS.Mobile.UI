@@ -120,14 +120,22 @@ internal static class ContextMenuHelper
             menuItem.SetIconTintList(Colors.GetColor(ColorName.color_text_danger).ToDefaultColorStateList());
         }
 
-        
+        if (!contextMenuItem.IsEnabled)
+        {
+            var disabledMauiColor = Colors.GetColor(ColorName.color_text_disabled);
+            var disabledColor = disabledMauiColor.ToPlatform();
+            var s = new SpannableString(contextMenuItem.Title);
+            s.SetSpan(new ForegroundColorSpan(disabledColor), 0, s.Length(), 0);
+            menuItem.SetTitle(s);
+            menuItem.SetIconTintList(disabledMauiColor.ToDefaultColorStateList());
+            menuItem.SetEnabled(false);
+        }
+
         TrySetChecked(contextMenu, menuItem, contextMenuItem);
         if (groupIndex == 0) //Not in a group
         {
             contextMenuItem.Parent = contextMenu;
         }
-        
-        menuItem.SetEnabled(contextMenuItem.IsEnabled);
     }
 
     private static void UpdateMenuGroup(ContextMenuItem contextMenuItem, ISubMenu subMenu)

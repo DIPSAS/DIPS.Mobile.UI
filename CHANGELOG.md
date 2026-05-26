@@ -1,3 +1,7 @@
+## [59.3.0]
+- [ContextMenu] Added `ContextMenuItem.IsEnabled` bindable property to disable individual context menu items. Disabled items appear grayed out and cannot be tapped.
+- [ContextMenu] Added `ContextMenuEffect.IsEnabled` attached property to enable/disable an entire context menu on an element. When disabled, the context menu will not open at all.
+
 ## [59.2.0]
 - [ContentPage] `NavigationPage.BarBackgroundColorProperty` and `NavigationPage.BarTextColorProperty` now properly assigns colors to modal navigation bars, including status bar, back button and toolbar icons. Removed old Android workarounds for modal toolbar coloring.
 
