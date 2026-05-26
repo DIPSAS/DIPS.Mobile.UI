@@ -126,6 +126,8 @@ internal static class ContextMenuHelper
         {
             contextMenuItem.Parent = contextMenu;
         }
+        
+        menuItem.SetEnabled(contextMenuItem.IsEnabled);
     }
 
     private static void UpdateMenuGroup(ContextMenuItem contextMenuItem, ISubMenu subMenu)

@@ -31,7 +31,7 @@ public partial class ContextMenuPlatformEffect
         var bindingContext = ContextMenuEffect.GetMenuBindingContext(Element);
         m_contextMenu.BindingContext = bindingContext ?? Element.BindingContext;
         m_contextMenu.Mode = m_mode;
-        m_contextMenuBehaviour = new ContextMenuHandler(m_contextMenu, Control);
+        m_contextMenuBehaviour = new ContextMenuHandler(m_contextMenu, Control, Element);
 
         if (m_mode == ContextMenuEffect.ContextMenuMode.Pressed)
         {
@@ -49,18 +49,23 @@ public partial class ContextMenuPlatformEffect
     {
         private readonly ContextMenu m_contextMenu;
         private readonly View m_control;
+        private readonly Element m_element;
         
         private Dictionary<IContextMenuItem, IMenuItem> m_menuItems;
         private PopupMenu m_popupMenu;
 
-        public ContextMenuHandler(ContextMenu contextMenu, View view)
+        public ContextMenuHandler(ContextMenu contextMenu, View view, Element element)
         {
             m_contextMenu = contextMenu;
             m_control = view;
+            m_element = element;
         }
         
         public void OpenContextMenu(object? sender, EventArgs e)
         {
+            if (!ContextMenuEffect.GetIsEnabled(m_element))
+                return;
+            
             m_popupMenu = new PopupMenu(Platform.CurrentActivity, m_control);
             
             m_menuItems = ContextMenuHelper.CreateMenuItems(m_contextMenu.ItemsSource!,

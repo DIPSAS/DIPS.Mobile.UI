@@ -22,7 +22,7 @@ public partial class ContextMenuPlatformEffect
         }
 
         m_uiButton = uiButton;
-        m_uiButton.ShowsMenuAsPrimaryAction = true;
+        m_uiButton.ShowsMenuAsPrimaryAction = ContextMenuEffect.GetIsEnabled(Element);
         m_uiButton.SetTitleColor(Colors.GetColor(ColorName.color_text_link_hover).ToPlatform(), UIControlState.Highlighted);
         
         if (contextMenu.ItemsSource is not null && contextMenu.ItemsSource.Any())
@@ -63,6 +63,9 @@ public partial class ContextMenuPlatformEffect
 
         if(e.PropertyName == nameof(visualElement.IsEnabled))
             m_uiButton.Enabled = visualElement.IsEnabled;
+        
+        if(e.PropertyName == ContextMenuEffect.IsEnabledProperty.PropertyName)
+            m_uiButton.ShowsMenuAsPrimaryAction = ContextMenuEffect.GetIsEnabled(Element);
     }
 
     private void RebuildMenu()
