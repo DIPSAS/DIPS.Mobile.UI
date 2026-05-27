@@ -22,7 +22,8 @@ public partial class ContextMenuPlatformEffect
         }
 
         m_uiButton = uiButton;
-        m_uiButton.ShowsMenuAsPrimaryAction = ContextMenuEffect.GetIsEnabled(Element);
+        var isEnabled = ContextMenuEffect.GetIsEnabled(Element);
+        m_uiButton.ShowsMenuAsPrimaryAction = isEnabled;
         m_uiButton.SetTitleColor(Colors.GetColor(ColorName.color_text_link_hover).ToPlatform(), UIControlState.Highlighted);
         
         if (contextMenu.ItemsSource is not null && contextMenu.ItemsSource.Any())
@@ -64,8 +65,12 @@ public partial class ContextMenuPlatformEffect
         if(e.PropertyName == nameof(visualElement.IsEnabled))
             m_uiButton.Enabled = visualElement.IsEnabled;
         
-        if(e.PropertyName == ContextMenuEffect.IsEnabledProperty.PropertyName)
-            m_uiButton.ShowsMenuAsPrimaryAction = ContextMenuEffect.GetIsEnabled(Element);
+        if (e.PropertyName == ContextMenuEffect.IsEnabledProperty.PropertyName)
+        {
+            var isEnabled = ContextMenuEffect.GetIsEnabled(Element);
+            m_uiButton.ShowsMenuAsPrimaryAction = isEnabled;
+            m_uiButton.Menu = isEnabled ? m_cachedMenu : null;
+        }
     }
 
     private void RebuildMenu()
@@ -78,7 +83,11 @@ public partial class ContextMenuPlatformEffect
         var dict = ContextMenuHelper.CreateMenuItems(
             m_contextMenu.ItemsSource!,
             m_contextMenu, RebuildMenu);
-        m_uiButton.Menu = UIMenu.Create(m_contextMenu.Title, dict.Select(k => k.Value).ToArray());
+        m_cachedMenu = UIMenu.Create(m_contextMenu.Title, dict.Select(k => k.Value).ToArray());
+        if (ContextMenuEffect.GetIsEnabled(Element))
+        {
+            m_uiButton.Menu = m_cachedMenu;
+        }
     }
 
     private void DisposePressed()
@@ -86,6 +95,8 @@ public partial class ContextMenuPlatformEffect
         m_uiButton?.Menu?.Dispose();
         if(m_uiButton?.Menu is not null)
             m_uiButton.Menu = null;
+        m_cachedMenu?.Dispose();
+        m_cachedMenu = null;
         m_uiButtonToRemove?.RemoveFromSuperview();
         
         m_contextMenu.SetPlatformRebuildAction(null);
