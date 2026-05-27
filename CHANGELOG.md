@@ -1,3 +1,8 @@
+## [60.0.2]
+- [BarcodeScanner] Fixed barcode scan overlay rendering on top of toolbar containers by inserting the overlay at the correct z-order position.
+- [ContentPage] `NavigationPage.BarBackgroundColorProperty` and `NavigationPage.BarTextColorProperty` changes are now propagated at runtime, allowing dynamic navigation bar color updates without re-navigation.
+- [CameraPreview] Removed `SafeAreaEdges.None` from internal containers so maui handles insets.
+
 ## [60.0.1]
 - [CameraPreview] Removed manual safe-area padding on iOS and set `SafeAreaEdges.None` on internal containers so the top toolbar renders correctly on both modal and regular shell pages.
 

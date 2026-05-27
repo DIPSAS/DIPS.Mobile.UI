@@ -1,0 +1,26 @@
+<?xml
+    version="1.0"
+    encoding="utf-8"?>
+
+<dui:ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                 xmlns:dui="http://dips.com/mobile.ui"
+                 x:Class="Playground.VetleSamples.CameraNavBarColorRepro"
+                 Title="Camera NavBar Color"
+                 NavigationPage.BarBackgroundColor="Black"
+                 NavigationPage.BarTextColor="White">
+    <dui:ContentPage.ToolbarItems>
+        <ToolbarItem Text="Close"
+                     Clicked="Close"/>
+        <ToolbarItem x:Name="RetakeToolbarItem"
+                     Text="Retake"
+                     Clicked="Retake"
+                     IsEnabled="False"/>
+    </dui:ContentPage.ToolbarItems>
+    <Grid SafeAreaEdges="None">
+        <dui:CameraPreview x:Name="CameraPreview"/>
+        <Image x:Name="CapturedImageView"
+               IsVisible="False"
+               Aspect="AspectFit"/>
+    </Grid>
+</dui:ContentPage>
