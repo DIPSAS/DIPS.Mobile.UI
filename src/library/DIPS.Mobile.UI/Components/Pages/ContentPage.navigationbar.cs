@@ -34,6 +34,16 @@ namespace DIPS.Mobile.UI.Components.Pages
             RefreshStatusBarTextOnPlatform(navigationPage);
         }
 
+        internal void OnNavigationBarColorPropertyChanged()
+        {
+            if (Parent is not NavigationPage navigationPage)
+                return;
+
+            navigationPage.BarBackgroundColor = GetNavigationBarPropertyColor(NavigationPage.BarBackgroundColorProperty);
+            navigationPage.BarTextColor = GetNavigationBarPropertyColor(NavigationPage.BarTextColorProperty);
+            RefreshStatusBarTextOnPlatform(navigationPage);
+        }
+
         private Color GetNavigationBarPropertyColor(BindableProperty navigationBarColorProperty)
         {
             return (Color)GetValue(navigationBarColorProperty);

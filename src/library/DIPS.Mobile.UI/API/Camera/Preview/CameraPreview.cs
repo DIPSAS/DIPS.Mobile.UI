@@ -51,14 +51,12 @@ public partial class CameraPreview : ContentView
     {
         m_bottomToolbarContainer = new Grid
         {
-            SafeAreaEdges = SafeAreaEdges.None,
             VerticalOptions = LayoutOptions.End,
             BackgroundColor = Colors.Transparent,
         };
 
         m_topToolbarContainer = new Grid
         {
-            SafeAreaEdges = SafeAreaEdges.None,
             VerticalOptions = LayoutOptions.Start,
             BackgroundColor = Colors.Transparent,
         };
@@ -67,7 +65,6 @@ public partial class CameraPreview : ContentView
 
         m_grid = new Grid
         {
-            SafeAreaEdges = SafeAreaEdges.None,
             Children = { PreviewView, m_bottomToolbarContainer, m_topToolbarContainer },
             ColumnDefinitions = [new ColumnDefinition(GridLength.Star)]
         };
@@ -114,7 +111,7 @@ public partial class CameraPreview : ContentView
             return;
         }
 
-        var actualPreviewHeight = (Width / ThreeFourRatio);
+        var actualPreviewHeight = Width / ThreeFourRatio;
         var totalLetterBoxHeight = frameHeight - actualPreviewHeight;
 
         var topToolbarHeight = ComputeTopToolbarHeight((float)Width, frameHeight);
