@@ -18,7 +18,7 @@ public partial class BarcodeCounterSample
         {
             Preview = CameraPreview,
             OnCameraFailed = CameraFailed,
-            ScanRectangle = new BarcodeScanRectangleOptions
+            Strategy = new ScanRectangleBarcodeScanStrategy
             {
                 WidthFraction = 0.8f,
                 HeightFraction = 0.3f

@@ -9,7 +9,6 @@ public partial class BarcodeScanner : CameraSession
     //The rectangle that people see in the preview which we will focus on scanning bar codes in
     private AVCaptureMetadataOutput? m_captureMetadataOutput;
     private double m_rectOfInterestWidth;
-    private BarcodeScannerStartOptions? m_startOptionsIos;
 
     private readonly DispatchQueue m_metadataObjectsQueue = new(label: "metadata objects queue", attributes: new(), target: null);
     
@@ -27,16 +26,12 @@ public partial class BarcodeScanner : CameraSession
 
     internal partial Task PlatformStart(BarcodeScannerStartOptions startOptions, CameraFailed cameraFailedDelegate)
     {
-        m_startOptionsIos = startOptions;
         m_captureMetadataOutput = new AVCaptureMetadataOutput();
-        var scanRunId = CurrentScanRunId;
         m_captureDelegate = new CaptureDelegate(readableCodeObject =>
         {
-            if (scanRunId != CurrentScanRunId)
-                return;
-
             if (!string.IsNullOrEmpty(readableCodeObject.StringValue))
             {
+                var scanRunId = CurrentScanRunId;
                 var overlayBounds = BarcodeScanOverlayBoundsMapper.TryGetBarcodeBoundsInOverlay(
                     readableCodeObject,
                     PreviewLayer,
@@ -77,9 +72,9 @@ public partial class BarcodeScanner : CameraSession
                                                       | AVMetadataObjectType.PDF417Code
                                                       | AVMetadataObjectType.QRCode;
         
-        if (m_startOptionsIos?.ScanRectangle is { IsVisible: true } scanRectangleOptions)
+        if (m_currentStartOptions.Strategy is ScanRectangleBarcodeScanStrategy scanRectangleStrategy)
         {
-            PreviewView.TryAddOrUpdateRectOfInterest(scanRectangleOptions.WidthFraction, scanRectangleOptions.HeightFraction);
+            PreviewView.TryAddOrUpdateRectOfInterest(scanRectangleStrategy.WidthFraction, scanRectangleStrategy.HeightFraction);
         }
         else
         {
@@ -164,14 +159,6 @@ public class CaptureDelegate : AVCaptureMetadataOutputObjectsDelegate
         AVMetadataObject[] metadataObjects,
         AVCaptureConnection connection)
     {
-        // Check if metadataObjects array is not empty
-        if (metadataObjects.Length == 0)
-        {
-            Console.WriteLine(@"No metadata objects detected");
-        }
-
-
-        // Iterate through the metadata objects
         foreach (var metadataObject in metadataObjects)
         {
             if (metadataObject is AVMetadataMachineReadableCodeObject readableObject)

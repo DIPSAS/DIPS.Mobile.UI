@@ -25,8 +25,12 @@
                                     Tapped="GoToCollectionViewTests" />
             <dui:NavigationListItem Title="ItemPicker Refresh Repro"
                                     Tapped="GoToItemPickerRefreshRepro" />
-            <dui:NavigationListItem Title="Navigation bar color"
-                                    Tapped="GoToNavigationBarColorSample" />
+            <dui:NavigationListItem Title="Barcode Resume Repro (#1415)"
+                                    Tapped="GoToBarcodeScanResumeRepro" />
+            <dui:NavigationListItem Title="Barcode Resume Repro (Modal)"
+                                    Tapped="GoToBarcodeScanResumeReproModal" />
+            <dui:NavigationListItem Title="Sampling Patient Scan Repro (Modal)"
+                                    Tapped="GoToSamplingPatientScanRepro" />
             <dui:Button Text="Tap me"
                         Clicked="TapMe" />
         </VerticalStackLayout>
