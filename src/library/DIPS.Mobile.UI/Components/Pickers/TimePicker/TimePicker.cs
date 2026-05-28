@@ -53,14 +53,25 @@ public partial class TimePicker : Chip, IDatePicker
     {
         if (selectedDate.HasValue)
         {
-            if(selectedDate.Value.TimeOfDay.Ticks == SelectedTime.Ticks)
+            var time = ClampTime(selectedDate.Value.TimeOfDay);
+            
+            if(time.Ticks == SelectedTime.Ticks)
                 return;
             
-            SelectedTime = selectedDate.Value.TimeOfDay;
+            SelectedTime = time;
         }
         
         SelectedTimeCommand?.Execute(selectedDate?.TimeOfDay);
         SelectedDateTimeChanged?.Invoke(selectedDate);
+    }
+
+    private TimeSpan ClampTime(TimeSpan time)
+    {
+        if (MinimumTime is { } min && time < min)
+            return min;
+        if (MaximumTime is { } max && time > max)
+            return max;
+        return time;
     }
 
     public bool ShouldDisplayTodayButton => false;
