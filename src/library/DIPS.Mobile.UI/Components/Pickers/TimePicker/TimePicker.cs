@@ -25,6 +25,7 @@ public partial class TimePicker : Chip, IDatePicker
         if (args.NewHandler is null)
             return;
 
+        SelectedTime = ClampTime(SelectedTime);
         OnTimeChanged();
     }
 
@@ -84,7 +85,7 @@ public partial class TimePicker : Chip, IDatePicker
 
     public virtual TimeSpan GetTimeOnOpen()
     {
-        return SelectedTime;
+        return ClampTime(SelectedTime);
     }
 
 }

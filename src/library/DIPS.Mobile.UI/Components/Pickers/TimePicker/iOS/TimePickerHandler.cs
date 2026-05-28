@@ -89,7 +89,7 @@ public partial class TimePickerHandler : BaseDatePickerHandler
         var clamped = ClampTime(timePicker, timePicker.SelectedTime);
         if (clamped != timePicker.SelectedTime)
             timePicker.SelectedTime = clamped;
-        
+
         SetPickerDate(handler, clamped);
     }
 
@@ -108,7 +108,7 @@ public partial class TimePickerHandler : BaseDatePickerHandler
         components.Hour = minimumTime.Hours;
         components.Minute = minimumTime.Minutes;
         handler.PlatformView.MinimumDate = calendar.DateFromComponents(components);
-        
+
         MapSelectedTime(handler, timePicker);
     }
 
@@ -127,7 +127,7 @@ public partial class TimePickerHandler : BaseDatePickerHandler
         components.Hour = maximumTime.Hours;
         components.Minute = maximumTime.Minutes;
         handler.PlatformView.MaximumDate = calendar.DateFromComponents(components);
-        
+
         MapSelectedTime(handler, timePicker);
     }
 
