@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<dui:ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                 xmlns:dui="http://dips.com/mobile.ui"
+                 xmlns:håvardSamples="clr-namespace:Playground.HåvardSamples"
+                 x:Class="Playground.HåvardSamples.HåvardPage4"
+                 x:DataType="håvardSamples:HåvardPage4ViewModel"
+                 Title="ContextMenu IsEnabled">
+    <dui:ContentPage.BindingContext>
+        <håvardSamples:HåvardPage4ViewModel />
+    </dui:ContentPage.BindingContext>
+
+    <ScrollView Padding="16">
+        <VerticalStackLayout Spacing="20">
+
+            <Label Text="ContextMenu IsEnabled test"
+                   Style="{dui:Styles Label=SectionHeader}" />
+
+            <!-- Toggle buttons -->
+            <Button Text="Toggle Delete Item Enabled"
+                    Command="{Binding ToggleDeleteEnabledCommand}" />
+            <Label Text="{Binding IsDeleteEnabled, StringFormat='Delete item enabled: {0}'}"
+                   Style="{dui:Styles Label=UI200}" />
+
+            <Button Text="Toggle Entire Context Menu Enabled"
+                    Command="{Binding ToggleContextMenuEnabledCommand}" />
+            <Label Text="{Binding IsContextMenuEnabled, StringFormat='Context menu enabled: {0}'}"
+                   Style="{dui:Styles Label=UI200}" />
+
+            <!-- Pressed mode: single item disabled -->
+            <Label Text="Pressed mode — single item disabled"
+                   Style="{dui:Styles Label=UI100}" />
+
+            <ContentView HeightRequest="60"
+                         BackgroundColor="{dui:Colors color_surface_default}"
+                         Padding="12"
+                         dui:ContextMenuEffect.Mode="Pressed">
+                <dui:ContextMenuEffect.Menu>
+                    <dui:ContextMenu>
+                        <dui:ContextMenuItem Title="Edit"
+                                             Command="{Binding ItemTappedCommand}"
+                                             CommandParameter="Edit" />
+                        <dui:ContextMenuItem Title="Delete"
+                                             IsEnabled="{Binding IsDeleteEnabled}"
+                                             IsDestructive="True"
+                                             Command="{Binding ItemTappedCommand}"
+                                             CommandParameter="Delete" />
+                        <dui:ContextMenuItem Title="Always disabled"
+                                             IsEnabled="False"
+                                             Command="{Binding ItemTappedCommand}"
+                                             CommandParameter="Always disabled" />
+                    </dui:ContextMenu>
+                </dui:ContextMenuEffect.Menu>
+                <Label Text="Tap me (Pressed, item disabled)"
+                       VerticalOptions="Center"
+                       HorizontalOptions="Center"
+                       Style="{dui:Styles Label=UI200}" />
+            </ContentView>
+
+            <!-- Pressed mode: entire menu disabled -->
+            <Label Text="Pressed mode — entire menu disabled"
+                   Style="{dui:Styles Label=UI100}" />
+
+            <ContentView HeightRequest="60"
+                         BackgroundColor="{dui:Colors color_surface_default}"
+                         Padding="12"
+                         dui:ContextMenuEffect.Mode="Pressed"
+                         dui:ContextMenuEffect.IsEnabled="{Binding IsContextMenuEnabled}">
+                <dui:ContextMenuEffect.Menu>
+                    <dui:ContextMenu>
+                        <dui:ContextMenuItem Title="Edit"
+                                             Command="{Binding ItemTappedCommand}"
+                                             CommandParameter="Edit" />
+                        <dui:ContextMenuItem Title="Delete"
+                                             IsDestructive="True"
+                                             Command="{Binding ItemTappedCommand}"
+                                             CommandParameter="Delete" />
+                    </dui:ContextMenu>
+                </dui:ContextMenuEffect.Menu>
+                <Label Text="Tap me (Pressed, menu disabled)"
+                       VerticalOptions="Center"
+                       HorizontalOptions="Center"
+                       Style="{dui:Styles Label=UI200}" />
+            </ContentView>
+
+            <!-- LongPressed mode: single item disabled -->
+            <Label Text="LongPressed mode — single item disabled"
+                   Style="{dui:Styles Label=UI100}" />
+
+            <ContentView HeightRequest="60"
+                         BackgroundColor="{dui:Colors color_surface_default}"
+                         Padding="12"
+                         SemanticProperties.Description="Long press test"
+                         dui:ContextMenuEffect.Mode="LongPressed">
+                <dui:ContextMenuEffect.Menu>
+                    <dui:ContextMenu>
+                        <dui:ContextMenuItem Title="Share"
+                                             Command="{Binding ItemTappedCommand}"
+                                             CommandParameter="Share" />
+                        <dui:ContextMenuItem Title="Delete"
+                                             IsEnabled="{Binding IsDeleteEnabled}"
+                                             IsDestructive="True"
+                                             Command="{Binding ItemTappedCommand}"
+                                             CommandParameter="Delete" />
+                    </dui:ContextMenu>
+                </dui:ContextMenuEffect.Menu>
+                <Label Text="Long press me (item disabled)"
+                       VerticalOptions="Center"
+                       HorizontalOptions="Center"
+                       Style="{dui:Styles Label=UI200}" />
+            </ContentView>
+
+            <!-- LongPressed mode: entire menu disabled -->
+            <Label Text="LongPressed mode — entire menu disabled"
+                   Style="{dui:Styles Label=UI100}" />
+
+            <ContentView HeightRequest="60"
+                         BackgroundColor="{dui:Colors color_surface_default}"
+                         Padding="12"
+                         SemanticProperties.Description="Long press disabled test"
+                         dui:ContextMenuEffect.Mode="LongPressed"
+                         dui:ContextMenuEffect.IsEnabled="{Binding IsContextMenuEnabled}">
+                <dui:ContextMenuEffect.Menu>
+                    <dui:ContextMenu>
+                        <dui:ContextMenuItem Title="Share"
+                                             Command="{Binding ItemTappedCommand}"
+                                             CommandParameter="Share" />
+                        <dui:ContextMenuItem Title="Delete"
+                                             IsDestructive="True"
+                                             Command="{Binding ItemTappedCommand}"
+                                             CommandParameter="Delete" />
+                    </dui:ContextMenu>
+                </dui:ContextMenuEffect.Menu>
+                <Label Text="Long press me (menu disabled)"
+                       VerticalOptions="Center"
+                       HorizontalOptions="Center"
+                       Style="{dui:Styles Label=UI200}" />
+            </ContentView>
+
+        </VerticalStackLayout>
+    </ScrollView>
+</dui:ContentPage>

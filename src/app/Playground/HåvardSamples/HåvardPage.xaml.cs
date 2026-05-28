@@ -24,6 +24,11 @@ public partial class HåvardPage
         DialogService.ShowMessage("You tapped it", "yey!", "Ok");
     }
 
+    private void GoToHåvardPage4(object sender, EventArgs e)
+    {
+        Shell.Current.Navigation.PushAsync(new HåvardPage4());
+    }
+
     private void ModalNavigation(object sender, EventArgs e)
     {
         var navigationpage = new NavigationPage(new SecondRootPage()

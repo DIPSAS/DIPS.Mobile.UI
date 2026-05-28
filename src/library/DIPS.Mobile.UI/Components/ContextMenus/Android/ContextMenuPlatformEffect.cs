@@ -31,7 +31,7 @@ public partial class ContextMenuPlatformEffect
         var bindingContext = ContextMenuEffect.GetMenuBindingContext(Element);
         m_contextMenu.BindingContext = bindingContext ?? Element.BindingContext;
         m_contextMenu.Mode = m_mode;
-        m_contextMenuBehaviour = new ContextMenuHandler(m_contextMenu, Control);
+        m_contextMenuBehaviour = new ContextMenuHandler(m_contextMenu, Control, Element);
 
         if (m_mode == ContextMenuEffect.ContextMenuMode.Pressed)
         {
@@ -40,8 +40,35 @@ public partial class ContextMenuPlatformEffect
         }
         else
         {
+            if (ContextMenuEffect.GetIsEnabled(Element))
+            {
+                Control.LongClickable = true;
+                Control.LongClick += m_contextMenuBehaviour.OpenContextMenu;
+            }
+        }
+        
+        Element.PropertyChanged += OnElementPropertyChanged;
+    }
+
+    private void OnElementPropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
+    {
+        if (e.PropertyName != ContextMenuEffect.IsEnabledProperty.PropertyName)
+            return;
+        
+        var isEnabled = ContextMenuEffect.GetIsEnabled(Element);
+        if (m_mode == ContextMenuEffect.ContextMenuMode.Pressed)
+            return; // Pressed mode handles this in OpenContextMenu
+        
+        if (isEnabled)
+        {
             Control.LongClickable = true;
             Control.LongClick += m_contextMenuBehaviour.OpenContextMenu;
+        }
+        else
+        {
+            Control.LongClick -= m_contextMenuBehaviour.OpenContextMenu;
+            if (!Control.HasOnLongClickListeners)
+                Control.LongClickable = false;
         }
     }
 
@@ -49,18 +76,23 @@ public partial class ContextMenuPlatformEffect
     {
         private readonly ContextMenu m_contextMenu;
         private readonly View m_control;
+        private readonly Element m_element;
         
         private Dictionary<IContextMenuItem, IMenuItem> m_menuItems;
         private PopupMenu m_popupMenu;
 
-        public ContextMenuHandler(ContextMenu contextMenu, View view)
+        public ContextMenuHandler(ContextMenu contextMenu, View view, Element element)
         {
             m_contextMenu = contextMenu;
             m_control = view;
+            m_element = element;
         }
         
         public void OpenContextMenu(object? sender, EventArgs e)
         {
+            if (!ContextMenuEffect.GetIsEnabled(m_element))
+                return;
+            
             m_popupMenu = new PopupMenu(Platform.CurrentActivity, m_control);
             
             m_menuItems = ContextMenuHelper.CreateMenuItems(m_contextMenu.ItemsSource!,
@@ -95,6 +127,9 @@ public partial class ContextMenuPlatformEffect
         {
             if (m_menuItems.FirstOrDefault(m => m.Value == theTappedNativeItem).Key is ContextMenuItem tappedContextMenuItem)
             {
+                if (!tappedContextMenuItem.IsEnabled)
+                    return true;
+
                 if (theTappedNativeItem!.IsCheckable) //check the item
                 {
                     var singleCheckMode = tappedContextMenuItem.Parent is ContextMenuGroup {IsCheckable: true};
@@ -138,6 +173,8 @@ public partial class ContextMenuPlatformEffect
 
     protected override partial void OnDetached()
     {
+        Element.PropertyChanged -= OnElementPropertyChanged;
+        
         if (m_mode == ContextMenuEffect.ContextMenuMode.Pressed)
         {
             Control.Click -= m_contextMenuBehaviour.OpenContextMenu;
@@ -148,7 +185,7 @@ public partial class ContextMenuPlatformEffect
         {
             Control.LongClick -= m_contextMenuBehaviour.OpenContextMenu;
             if (!Control.HasOnLongClickListeners)
-                Control.Clickable = false;
+                Control.LongClickable = false;
         }
     }
 }

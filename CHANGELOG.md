@@ -1,3 +1,7 @@
+## [60.0.4]
+- [ContextMenu] Added `ContextMenuItem.IsEnabled` bindable property to disable individual context menu items. Disabled items appear grayed out and cannot be tapped.
+- [ContextMenu] Added `ContextMenuEffect.IsEnabled` attached property to enable/disable an entire context menu on an element. When disabled, the context menu will not open at all.
+
 ## [60.0.3]
 - Rolled back Microsoft.Maui.Controls from 10.0.70 to 10.0.60 due to crash caused by known regression in MAUI (dotnet/maui#35584).
 
