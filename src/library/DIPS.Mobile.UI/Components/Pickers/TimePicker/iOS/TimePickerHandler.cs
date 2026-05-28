@@ -7,6 +7,8 @@ namespace DIPS.Mobile.UI.Components.Pickers.TimePicker;
 
 public partial class TimePickerHandler : BaseDatePickerHandler
 {
+    private bool m_isClampingTime;
+    
     protected override UIDatePicker CreatePlatformView()
     {
         return new UIDatePicker
@@ -18,6 +20,9 @@ public partial class TimePickerHandler : BaseDatePickerHandler
 
     protected override void OnValueChanged(object? sender, EventArgs e)
     {
+        if (m_isClampingTime)
+            return;
+        
         if (VirtualView is not TimePicker timePicker)
             return;
 
@@ -26,26 +31,31 @@ public partial class TimePickerHandler : BaseDatePickerHandler
 
         if (timePicker.MinimumTime is { } min && selectedTime < min)
         {
-            SetPickerTime(min);
+            ClampPickerTime(min);
             return;
         }
 
         if (timePicker.MaximumTime is { } max && selectedTime > max)
         {
-            SetPickerTime(max);
+            ClampPickerTime(max);
             return;
         }
 
         VirtualView.SetSelectedDateTime(new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, (int)components.Hour, (int)components.Minute, 0));
     }
 
-    private void SetPickerTime(TimeSpan time)
+    private void ClampPickerTime(TimeSpan time)
     {
+        m_isClampingTime = true;
+        
         var calendar = NSCalendar.CurrentCalendar;
         var components = calendar.Components(NSCalendarUnit.Year | NSCalendarUnit.Month | NSCalendarUnit.Day | NSCalendarUnit.Hour | NSCalendarUnit.Minute, PlatformView.Date);
         components.Hour = time.Hours;
         components.Minute = time.Minutes;
         PlatformView.SetDate(calendar.DateFromComponents(components), true);
+        
+        m_isClampingTime = false;
+        
         VirtualView.SetSelectedDateTime(new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, time.Hours, time.Minutes, 0));
     }
 
