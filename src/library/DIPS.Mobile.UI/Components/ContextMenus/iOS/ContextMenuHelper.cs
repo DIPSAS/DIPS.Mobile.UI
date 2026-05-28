@@ -101,7 +101,12 @@ namespace DIPS.Mobile.UI.Components.ContextMenus.iOS;
 
                 if (menuItem.IsDestructive)
                 {
-                    uiAction.Attributes = UIMenuElementAttributes.Destructive;
+                    uiAction.Attributes |= UIMenuElementAttributes.Destructive;
+                }
+                
+                if (!menuItem.IsEnabled)
+                {
+                    uiAction.Attributes |= UIMenuElementAttributes.Disabled;
                 }
 
                 if (menuItem.IsChecked)

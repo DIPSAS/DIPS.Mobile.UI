@@ -6,6 +6,7 @@ namespace DIPS.Mobile.UI.Components.ContextMenus;
 public partial class ContextMenuPlatformEffect
 {
     private UIButton? m_uiButtonToRemove;
+    private UIMenu? m_cachedMenu;
     
 #nullable disable
     private ContextMenu m_contextMenu;

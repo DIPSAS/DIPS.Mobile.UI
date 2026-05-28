@@ -27,6 +27,15 @@ public class ContextMenuEffect : RoutingEffect
         typeof(ContextMenuEffect),
         null,
         propertyChanged:OnMenuBindingContextChanged);
+    
+    /// <summary>
+    /// Enables or disables the context menu interaction on the element. When disabled, the context menu will not open but the element remains interactive.
+    /// </summary>
+    /// <remarks>Default is true</remarks>
+    public static readonly BindableProperty IsEnabledProperty = BindableProperty.CreateAttached("IsEnabled",
+        typeof(bool),
+        typeof(ContextMenuEffect),
+        true);
 
     internal static Action<GlobalContextMenuClickMetadata>? ContextMenuItemGlobalClicksCallBack { get; private set; }
 
@@ -67,6 +76,16 @@ public class ContextMenuEffect : RoutingEffect
     public static void SetMenuBindingContext(BindableObject view, object bindingContext)
     {
         view.SetValue(MenuBindingContextProperty, bindingContext);
+    }
+    
+    public static bool GetIsEnabled(BindableObject view)
+    {
+        return (bool)view.GetValue(IsEnabledProperty);
+    }
+    
+    public static void SetIsEnabled(BindableObject view, bool isEnabled)
+    {
+        view.SetValue(IsEnabledProperty, isEnabled);
     }
 
     private static void OnHasMenuChanged(BindableObject bindableObject, object oldValue, object newValue)
