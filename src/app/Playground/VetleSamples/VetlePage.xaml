@@ -77,6 +77,32 @@
                                        HorizontalOptions="Start"/>
             </dui:VerticalStackLayout>
 
+            <!-- TimePicker MinimumTime/MaximumTime -->
+            <Label Text="TimePicker Time Constraints"
+                   Style="{dui:Styles Label=SectionHeader}"
+                   Margin="{dui:Thickness Top=content_margin_large}"/>
+
+            <dui:VerticalStackLayout Spacing="{dui:Sizes content_margin_small}"
+                                     Margin="{dui:Thickness Top=content_margin_small}">
+                <Label Text="MaximumTime = 16:00"
+                       Style="{dui:Styles Label=UI200}"/>
+                <dui:TimePicker MaximumTime="16:00"
+                                HorizontalOptions="Start"/>
+
+                <Label Text="MinimumTime = 08:00"
+                       Style="{dui:Styles Label=UI200}"
+                       Margin="{dui:Thickness Top=content_margin_small}"/>
+                <dui:TimePicker MinimumTime="08:00"
+                                HorizontalOptions="Start"/>
+
+                <Label Text="MinimumTime = 08:00, MaximumTime = 16:00"
+                       Style="{dui:Styles Label=UI200}"
+                       Margin="{dui:Thickness Top=content_margin_small}"/>
+                <dui:TimePicker MinimumTime="08:00"
+                                MaximumTime="16:00"
+                                HorizontalOptions="Start"/>
+            </dui:VerticalStackLayout>
+
         </dui:VerticalStackLayout>
     </ScrollView>
 

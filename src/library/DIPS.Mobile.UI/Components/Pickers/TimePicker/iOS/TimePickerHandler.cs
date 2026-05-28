@@ -18,9 +18,9 @@ public partial class TimePickerHandler : BaseDatePickerHandler
 
     protected override void OnValueChanged(object? sender, EventArgs e)
     {
-        if(VirtualView is not TimePicker)
+        if (VirtualView is not TimePicker)
             return;
-        
+
         var components = NSCalendar.CurrentCalendar.Components(NSCalendarUnit.Hour | NSCalendarUnit.Minute, PlatformView.Date);
         VirtualView.SetSelectedDateTime(new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, (int)components.Hour, (int)components.Minute, 0));
     }
@@ -41,7 +41,7 @@ public partial class TimePickerHandler : BaseDatePickerHandler
             handler.PlatformView.MinimumDate = null;
             return;
         }
-        
+
         var calendar = NSCalendar.CurrentCalendar;
         var components = NSCalendar.CurrentCalendar.Components(NSCalendarUnit.Hour | NSCalendarUnit.Minute, new NSDate());
         components.Hour = minimumTime.Hours;
@@ -56,7 +56,7 @@ public partial class TimePickerHandler : BaseDatePickerHandler
             handler.PlatformView.MaximumDate = null;
             return;
         }
-        
+
         var calendar = NSCalendar.CurrentCalendar;
         var components = NSCalendar.CurrentCalendar.Components(NSCalendarUnit.Hour | NSCalendarUnit.Minute, new NSDate());
         components.Hour = maximumTime.Hours;
@@ -64,5 +64,5 @@ public partial class TimePickerHandler : BaseDatePickerHandler
         handler.PlatformView.MaximumDate = calendar.DateFromComponents(components);
     }
 
-    
+
 }

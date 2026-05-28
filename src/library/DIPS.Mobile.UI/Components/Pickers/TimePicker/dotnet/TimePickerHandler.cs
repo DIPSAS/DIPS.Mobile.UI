@@ -2,18 +2,19 @@ using DIPS.Mobile.UI.Exceptions;
 using Microsoft.Maui.Handlers;
 
 namespace DIPS.Mobile.UI.Components.Pickers.TimePicker;
+
 public partial class TimePickerHandler : ViewHandler<TimePicker, Only_Here_For_UnitTests>
 {
-    
+
     protected override Only_Here_For_UnitTests CreatePlatformView()
     {
         throw new NotImplementedException();
     }
-    
+
 
     private static partial void MapSelectedTime(TimePickerHandler handler, TimePicker timePicker)
     {
-        
+
     }
 
     private static partial void MapMinimumTime(TimePickerHandler handler, TimePicker timePicker)
@@ -23,5 +24,5 @@ public partial class TimePickerHandler : ViewHandler<TimePicker, Only_Here_For_U
     private static partial void MapMaximumTime(TimePickerHandler handler, TimePicker timePicker)
     {
     }
-    
+
 }

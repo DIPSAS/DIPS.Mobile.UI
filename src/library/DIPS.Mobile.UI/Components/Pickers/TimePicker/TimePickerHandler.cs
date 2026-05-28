@@ -7,7 +7,7 @@ public partial class TimePickerHandler
     }
 
 #if __IOS__
-    
+
     public static readonly IPropertyMapper<TimePicker, TimePickerHandler> TimePickerPropertyMapper = new PropertyMapper<TimePicker, TimePickerHandler>(BasePropertyMapper)
     {
         [nameof(TimePicker.SelectedTime)] = MapSelectedTime,

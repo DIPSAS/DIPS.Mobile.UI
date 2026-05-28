@@ -21,10 +21,10 @@ public partial class TimePicker : Chip, IDatePicker
     protected override void OnHandlerChanging(HandlerChangingEventArgs args)
     {
         base.OnHandlerChanging(args);
-        
-        if(args.NewHandler is null)
+
+        if (args.NewHandler is null)
             return;
-        
+
         OnTimeChanged();
     }
 
@@ -46,21 +46,21 @@ public partial class TimePicker : Chip, IDatePicker
     }
 
     public event Action<DateTime?>? SelectedDateTimeChanged;
-    
+
     public DatePickerMode Mode => DatePickerMode.Time;
-    
+
     public virtual void SetSelectedDateTime(DateTime? selectedDate)
     {
         if (selectedDate.HasValue)
         {
             var time = ClampTime(selectedDate.Value.TimeOfDay);
-            
-            if(time.Ticks == SelectedTime.Ticks)
+
+            if (time.Ticks == SelectedTime.Ticks)
                 return;
-            
+
             SelectedTime = time;
         }
-        
+
         SelectedTimeCommand?.Execute(selectedDate?.TimeOfDay);
         SelectedDateTimeChanged?.Invoke(selectedDate);
     }
