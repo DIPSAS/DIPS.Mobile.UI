@@ -1,0 +1,19 @@
+<?xml
+    version="1.0"
+    encoding="utf-8"?>
+
+<dui:ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                 xmlns:dui="http://dips.com/mobile.ui"
+                 x:Class="Playground.VetleSamples.CameraNavBarColorNoNavBarRepro"
+                 Title="Camera NavBar Color (No NavBar)"
+                 NavigationPage.HasNavigationBar="False"
+                 NavigationPage.BarBackgroundColor="Black"
+                 NavigationPage.BarTextColor="White">
+    <Grid SafeAreaEdges="None">
+        <dui:CameraPreview x:Name="CameraPreview"/>
+        <Image x:Name="CapturedImageView"
+               IsVisible="False"
+               Aspect="AspectFit"/>
+    </Grid>
+</dui:ContentPage>
