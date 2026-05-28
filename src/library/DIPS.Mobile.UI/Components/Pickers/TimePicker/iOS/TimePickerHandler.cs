@@ -43,7 +43,9 @@ public partial class TimePickerHandler : BaseDatePickerHandler
         }
 
         var calendar = NSCalendar.CurrentCalendar;
-        var components = NSCalendar.CurrentCalendar.Components(NSCalendarUnit.Hour | NSCalendarUnit.Minute, new NSDate());
+        var components = calendar.Components(
+            NSCalendarUnit.Year | NSCalendarUnit.Month | NSCalendarUnit.Day | NSCalendarUnit.Hour | NSCalendarUnit.Minute,
+            handler.PlatformView.Date);
         components.Hour = minimumTime.Hours;
         components.Minute = minimumTime.Minutes;
         handler.PlatformView.MinimumDate = calendar.DateFromComponents(components);
@@ -58,7 +60,9 @@ public partial class TimePickerHandler : BaseDatePickerHandler
         }
 
         var calendar = NSCalendar.CurrentCalendar;
-        var components = NSCalendar.CurrentCalendar.Components(NSCalendarUnit.Hour | NSCalendarUnit.Minute, new NSDate());
+        var components = calendar.Components(
+            NSCalendarUnit.Year | NSCalendarUnit.Month | NSCalendarUnit.Day | NSCalendarUnit.Hour | NSCalendarUnit.Minute,
+            handler.PlatformView.Date);
         components.Hour = maximumTime.Hours;
         components.Minute = maximumTime.Minutes;
         handler.PlatformView.MaximumDate = calendar.DateFromComponents(components);
