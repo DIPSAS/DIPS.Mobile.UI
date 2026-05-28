@@ -1,3 +1,7 @@
+## [60.0.4]
+- [DateAndTimePicker] `MaximumDate` and `MinimumDate` now also constrain the time portion when the selected date equals the boundary date.
+- [TimePicker] Added `MinimumTime` and `MaximumTime` properties to constrain selectable times.
+
 ## [60.0.3]
 - Rolled back Microsoft.Maui.Controls from 10.0.70 to 10.0.60 due to crash caused by known regression in MAUI (dotnet/maui#35584).
 

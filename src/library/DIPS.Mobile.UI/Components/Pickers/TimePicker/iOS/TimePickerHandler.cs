@@ -34,5 +34,35 @@ public partial class TimePickerHandler : BaseDatePickerHandler
         handler.PlatformView.SetDate(calendar.DateFromComponents(components), true);
     }
 
+    private static partial void MapMinimumTime(TimePickerHandler handler, TimePicker timePicker)
+    {
+        if (timePicker.MinimumTime is not { } minimumTime)
+        {
+            handler.PlatformView.MinimumDate = null;
+            return;
+        }
+        
+        var calendar = NSCalendar.CurrentCalendar;
+        var components = NSCalendar.CurrentCalendar.Components(NSCalendarUnit.Hour | NSCalendarUnit.Minute, new NSDate());
+        components.Hour = minimumTime.Hours;
+        components.Minute = minimumTime.Minutes;
+        handler.PlatformView.MinimumDate = calendar.DateFromComponents(components);
+    }
+
+    private static partial void MapMaximumTime(TimePickerHandler handler, TimePicker timePicker)
+    {
+        if (timePicker.MaximumTime is not { } maximumTime)
+        {
+            handler.PlatformView.MaximumDate = null;
+            return;
+        }
+        
+        var calendar = NSCalendar.CurrentCalendar;
+        var components = NSCalendar.CurrentCalendar.Components(NSCalendarUnit.Hour | NSCalendarUnit.Minute, new NSDate());
+        components.Hour = maximumTime.Hours;
+        components.Minute = maximumTime.Minutes;
+        handler.PlatformView.MaximumDate = calendar.DateFromComponents(components);
+    }
+
     
 }

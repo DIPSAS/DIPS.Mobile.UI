@@ -15,5 +15,13 @@ public partial class TimePickerHandler : ViewHandler<TimePicker, Only_Here_For_U
     {
         
     }
+
+    private static partial void MapMinimumTime(TimePickerHandler handler, TimePicker timePicker)
+    {
+    }
+
+    private static partial void MapMaximumTime(TimePickerHandler handler, TimePicker timePicker)
+    {
+    }
     
 }

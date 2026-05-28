@@ -21,4 +21,12 @@ public partial class TimePickerHandler : BaseDatePickerHandler
             handler.PlatformView.Text = displayItemAsString;
         }
     }
+
+    private static partial void MapMinimumTime(TimePickerHandler handler, TimePicker timePicker)
+    {
+    }
+
+    private static partial void MapMaximumTime(TimePickerHandler handler, TimePicker timePicker)
+    {
+    }
 }

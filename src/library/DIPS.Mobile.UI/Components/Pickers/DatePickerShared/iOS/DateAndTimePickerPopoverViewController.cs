@@ -135,10 +135,26 @@ internal class DateAndTimePickerPopoverViewController : UIViewController, IDateP
 
     private void TimePickerEnabled()
     {
-        m_inlineDatePicker = new InlineTimePicker
+        var selectedDate = m_dateAndTimePicker.SelectedDateTime.ConvertDate(m_dateAndTimePicker.IgnoreLocalTime);
+        
+        var inlineTimePicker = new InlineTimePicker
         {
-            SelectedTime = m_startingDateTime.ConvertDate(m_dateAndTimePicker.IgnoreLocalTime).TimeOfDay
+            SelectedTime = selectedDate.TimeOfDay
         };
+
+        if (m_dateAndTimePicker.MaximumDate is { } maxDate &&
+            selectedDate.Date == maxDate.ConvertDate(m_dateAndTimePicker.IgnoreLocalTime).Date)
+        {
+            inlineTimePicker.MaximumTime = maxDate.ConvertDate(m_dateAndTimePicker.IgnoreLocalTime).TimeOfDay;
+        }
+
+        if (m_dateAndTimePicker.MinimumDate is { } minDate &&
+            selectedDate.Date == minDate.ConvertDate(m_dateAndTimePicker.IgnoreLocalTime).Date)
+        {
+            inlineTimePicker.MinimumTime = minDate.ConvertDate(m_dateAndTimePicker.IgnoreLocalTime).TimeOfDay;
+        }
+
+        m_inlineDatePicker = inlineTimePicker;
     }
 
     private void OnDateChanged(DateTime? dateTime)

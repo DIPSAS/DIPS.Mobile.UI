@@ -110,22 +110,22 @@ public partial class DateAndTimePicker : Grid, IDatePicker
 
     protected DateTime ValidateDateTime(DateTime selectedDate)
     {
-        // SelectedDate should not be above maximum date
-        if (MaximumDate != null && SelectedDateTime > MaximumDate)
+        // SelectedDate should not be above maximum date (including time)
+        if (MaximumDate != null && selectedDate > MaximumDate)
         {
             return new DateTime(MaximumDate.Value.Year,
                 MaximumDate.Value.Month,
                 MaximumDate.Value.Day,
-                SelectedDateTime.Hour, SelectedDateTime.Minute, SelectedDateTime.Second, selectedDate.Kind);
+                MaximumDate.Value.Hour, MaximumDate.Value.Minute, MaximumDate.Value.Second, selectedDate.Kind);
         }
 
-        // SelectedDate should not be below minimum date
-        if (MinimumDate != null && SelectedDateTime < MinimumDate)
+        // SelectedDate should not be below minimum date (including time)
+        if (MinimumDate != null && selectedDate < MinimumDate)
         {
             return new DateTime(MinimumDate.Value.Year,
                 MinimumDate.Value.Month,
                 MinimumDate.Value.Day,
-                SelectedDateTime.Hour, SelectedDateTime.Minute, SelectedDateTime.Second, selectedDate.Kind);
+                MinimumDate.Value.Hour, MinimumDate.Value.Minute, MinimumDate.Value.Second, selectedDate.Kind);
         }
 
         return selectedDate;
