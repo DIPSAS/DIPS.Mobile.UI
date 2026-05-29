@@ -5,6 +5,7 @@
                  x:Name="Sheet"
                  Positioning="Large"
                  Title="Navigation"
+                 BackgroundColor="{dui:Colors color_surface_neutral}"
                  ShowBottombarButtonsOnSubViews="True">
     
     <dui:VerticalStackLayout Spacing="0"

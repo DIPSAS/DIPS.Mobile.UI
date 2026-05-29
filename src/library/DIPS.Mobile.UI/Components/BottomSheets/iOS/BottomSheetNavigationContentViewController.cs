@@ -25,7 +25,12 @@ internal class BottomSheetNavigationContentViewController : UIViewController
 
         if (View is null) return;
 
-        View.BackgroundColor = Colors.GetColor(BottomSheet.BackgroundColorName).ToPlatform();
+        // Bruk innholdets bakgrunnsfarge hvis den er eksplisitt satt, ellers arv fra bottomsheetet
+        var contentBackgroundColor = m_content.BackgroundColor;
+        var effectiveColor = contentBackgroundColor ?? m_bottomSheet.BackgroundColor;
+        View.BackgroundColor = effectiveColor.ToPlatform();
+
+        ConfigureNavigationBarAppearance();
 
         var mauiContext = DUI.GetCurrentMauiContext;
         if (mauiContext is null) return;
@@ -37,7 +42,7 @@ internal class BottomSheetNavigationContentViewController : UIViewController
         NSLayoutConstraint.ActivateConstraints([
             nativeView.LeadingAnchor.ConstraintEqualTo(View.LeadingAnchor),
             nativeView.TrailingAnchor.ConstraintEqualTo(View.TrailingAnchor),
-            nativeView.TopAnchor.ConstraintEqualTo(View.TopAnchor),
+            nativeView.TopAnchor.ConstraintEqualTo(View.SafeAreaLayoutGuide.TopAnchor),
             nativeView.BottomAnchor.ConstraintEqualTo(View.SafeAreaLayoutGuide.BottomAnchor)
         ]);
 
@@ -47,6 +52,20 @@ internal class BottomSheetNavigationContentViewController : UIViewController
         {
             behavior.PropertyChanged += OnHeaderBehaviorPropertyChanged;
         }
+    }
+
+    private void ConfigureNavigationBarAppearance()
+    {
+        var appearance = new UINavigationBarAppearance();
+        appearance.ConfigureWithOpaqueBackground();
+        appearance.BackgroundColor = Colors.GetColor(ColorName.color_surface_default).ToPlatform();
+        appearance.ShadowColor = UIColor.Clear;
+        appearance.TitleTextAttributes = new UIStringAttributes
+        {
+            ForegroundColor = Colors.GetColor(ColorName.color_text_default).ToPlatform()
+        };
+        NavigationItem.StandardAppearance = appearance;
+        NavigationItem.ScrollEdgeAppearance = appearance;
     }
 
     private void OnHeaderBehaviorPropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
