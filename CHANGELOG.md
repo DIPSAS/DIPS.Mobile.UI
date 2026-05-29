@@ -1,4 +1,4 @@
-## [60.1.0]
+## [60.2.0]
 - [Bottomsheet] Added page navigation inside bottomsheet
 - [Checkmark] Added `AddStrokeToCheckmark` property to display a visible stroke around the checkmark
 - [CheckmarkListItem] Added `AddStrokeToCheckmark` property to display a visible stroke around the checkmark icon
