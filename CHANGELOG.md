@@ -1,3 +1,7 @@
+## [60.1.0]
+- [DateAndTimePicker] `MaximumDate` and `MinimumDate` now also constrain the time portion when the selected date equals the boundary date.
+- [TimePicker] Added `MinimumTime` and `MaximumTime` properties to constrain selectable times.
+
 ## [60.0.4]
 - [ContextMenu] Added `ContextMenuItem.IsEnabled` bindable property to disable individual context menu items. Disabled items appear grayed out and cannot be tapped.
 - [ContextMenu] Added `ContextMenuEffect.IsEnabled` attached property to enable/disable an entire context menu on an element. When disabled, the context menu will not open at all.
