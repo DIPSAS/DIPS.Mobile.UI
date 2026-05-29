@@ -20,9 +20,6 @@ namespace DIPS.Mobile.UI.Components.StepFlow;
 [ContentProperty(nameof(Content))]
 public partial class StepFlowItem : ContentView
 {
-    private const double DisabledOpacity = 0.45;
-    private const double CompletedOpacity = 0.78;
-
     internal const uint ExpandDurationMs = 380;
     private const uint CollapseDurationMs = 280;
     private const uint LiftDurationMs = 300;
@@ -86,7 +83,7 @@ public partial class StepFlowItem : ContentView
         m_indicatorHost.Content = m_completionAnimation;
 
         // ---- Title / subtitle stack ----
-        m_titleLabel.Style = Styles.GetLabelStyle(LabelStyle.UI300);
+        m_titleLabel.Style = Styles.GetLabelStyle(LabelStyle.Body300);
         m_titleLabel.LineBreakMode = LineBreakMode.WordWrap;
         m_titleLabel.HorizontalOptions = LayoutOptions.Fill;
         m_titleLabel.VerticalOptions = LayoutOptions.Center;
@@ -232,10 +229,14 @@ public partial class StepFlowItem : ContentView
 
     private void InvokeCardTapped()
     {
-        if (!IsEnabled) return;
-        if (State == StepFlowItemState.Active) return;
-        if (State == StepFlowItemState.Completed && LockWhenCompleted) return;
-        if (State == StepFlowItemState.Disabled && Parent is StepFlow flow && !flow.AllowDirectStepActivation) return;
+        if (!IsEnabled)
+            return;
+        if (State == StepFlowItemState.Active)
+            return;
+        if (State == StepFlowItemState.Completed && LockWhenCompleted)
+            return;
+        if (State == StepFlowItemState.Disabled && Parent is StepFlow flow && !flow.AllowDirectStepActivation)
+            return;
 
         CardTapped?.Invoke(this, EventArgs.Empty);
     }
@@ -243,14 +244,16 @@ public partial class StepFlowItem : ContentView
     private void UpdateCardTapTarget(StepFlowItemState state)
     {
         var command = state == StepFlowItemState.Active ? null : m_cardTappedCommand;
-        if (ReferenceEquals(Touch.GetCommand(m_root), command)) return;
+        if (ReferenceEquals(Touch.GetCommand(m_root), command))
+            return;
 
         Touch.SetCommand(m_root, command!);
     }
 
     private void OnStateChanged(StepFlowItemState oldState, StepFlowItemState newState)
     {
-        if (oldState == newState) return;
+        if (oldState == newState)
+            return;
         ApplyStateVisuals(newState, animate: true);
         RefreshAccessibilityDescription();
     }
@@ -271,12 +274,12 @@ public partial class StepFlowItem : ContentView
                 {
                     _ = CollapseAsync();
                     this.AbortAnimation(m_animationToken + "-opacity");
-                    new Animation(v => Opacity = v, Opacity, DisabledOpacity)
+                    new Animation(v => Opacity = v, Opacity, 1)
                         .Commit(this, m_animationToken + "-opacity", rate: 16, length: CompletionDimDurationMs, easing: Easing.CubicOut);
                 }
                 else
                 {
-                    Opacity = DisabledOpacity;
+                    Opacity = 1;
                     m_bodyContainer.IsVisible = false;
                     m_bodyContainer.HeightRequest = 0;
                 }
@@ -284,6 +287,7 @@ public partial class StepFlowItem : ContentView
                 AnimateIndicator(show: false, animate);
                 LayoutEffect.SetStroke(m_root, Colors.GetColor(ColorName.color_border_default));
                 m_titleLabel.TextColor = Colors.GetColor(ColorName.color_text_default);
+                m_titleLabel.Style = Styles.GetLabelStyle(LabelStyle.Body300);
                 break;
 
             case StepFlowItemState.Active:
@@ -291,6 +295,7 @@ public partial class StepFlowItem : ContentView
                 AnimateIndicator(show: false, animate);
                 LayoutEffect.SetStroke(m_root, Colors.GetColor(ColorName.color_text_default));
                 m_titleLabel.TextColor = Colors.GetColor(ColorName.color_text_default);
+                m_titleLabel.Style = Styles.GetLabelStyle(LabelStyle.UI300);
                 if (animate)
                 {
                     _ = AnimateLiftAsync();
@@ -310,16 +315,17 @@ public partial class StepFlowItem : ContentView
             case StepFlowItemState.Completed:
                 LayoutEffect.SetStroke(m_root, Colors.GetColor(ColorName.color_border_default));
                 m_titleLabel.TextColor = Colors.GetColor(ColorName.color_text_default);
+                m_titleLabel.Style = Styles.GetLabelStyle(LabelStyle.Body300);
                 if (animate)
                 {
                     _ = CollapseAsync();
                     _ = AnimateCompletionAsync();
-                    new Animation(v => Opacity = v, Opacity, CompletedOpacity)
+                    new Animation(v => Opacity = v, Opacity, 1)
                         .Commit(this, m_animationToken + "-opacity", rate: 16, length: CompletionDimDurationMs, easing: Easing.CubicOut);
                 }
                 else
                 {
-                    Opacity = CompletedOpacity;
+                    Opacity = 1;
                     m_bodyContainer.IsVisible = false;
                     m_bodyContainer.HeightRequest = 0;
                     m_bodyContainer.TranslationY = 0;
@@ -335,6 +341,7 @@ public partial class StepFlowItem : ContentView
                 AnimateIndicator(show: false, animate);
                 LayoutEffect.SetStroke(m_root, Colors.GetColor(ColorName.color_text_danger));
                 m_titleLabel.TextColor = Colors.GetColor(ColorName.color_text_danger);
+                m_titleLabel.Style = Styles.GetLabelStyle(LabelStyle.Body300);
                 if (animate)
                 {
                     new Animation(v => Opacity = v, Opacity, 1).Commit(this, m_animationToken + "-opacity",
@@ -397,7 +404,8 @@ public partial class StepFlowItem : ContentView
         parent.Commit(this, m_animationToken + "-body", rate: 16, length: ExpandDurationMs,
             easing: Easing.Linear, finished: (_, _) =>
             {
-                if (State != StepFlowItemState.Active || Handler is null) return;
+                if (State != StepFlowItemState.Active || Handler is null)
+                    return;
                 // Hand the slot back to auto-sizing so future content changes (async loads,
                 // text wraps) just work without a re-measure dance.
                 m_bodyContainer.HeightRequest = -1;
@@ -408,10 +416,12 @@ public partial class StepFlowItem : ContentView
 
     private Task CollapseAsync()
     {
-        if (!m_bodyContainer.IsVisible) return Task.CompletedTask;
+        if (!m_bodyContainer.IsVisible)
+            return Task.CompletedTask;
 
         var current = m_bodyContainer.Height > 0 ? m_bodyContainer.Height : (double)m_bodyContainer.HeightRequest;
-        if (current <= 0) current = 1;
+        if (current <= 0)
+            current = 1;
 
         m_bodyContainer.HeightRequest = current;
         var contentOffset = Sizes.GetSize(SizeName.size_1);
@@ -489,7 +499,8 @@ public partial class StepFlowItem : ContentView
             return;
         }
 
-        if (show) m_completionAnimation.IsVisible = true;
+        if (show)
+            m_completionAnimation.IsVisible = true;
 
         var startMargin = m_titleStack.Margin.Left;
         new Animation(SetTitleStartMargin, startMargin, targetMargin)
