@@ -1,3 +1,6 @@
+## [60.2.1]
+- [BarcodeScanner] Fixed crash on Android when backgrounding the app while the barcode scanner is active. The crash was caused by ML Kit task callbacks being dispatched to an already-terminated executor.
+
 ## [60.2.0] 
 - Resources was updated from DIPS.Mobile.DesignTokens
 
