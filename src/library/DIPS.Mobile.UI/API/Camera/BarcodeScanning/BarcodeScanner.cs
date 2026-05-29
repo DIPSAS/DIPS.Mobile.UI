@@ -125,7 +125,9 @@ public partial class BarcodeScanner : ICameraUseCase
                 scanRectangleStrategy.BracketsTravelDuration,
                 scanRectangleStrategy.FormingDuration);
 
-            m_cameraPreview?.AddViewToRoot(m_scanRectangleOverlay);
+            // Insert after PreviewView (index 0) but before the toolbar containers
+            // so that toolbars render on top of the overlay dim layer.
+            m_cameraPreview?.AddViewToRoot(m_scanRectangleOverlay, index: 1);
         }
     }
 

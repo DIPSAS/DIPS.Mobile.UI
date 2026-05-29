@@ -20,7 +20,28 @@ public partial class ContextMenuPlatformEffect
         m_delegate.Element = Element;
         m_interaction = new UIContextMenuInteraction(m_delegate);
         
-        Control.AddInteraction(m_interaction);
+        if (ContextMenuEffect.GetIsEnabled(Element))
+        {
+            Control.AddInteraction(m_interaction);
+        }
+        
+        Element.PropertyChanged += OnLongPressedElementPropertyChanged;
+    }
+
+    private void OnLongPressedElementPropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
+    {
+        if (e.PropertyName != ContextMenuEffect.IsEnabledProperty.PropertyName)
+            return;
+        
+        var isEnabled = ContextMenuEffect.GetIsEnabled(Element);
+        if (isEnabled)
+        {
+            Control.AddInteraction(m_interaction);
+        }
+        else
+        {
+            Control.RemoveInteraction(m_interaction);
+        }
     }
 
     public class LongPressContextMenuDelegate : UIContextMenuInteractionDelegate
@@ -61,6 +82,7 @@ public partial class ContextMenuPlatformEffect
 
     private void DisposeLongPressed()
     {
+        Element.PropertyChanged -= OnLongPressedElementPropertyChanged;
         Control.RemoveInteraction(m_interaction);
     }
 }

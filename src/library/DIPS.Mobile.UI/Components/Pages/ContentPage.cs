@@ -65,6 +65,17 @@ namespace DIPS.Mobile.UI.Components.Pages
             }
         }
 
+        protected override void OnPropertyChanged(string? propertyName = null)
+        {
+            base.OnPropertyChanged(propertyName);
+
+            if (propertyName == NavigationPage.BarBackgroundColorProperty.PropertyName ||
+                propertyName == NavigationPage.BarTextColorProperty.PropertyName)
+            {
+                OnNavigationBarColorPropertyChanged();
+            }
+        }
+
         protected override void OnAppearing()
         {
             base.OnAppearing();
@@ -83,7 +94,7 @@ namespace DIPS.Mobile.UI.Components.Pages
             StatusBarHandler.TrySetStatusBarColor(this, GetEffectiveStatusBarColor());
 #endif
         }
-        
+
         protected override void OnNavigatedTo(NavigatedToEventArgs args)
         {
             base.OnNavigatedTo(args);

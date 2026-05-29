@@ -29,6 +29,8 @@
                                     Tapped="GoToBarcodeScanResumeRepro" />
             <dui:NavigationListItem Title="Barcode Resume Repro (Modal)"
                                     Tapped="GoToBarcodeScanResumeReproModal" />
+            <dui:NavigationListItem Title="Sampling Patient Scan Repro (Modal)"
+                                    Tapped="GoToSamplingPatientScanRepro" />
             <dui:Button Text="Tap me"
                         Clicked="TapMe" />
         </VerticalStackLayout>

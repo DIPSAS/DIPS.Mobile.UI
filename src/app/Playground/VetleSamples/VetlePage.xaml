@@ -11,17 +11,51 @@
                  Shell.NavBarIsVisible="True">
 
     <dui:ContentPage.ToolbarItems>
-        <ToolbarItem Text="Close" />
+        <ToolbarItem Text="Close"/>
     </dui:ContentPage.ToolbarItems>
 
-    <!-- Reproducing ResistanceMatrixPage ShouldBounce issue -->
-    <Grid ColumnDefinitions="Auto, *"
-          RowDefinitions="Auto, *"
-          ColumnSpacing="0"
-          RowSpacing="0">
+    <ScrollView>
+        <dui:VerticalStackLayout Spacing="0"
+                                 Margin="{dui:Thickness Left=content_margin_medium, Right=content_margin_medium, Top=content_margin_large}">
 
-       <dui:Button Clicked="Button_OnClicked" />
+            <!-- BarcodeScanning repro samples -->
+            <Label Text="BarcodeScanning Issues"
+                   Style="{dui:Styles Label=SectionHeader}"/>
 
-    </Grid>
+            <dui:VerticalStackLayout Spacing="0"
+                                     dui:Layout.AutoCornerRadius="True"
+                                     Margin="{dui:Thickness Top=content_margin_small}">
+                <dui:NavigationListItem x:Name="OverlayToolbarItem"
+                                        Title="Overlay spans toolbar (Android)"
+                                        Subtitle="GraphicsView overlay extends behind nav bar and bottom area"
+                                        HasBottomDivider="True"/>
+                <dui:NavigationListItem x:Name="NoNavBarToolbarItem"
+                                        Title="No nav bar - toolbar squished"
+                                        Subtitle="Top toolbar overlaps status bar when nav bar hidden in modal"
+                                        HasBottomDivider="True"/>
+                <dui:NavigationListItem x:Name="NoNavBarStatusBarItem"
+                                        Title="No nav bar - status bar color"
+                                        Subtitle="Status bar text color not changed when nav bar hidden in modal"/>
+            </dui:VerticalStackLayout>
+
+            <!-- Camera navbar color repro -->
+            <Label Text="Camera Issues"
+                   Style="{dui:Styles Label=SectionHeader}"
+                   Margin="{dui:Thickness Top=content_margin_large}"/>
+
+            <dui:VerticalStackLayout Spacing="0"
+                                     dui:Layout.AutoCornerRadius="True"
+                                     Margin="{dui:Thickness Top=content_margin_small}">
+                <dui:NavigationListItem x:Name="CameraNavBarColorItem"
+                                        Title="NavBar color change after capture"
+                                        Subtitle="Black navbar during camera, switch to default after photo taken"
+                                        HasBottomDivider="True"/>
+                <dui:NavigationListItem x:Name="CameraNavBarColorNoNavBarItem"
+                                        Title="NavBar color change (no nav bar)"
+                                        Subtitle="Same as above but with navigation bar hidden"/>
+            </dui:VerticalStackLayout>
+
+        </dui:VerticalStackLayout>
+    </ScrollView>
 
 </dui:ContentPage>

@@ -23,6 +23,8 @@
                              HorizontalOptions="Center">
             <!-- <dui:NavigationListItem Title="Item" Tapped="ListItem_OnTapped"/> -->
 
+            <Button Text="ContextMenu IsEnabled test" Clicked="GoToHåvardPage4" />
+
             <ContentView HeightRequest="50"
                          WidthRequest="100"
                          BackgroundColor="Red"

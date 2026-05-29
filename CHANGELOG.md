@@ -1,10 +1,24 @@
 ## [60.1.0] 
 - Resources was updated from DIPS.Mobile.DesignTokens
 
+## [60.0.4]
+- [ContextMenu] Added `ContextMenuItem.IsEnabled` bindable property to disable individual context menu items. Disabled items appear grayed out and cannot be tapped.
+- [ContextMenu] Added `ContextMenuEffect.IsEnabled` attached property to enable/disable an entire context menu on an element. When disabled, the context menu will not open at all.
+
+## [60.0.3]
+- Rolled back Microsoft.Maui.Controls from 10.0.70 to 10.0.60 due to crash caused by known regression in MAUI (dotnet/maui#35584).
+
+## [60.0.2]
+- [BarcodeScanner] Fixed barcode scan overlay rendering on top of toolbar containers by inserting the overlay at the correct z-order position.
+- [ContentPage] `NavigationPage.BarBackgroundColorProperty` and `NavigationPage.BarTextColorProperty` changes are now propagated at runtime, allowing dynamic navigation bar color updates without re-navigation.
+- [CameraPreview] Removed `SafeAreaEdges.None` from internal containers so maui handles insets.
+
+## [60.0.1]
+- [CameraPreview] Removed manual safe-area padding on iOS and set `SafeAreaEdges.None` on internal containers so the top toolbar renders correctly on both modal and regular shell pages.
+
 ## [60.0.0]
 - [BarcodeScanner] Fixed the scanner not resuming barcode detection after pause/resume.
-- [BarcodeScanner] **BREAKING**: Replaced `BarcodeScannerStartOptions.ScanRectangle` (`BarcodeScanRectangleOptions`) and `BarcodeDetectionTime` with `BarcodeScannerStartOptions.Strategy` of type `BarcodeScanStrategy`. Use `TimerBarcodeScanStrategy { DetectionTime }` for timer-based confirmation without an overlay, or `ScanRectangleBarcodeScanStrategy { WidthFraction, HeightFraction, BracketsTravelDuration, FormingDuration }` for the animated scan rectangle overlay. The default strategy is `TimerBarcodeScanStrategy` (500 ms).
-- [CameraPreview] **BREAKING**: Removed `IsInFullscreen`. The preview always applies safe-area padding on iOS.
+- [BarcodeScanner] **BREAKING**: Replaced `BarcodeScannerStartOptions.ScanRectangle` (`BarcodeScanRectangleOptions`) and `BarcodeDetectionTime` with `BarcodeScannerStartOptions.Strategy` of type `BarcodeScanStrategy`. Use `TimerBarcodeScanStrategy { DetectionTime }` for timer-based confirmation without an overlay, or `ScanRectangleBarcodeScanStrategy { WidthFraction, HeightFraction, BracketsTravelDuration, FormingDuration }` for the animated scan rectangle overlay. The default strategy is `TimerBarcodeScanStrategy` (500 ms).- [CameraPreview] **BREAKING**: Removed `IsInFullscreen`. The preview always applies safe-area padding on iOS.
 
 ## [59.2.2]
 - [ContentPage] Made `ModalNavigationRenderer` public to allow consumer customization.

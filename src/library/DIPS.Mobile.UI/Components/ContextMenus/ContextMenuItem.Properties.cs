@@ -43,6 +43,12 @@ public partial class ContextMenuItem
         typeof(ContextMenuItem),
         defaultValue: true);
 
+    public static readonly BindableProperty IsEnabledProperty = BindableProperty.Create(
+        nameof(IsEnabled),
+        typeof(bool),
+        typeof(ContextMenuItem),
+        defaultValue: true);
+
     public static readonly BindableProperty IsDestructiveProperty = BindableProperty.Create(
         nameof(IsDestructive),
         typeof(bool),
@@ -82,6 +88,15 @@ public partial class ContextMenuItem
     {
         get => (bool)GetValue(IsVisibleProperty);
         set => SetValue(IsVisibleProperty, value);
+    }
+
+    /// <summary>
+    /// Determines if the <see cref="ContextMenuItem"/> is enabled in the context menu. Disabled items are grayed out and cannot be tapped.
+    /// </summary>
+    public bool IsEnabled
+    {
+        get => (bool)GetValue(IsEnabledProperty);
+        set => SetValue(IsEnabledProperty, value);
     }
 
     /// <summary>
