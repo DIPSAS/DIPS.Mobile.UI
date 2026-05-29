@@ -13,28 +13,28 @@ public partial class DateAndTimePicker : Grid, IDatePicker
     {
         DateChip = new Chip();
         TimeChip = new Chip();
-        
+
         DateChip.Tapped += DateChipOnTapped;
         TimeChip.Tapped += DateChipOnTapped;
-        
+
         AddColumnDefinition(new ColumnDefinition(GridLength.Star));
         AddColumnDefinition(new ColumnDefinition(GridLength.Auto));
         AddRowDefinition(new RowDefinition(GridLength.Auto));
-        
+
         ColumnSpacing = Sizes.GetSize(SizeName.content_margin_xsmall);
-        
+
         Add(DateChip);
         this.Add(TimeChip, 1);
     }
-    
+
     public Chip DateChip { get; }
     public Chip TimeChip { get; }
 
     private void DateChipOnTapped(object? sender, EventArgs e)
     {
-        if(sender is not View chip)
+        if (sender is not View chip)
             return;
-        
+
         DateAndTimePickerService.Open(this, chip, sender == DateChip);
     }
 
@@ -61,13 +61,13 @@ public partial class DateAndTimePicker : Grid, IDatePicker
             TimeChip.Title = displayItemAsString;
         }
     }
-    
+
     protected void OnSelectedDateTimeChanged(DateTime dateTime)
-    {    
+    {
         var date = dateTime.ConvertDate(IgnoreLocalTime);
-        
+
         var timeSpan = new TimeSpan(date.Hour, date.Minute, date.Second);
-        
+
         SetDateChipTitle(date);
         SetTimeChipTitle(timeSpan);
     }
@@ -78,7 +78,7 @@ public partial class DateAndTimePicker : Grid, IDatePicker
     {
         if (selectedDate.HasValue)
         {
-            if(selectedDate.Value.Ticks == SelectedDateTime.Ticks)
+            if (selectedDate.Value.Ticks == SelectedDateTime.Ticks)
                 return;
 
             SelectedDateTime = ValidateDateTime(selectedDate.Value);
@@ -96,36 +96,36 @@ public partial class DateAndTimePicker : Grid, IDatePicker
     protected override void OnHandlerChanging(HandlerChangingEventArgs args)
     {
         base.OnHandlerChanging(args);
-        
+
         if (args.NewHandler is null)
         {
             DateChip.Tapped -= DateChipOnTapped;
             TimeChip.Tapped -= DateChipOnTapped;
             return;
         }
-        
+
         SelectedDateTime = ValidateDateTime(SelectedDateTime);
         OnSelectedDateTimeChanged(SelectedDateTime);
     }
 
     protected DateTime ValidateDateTime(DateTime selectedDate)
     {
-        // SelectedDate should not be above maximum date
-        if (MaximumDate != null && SelectedDateTime > MaximumDate)
+        // SelectedDate should not be above maximum date (including time)
+        if (MaximumDate != null && selectedDate > MaximumDate)
         {
             return new DateTime(MaximumDate.Value.Year,
                 MaximumDate.Value.Month,
                 MaximumDate.Value.Day,
-                SelectedDateTime.Hour, SelectedDateTime.Minute, SelectedDateTime.Second, selectedDate.Kind);
+                MaximumDate.Value.Hour, MaximumDate.Value.Minute, MaximumDate.Value.Second, selectedDate.Kind);
         }
 
-        // SelectedDate should not be below minimum date
-        if (MinimumDate != null && SelectedDateTime < MinimumDate)
+        // SelectedDate should not be below minimum date (including time)
+        if (MinimumDate != null && selectedDate < MinimumDate)
         {
             return new DateTime(MinimumDate.Value.Year,
                 MinimumDate.Value.Month,
                 MinimumDate.Value.Day,
-                SelectedDateTime.Hour, SelectedDateTime.Minute, SelectedDateTime.Second, selectedDate.Kind);
+                MinimumDate.Value.Hour, MinimumDate.Value.Minute, MinimumDate.Value.Second, selectedDate.Kind);
         }
 
         return selectedDate;

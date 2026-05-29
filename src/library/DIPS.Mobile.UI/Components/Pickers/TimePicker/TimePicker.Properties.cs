@@ -7,7 +7,7 @@ public partial class TimePicker
     public static readonly BindableProperty SelectedTimeProperty = BindableProperty.Create(
         nameof(SelectedTime),
         typeof(TimeSpan),
-        typeof(TimePicker), defaultBindingMode:BindingMode.TwoWay,
+        typeof(TimePicker), defaultBindingMode: BindingMode.TwoWay,
         propertyChanged: (bindable, _, _) => ((TimePicker)bindable).OnTimeChanged());
 
     /// <summary>
@@ -31,5 +31,33 @@ public partial class TimePicker
     {
         get => (ICommand)GetValue(SelectedTimeCommandProperty);
         set => SetValue(SelectedTimeCommandProperty, value);
+    }
+
+    public static readonly BindableProperty MinimumTimeProperty = BindableProperty.Create(
+        nameof(MinimumTime),
+        typeof(TimeSpan?),
+        typeof(TimePicker));
+
+    /// <summary>
+    /// Sets the minimum time that people can choose.
+    /// </summary>
+    public TimeSpan? MinimumTime
+    {
+        get => (TimeSpan?)GetValue(MinimumTimeProperty);
+        set => SetValue(MinimumTimeProperty, value);
+    }
+
+    public static readonly BindableProperty MaximumTimeProperty = BindableProperty.Create(
+        nameof(MaximumTime),
+        typeof(TimeSpan?),
+        typeof(TimePicker));
+
+    /// <summary>
+    /// Sets the maximum time that people can choose.
+    /// </summary>
+    public TimeSpan? MaximumTime
+    {
+        get => (TimeSpan?)GetValue(MaximumTimeProperty);
+        set => SetValue(MaximumTimeProperty, value);
     }
 }
