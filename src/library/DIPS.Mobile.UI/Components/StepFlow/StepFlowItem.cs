@@ -63,7 +63,7 @@ public partial class StepFlowItem : ContentView
 
         m_completionAnimation = new SKLottieView
         {
-            Source = Animations.GetAnimation(AnimationName.task_complete),
+            Source = Animations.GetAnimation(AnimationName.task_completed),
             HeightRequest = Sizes.GetSize(SizeName.size_6),
             WidthRequest = Sizes.GetSize(SizeName.size_6),
             HorizontalOptions = LayoutOptions.Start,
