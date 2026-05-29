@@ -1,6 +1,7 @@
 using DIPS.Mobile.UI.API.Camera;
 using DIPS.Mobile.UI.API.Camera.BarcodeScanning;
 using DIPS.Mobile.UI.Components.BottomSheets;
+using DIPS.Mobile.UI.Resources.Sizes;
 
 namespace Playground.EirikSamples;
 
@@ -52,6 +53,23 @@ public partial class BarcodeScanResumeRepro
                     HeightFraction = 0.3f
                 }
             });
+
+            // Add top content — simulates a patient banner like SamplingPatientScanRepro
+            var patientBanner = new Frame
+            {
+                BackgroundColor = Color.FromArgb("#333333"),
+                CornerRadius = 8,
+                Padding = new Thickness(12, 8),
+                Margin = new Thickness(Sizes.GetSize(SizeName.size_3), 0),
+                VerticalOptions = LayoutOptions.Start,
+                Content = new Label
+                {
+                    Text = "Ola Nordmann \u2014 01019012345",
+                    TextColor = Microsoft.Maui.Graphics.Colors.White,
+                    FontSize = 14,
+                }
+            };
+            CameraPreview.AddTopToolbarView(patientBanner);
         }
         catch (Exception ex)
         {

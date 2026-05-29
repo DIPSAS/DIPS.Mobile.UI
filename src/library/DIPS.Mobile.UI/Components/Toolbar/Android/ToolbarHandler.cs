@@ -560,7 +560,7 @@ public partial class ToolbarHandler : ViewHandler<Toolbar, FrameLayout>
             return;
 
         var handler = new ContextMenuPlatformEffect.ContextMenuHandler(
-            toolbarButton.Menu, anchor);
+            toolbarButton.Menu, anchor, toolbarButton);
         handler.OpenContextMenu(anchor, EventArgs.Empty);
     }
 

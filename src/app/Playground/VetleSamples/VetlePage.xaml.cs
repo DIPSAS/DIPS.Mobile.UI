@@ -22,11 +22,16 @@ public partial class VetlePage
     public VetlePage()
     {
         InitializeComponent();
-        TestCommand = new Command(SwitchRoot); 
+        TestCommand = new Command(SwitchRoot);
 
         _ = FuckThisShitUp();
         /*Shell.OnTabTapped += ShellOnOnTabTapped;*/
 
+        OverlayToolbarItem.Command = new Command(() => OpenModal(new BarcodeOverlayToolbarRepro()));
+        NoNavBarToolbarItem.Command = new Command(() => OpenModal(new BarcodeNoNavBarRepro()));
+        NoNavBarStatusBarItem.Command = new Command(() => OpenModal(new BarcodeNoNavBarStatusBarRepro()));
+        CameraNavBarColorItem.Command = new Command(() => OpenModal(new CameraNavBarColorRepro()));
+        CameraNavBarColorNoNavBarItem.Command = new Command(() => OpenModal(new CameraNavBarColorNoNavBarRepro()));
     }
 
     private void ShellOnOnTabTapped(string obj)
@@ -39,12 +44,15 @@ public partial class VetlePage
 
     private async Task FuckThisShitUp()
     {
-        var thread = new Thread (() => {
-            while (true) {
-                Thread.Sleep (5000);
+        var thread = new Thread(() =>
+        {
+            while (true)
+            {
+                Thread.Sleep(5000);
                 GC.Collect();
             }
-        }) { IsBackground = true };
+        })
+        { IsBackground = true };
         thread.Start();
     }
 
@@ -52,13 +60,13 @@ public partial class VetlePage
     protected override void OnBindingContextChanged()
     {
         base.OnBindingContextChanged();
-        
+
         TestBool = BindingContext is VetlePageViewModel;
     }
 
     private void Test123()
     {
-        var tabBar = new TabBar {Route = "app"};
+        var tabBar = new TabBar { Route = "app" };
 
         tabBar.Items.Add(new Tab
         {
@@ -97,15 +105,15 @@ public partial class VetlePage
 
     private void SwitchRoot()
     {
-        
+
 
     }
 
     protected override void OnHandlerChanged()
     {
         base.OnHandlerChanged();
-        
-        
+
+
     }
 
     protected override async void OnAppearing()
@@ -145,8 +153,8 @@ public partial class VetlePage
     protected override void OnSizeAllocated(double width, double height)
     {
         base.OnSizeAllocated(width, height);
-        
-        
+
+
     }
 
 
@@ -154,25 +162,25 @@ public partial class VetlePage
 
     private void Switch_OnToggled(object sender, ToggledEventArgs e)
     {
-        
-        
+
+
         /*ContentControl.SelectorItem = e.Value;*/
-        
-        
+
+
     }
 
 
     private void Entry_OnCompleted(object sender, EventArgs e)
     {
-        
+
     }
-    
+
     private void VisualElement_OnLoaded(object? sender, EventArgs e)
     {
 #if __IOS__
 
         if (sender is not Grid grid) return;
-            
+
         var insets = UIKit.UIApplication.SharedApplication.KeyWindow!.SafeAreaInsets;
         grid.Padding = new Thickness(grid.Padding.Left, insets.Top, grid.Padding.Right, grid.Padding.Bottom + insets.Bottom);
 
@@ -184,13 +192,13 @@ public partial class VetlePage
         /*SignInButton.SetSemanticFocus();*/
     }
 
-    
+
 
     private void SwapRoot(object sender, EventArgs e)
     {
         SwapRoot(new DataTemplate(() => new MainPage()));
     }
-    
+
     public static void SwapRoot(DataTemplate dataTemplate)
     {
         var tabBar = new TabBar();
@@ -229,7 +237,7 @@ public partial class VetlePage
 
     private void SearchBar_OnUnfocused(object sender, EventArgs e)
     {
-        
+
     }
 
     private void ListItem_OnTapped(object sender, EventArgs e)
@@ -249,6 +257,11 @@ public partial class VetlePage
         Navigation.PushModalAsync(navigationPage);
     }
 
+    private static void OpenModal(Microsoft.Maui.Controls.Page page)
+    {
+        Shell.Current.Navigation.PushModalAsync(new NavigationPage(page));
+    }
+
     private void Button_OnClicked2(object sender, EventArgs e)
     {
         _ = Navigation.PushModalAsync(new VetleTestPage1());
@@ -258,5 +271,5 @@ public partial class VetlePage
     {
         _ = Navigation.PushAsync(new VetleTestPage1());
     }
-    
+
 }

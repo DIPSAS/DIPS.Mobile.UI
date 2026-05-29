@@ -35,7 +35,8 @@ public partial class ContextMenuItem : Element, IContextMenuItem
            propertyName == IconProperty.PropertyName ||
            propertyName == TitleProperty.PropertyName ||
            propertyName == IsCheckedProperty.PropertyName || 
-           propertyName == IsDestructiveProperty.PropertyName)
+           propertyName == IsDestructiveProperty.PropertyName ||
+           propertyName == IsEnabledProperty.PropertyName)
         {
             ContextMenu?.SendItemPropertiesUpdated();
         }
