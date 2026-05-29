@@ -1,6 +1,9 @@
 ## [60.2.0] 
 - Resources was updated from DIPS.Mobile.DesignTokens
 
+## [60.1.2]
+- [StepFlow] Fixed incorrect tokens on inactive steps: removed opacity dimming, use `Body300` text style for non-active steps and `UI300` for the active step heading.
+
 ## [60.1.1]
 - [ScrollView][Android] Fixed `HasAdditionalSpaceAtTheEnd` not applying bottom spacing when consumer sets `Padding` on the ScrollView.
 
