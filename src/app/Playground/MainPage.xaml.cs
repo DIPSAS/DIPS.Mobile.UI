@@ -2,6 +2,7 @@ using System.Diagnostics;
 using DIPS.Mobile.UI.Resources.Icons;
 using Playground.EirikSamples;
 using Playground.HåvardSamples;
+using Playground.HåvardSamples;
 using Playground.SanderSamples;
 using Playground.VetleSamples;
 using Playground.VetleSamples.CollectionViewTests;
@@ -115,5 +116,10 @@ public partial class MainPage
         var scannerPage = new SamplingPatientScanRepro();
         var navigationPage = new NavigationPage(scannerPage);
         Shell.Current.Navigation.PushModalAsync(navigationPage);
+    }
+
+    private void GoToBarcodeBackgroundCrashRepro(object sender, EventArgs e)
+    {
+        Shell.Current.Navigation.PushAsync(new BarcodeBackgroundCrashRepro());
     }
 }

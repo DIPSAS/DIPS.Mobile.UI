@@ -1,3 +1,6 @@
+## [60.1.1]
+- [BarcodeScanner] Fixed crash on Android when backgrounding the app while the barcode scanner is active. The crash was caused by ML Kit task callbacks being dispatched to an already-terminated executor.
+
 ## [60.1.0]
 - [DateAndTimePicker] `MaximumDate` and `MinimumDate` now also constrain the time portion when the selected date equals the boundary date.
 - [TimePicker] Added `MinimumTime` and `MaximumTime` properties to constrain selectable times.
