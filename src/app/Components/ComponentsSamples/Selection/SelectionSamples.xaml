@@ -18,6 +18,17 @@
         <dui:Checkmark HorizontalOptions="Start"
                        x:Name="Checkmark"
                        AdditionalHitBoxSize="10,10" />
+        <dui:Label Text="Checkmark med stroke"
+                   Margin="5"
+                   dui:Touch.Command="{Binding Source={x:Reference CheckmarkWithStroke}, Path=Command}" />
+        <dui:Checkmark HorizontalOptions="Start"
+                       x:Name="CheckmarkWithStroke"
+                       AddStrokeToCheckmark="True"
+                       AdditionalHitBoxSize="10,10" />
+        <dui:Label Text="CheckmarkListItem med stroke"
+                   Margin="5" />
+        <dui:CheckmarkListItem Title="Eksempel med stroke"
+                               AddStrokeToCheckmark="True" />
         <dui:Label Text="RadioButton"
                    Margin="5"
                    dui:Touch.Command="{Binding Source={x:Reference RadioButton}, Path=Command}" />

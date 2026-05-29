@@ -55,4 +55,20 @@ public partial class Checkmark
     }
 
     public event EventHandler<SelectionChangedEventArgs>? SelectionChanged;
+
+    public static readonly BindableProperty AddStrokeToCheckmarkProperty = BindableProperty.Create(
+        nameof(AddStrokeToCheckmark),
+        typeof(bool),
+        typeof(Checkmark),
+        defaultValue: false,
+        propertyChanged: (bindable, _, _) => ((Checkmark)bindable).OnAddStrokeToCheckmarkChanged());
+
+    /// <summary>
+    /// Legger til en synlig ramme (stroke) rundt checkmarket.
+    /// </summary>
+    public bool AddStrokeToCheckmark
+    {
+        get => (bool)GetValue(AddStrokeToCheckmarkProperty);
+        set => SetValue(AddStrokeToCheckmarkProperty, value);
+    }
 }

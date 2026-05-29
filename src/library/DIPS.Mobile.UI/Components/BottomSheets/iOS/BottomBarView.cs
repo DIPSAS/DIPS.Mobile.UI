@@ -46,7 +46,7 @@ public class BottomBarView : ContentView
             NativeView.LeadingAnchor.ConstraintEqualTo(m_rootView.LeadingAnchor),
             NativeView.BottomAnchor.ConstraintEqualTo(m_rootView.BottomAnchor),
             NativeView.TrailingAnchor.ConstraintEqualTo(m_rootView.TrailingAnchor),
-            NativeView.HeightAnchor.ConstraintEqualTo((nfloat)BottomSheet.BottomBarHeight)
+            NativeView.HeightAnchor.ConstraintEqualTo((float)BottomSheet.BottomBarHeight)
         ]);
     }
 

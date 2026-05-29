@@ -106,6 +106,24 @@ public class BottomSheetViewController : UIViewController
         m_navigationBarHelper?.UpdateTitle();
     }
 
+    /// <summary>
+    /// Sørger for at bunnlinjen er synlig og ligger øverst i z-rekkefølgen etter en push.
+    /// </summary>
+    internal void EnsureBottomBarVisible()
+    {
+        if (m_bottomBar is null || !BottomSheet.ShowBottombarButtonsOnSubViews)
+            return;
+
+        if (m_bottomBar.NativeView.Superview is null)
+        {
+            m_bottomBar.Show();
+        }
+        else
+        {
+            m_bottomBar.NativeView.Superview.BringSubviewToFront(m_bottomBar.NativeView);
+        }
+    }
+
     protected override void Dispose(bool disposing)
     {
         base.Dispose(disposing);
