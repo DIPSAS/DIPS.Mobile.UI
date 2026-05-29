@@ -31,8 +31,6 @@
                                     Tapped="GoToBarcodeScanResumeReproModal" />
             <dui:NavigationListItem Title="Sampling Patient Scan Repro (Modal)"
                                     Tapped="GoToSamplingPatientScanRepro" />
-            <dui:NavigationListItem Title="Background Crash Repro (#1573)"
-                                    Tapped="GoToBarcodeBackgroundCrashRepro" />
             <dui:Button Text="Tap me"
                         Clicked="TapMe" />
         </VerticalStackLayout>
