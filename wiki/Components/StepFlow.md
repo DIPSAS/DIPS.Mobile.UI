@@ -118,7 +118,6 @@ The component is choreographed for a premium feel — every timing and easing is
 - **Collapse**: smooth cubic in/out height collapse, paired with an early opacity fade and subtle upward Y-offset. 280 ms.
 - **Completion indicator**: the check animation fades in while the title is indented to reserve measured space for the indicator. 260 ms.
 - **Lift**: when an item goes `Disabled → Active`, scale eases from `0.985 → 1.0` while opacity ramps to `1.0`. 300 ms.
-- **Completed dimming**: opacity fades to 0.78 over 360 ms.
 
 All animations use a unique token per item instance, so multiple `StepFlow`s on the same page do not interfere.
 
