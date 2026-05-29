@@ -17,7 +17,7 @@ public partial class CameraPreview : ContentView
 {
     private readonly TaskCompletionSource m_hasLoadedTcs = new();
     private WeakReference<ICameraUseCase?> m_cameraUseCase;
-    
+
     private Grid? m_grid;
     private Grid m_bottomToolbarContainer;
     private Grid m_topToolbarContainer;
@@ -29,39 +29,32 @@ public partial class CameraPreview : ContentView
     internal const float ThreeFourRatio = .75f;
     internal const float TopToolbarPercentHeightOfLetterBox = .25f;
     internal const float BottomToolbarPercentHeightOfLetterBox = .75f;
-    
+
     public CameraPreview()
     {
         BackgroundColor = Colors.Black;
         Loaded += OnLoaded;
-        
+
 #if __IOS__
         Content = ConstructView();
 #else
-        
+
 #endif
     }
 
     private void OnLoaded(object? sender, EventArgs e)
     {
-#if __IOS__
-        if (IsInFullscreen && UIApplication.SharedApplication.KeyWindow != null)
-        {
-            Padding = new Thickness(0, UIApplication.SharedApplication.KeyWindow.SafeAreaInsets.Top, 0,
-                UIApplication.SharedApplication.KeyWindow.SafeAreaInsets.Bottom);
-        }
-#endif
         m_hasLoadedTcs.TrySetResult();
     }
-    
+
     public Grid ConstructView()
     {
         m_bottomToolbarContainer = new Grid
         {
-            VerticalOptions = LayoutOptions.End, 
+            VerticalOptions = LayoutOptions.End,
             BackgroundColor = Colors.Transparent,
         };
-        
+
         m_topToolbarContainer = new Grid
         {
             VerticalOptions = LayoutOptions.Start,
@@ -75,7 +68,7 @@ public partial class CameraPreview : ContentView
             Children = { PreviewView, m_bottomToolbarContainer, m_topToolbarContainer },
             ColumnDefinitions = [new ColumnDefinition(GridLength.Star)]
         };
-        
+
         return m_grid;
     }
 
@@ -86,9 +79,9 @@ public partial class CameraPreview : ContentView
         get => m_cameraZoomView;
         set
         {
-            if(CameraZoomView is not null)
+            if (CameraZoomView is not null)
                 return;
-            
+
             m_cameraZoomView = value;
             m_grid?.Add(value);
         }
@@ -117,8 +110,8 @@ public partial class CameraPreview : ContentView
         {
             return;
         }
-        
-        var actualPreviewHeight = (Width / ThreeFourRatio);
+
+        var actualPreviewHeight = Width / ThreeFourRatio;
         var totalLetterBoxHeight = frameHeight - actualPreviewHeight;
 
         var topToolbarHeight = ComputeTopToolbarHeight((float)Width, frameHeight);
@@ -150,11 +143,11 @@ public partial class CameraPreview : ContentView
                    + Sizes.GetSize(SizeName.content_margin_small);
         }
     }
-    
+
     internal void AddFocusIndicator(float percentX, float percentY)
     {
         m_grid?.Remove(m_indicatorWrapper);
-        
+
         m_indicator = new Border
         {
             WidthRequest = Sizes.GetSize(SizeName.size_17),
@@ -177,7 +170,7 @@ public partial class CameraPreview : ContentView
             VerticalOptions = LayoutOptions.Start,
             HorizontalOptions = LayoutOptions.Start
         };
-        
+
         var viewToRemove = m_indicatorWrapper;
         var borderToRemoveAnimate = m_indicator;
 
@@ -185,10 +178,10 @@ public partial class CameraPreview : ContentView
         m_indicatorWrapper.TranslationY = percentY * PreviewView.Height;
 
         m_indicatorWrapper.TranslationY -= (m_indicator.HeightRequest / 2) - PreviewView.TranslationY;
-        
+
         m_indicator.ScaleTo(1, easing: Easing.SpringOut);
         m_indicator.FadeTo(1);
-        
+
         m_grid?.Add(m_indicatorWrapper);
 
         Task.Run(async () =>
@@ -209,45 +202,45 @@ public partial class CameraPreview : ContentView
 
     public void AddTopToolbarView(View? toolbarItems)
     {
-        if(m_topToolbarContainer.Contains(toolbarItems))
+        if (m_topToolbarContainer.Contains(toolbarItems))
             return;
-        
+
         m_topToolbarContainer.Add(toolbarItems);
     }
-    
+
     public void RemoveTopToolbarView(View? toolbarItems)
     {
-        if (toolbarItems is null) 
+        if (toolbarItems is null)
             return;
-        
+
         m_topToolbarContainer.Remove(toolbarItems);
         toolbarItems.DisconnectHandlers();
     }
 
     public void AddBottomToolbarView(View? toolbarItems)
     {
-        if(m_bottomToolbarContainer.Contains(toolbarItems))
+        if (m_bottomToolbarContainer.Contains(toolbarItems))
             return;
-        
+
         m_bottomToolbarContainer.Add(toolbarItems);
     }
-    
+
     public void RemoveBottomToolbarView(View? toolbarItems)
     {
-        if (toolbarItems is null) 
+        if (toolbarItems is null)
             return;
-        
+
         m_bottomToolbarContainer.Remove(toolbarItems);
         toolbarItems.DisconnectHandlers();
     }
-    
+
     internal void AddViewToRoot(View view, int index = -1, bool usePreviewViewTranslation = false)
     {
         if (usePreviewViewTranslation)
         {
             view.TranslationY = PreviewView.TranslationY;
         }
-        
+
         if (index == -1)
         {
             m_grid?.Add(view);
@@ -257,18 +250,18 @@ public partial class CameraPreview : ContentView
             m_grid?.Insert(index, view);
         }
     }
-    
+
     public void RemoveViewFromRoot(View? view)
     {
-        if(view is null)
+        if (view is null)
             return;
-        
+
         if (m_grid != null && m_grid.Remove(view))
         {
             view.DisconnectHandlers();
         }
     }
-    
+
     public Task HasLoaded()
     {
         return m_hasLoadedTcs.Task;
@@ -279,11 +272,11 @@ public partial class CameraPreview : ContentView
         m_cameraUseCase = new WeakReference<ICameraUseCase?>(cameraUseCase);
     }
 
-    protected override void OnHandlerChanging(HandlerChangingEventArgs args) 
+    protected override void OnHandlerChanging(HandlerChangingEventArgs args)
     {
         try
         {
-            if(args.NewHandler == null) // User has navigated from the page
+            if (args.NewHandler == null) // User has navigated from the page
             {
 #if __ANDROID__
             // On Android, the view is constructed in the handler, so the automatic leak resolver can not access the content of this view.

@@ -22,6 +22,7 @@ public static partial class AppHostBuilderExtensions
         handlers.AddHandler<Switch, SwitchHandler>();
         handlers.AddHandler<Components.Lists.CollectionView, CollectionViewHandler>();
         handlers.AddHandler<Entry, TryFixCrashEntryHandler>();
+        handlers.AddHandler<NavigationPage, Components.Pages.ModalNavigationRenderer>();
 
         if (DUI.ShouldUseCustomHideSoftInputOnTappedImplementation)
         {

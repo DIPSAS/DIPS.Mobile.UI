@@ -27,7 +27,7 @@ public partial class BarcodeOverlaySample
                 Preview = CameraPreview,
                 OnCameraFailed = CameraFailed,
                 OnBarcodeAcceptedAsync = HandleBarcodeAcceptedAsync,
-                ScanRectangle = new BarcodeScanRectangleOptions
+                Strategy = new ScanRectangleBarcodeScanStrategy
                 {
                     WidthFraction = 0.8f,
                     HeightFraction = 0.3f

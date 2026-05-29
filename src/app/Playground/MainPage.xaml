@@ -11,6 +11,8 @@
                  >
     <dui:ScrollView>
         <VerticalStackLayout>
+            <dui:NavigationListItem Title="Modal nav back test"
+                                    Tapped="GoToModalNavigationBarBackNavigationSample" />
             <dui:NavigationListItem Title="Vetle"
                                     Tapped="GoToVetle" />
             <dui:NavigationListItem Title="Håvard"
@@ -23,6 +25,12 @@
                                     Tapped="GoToCollectionViewTests" />
             <dui:NavigationListItem Title="ItemPicker Refresh Repro"
                                     Tapped="GoToItemPickerRefreshRepro" />
+            <dui:NavigationListItem Title="Barcode Resume Repro (#1415)"
+                                    Tapped="GoToBarcodeScanResumeRepro" />
+            <dui:NavigationListItem Title="Barcode Resume Repro (Modal)"
+                                    Tapped="GoToBarcodeScanResumeReproModal" />
+            <dui:NavigationListItem Title="Sampling Patient Scan Repro (Modal)"
+                                    Tapped="GoToSamplingPatientScanRepro" />
             <dui:Button Text="Tap me"
                         Clicked="TapMe" />
         </VerticalStackLayout>

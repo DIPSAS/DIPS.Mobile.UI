@@ -78,7 +78,7 @@ await m_scanner.Start(new BarcodeScannerStartOptions
 {
     Preview = CameraPreview,
     OnCameraFailed = CameraFailed,
-    ScanRectangle = new BarcodeScanRectangleOptions
+    Strategy = new ScanRectangleBarcodeScanStrategy
     {
         WidthFraction = 0.8f,
         HeightFraction = 0.25f

@@ -6,6 +6,7 @@ using Playground.SanderSamples;
 using Playground.VetleSamples;
 using Playground.VetleSamples.CollectionViewTests;
 
+
 namespace Playground;
 
 public partial class MainPage
@@ -19,6 +20,11 @@ public partial class MainPage
     private void DeviceDisplayOnMainDisplayInfoChanged(object sender, DisplayInfoChangedEventArgs e)
     {
         
+    }
+
+    private async void GoToModalNavigationBarBackNavigationSample(object sender, EventArgs e)
+    {
+        await Shell.Current.Navigation.PushModalAsync(new NavigationPage(new ModalNavigationBarBackNavigationSample.ModalNavigationBarBackNavigationSample()));
     }
 
     private async void GoToVetle(object sender, EventArgs e)
@@ -60,7 +66,7 @@ public partial class MainPage
                 }
             }
         });
-            
+
         Shell.Current.Items.Clear();
         Shell.Current.Items.Add(tabBar);
 
@@ -85,5 +91,29 @@ public partial class MainPage
     private void GoToCollectionViewTests(object sender, EventArgs e)
     {
         Shell.Current.Navigation.PushAsync(new CollectionViewTests());
+    }
+
+    private void GoToBarcodeScanResumeRepro(object sender, EventArgs e)
+    {
+        Shell.Current.Navigation.PushAsync(new BarcodeScanResumeRepro());
+    }
+
+    private void GoToBarcodeScanResumeReproModal(object sender, EventArgs e)
+    {
+        var scannerPage = new BarcodeScanResumeRepro();
+        var navigationPage = new NavigationPage(scannerPage);
+        scannerPage.ToolbarItems.Add(new ToolbarItem
+        {
+            Text = "Close",
+            Command = new Command(() => Shell.Current.Navigation.PopModalAsync())
+        });
+        Shell.Current.Navigation.PushModalAsync(navigationPage);
+    }
+
+    private void GoToSamplingPatientScanRepro(object sender, EventArgs e)
+    {
+        var scannerPage = new SamplingPatientScanRepro();
+        var navigationPage = new NavigationPage(scannerPage);
+        Shell.Current.Navigation.PushModalAsync(navigationPage);
     }
 }

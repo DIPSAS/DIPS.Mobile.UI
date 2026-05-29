@@ -120,5 +120,32 @@ In MAUI, off-tree objects like ContextMenu cannot reliably use BindingContext="{
 
 All child bindings Title="{Binding Name}" now evaluates correctly.
 
+# Disabling
+
+## Disabling a single item
+Use `IsEnabled` on a `ContextMenuItem` to disable it. Disabled items appear grayed out and cannot be tapped.
+
+```xml
+<dui:ContextMenu>
+    <dui:ContextMenuItem Title="Edit" />
+    <dui:ContextMenuItem Title="Delete" IsEnabled="{Binding CanDelete}" IsDestructive="True" />
+</dui:ContextMenu>
+```
+
+## Disabling the entire context menu
+Use `ContextMenuEffect.IsEnabled` to disable the entire context menu on an element. When disabled, the context menu will not open at all — no animation, no menu. Touch commands continue to work normally.
+
+```xml
+<ContentView dui:ContextMenuEffect.Mode="Pressed"
+             dui:ContextMenuEffect.IsEnabled="{Binding IsContextMenuEnabled}">
+    <dui:ContextMenuEffect.Menu>
+        <dui:ContextMenu>
+            <dui:ContextMenuItem Title="Edit" />
+            <dui:ContextMenuItem Title="Delete" IsDestructive="True" />
+        </dui:ContextMenu>
+    </dui:ContextMenuEffect.Menu>
+</ContentView>
+```
+
 # Properties
 Inspect the [components properties class](https://github.com/DIPSAS/DIPS.Mobile.UI/blob/main/src/library/DIPS.Mobile.UI/Components/ContextMenus/ContextMenu.Properties.cs) to further customize and use it.
