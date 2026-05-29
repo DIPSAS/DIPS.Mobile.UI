@@ -34,7 +34,7 @@ public partial class ScrollView : Microsoft.Maui.Controls.ScrollView
         {
             m_hasAddedSpaceToBottom = true;
             var newPadding = new Thickness(oldPadding.Left, oldPadding.Top, oldPadding.Right,
-                (int)(oldPadding.Bottom + (height / 2)));
+                oldPadding.Bottom + (height / 2));
             Padding = newPadding;
         }
     }
