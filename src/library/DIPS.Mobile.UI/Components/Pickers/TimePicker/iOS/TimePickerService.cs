@@ -20,7 +20,9 @@ public partial class TimePickerService
         
         var inlineDatePicker = new InlineTimePicker
         {
-            SelectedTime = timeOnOpen
+            SelectedTime = timeOnOpen,
+            MinimumTime = timePicker.MinimumTime,
+            MaximumTime = timePicker.MaximumTime
         };
 
         var presentedViewController = new DateOrTimePickerPopoverViewController();

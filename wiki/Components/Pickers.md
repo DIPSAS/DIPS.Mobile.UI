@@ -187,7 +187,16 @@ A `TimePicker` should be used by you to let people pick a time. The `TimePicker`
 
 ### Usage
 ```xml
-<dui:DateAndTimePicker SelectedTime="{Binding SelectedGroceryShopping}" />
+<dui:TimePicker SelectedTime="{Binding SelectedGroceryShopping}" />
+```
+
+### Constraining selectable times
+You can set `MinimumTime` and `MaximumTime` to restrict the range of times people can choose. On iOS the time picker wheel prevents out-of-range selection. On Android the selected time is clamped after confirmation.
+
+```xml
+<dui:TimePicker SelectedTime="{Binding SelectedTime}"
+                MinimumTime="08:00"
+                MaximumTime="16:00" />
 ```
 
 ### Properties
@@ -197,6 +206,8 @@ Inspect the [components properties class](https://github.com/DIPSAS/DIPS.Mobile.
 
 ## DateAndTime Picker
 A `DateAndTimePicker` should be used by you to let people pick both a date -and time. The `DateAndTimePicker` is two in-line buttons with a title that people tap to start picking the date or time. When date is picked, the date or time will be displayed as part of the in-line button.
+
+When `MaximumDate` or `MinimumDate` is set and the selected date equals the boundary date, the time picker is also constrained to the boundary time. On iOS the time wheel prevents out-of-range selection; on Android the value is clamped after confirmation.
 
 ### Usage
 ```xml
