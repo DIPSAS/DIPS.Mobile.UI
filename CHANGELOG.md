@@ -1,3 +1,6 @@
+## [60.0.5]
+- Test
+
 ## [60.0.4]
 - [ContextMenu] Added `ContextMenuItem.IsEnabled` bindable property to disable individual context menu items. Disabled items appear grayed out and cannot be tapped.
 - [ContextMenu] Added `ContextMenuEffect.IsEnabled` attached property to enable/disable an entire context menu on an element. When disabled, the context menu will not open at all.
