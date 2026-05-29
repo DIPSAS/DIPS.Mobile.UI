@@ -50,11 +50,20 @@ namespace DIPS.Mobile.UI.Components.BottomSheets
         /// </summary>
         /// <param name="content">The view to display.</param>
         /// <param name="title">The title to display in the navigation bar for the pushed content.</param>
-        public async Task PushAsync(View content, string? title = null)
-        {
-            NavigationStack.Push(new BottomSheetNavigationEntry(content, title));
-            await PlatformPushAsync(content, title);
-        }
+public async Task PushAsync(View content, string? title = null)
+{
+    var entry = new BottomSheetNavigationEntry(content, title);
+    NavigationStack.Push(entry);
+    try
+    {
+        await PlatformPushAsync(content, title);
+    }
+    catch
+    {
+        NavigationStack.Pop();
+        throw;
+    }
+}
 
         /// <summary>
         /// Pops the current content from the bottom sheet's internal navigation stack and returns to the previous content.
