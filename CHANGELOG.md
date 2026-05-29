@@ -1,5 +1,8 @@
-## [60.1.1]
+## [60.1.2]
 - [BarcodeScanner] Fixed crash on Android when backgrounding the app while the barcode scanner is active. The crash was caused by ML Kit task callbacks being dispatched to an already-terminated executor.
+
+## [60.1.1]
+- [ScrollView][Android] Fixed `HasAdditionalSpaceAtTheEnd` not applying bottom spacing when consumer sets `Padding` on the ScrollView.
 
 ## [60.1.0]
 - [DateAndTimePicker] `MaximumDate` and `MinimumDate` now also constrain the time portion when the selected date equals the boundary date.
