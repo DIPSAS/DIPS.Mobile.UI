@@ -1,3 +1,6 @@
+## [60.1.1]
+- [ScrollView][Android] Fixed `HasAdditionalSpaceAtTheEnd` not applying bottom spacing when consumer sets `Padding` on the ScrollView.
+
 ## [60.1.0]
 - [DateAndTimePicker] `MaximumDate` and `MinimumDate` now also constrain the time portion when the selected date equals the boundary date.
 - [TimePicker] Added `MinimumTime` and `MaximumTime` properties to constrain selectable times.

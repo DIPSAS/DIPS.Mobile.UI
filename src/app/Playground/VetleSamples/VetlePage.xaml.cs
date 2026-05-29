@@ -30,6 +30,7 @@ public partial class VetlePage
         OverlayToolbarItem.Command = new Command(() => OpenModal(new BarcodeOverlayToolbarRepro()));
         NoNavBarToolbarItem.Command = new Command(() => OpenModal(new BarcodeNoNavBarRepro()));
         NoNavBarStatusBarItem.Command = new Command(() => OpenModal(new BarcodeNoNavBarStatusBarRepro()));
+        ScrollViewSpacingItem.Command = new Command(() => Navigation.PushAsync(new ScrollViewSpacingRepro()));
         CameraNavBarColorItem.Command = new Command(() => OpenModal(new CameraNavBarColorRepro()));
         CameraNavBarColorNoNavBarItem.Command = new Command(() => OpenModal(new CameraNavBarColorNoNavBarRepro()));
     }
