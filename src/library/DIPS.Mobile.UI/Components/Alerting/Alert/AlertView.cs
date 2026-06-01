@@ -27,6 +27,9 @@ namespace DIPS.Mobile.UI.Components.Alerting.Alert;
 public partial class AlertView : Grid
 {
     private readonly HorizontalStackLayout m_buttonsContainer;
+    private bool m_buttonsContainerAdded;
+    private bool m_isUpdatingButtonAlignment;
+    private double m_lastAllocatedWidth;
     private Image? m_icon;
     private ImageButton? m_closeIcon;
     private CustomTruncationTextView? m_titleAndDescriptionLabel;
@@ -70,47 +73,78 @@ public partial class AlertView : Grid
     protected override void OnSizeAllocated(double width, double height)
     {
         base.OnSizeAllocated(width, height);
+
+        // Skip if width hasn't changed — avoids infinite layout loops
+        // ReSharper disable once CompareOfFloatsByEqualityOperator
+        if (width == m_lastAllocatedWidth && m_buttonsContainerAdded)
+            return;
+        m_lastAllocatedWidth = width;
         
         UpdateButtonAlignment();
     }
 
     private void UpdateButtonAlignment()
     {
+        if (m_isUpdatingButtonAlignment) return;
         if (LeftButtonCommand is null && RightButtonCommand is null) 
             return;
         
-        Remove(m_buttonsContainer);
-        
-        if (IsLargeAlert)
+        m_isUpdatingButtonAlignment = true;
+        try
         {
-            m_buttonsContainer.Margin = new Thickness(0, Sizes.GetSize(SizeName.content_margin_small), 0, 0);
-            this.Add(m_buttonsContainer, 1, 1);
-            return;
+            if (IsLargeAlert)
+            {
+                m_buttonsContainer.Margin = new Thickness(0, Sizes.GetSize(SizeName.content_margin_small), 0, 0);
+                m_buttonsContainer.HorizontalOptions = LayoutOptions.Start;
+                SetButtonsPosition(1, 1);
+                return;
+            }
+        
+            if (Width <= 0)
+            {
+                m_buttonsContainer.Margin = new Thickness(0, Sizes.GetSize(SizeName.content_margin_small), 0, 0);
+                m_buttonsContainer.HorizontalOptions = LayoutOptions.Start;
+                SetButtonsPosition(1, 1);
+                return;
+            }
+        
+            var maxWidth = Measure(int.MaxValue, int.MaxValue).Width;
+            var buttonsWidth = m_buttonsContainer.Measure(int.MaxValue, int.MaxValue).Width;
+            var remainingWidth = Width - maxWidth - buttonsWidth;
+        
+            var buttonsWillFit = remainingWidth >= (Sizes.GetSize(SizeName.content_margin_small));
+        
+            if (buttonsWillFit)
+            {
+                m_buttonsContainer.Margin = new Thickness(0, 0, 0, 0);
+                m_buttonsContainer.HorizontalOptions = LayoutOptions.End;
+                SetButtonsPosition(2, 0);
+            }
+            else
+            {
+                m_buttonsContainer.Margin = new Thickness(0, Sizes.GetSize(SizeName.content_margin_small), 0, 0);
+                m_buttonsContainer.HorizontalOptions = LayoutOptions.Start;
+                SetButtonsPosition(1, 1);
+            }
         }
-        
-        var maxWidth = Measure(int.MaxValue, int.MaxValue).Width;
-        var buttonsWidth = m_buttonsContainer.Measure(int.MaxValue, int.MaxValue).Width;
-        var remainingWidth = Width - maxWidth - buttonsWidth;
-        
-        var buttonsWillFit = remainingWidth >= (Sizes.GetSize(SizeName.content_margin_small));
-        
-        if (buttonsWillFit)
+        finally
         {
-            m_buttonsContainer.Margin = new Thickness(0, 0, 0, 0);
-            m_buttonsContainer.HorizontalOptions = LayoutOptions.End;
-            this.Add(m_buttonsContainer, 2);
+            m_isUpdatingButtonAlignment = false;
+        }
+    }
+
+    private void SetButtonsPosition(int column, int row)
+    {
+        if (!m_buttonsContainerAdded)
+        {
+            this.Add(m_buttonsContainer, column, row);
+            m_buttonsContainerAdded = true;
         }
         else
         {
-            m_buttonsContainer.Margin = new Thickness(0, Sizes.GetSize(SizeName.content_margin_small), 0, 0);
-            m_buttonsContainer.HorizontalOptions = LayoutOptions.Start;
-            this.Add(m_buttonsContainer, 1, 1);
+            Grid.SetColumn(m_buttonsContainer, column);
+            Grid.SetRow(m_buttonsContainer, row);
         }
-
-#if __ANDROID__
-        // Workaround for Android layout issue where buttons is not visible in some cases
-        InvalidateMeasure();
-#endif
     }
 
     private void OnButtonChanged()
