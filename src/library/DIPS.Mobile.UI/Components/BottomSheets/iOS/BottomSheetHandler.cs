@@ -7,7 +7,10 @@ public partial class BottomSheetHandler : ContentViewHandler
 {
     public static partial void MapIsInteractiveCloseable(BottomSheetHandler handler, BottomSheet bottomSheet)
     {
-        var controller = (UIViewController?)bottomSheet.ViewController.NavigationController ?? bottomSheet.ViewController;
+        // Sett ModalInPresentation på den presenterte VCen (host, nav controller, eller selve VCen)
+        var controller = (UIViewController?)bottomSheet.ViewController.HostViewController
+                         ?? (UIViewController?)bottomSheet.ViewController.NavigationController 
+                         ?? bottomSheet.ViewController;
         controller.ModalInPresentation = !bottomSheet.IsInteractiveCloseable;
     }
 

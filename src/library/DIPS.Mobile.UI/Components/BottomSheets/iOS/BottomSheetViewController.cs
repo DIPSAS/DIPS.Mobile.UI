@@ -20,6 +20,12 @@ public class BottomSheetViewController : UIViewController
     
     public BottomSheet BottomSheet { get; }
     
+    /// <summary>
+    /// Referanse til host-VCen som inneholder denne VC-ens UINavigationController + bunnlinje.
+    /// Settes kun når ShowBottombarButtonsOnSubViews er true.
+    /// </summary>
+    internal BottomSheetHostViewController? HostViewController { get; set; }
+    
     public async void ModifySearchbar(bool add)
     {
         // Delay to make sure the container is created
@@ -32,6 +38,13 @@ public class BottomSheetViewController : UIViewController
     {
         // Delay to make sure the bottom bar view is created
         await Task.Delay(1);
+
+        // Hvis bunnlinjen håndteres av host-VCen, deleger dit
+        if (HostViewController is not null)
+        {
+            HostViewController.ModifyBottomBar(add);
+            return;
+        }
         
         if (add)
         {
@@ -51,15 +64,13 @@ public class BottomSheetViewController : UIViewController
             return;
         
         m_container.AddToView(View);
-        // Attach the bottom bar to the navigation controller's view when the consumer
-        // wants the bar to remain visible on pushed sub-views; otherwise pin it to this
-        // view controller's own view (current behaviour — the bar is naturally hidden by
-        // the pushed view controller's view).
-        var bottomBarHost = BottomSheet.ShowBottombarButtonsOnSubViews
-                            && NavigationController?.View is { } navView
-            ? navView
-            : View;
-        m_bottomBar = new BottomBarView(bottomBarHost, BottomSheet);
+
+        // Opprett bunnlinje kun hvis det IKKE brukes en host-VC
+        // (host-VCen håndterer bunnlinjen utenfor nav-hierarkiet)
+        if (HostViewController is null)
+        {
+            m_bottomBar = new BottomBarView(View, BottomSheet);
+        }
         
         m_navigationBarHelper = new BottomSheetNavigationBarHelper(BottomSheet, NavigationItem, NavigationController);
         m_navigationBarHelper.Configure();
@@ -97,7 +108,10 @@ public class BottomSheetViewController : UIViewController
 
     public void SetPositioning()
     {
-        var controller = NavigationController ?? (UIViewController)this;
+        // Positioning settes på den presenterte VCen (host eller nav controller)
+        var controller = (UIViewController?)HostViewController 
+                         ?? NavigationController 
+                         ?? (UIViewController)this;
         controller.SetPositioning(BottomSheet, m_container);
     }
 
@@ -106,23 +120,6 @@ public class BottomSheetViewController : UIViewController
         m_navigationBarHelper?.UpdateTitle();
     }
 
-    /// <summary>
-    /// Sørger for at bunnlinjen er synlig og ligger øverst i z-rekkefølgen etter en push.
-    /// </summary>
-    internal void EnsureBottomBarVisible()
-    {
-        if (m_bottomBar is null || !BottomSheet.ShowBottombarButtonsOnSubViews)
-            return;
-
-        if (m_bottomBar.NativeView.Superview is null)
-        {
-            m_bottomBar.Show();
-        }
-        else
-        {
-            m_bottomBar.NativeView.Superview.BringSubviewToFront(m_bottomBar.NativeView);
-        }
-    }
 
     protected override void Dispose(bool disposing)
     {
