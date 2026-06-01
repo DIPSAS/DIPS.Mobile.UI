@@ -7,7 +7,6 @@ using Android.Widget;
 using AndroidX.AppCompat.Graphics.Drawable;
 using Google.Android.Material.AppBar;
 using Google.Android.Material.BottomSheet;
-using Google.Android.Material.Transition.Platform;
 using Microsoft.Maui.Handlers;
 using Microsoft.Maui.Platform;
 using AndroidResource = Android.Resource;
@@ -47,12 +46,6 @@ public partial class BottomSheetHandler : ContentViewHandler
     private WeakReference<AView>? m_weakCurrentFocusedSearchBar;
     private BottomSheetCallback? m_bottomSheetCallback;
     private KeyListener? m_keyListener;
-    private NavigationBackPressedCallback? m_navigationBackCallback;
-
-    // Navigation state
-    private FrameLayout? m_navigationContainer;
-    private AView? m_currentNativeContentView;
-    private Stack<AView> m_nativeNavigationStack = new();
     private LinearLayout? m_bottomSheetLayout;
 
     public AView OnBeforeOpening(IMauiContext mauiContext, Context context, AView bottomSheetAndroidView,
@@ -118,16 +111,8 @@ public partial class BottomSheetHandler : ContentViewHandler
         ToggleSearchBar();
         FindAndSetupSearchBars();
 
-        // Wrap the content view in a FrameLayout to support navigation transitions
-        m_navigationContainer = new FrameLayout(context)
-        {
-            LayoutParameters = new ViewGroup.LayoutParams(
-                ViewGroup.LayoutParams.MatchParent,
-                ViewGroup.LayoutParams.WrapContent)
-        };
-        m_currentNativeContentView = bottomSheetAndroidView;
-        m_navigationContainer.AddView(bottomSheetAndroidView);
-        bottomSheetLayout.AddView(m_navigationContainer);
+        // Sett opp navigasjonscontainer for push/pop av innhold
+        SetupNavigationContainer(context, bottomSheetAndroidView, bottomSheetLayout);
 
         if (m_bottomSheet.Positioning is not Positioning.Fit)
         {
@@ -264,64 +249,6 @@ public partial class BottomSheetHandler : ContentViewHandler
         bottomSheet.BottomSheetDialog.Behavior.Draggable = bottomSheet.IsDraggable;
     }
 
-    internal void PushNavigationContent(View content, string? title)
-    {
-        var mauiContext = DUI.GetCurrentMauiContext;
-        if (mauiContext is null || m_navigationContainer is null || m_bottomSheetLayout is null) return;
-
-        // Save current native view to the stack
-        m_nativeNavigationStack.Push(m_currentNativeContentView!);
-
-        // Create new native view
-        var newNativeView = content.ToPlatform(mauiContext);
-
-        // Material 3 shared axis transition (X axis, forward)
-        var transition = new MaterialSharedAxis(MaterialSharedAxis.X, /* entering */ true);
-        transition.SetDuration(300);
-        global::Android.Transitions.TransitionManager.BeginDelayedTransition(m_navigationContainer, transition);
-
-        // Hide old, show new
-        m_currentNativeContentView!.Visibility = ViewStates.Gone;
-        m_navigationContainer.AddView(newNativeView);
-        m_currentNativeContentView = newNativeView;
-
-        // Update the native MaterialToolbar with the pushed title and force-show the back button
-        UpdateHeaderToolbarForNavigation(title);
-        m_navigationBackCallback?.UpdateEnabled();
-    }
-
-    internal void PopNavigationContent(BottomSheetNavigationEntry popped)
-    {
-        if (m_navigationContainer is null || m_nativeNavigationStack.Count == 0) return;
-
-        var previousNativeView = m_nativeNavigationStack.Pop();
-
-        // Material 3 shared axis transition (X axis, backward)
-        var transition = new MaterialSharedAxis(MaterialSharedAxis.X, /* entering */ false);
-        transition.SetDuration(300);
-        global::Android.Transitions.TransitionManager.BeginDelayedTransition(m_navigationContainer, transition);
-
-        // Remove current, restore previous
-        m_navigationContainer.RemoveView(m_currentNativeContentView);
-        previousNativeView.Visibility = ViewStates.Visible;
-        m_currentNativeContentView = previousNativeView;
-
-        // Disconnect handlers for the popped MAUI view
-        popped.Content.DisconnectHandlers();
-
-        // Update the toolbar: either restore root state or show previous pushed entry
-        if (m_nativeNavigationStack.Count == 0)
-        {
-            UpdateHeaderToolbarFromBottomSheet();
-        }
-        else
-        {
-            var previousEntry = m_bottomSheet.NavigationStack.Peek();
-            UpdateHeaderToolbarForNavigation(previousEntry.Title);
-        }
-
-        m_navigationBackCallback?.UpdateEnabled();
-    }
 
     private MaterialToolbar CreateHeaderToolbar(Context context)
     {
@@ -453,12 +380,9 @@ public partial class BottomSheetHandler : ContentViewHandler
 
     private void OnHeaderToolbarNavigationClick(object? sender, global::AndroidX.AppCompat.Widget.Toolbar.NavigationClickEventArgs e)
     {
-        // If we're inside a pushed navigation, pop. Otherwise delegate to the back-button command.
-        if (m_nativeNavigationStack.Count > 0)
-        {
-            _ = m_bottomSheet.PopAsync();
+        // Om vi er inne i pushet navigasjon, pop. Ellers deleger til back-button-kommandoen.
+        if (TryHandleNavigationBack())
             return;
-        }
 
         m_bottomSheet.BottomSheetHeaderBehavior?.TitleAndBackButtonContainerCommand?.Execute(null);
     }
@@ -495,25 +419,11 @@ public partial class BottomSheetHandler : ContentViewHandler
         m_headerToolbar = null;
     }
 
-    private void CleanupNavigationStack()
-    {
-        while (m_nativeNavigationStack.Count > 0)
-        {
-            m_nativeNavigationStack.Pop();
-        }
-        
-        while (m_bottomSheet.NavigationStack.Count > 0)
-        {
-            var entry = m_bottomSheet.NavigationStack.Pop();
-            entry.Content.DisconnectHandlers();
-        }
-    }
-
     protected override void DisconnectHandler(ContentViewGroup platformView)
     {
         base.DisconnectHandler(platformView);
         
-        // Clean up navigation stack
+        // Rydd opp navigasjonsstack
         CleanupNavigationStack();
         
         if (m_bottomSheetCallback is not null)
@@ -584,10 +494,9 @@ public partial class BottomSheetHandler : ContentViewHandler
             return false;
         }
 
-        // If there is navigation content to pop, pop it instead of closing the sheet
-        if (m_bottomSheet.CanPopNavigation)
+        // Om det finnes navigasjonsinnhold å poppe, gjør det i stedet for å lukke sheetet
+        if (TryHandleNavigationBack())
         {
-            _ = m_bottomSheet.PopAsync();
             return true;
         }
 
@@ -596,7 +505,7 @@ public partial class BottomSheetHandler : ContentViewHandler
             m_bottomSheet.Close();
         });
         
-        return !m_bottomSheet.IsInteractiveCloseable; //Returning true will block back key action
+        return !m_bottomSheet.IsInteractiveCloseable;
     }
 
     internal class BottomSheetCallback : BottomSheetBehavior.BottomSheetCallback
@@ -638,31 +547,6 @@ public partial class BottomSheetHandler : ContentViewHandler
             m_bottomSheetHandler.OnKey(dialog, keyCode, e);
     }
 
-    internal class NavigationBackPressedCallback : global::AndroidX.Activity.OnBackPressedCallback
-    {
-        private readonly BottomSheetHandler m_bottomSheetHandler;
-
-        public NavigationBackPressedCallback(BottomSheetHandler bottomSheetHandler)
-            : base(enabled: true)
-        {
-            m_bottomSheetHandler = bottomSheetHandler;
-            UpdateEnabled();
-        }
-
-        public void UpdateEnabled()
-        {
-            // Only intercept back when there is navigation content to pop
-            Enabled = m_bottomSheetHandler.m_bottomSheet?.CanPopNavigation ?? false;
-        }
-
-        public override void HandleOnBackPressed()
-        {
-            if (m_bottomSheetHandler.m_bottomSheet?.CanPopNavigation ?? false)
-            {
-                _ = m_bottomSheetHandler.m_bottomSheet.PopAsync();
-            }
-        }
-    }
 }
 
 public class DialogInterfaceOnShowListener : Object, IDialogInterfaceOnShowListener
