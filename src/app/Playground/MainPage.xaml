@@ -17,6 +17,8 @@
                                     Tapped="GoToVetle" />
             <dui:NavigationListItem Title="Håvard"
                                     Tapped="GoToHåvard" />
+            <dui:NavigationListItem Title="AlertView Repro #1455"
+                                    Tapped="GoToAlertViewRepro" />
             <dui:NavigationListItem Title="Sander"
                                     Tapped="GoToSander" />
             <dui:NavigationListItem Title="Eirik"
