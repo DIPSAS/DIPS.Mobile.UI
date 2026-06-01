@@ -68,12 +68,20 @@ public async Task PushAsync(View content, string? title = null)
         /// <summary>
         /// Pops the current content from the bottom sheet's internal navigation stack and returns to the previous content.
         /// </summary>
-        public async Task PopAsync()
-        {
-            if (NavigationStack.Count == 0) return;
-            var popped = NavigationStack.Pop();
-            await PlatformPopAsync(popped);
-        }
+public async Task PopAsync()
+{
+    if (NavigationStack.Count == 0) return;
+    var popped = NavigationStack.Pop();
+    try
+    {
+        await PlatformPopAsync(popped);
+    }
+    catch
+    {
+        NavigationStack.Push(popped);
+        throw;
+    }
+}
 
         /// <summary>
         /// Whether there is content that can be popped from the navigation stack.
