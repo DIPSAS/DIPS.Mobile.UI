@@ -72,7 +72,15 @@ public async Task PushAsync(View content, string? title = null)
         {
             if (NavigationStack.Count == 0) return;
             var popped = NavigationStack.Pop();
-            await PlatformPopAsync(popped);
+            try
+            {
+                await PlatformPopAsync(popped);
+            }
+            catch
+            {
+                NavigationStack.Push(popped);
+                throw;
+            }
         }
 
         /// <summary>
