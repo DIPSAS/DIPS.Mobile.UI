@@ -21,10 +21,10 @@ A `StepFlow` hosts a sequence of `StepFlowItem`s. Each item has four lifecycle s
 
 | State | Visual | Interactive |
 | --- | --- | --- |
-| `Disabled` | Dimmed (opacity 0.45) | No |
-| `Active` | Expanded, full opacity | Yes |
-| `Completed` | Collapsed, check icon, dimmed (opacity 0.78) | No (by default) |
-| `Error` | Red ring around the indicator | Yes |
+| `Disabled` | Default border, surface, and text; Body300 title style | No |
+| `Active` | Expanded, bold border, UI300 title style | Yes |
+| `Completed` | Collapsed, check icon, Body300 title style | No (by default) |
+| `Error` | Red border and text, Body300 title style | Yes |
 
 The recommended usage is **controller-driven**: a single `StepFlowController` lives on the consumer's view model and the flow is driven imperatively via `CompleteCurrent`, `GoTo`, and `Reset`. The controller is a plain CLR object with no MAUI dependencies, which makes it trivially unit-testable.
 

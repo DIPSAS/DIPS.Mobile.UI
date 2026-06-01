@@ -77,11 +77,10 @@ public partial class BarcodeScanner : CameraFragment, IObserver
     private void AnalyzeImage(IImageProxy imageProxy)
     {
         var barcodeScanner = m_barcodeScanner;
-        var imageAnalysisExecutor = m_imageAnalysisExecutor;
         var mediaImage = imageProxy.Image;
         var scanRunId = CurrentScanRunId;
 
-        if(Context == null || barcodeScanner is null || imageAnalysisExecutor is null || mediaImage is null)
+        if(Context == null || barcodeScanner is null || m_imageAnalysisExecutor is null || mediaImage is null)
         {
             imageProxy.Close();
             return;
@@ -90,7 +89,7 @@ public partial class BarcodeScanner : CameraFragment, IObserver
         try
         {
             barcodeScanner.Process(InputImage.FromMediaImage(mediaImage, imageProxy.ImageInfo.RotationDegrees))
-                .AddOnFailureListener(imageAnalysisExecutor, new OnFailureListener(e =>
+                .AddOnFailureListener(new OnFailureListener(e =>
                 {
                     imageProxy.Close();
                     if (scanRunId == CurrentScanRunId)
@@ -98,7 +97,7 @@ public partial class BarcodeScanner : CameraFragment, IObserver
                         MainThread.BeginInvokeOnMainThread(() => OnCameraFailed<BarcodeScanner>(new CameraException("DidTryAnalyzeImage", e)));
                     }
                 }))
-                .AddOnSuccessListener(imageAnalysisExecutor, new OnSuccessListener(o =>
+                .AddOnSuccessListener(new OnSuccessListener(o =>
                 {
                     try
                     {
