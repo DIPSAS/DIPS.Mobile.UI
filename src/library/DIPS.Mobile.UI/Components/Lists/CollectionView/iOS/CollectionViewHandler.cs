@@ -161,7 +161,10 @@ public class ReorderableItemsViewController(
         var hasAutoCornerRadius = mauiCollectionView.AutoCornerRadius;
 
         if (!hasCustomFirstCornerRadius && !hasCustomLastCornerRadius && !hasAutoCornerRadius)
+        {
+            ResetCornerRadius(contentView);
             return;
+        }
 
         var cornerRadius = GetCornerRadius(isFirst, isLast, hasCustomFirstCornerRadius, hasCustomLastCornerRadius, hasAutoCornerRadius);
 
@@ -173,10 +176,15 @@ public class ReorderableItemsViewController(
         }
         else
         {
-            contentView.ClipsToBounds = false;
-            contentView.Layer.CornerRadius = 0;
-            contentView.Layer.MaskedCorners = 0;
+            ResetCornerRadius(contentView);
         }
+    }
+
+    private static void ResetCornerRadius(UIView contentView)
+    {
+        contentView.ClipsToBounds = false;
+        contentView.Layer.CornerRadius = 0;
+        contentView.Layer.MaskedCorners = 0;
     }
 
     private CornerRadius GetCornerRadius(bool isFirst, bool isLast, bool hasCustomFirstCornerRadius, bool hasCustomLastCornerRadius, bool hasAutoCornerRadius)
@@ -290,7 +298,7 @@ public class ReorderableItemsViewController(
 
     private void OnMauiPropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
     {
-        if (e.PropertyName == "ItemsSource")
+        if (e.PropertyName == nameof(mauiCollectionView.ItemsSource))
             SubscribeToItemsSource();
     }
 

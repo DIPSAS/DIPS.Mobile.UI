@@ -24,6 +24,71 @@ public class GroupedCollectionViewSampleViewModel : ViewModel
 
     public GroupedCollectionViewSampleViewModel()
     {
+        AddSectionCommand = new Command(() =>
+        {
+            m_sectionCounter++;
+            Groups.Add(new ItemGroup($"Section {m_sectionCounter}", [$"Item {++m_itemCounter}", $"Item {++m_itemCounter}", $"Item {++m_itemCounter}"]));
+        });
+
+        RemoveFirstSectionCommand = new Command(() =>
+        {
+            if (Groups.Count > 0)
+                Groups.RemoveAt(0);
+        });
+
+        RemoveLastSectionCommand = new Command(() =>
+        {
+            if (Groups.Count > 0)
+                Groups.RemoveAt(Groups.Count - 1);
+        });
+
+        AddItemToFirstSectionStartCommand = new Command(() =>
+        {
+            if (Groups.Count > 0)
+                Groups[0].Insert(0, $"Item {++m_itemCounter} (start)");
+        });
+
+        AddItemToFirstSectionMiddleCommand = new Command(() =>
+        {
+            if (Groups.Count > 0)
+            {
+                var middle = Groups[0].Count / 2;
+                Groups[0].Insert(middle, $"Item {++m_itemCounter} (middle)");
+            }
+        });
+
+        AddItemToFirstSectionEndCommand = new Command(() =>
+        {
+            if (Groups.Count > 0)
+                Groups[0].Add($"Item {++m_itemCounter} (end)");
+        });
+
+        RemoveItemFromFirstSectionCommand = new Command(() =>
+        {
+            if (Groups.Count > 0 && Groups[0].Count > 0)
+                Groups[0].RemoveAt(Groups[0].Count - 1);
+        });
+
+        MinimizeFirstSectionCommand = new Command(() =>
+        {
+            if (Groups.Count > 0)
+            {
+                while (Groups[0].Count > 1)
+                    Groups[0].RemoveAt(Groups[0].Count - 1);
+            }
+        });
+
+        ExpandFirstSectionCommand = new Command(() =>
+        {
+            if (Groups.Count == 0)
+                AddSectionCommand.Execute(null);
+
+            while (Groups[0].Count < 4)
+                Groups[0].Add($"Item {++m_itemCounter} (expanded)");
+        });
+
+        ResetCommand = new Command(Reset);
+
         Reset();
     }
 
@@ -41,70 +106,16 @@ public class GroupedCollectionViewSampleViewModel : ViewModel
         set => RaiseWhenSet(ref m_autoHideLastDivider, value);
     }
 
-    public ICommand AddSectionCommand => new Command(() =>
-    {
-        m_sectionCounter++;
-        Groups.Add(new ItemGroup($"Section {m_sectionCounter}", [$"Item {++m_itemCounter}", $"Item {++m_itemCounter}", $"Item {++m_itemCounter}"]));
-    });
-
-    public ICommand RemoveFirstSectionCommand => new Command(() =>
-    {
-        if (Groups.Count > 0)
-            Groups.RemoveAt(0);
-    });
-
-    public ICommand RemoveLastSectionCommand => new Command(() =>
-    {
-        if (Groups.Count > 0)
-            Groups.RemoveAt(Groups.Count - 1);
-    });
-
-    public ICommand AddItemToFirstSectionStartCommand => new Command(() =>
-    {
-        if (Groups.Count > 0)
-            Groups[0].Insert(0, $"Item {++m_itemCounter} (start)");
-    });
-
-    public ICommand AddItemToFirstSectionMiddleCommand => new Command(() =>
-    {
-        if (Groups.Count > 0)
-        {
-            var middle = Groups[0].Count / 2;
-            Groups[0].Insert(middle, $"Item {++m_itemCounter} (middle)");
-        }
-    });
-
-    public ICommand AddItemToFirstSectionEndCommand => new Command(() =>
-    {
-        if (Groups.Count > 0)
-            Groups[0].Add($"Item {++m_itemCounter} (end)");
-    });
-
-    public ICommand RemoveItemFromFirstSectionCommand => new Command(() =>
-    {
-        if (Groups.Count > 0 && Groups[0].Count > 0)
-            Groups[0].RemoveAt(Groups[0].Count - 1);
-    });
-
-    public ICommand MinimizeFirstSectionCommand => new Command(() =>
-    {
-        if (Groups.Count > 0)
-        {
-            while (Groups[0].Count > 1)
-                Groups[0].RemoveAt(Groups[0].Count - 1);
-        }
-    });
-
-    public ICommand ExpandFirstSectionCommand => new Command(() =>
-    {
-        if (Groups.Count == 0)
-            AddSectionCommand.Execute(null);
-
-        while (Groups[0].Count < 4)
-            Groups[0].Add($"Item {++m_itemCounter} (expanded)");
-    });
-
-    public ICommand ResetCommand => new Command(() => Reset());
+    public ICommand AddSectionCommand { get; }
+    public ICommand RemoveFirstSectionCommand { get; }
+    public ICommand RemoveLastSectionCommand { get; }
+    public ICommand AddItemToFirstSectionStartCommand { get; }
+    public ICommand AddItemToFirstSectionMiddleCommand { get; }
+    public ICommand AddItemToFirstSectionEndCommand { get; }
+    public ICommand RemoveItemFromFirstSectionCommand { get; }
+    public ICommand MinimizeFirstSectionCommand { get; }
+    public ICommand ExpandFirstSectionCommand { get; }
+    public ICommand ResetCommand { get; }
 
     private void Reset()
     {

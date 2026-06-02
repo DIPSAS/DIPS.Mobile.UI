@@ -1,4 +1,3 @@
-using System.Collections;
 using Android.Content;
 using Android.Content.Res;
 using Android.Views;
@@ -189,6 +188,7 @@ public class ReorderableItemsViewAdapter : ReorderableItemsViewAdapter<Reorderab
         if (!TryGetItemPosition(position, out var itemPosition, out var count))
         {
             ResetCornerRadius(holder);
+            ApplyDividerVisibility(holder, false);
             return;
         }
 
@@ -243,19 +243,9 @@ public class ReorderableItemsViewAdapter : ReorderableItemsViewAdapter<Reorderab
 
     private int GetItemsCount()
     {
-        if (m_collectionView.ItemsSource is ICollection collection)
-            return collection.Count;
-
-        if (m_collectionView.ItemsSource is not IEnumerable enumerable)
-            return 0;
-
-        var count = 0;
-        foreach (var _ in enumerable)
-        {
-            count++;
-        }
-
-        return count;
+        var headerCount = ItemsSource.HasHeader ? 1 : 0;
+        var footerCount = ItemsSource.HasFooter ? 1 : 0;
+        return Math.Max(0, ItemsSource.Count - headerCount - footerCount);
     }
 
     public bool TryGetGroupAndGroupIndex(int position, out int index, out IItemsViewSource currentGroup)
