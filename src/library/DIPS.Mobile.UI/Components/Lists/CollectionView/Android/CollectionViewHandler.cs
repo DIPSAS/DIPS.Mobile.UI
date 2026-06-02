@@ -4,6 +4,7 @@ using Android.Views;
 using AndroidX.RecyclerView.Widget;
 using DIPS.Mobile.UI.Components.Dividers;
 using DIPS.Mobile.UI.Components.Lists.Android;
+using DIPS.Mobile.UI.Effects.Accessibility.Effects;
 using DIPS.Mobile.UI.Effects.Layout;
 using DIPS.Mobile.UI.Extensions;
 using DIPS.Mobile.UI.Extensions.Android;
@@ -11,7 +12,9 @@ using Microsoft.Maui.Controls.Handlers.Items;
 using Microsoft.Maui.Platform;
 using Color = Android.Graphics.Color;
 using CornerRadius = Microsoft.Maui.CornerRadius;
+using AccessibilityTrait = DIPS.Mobile.UI.Effects.Accessibility.Trait;
 using View = Microsoft.Maui.Controls.View;
+using DUIAccessibility = DIPS.Mobile.UI.Effects.Accessibility.Accessibility;
 
 namespace DIPS.Mobile.UI.Components.Lists;
 
@@ -185,6 +188,8 @@ public class ReorderableItemsViewAdapter : ReorderableItemsViewAdapter<Reorderab
 
     private void ApplyCellStyling(RecyclerView.ViewHolder holder, int position)
     {
+        ApplyAccessibilityTraits(holder);
+
         if (!TryGetItemPosition(position, out var itemPosition, out var count))
         {
             ResetCornerRadius(holder);
@@ -197,6 +202,23 @@ public class ReorderableItemsViewAdapter : ReorderableItemsViewAdapter<Reorderab
 
         ApplyCornerRadius(holder, isFirst, isLast);
         ApplyDividerVisibility(holder, isLast);
+    }
+
+    #endregion
+
+    #region Accessibility
+
+    private static void ApplyAccessibilityTraits(RecyclerView.ViewHolder holder)
+    {
+        var crossPlatformElement = GetCrossPlatformElement(holder);
+        if (crossPlatformElement is null)
+            return;
+
+        var trait = DUIAccessibility.GetTrait(crossPlatformElement);
+        if (trait != AccessibilityTrait.None || holder.ItemView.GetAccessibilityDelegate() is TraitAccessibilityDelegate)
+        {
+            TraitAccessibilityDelegate.ApplyTrait(holder.ItemView, trait);
+        }
     }
 
     #endregion

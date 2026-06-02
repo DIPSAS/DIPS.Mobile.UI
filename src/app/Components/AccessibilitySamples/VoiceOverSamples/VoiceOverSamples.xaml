@@ -7,6 +7,7 @@
                  xmlns:helpers="clr-namespace:Components.Helpers"
                  xmlns:voiceOverSamples="clr-namespace:Components.AccessibilitySamples.VoiceOverSamples"
                  xmlns:listItemInteractiveContentSamples="clr-namespace:Components.AccessibilitySamples.VoiceOverSamples.ListItemInteractiveContentSamples"
+                 xmlns:navigationListItemSamples="clr-namespace:Components.AccessibilitySamples.VoiceOverSamples.NavigationListItemSamples"
                  xmlns:traitSamples="clr-namespace:Components.AccessibilitySamples.VoiceOverSamples.TraitSamples"
                  x:Class="Components.AccessibilitySamples.VoiceOverSamples.VoiceOverSamples"
                  Title="{x:Static localizedStrings:LocalizedStrings.VoiceOver}">
@@ -17,6 +18,11 @@
                 <dui:ListItem Title="{x:Static localizedStrings:LocalizedStrings.VoiceOver_GroupChildren_Title}"
                               HasBottomDivider="True"
                               Command="{helpers:NavigationCommand ContentPageType={x:Type voiceOverSamples:GroupChildrenSamples}}" />
+
+                <dui:NavigationListItem Title="{x:Static localizedStrings:LocalizedStrings.VoiceOver_NavigationListItem_Title}"
+                                        Subtitle="{x:Static localizedStrings:LocalizedStrings.VoiceOver_NavigationListItem_Subtitle}"
+                                        HasBottomDivider="True"
+                                        Command="{helpers:NavigationCommand ContentPageType={x:Type navigationListItemSamples:NavigationListItemAccessibilitySamples}}" />
                 
                 <dui:ListItem Title="{x:Static localizedStrings:LocalizedStrings.VoiceOver_ListItem_Interactive_Title}"
                               Subtitle="{x:Static localizedStrings:LocalizedStrings.VoiceOver_ListItem_Interactive_Subtitle}"

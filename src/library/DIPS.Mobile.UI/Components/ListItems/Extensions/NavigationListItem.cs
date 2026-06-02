@@ -4,6 +4,8 @@ using DIPS.Mobile.UI.Components.ListItems.Options.Icon;
 using DIPS.Mobile.UI.Components.ListItems.Options.InLineContent;
 using DIPS.Mobile.UI.Components.ListItems.Options.Title;
 using DIPS.Mobile.UI.Internal;
+using DUIAccessibility = DIPS.Mobile.UI.Effects.Accessibility.Accessibility;
+using AccessibilityTrait = DIPS.Mobile.UI.Effects.Accessibility.Trait;
 using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
 using Image = DIPS.Mobile.UI.Components.Images.Image.Image;
 
@@ -25,6 +27,11 @@ public partial class NavigationListItem : ListItem
 
     public NavigationListItem()
     {
+        AutomationProperties.SetIsInAccessibleTree(this, true);
+        DUIAccessibility.SetTrait(this, AccessibilityTrait.Button);
+        DisableInternalAccessibility = true;
+        AutomationProperties.SetExcludedWithChildren(m_contentGrid, true);
+
         m_contentGrid.Add(
             new Image
             {
