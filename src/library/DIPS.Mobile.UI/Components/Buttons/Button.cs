@@ -5,6 +5,7 @@ namespace DIPS.Mobile.UI.Components.Buttons
     public partial class Button : Microsoft.Maui.Controls.Button
     {
         private Style? m_buttonStyleBasedOn;
+        private int m_autoCornerRadius = -1;
 
         public Button()
         {
@@ -23,12 +24,17 @@ namespace DIPS.Mobile.UI.Components.Buttons
         {
             base.OnSizeAllocated(width, height);
 
-            if (CornerRadius != -1)
+            if (Height <= 0 || Width <= 0)
                 return;
 
-            if (!(Height == 0 || Width == 0))
+            var calculatedRadius = (int)(Math.Min(Width, Height) / 2);
+
+            // Recalculate if CornerRadius was never set or was auto-calculated.
+            // Skip if explicitly set (e.g. by style for icon buttons).
+            if (CornerRadius == -1 || CornerRadius == m_autoCornerRadius)
             {
-                CornerRadius = (int)(Math.Min(Width, Height) / 2);
+                CornerRadius = calculatedRadius;
+                m_autoCornerRadius = calculatedRadius;
             }
         }
 

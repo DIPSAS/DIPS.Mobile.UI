@@ -41,6 +41,11 @@ public partial class MainPage
         Shell.Current.Navigation.PushAsync(new HåvardPage());
     }
 
+    private void GoToAlertViewRepro(object sender, EventArgs e)
+    {
+        Shell.Current.Navigation.PushAsync(new HåvardSamples.AlertViewReproPage());
+    }
+
     private void GoToSander(object sender, EventArgs e)
     {
         Shell.Current.Navigation.PushAsync(new SanderPage());

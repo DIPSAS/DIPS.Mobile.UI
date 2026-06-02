@@ -3,6 +3,10 @@
 - [Checkmark] Added `AddStrokeToCheckmark` property to display a visible stroke around the checkmark
 - [CheckmarkListItem] Added `AddStrokeToCheckmark` property to display a visible stroke around the checkmark icon
 
+## [60.2.2]
+- [AlertView] Fixed button not visible on iOS by replacing Remove/Add pattern with Grid.SetColumn/Grid.SetRow repositioning. Added reentrancy guard and width tracking to prevent infinite layout loops.
+- [Button] Fixed CornerRadius not updating when button size changes. Auto-calculated radius now recalculates on every size allocation instead of locking after first calculation.
+
 ## [60.2.1]
 - [BarcodeScanner] Fixed crash on Android when backgrounding the app while the barcode scanner is active. The crash was caused by ML Kit task callbacks being dispatched to an already-terminated executor.
 
