@@ -384,6 +384,9 @@ public partial class BottomSheetHandler : ContentViewHandler
         if (TryHandleNavigationBack())
             return;
 
+        if (m_bottomSheet.BottomSheetHeaderBehavior?.IsTitleAndBackButtonContainerEnabled != true)
+            return;
+        
         m_bottomSheet.BottomSheetHeaderBehavior?.TitleAndBackButtonContainerCommand?.Execute(null);
     }
 
