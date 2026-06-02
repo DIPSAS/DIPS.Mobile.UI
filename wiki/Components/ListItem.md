@@ -107,6 +107,9 @@ We have made extensions to `ListItem` to remove boilerplate code for something t
                           InLineContent="I am with navigation icon" />
 ```
 
+#### Accessibility
+`NavigationListItem` uses the visible `Title` as the default screen reader description and is announced as a button when it is tappable. Consumers can override `SemanticProperties.Description` when the spoken text needs to differ from the visible title.
+
 #### Properties
 Inspect the [NavigationListItem Properties Class](https://github.com/DIPSAS/DIPS.Mobile.UI/blob/main/src/library/DIPS.Mobile.UI/Components/ListItems/Extensions/NavigationListItem.Properties.cs) to further customise and use it.
 

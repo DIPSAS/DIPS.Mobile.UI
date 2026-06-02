@@ -1,3 +1,6 @@
+## [60.2.4]
+- [NavigationListItem] Uses `Title` as the default screen reader description so navigation rows are announced as buttons by screen readers while still allowing consumers to override `SemanticProperties.Description`.
+
 ## [60.2.3]
 - [CollectionView] Fixed auto-hide-last-divider and auto-corner-radius bugs caused by stale cell caches during virtualization and dynamic item changes. The implementation now uses a stateless reset-then-apply strategy that correctly handles cell recycling, item additions, and removals.
 
