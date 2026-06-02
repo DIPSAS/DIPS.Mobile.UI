@@ -1,23 +1,23 @@
 namespace DIPS.Mobile.UI.Components.BottomSheets
 {
     /// <summary>
-    /// Håndterer intern navigasjon i bottom sheet (push/pop av innhold).
+    /// Handles internal navigation in the bottom sheet (push/pop of content).
     /// </summary>
     public partial class BottomSheet
     {
         internal Stack<BottomSheetNavigationEntry> NavigationStack { get; } = new();
 
         /// <summary>
-        /// Om det finnes innhold som kan poppes fra navigasjonsstacken.
+        /// Whether there is content that can be popped from the navigation stack.
         /// </summary>
         public bool CanPopNavigation => NavigationStack.Count > 0;
 
         /// <summary>
-        /// Pusher nytt innhold på bottom sheet sin interne navigasjonsstack.
-        /// Innholdet vises med en animert overgang og en tilbake-knapp for å returnere.
+        /// Pushes new content onto the bottom sheet's internal navigation stack.
+        /// The content is displayed with an animated transition and a back button to return.
         /// </summary>
-        /// <param name="content">Viewet som skal vises.</param>
-        /// <param name="title">Tittelen som vises i navigasjonsbaren for det pushede innholdet.</param>
+        /// <param name="content">The view to display.</param>
+        /// <param name="title">The title displayed in the navigation bar for the pushed content.</param>
         public async Task PushAsync(View content, string? title = null)
         {
             var entry = new BottomSheetNavigationEntry(content, title);
@@ -34,7 +34,7 @@ namespace DIPS.Mobile.UI.Components.BottomSheets
         }
 
         /// <summary>
-        /// Popper gjeldende innhold fra bottom sheet sin interne navigasjonsstack og returnerer til forrige innhold.
+        /// Pops the current content from the bottom sheet's internal navigation stack and returns to the previous content.
         /// </summary>
         public async Task PopAsync()
         {
@@ -52,8 +52,8 @@ namespace DIPS.Mobile.UI.Components.BottomSheets
         }
 
         /// <summary>
-        /// Kalles av plattformkode når brukeren interaktivt popper (f.eks. iOS swipe-back-gest).
-        /// Holder den styrte navigasjonsstacken synkronisert.
+        /// Called by platform code when the user interactively pops (e.g. iOS swipe-back gesture).
+        /// Keeps the managed navigation stack in sync.
         /// </summary>
         internal void HandleInteractivePop(View content)
         {

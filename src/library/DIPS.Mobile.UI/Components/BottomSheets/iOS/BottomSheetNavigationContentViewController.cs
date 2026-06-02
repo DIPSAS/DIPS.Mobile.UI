@@ -25,7 +25,7 @@ internal class BottomSheetNavigationContentViewController : UIViewController
 
         if (View is null) return;
 
-        // Bruk innholdets bakgrunnsfarge hvis den er eksplisitt satt, ellers arv fra bottomsheetet
+        // Use the content's background color if explicitly set, otherwise inherit from the bottom sheet
         var contentBackgroundColor = m_content.BackgroundColor;
         var effectiveColor = contentBackgroundColor ?? m_bottomSheet.BackgroundColor;
         View.BackgroundColor = effectiveColor.ToPlatform();

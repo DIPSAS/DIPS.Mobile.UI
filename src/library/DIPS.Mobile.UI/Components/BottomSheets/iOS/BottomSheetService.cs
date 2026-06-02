@@ -18,8 +18,8 @@ public static partial class BottomSheetService
             if (currentViewController is null)
                 return;
 
-            // Når bunnlinjeknapper skal vises på sub-views, bruk en container-VC
-            // som holder bunnlinjen UTENFOR UINavigationController-hierarkiet.
+            // When bottom bar buttons should be visible on sub-views, use a container VC
+            // that keeps the bottom bar OUTSIDE the UINavigationController hierarchy.
             UIViewController viewControllerToPresent;
             if (bottomSheet.ShowBottombarButtonsOnSubViews && bottomSheet.HasBottomBarButtons)
             {
@@ -80,7 +80,7 @@ public static partial class BottomSheetService
     {
         if (bottomSheet?.ViewController == null) return;
         
-        // Dismiss den presenterte VCen (enten host-VC eller nav controller)
+        // Dismiss the presented VC (either host VC or nav controller)
         var vcToDismiss = (UIViewController?)bottomSheet.ViewController.HostViewController 
                           ?? bottomSheet.ViewController;
         await vcToDismiss.DismissViewControllerAsync(animated);

@@ -111,7 +111,7 @@ public partial class BottomSheetHandler : ContentViewHandler
         ToggleSearchBar();
         FindAndSetupSearchBars();
 
-        // Sett opp navigasjonscontainer for push/pop av innhold
+        // Set up navigation container for push/pop of content
         SetupNavigationContainer(context, bottomSheetAndroidView, bottomSheetLayout);
 
         if (m_bottomSheet.Positioning is not Positioning.Fit)
@@ -380,7 +380,7 @@ public partial class BottomSheetHandler : ContentViewHandler
 
     private void OnHeaderToolbarNavigationClick(object? sender, global::AndroidX.AppCompat.Widget.Toolbar.NavigationClickEventArgs e)
     {
-        // Om vi er inne i pushet navigasjon, pop. Ellers deleger til back-button-kommandoen.
+        // If we are in pushed navigation, pop. Otherwise delegate to the back-button command.
         if (TryHandleNavigationBack())
             return;
 
@@ -423,7 +423,7 @@ public partial class BottomSheetHandler : ContentViewHandler
     {
         base.DisconnectHandler(platformView);
         
-        // Rydd opp navigasjonsstack
+        // Clean up navigation stack
         CleanupNavigationStack();
         
         if (m_bottomSheetCallback is not null)
@@ -494,7 +494,7 @@ public partial class BottomSheetHandler : ContentViewHandler
             return false;
         }
 
-        // Om det finnes navigasjonsinnhold å poppe, gjør det i stedet for å lukke sheetet
+        // If there is navigation content to pop, do that instead of closing the sheet
         if (TryHandleNavigationBack())
         {
             return true;

@@ -64,7 +64,7 @@ public partial class Checkmark
         propertyChanged: (bindable, _, _) => ((Checkmark)bindable).OnAddStrokeToCheckmarkChanged());
 
     /// <summary>
-    /// Legger til en synlig ramme (stroke) rundt checkmarket.
+    /// Adds a visible stroke (outline) around the checkmark.
     /// </summary>
     public bool AddStrokeToCheckmark
     {

@@ -21,8 +21,8 @@ public class BottomSheetViewController : UIViewController
     public BottomSheet BottomSheet { get; }
     
     /// <summary>
-    /// Referanse til host-VCen som inneholder denne VC-ens UINavigationController + bunnlinje.
-    /// Settes kun når ShowBottombarButtonsOnSubViews er true.
+    /// Reference to the host VC that contains this VC's UINavigationController + bottom bar.
+    /// Only set when ShowBottombarButtonsOnSubViews is true.
     /// </summary>
     internal BottomSheetHostViewController? HostViewController { get; set; }
     
@@ -39,7 +39,7 @@ public class BottomSheetViewController : UIViewController
         // Delay to make sure the bottom bar view is created
         await Task.Delay(1);
 
-        // Hvis bunnlinjen håndteres av host-VCen, deleger dit
+        // If the bottom bar is handled by the host VC, delegate to it
         if (HostViewController is not null)
         {
             HostViewController.ModifyBottomBar(add);
@@ -65,8 +65,8 @@ public class BottomSheetViewController : UIViewController
         
         m_container.AddToView(View);
 
-        // Opprett bunnlinje kun hvis det IKKE brukes en host-VC
-        // (host-VCen håndterer bunnlinjen utenfor nav-hierarkiet)
+        // Create the bottom bar only if a host VC is NOT being used
+        // (the host VC handles the bottom bar outside the nav hierarchy)
         if (HostViewController is null)
         {
             m_bottomBar = new BottomBarView(View, BottomSheet);
@@ -108,7 +108,7 @@ public class BottomSheetViewController : UIViewController
 
     public void SetPositioning()
     {
-        // Positioning settes på den presenterte VCen (host eller nav controller)
+        // Positioning is set on the presented VC (host or nav controller)
         var controller = (UIViewController?)HostViewController 
                          ?? NavigationController 
                          ?? (UIViewController)this;

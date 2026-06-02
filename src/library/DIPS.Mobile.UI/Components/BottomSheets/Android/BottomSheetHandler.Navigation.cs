@@ -10,18 +10,18 @@ using AView = Android.Views.View;
 namespace DIPS.Mobile.UI.Components.BottomSheets;
 
 /// <summary>
-/// Håndterer intern navigasjon (push/pop) i bottom sheet på Android.
+/// Handles internal navigation (push/pop) in the bottom sheet on Android.
 /// </summary>
 public partial class BottomSheetHandler
 {
-    // Navigasjonstilstand
+    // Navigation state
     private FrameLayout? m_navigationContainer;
     private AView? m_currentNativeContentView;
     private Stack<AView> m_nativeNavigationStack = new();
     private NavigationBackPressedCallback? m_navigationBackCallback;
 
     /// <summary>
-    /// Setter opp navigasjonscontaineren og legger til innholdsviewet i bottom sheet-layouten.
+    /// Sets up the navigation container and adds the content view to the bottom sheet layout.
     /// </summary>
     private void SetupNavigationContainer(Context context, AView bottomSheetAndroidView, LinearLayout bottomSheetLayout)
     {
@@ -41,23 +41,23 @@ public partial class BottomSheetHandler
         var mauiContext = DUI.GetCurrentMauiContext;
         if (mauiContext is null || m_navigationContainer is null || m_bottomSheetLayout is null) return;
 
-        // Lagre gjeldende native view på stacken
+        // Save current native view on the stack
         m_nativeNavigationStack.Push(m_currentNativeContentView!);
 
-        // Opprett nytt native view
+        // Create new native view
         var newNativeView = content.ToPlatform(mauiContext);
 
-        // Material 3 shared axis-overgang (X-akse, fremover)
+        // Material 3 shared axis transition (X-axis, forward)
         var transition = new MaterialSharedAxis(MaterialSharedAxis.X, /* entering */ true);
         transition.SetDuration(300);
         global::Android.Transitions.TransitionManager.BeginDelayedTransition(m_navigationContainer, transition);
 
-        // Skjul gammel, vis ny
+        // Hide old, show new
         m_currentNativeContentView!.Visibility = ViewStates.Gone;
         m_navigationContainer.AddView(newNativeView);
         m_currentNativeContentView = newNativeView;
 
-        // Oppdater toolbaren med tittel og tilbake-knapp
+        // Update toolbar with title and back button
         UpdateHeaderToolbarForNavigation(title);
         m_navigationBackCallback?.UpdateEnabled();
     }
@@ -68,20 +68,20 @@ public partial class BottomSheetHandler
 
         var previousNativeView = m_nativeNavigationStack.Pop();
 
-        // Material 3 shared axis-overgang (X-akse, bakover)
+        // Material 3 shared axis transition (X-axis, backward)
         var transition = new MaterialSharedAxis(MaterialSharedAxis.X, /* entering */ false);
         transition.SetDuration(300);
         global::Android.Transitions.TransitionManager.BeginDelayedTransition(m_navigationContainer, transition);
 
-        // Fjern gjeldende, gjenopprett forrige
+        // Remove current, restore previous
         m_navigationContainer.RemoveView(m_currentNativeContentView);
         previousNativeView.Visibility = ViewStates.Visible;
         m_currentNativeContentView = previousNativeView;
 
-        // Koble fra handlers for det poppede MAUI-viewet
+        // Disconnect handlers for the popped MAUI view
         popped.Content.DisconnectHandlers();
 
-        // Oppdater toolbar: enten gjenopprett rottilstand eller vis forrige pushede entry
+        // Update toolbar: either restore root state or show previous pushed entry
         if (m_nativeNavigationStack.Count == 0)
         {
             UpdateHeaderToolbarFromBottomSheet();
@@ -110,7 +110,7 @@ public partial class BottomSheetHandler
     }
 
     /// <summary>
-    /// Håndterer tilbake-knapp under navigasjon. Returnerer true om navigasjon ble poppet.
+    /// Handles back button during navigation. Returns true if navigation was popped.
     /// </summary>
     private bool TryHandleNavigationBack()
     {
@@ -135,7 +135,7 @@ public partial class BottomSheetHandler
 
         public void UpdateEnabled()
         {
-            // Bare fang opp tilbake-knapp når det er navigasjonsinnhold å poppe
+            // Only intercept back button when there is navigation content to pop
             Enabled = m_bottomSheetHandler.m_bottomSheet?.CanPopNavigation ?? false;
         }
 
