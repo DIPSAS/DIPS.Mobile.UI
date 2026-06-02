@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!-- Repro for Arena.Mobile #1455: AlertView save button not visible with large text on iOS 26 -->
+<!-- Steps: 1) Increase text size on device to >100%, 2) Tap "Toggle AlertView" to show the blue bar -->
+<!-- Expected: Button "Lagre" should be visible. Observe if it only appears on 2nd toggle. -->
+
+<dui:ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                 xmlns:dui="http://dips.com/mobile.ui"
+                 x:Class="Playground.HåvardSamples.AlertViewReproPage"
+                 x:Name="This"
+                 Title="AlertView Repro #1455">
+
+    <dui:ScrollView Padding="{dui:Padding page_margin_small}">
+        <VerticalStackLayout Spacing="{dui:Sizes size_2}">
+
+            <dui:Label Text="Repro: Lagre-knapp i AlertView med stor tekststørrelse (iOS 26)"
+                       Style="{dui:Styles Label=UI300}" />
+
+            <dui:Label Text="Skru opp tekststørrelsen på enheten, og trykk på knappene under for å vise/skjule AlertView."
+                       Style="{dui:Styles Label=Body200}" />
+
+            <!-- Test 1: Toggle IsVisible on Information AlertView with LeftButton -->
+            <dui:Label Text="Test 1: Toggle IsVisible (som i behandlingsplan)"
+                       Style="{dui:Styles Label=UI200}"
+                       Margin="{dui:Thickness Top=size_4}" />
+
+            <dui:AlertView x:Name="AlertWithButton"
+                           Style="{dui:Styles Alert=Information}"
+                           Title="Du har ulagrede endringer"
+                           TitleTruncationMode="Moderate"
+                           LeftButtonText="Lagre"
+                           LeftButtonCommand="{Binding SaveCommand, Source={x:Reference This}}"
+                           IsVisible="False" />
+
+            <HorizontalStackLayout Spacing="{dui:Sizes size_2}">
+                <dui:Button Text="Toggle AlertView"
+                            Clicked="ToggleAlertView" />
+                <dui:Button Text="Show"
+                            Clicked="ShowAlertView" />
+                <dui:Button Text="Hide"
+                            Clicked="HideAlertView" />
+            </HorizontalStackLayout>
+
+            <!-- Test 2: AlertView that starts visible (reference/control) -->
+            <dui:Label Text="Test 2: Alltid synlig (kontrolltest)"
+                       Style="{dui:Styles Label=UI200}"
+                       Margin="{dui:Thickness Top=size_4}" />
+
+            <dui:AlertView Style="{dui:Styles Alert=Information}"
+                           Title="Du har ulagrede endringer"
+                           TitleTruncationMode="Moderate"
+                           LeftButtonText="Lagre"
+                           LeftButtonCommand="{Binding SaveCommand, Source={x:Reference This}}" />
+
+            <!-- Test 3: Aggressive truncation mode with button -->
+            <dui:Label Text="Test 3: Aggressive truncation + knapp"
+                       Style="{dui:Styles Label=UI200}"
+                       Margin="{dui:Thickness Top=size_4}" />
+
+            <dui:AlertView x:Name="AlertAggressive"
+                           Style="{dui:Styles Alert=Information}"
+                           Title="Du har ulagrede endringer i spesifikasjon og situasjon"
+                           TitleTruncationMode="Aggressive"
+                           LeftButtonText="Lagre"
+                           LeftButtonCommand="{Binding SaveCommand, Source={x:Reference This}}"
+                           IsVisible="False" />
+
+            <dui:Button Text="Toggle Aggressive"
+                        Clicked="ToggleAggressiveAlertView" />
+
+            <!-- Test 4: Long title that forces buttons below -->
+            <dui:Label Text="Test 4: Lang tittel som tvinger knapp under teksten"
+                       Style="{dui:Styles Label=UI200}"
+                       Margin="{dui:Thickness Top=size_4}" />
+
+            <dui:AlertView x:Name="AlertLongTitle"
+                           Style="{dui:Styles Alert=Information}"
+                           Title="Du har ulagrede endringer i dette planelementet som ikke er lagret ennå"
+                           TitleTruncationMode="Moderate"
+                           LeftButtonText="Lagre"
+                           LeftButtonCommand="{Binding SaveCommand, Source={x:Reference This}}"
+                           IsVisible="False" />
+
+            <dui:Button Text="Toggle lang tittel"
+                        Clicked="ToggleLongTitleAlertView" />
+
+            <!-- Test 5: Success alert (no button, just visibility toggle) -->
+            <dui:Label Text="Test 5: Success alert (uten knapp)"
+                       Style="{dui:Styles Label=UI200}"
+                       Margin="{dui:Thickness Top=size_4}" />
+
+            <dui:AlertView x:Name="AlertSuccess"
+                           Style="{dui:Styles Alert=Success}"
+                           Title="Endringene er lagret"
+                           TitleTruncationMode="Moderate"
+                           IsVisible="False" />
+
+            <dui:Button Text="Toggle Success"
+                        Clicked="ToggleSuccessAlertView" />
+
+            <dui:Label x:Name="StatusLabel"
+                       Text="Status: Venter..."
+                       Style="{dui:Styles Label=Body100}"
+                       Margin="{dui:Thickness Top=size_4}" />
+
+        </VerticalStackLayout>
+    </dui:ScrollView>
+</dui:ContentPage>
