@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<dui:ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:dui="http://dips.com/mobile.ui"
+             x:Class="Components.ComponentsSamples.BottomSheets.Sheets.NavigationPage2"
+             Title="Page 2">
+
+    <dui:VerticalStackLayout Spacing="0"
+                             Margin="{dui:Thickness Left=content_margin_medium, Right=content_margin_medium, Top=content_margin_large}">
+        <dui:Label Text="This is page 2. Tap the item below to push yet another page."
+                   Padding="{dui:Thickness size_4}"
+                   Style="{dui:Styles Label=UI200}" />
+
+        <dui:NavigationListItem Title="Go deeper"
+                                Subtitle="Push a third page from here"
+                                Tapped="OnGoDeeperTapped" />
+    </dui:VerticalStackLayout>
+
+</dui:ContentPage>
+

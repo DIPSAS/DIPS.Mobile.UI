@@ -39,7 +39,7 @@ public class BottomSheetTests : UITest
                         // should remain visible. Pop is triggered via the back navigation;
                         // the test verifies that everything is collected after the sheet closes.
                         await Task.Delay(300);
-                        await sheet.PushAsync(new ContentView { Content = new Label { Text = "Sub-view" } }, "Sub-view");
+                        await sheet.PushAsync(new ContentPage { Title = "Sub-view", Content = new ContentView { Content = new Label { Text = "Sub-view" } } });
                     })
                 }
             }

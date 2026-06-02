@@ -13,18 +13,18 @@ namespace DIPS.Mobile.UI.Components.BottomSheets
         public bool CanPopNavigation => NavigationStack.Count > 0;
 
         /// <summary>
-        /// Pushes new content onto the bottom sheet's internal navigation stack.
-        /// The content is displayed with an animated transition and a back button to return.
+        /// Pushes a ContentPage onto the bottom sheet's internal navigation stack.
+        /// The page's Content is displayed with an animated transition and a back button to return.
+        /// The page's Title is used in the navigation bar.
         /// </summary>
-        /// <param name="content">The view to display.</param>
-        /// <param name="title">The title displayed in the navigation bar for the pushed content.</param>
-        public async Task PushAsync(View content, string? title = null)
+        /// <param name="page">The page to push.</param>
+        public async Task PushAsync(ContentPage page)
         {
-            var entry = new BottomSheetNavigationEntry(content, title);
+            var entry = new BottomSheetNavigationEntry(page);
             NavigationStack.Push(entry);
             try
             {
-                await PlatformPushAsync(content, title);
+                await PlatformPushAsync(page);
             }
             catch
             {
@@ -55,15 +55,15 @@ namespace DIPS.Mobile.UI.Components.BottomSheets
         /// Called by platform code when the user interactively pops (e.g. iOS swipe-back gesture).
         /// Keeps the managed navigation stack in sync.
         /// </summary>
-        internal void HandleInteractivePop(View content)
+        internal void HandleInteractivePop(ContentPage page)
         {
-            if (NavigationStack.TryPeek(out var top) && top.Content == content)
+            if (NavigationStack.TryPeek(out var top) && top.Page == page)
             {
                 NavigationStack.Pop();
             }
         }
 
-        private partial Task PlatformPushAsync(View content, string? title);
+        private partial Task PlatformPushAsync(ContentPage page);
         private partial Task PlatformPopAsync(BottomSheetNavigationEntry popped);
     }
 }

@@ -300,7 +300,7 @@ public partial class BottomSheetHandler : ContentViewHandler
             else
             {
                 var currentEntry = m_bottomSheet.NavigationStack.Peek();
-                UpdateHeaderToolbarForNavigation(currentEntry.Title);
+                UpdateHeaderToolbarForNavigation(currentEntry.Page.Title);
             }
         }
     }

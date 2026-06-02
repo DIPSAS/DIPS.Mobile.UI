@@ -4,12 +4,12 @@ namespace DIPS.Mobile.UI.Components.BottomSheets;
 
 public partial class BottomSheet
 {
-    private partial Task PlatformPushAsync(View content, string? title)
+    private partial Task PlatformPushAsync(ContentPage page)
     {
         var navigationController = ViewController?.NavigationController ??
             throw new InvalidOperationException("NavigationController is not available. Cannot push content to bottom sheet.");
 
-        var vc = new BottomSheetNavigationContentViewController(content, title, this);
+        var vc = new BottomSheetNavigationContentViewController(page, this);
         navigationController.PushViewController(vc, animated: true);
         
         return Task.CompletedTask;

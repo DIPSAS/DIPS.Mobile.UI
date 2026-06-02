@@ -4,7 +4,7 @@ namespace DIPS.Mobile.UI.Components.BottomSheets;
 
 public partial class BottomSheet
 {
-    private partial Task PlatformPushAsync(View content, string? title) =>
+    private partial Task PlatformPushAsync(ContentPage page) =>
         throw new Only_Here_For_UnitTests();
 
     private partial Task PlatformPopAsync(BottomSheetNavigationEntry popped) =>

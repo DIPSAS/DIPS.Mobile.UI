@@ -9,14 +9,14 @@ namespace DIPS.Mobile.UI.Components.BottomSheets.iOS;
 
 internal class BottomSheetNavigationContentViewController : UIViewController
 {
-    private readonly View m_content;
+    private readonly ContentPage m_page;
     private readonly BottomSheet m_bottomSheet;
 
-    public BottomSheetNavigationContentViewController(View content, string? title, BottomSheet bottomSheet)
+    public BottomSheetNavigationContentViewController(ContentPage page, BottomSheet bottomSheet)
     {
-        m_content = content;
+        m_page = page;
         m_bottomSheet = bottomSheet;
-        Title = title ?? string.Empty;
+        Title = page.Title ?? string.Empty;
     }
 
     public override void ViewDidLoad()
@@ -26,7 +26,7 @@ internal class BottomSheetNavigationContentViewController : UIViewController
         if (View is null) return;
 
         // Use the content's background color if explicitly set, otherwise inherit from the bottom sheet
-        var contentBackgroundColor = m_content.BackgroundColor;
+        var contentBackgroundColor = m_page.Content.BackgroundColor;
         var effectiveColor = contentBackgroundColor ?? m_bottomSheet.BackgroundColor;
         View.BackgroundColor = effectiveColor.ToPlatform();
 
@@ -35,7 +35,7 @@ internal class BottomSheetNavigationContentViewController : UIViewController
         var mauiContext = DUI.GetCurrentMauiContext;
         if (mauiContext is null) return;
 
-        var nativeView = m_content.ToPlatform(mauiContext);
+        var nativeView = m_page.Content.ToPlatform(mauiContext);
         View.AddSubview(nativeView);
 
         nativeView.TranslatesAutoresizingMaskIntoConstraints = false;
@@ -113,7 +113,7 @@ internal class BottomSheetNavigationContentViewController : UIViewController
         {
             // The user interactively popped (swipe-back gesture) or this VC was programmatically removed.
             // Keep the managed navigation stack in sync.
-            m_bottomSheet.HandleInteractivePop(m_content);
+            m_bottomSheet.HandleInteractivePop(m_page);
         }
     }
 
@@ -126,7 +126,7 @@ internal class BottomSheetNavigationContentViewController : UIViewController
                 behavior.PropertyChanged -= OnHeaderBehaviorPropertyChanged;
             }
             NavigationItem.RightBarButtonItem = null;
-            m_content.DisconnectHandlers();
+            m_page.Content.DisconnectHandlers();
         }
 
         base.Dispose(disposing);

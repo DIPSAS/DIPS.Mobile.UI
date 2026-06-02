@@ -36,7 +36,7 @@ public partial class BottomSheetHandler
         bottomSheetLayout.AddView(m_navigationContainer);
     }
 
-    internal void PushNavigationContent(View content, string? title)
+    internal void PushNavigationContent(ContentPage page)
     {
         var mauiContext = DUI.GetCurrentMauiContext;
         if (mauiContext is null || m_navigationContainer is null || m_bottomSheetLayout is null) return;
@@ -45,7 +45,7 @@ public partial class BottomSheetHandler
         m_nativeNavigationStack.Push(m_currentNativeContentView!);
 
         // Create new native view
-        var newNativeView = content.ToPlatform(mauiContext);
+        var newNativeView = page.Content.ToPlatform(mauiContext);
 
         // Material 3 shared axis transition (X-axis, forward)
         var transition = new MaterialSharedAxis(MaterialSharedAxis.X, /* entering */ true);
@@ -58,7 +58,7 @@ public partial class BottomSheetHandler
         m_currentNativeContentView = newNativeView;
 
         // Update toolbar with title and back button
-        UpdateHeaderToolbarForNavigation(title);
+        UpdateHeaderToolbarForNavigation(page.Title);
         m_navigationBackCallback?.UpdateEnabled();
     }
 
@@ -79,7 +79,7 @@ public partial class BottomSheetHandler
         m_currentNativeContentView = previousNativeView;
 
         // Disconnect handlers for the popped MAUI view
-        popped.Content.DisconnectHandlers();
+        popped.Page.Content.DisconnectHandlers();
 
         // Update toolbar: either restore root state or show previous pushed entry
         if (m_nativeNavigationStack.Count == 0)
@@ -89,7 +89,7 @@ public partial class BottomSheetHandler
         else
         {
             var previousEntry = m_bottomSheet.NavigationStack.Peek();
-            UpdateHeaderToolbarForNavigation(previousEntry.Title);
+            UpdateHeaderToolbarForNavigation(previousEntry.Page.Title);
         }
 
         m_navigationBackCallback?.UpdateEnabled();
@@ -105,7 +105,7 @@ public partial class BottomSheetHandler
         while (m_bottomSheet.NavigationStack.Count > 0)
         {
             var entry = m_bottomSheet.NavigationStack.Pop();
-            entry.Content.DisconnectHandlers();
+            entry.Page.Content.DisconnectHandlers();
         }
     }
 

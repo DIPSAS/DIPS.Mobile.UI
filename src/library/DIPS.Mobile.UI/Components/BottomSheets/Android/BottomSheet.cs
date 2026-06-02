@@ -2,10 +2,10 @@ namespace DIPS.Mobile.UI.Components.BottomSheets;
 
 public partial class BottomSheet
 {
-    private partial Task PlatformPushAsync(View content, string? title)
+    private partial Task PlatformPushAsync(ContentPage page)
     {
-        if (Handler is not BottomSheetHandler handler) throw new InvalidOperationException("BottomSheet must be opened before calling PopAsync.");
-        handler.PushNavigationContent(content, title);
+        if (Handler is not BottomSheetHandler handler) throw new InvalidOperationException("BottomSheet must be opened before calling PushAsync.");
+        handler.PushNavigationContent(page);
         return Task.CompletedTask;
     }
 
