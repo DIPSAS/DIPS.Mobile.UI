@@ -62,7 +62,7 @@ public partial class ImageCapture : CameraFragment
             ? AndroidX.Camera.Core.ImageCapture.FlashModeOn
             : AndroidX.Camera.Core.ImageCapture.FlashModeOff;
         
-        m_imageCaptureCallback?.Dispose();
+        m_imageCaptureCallback?.IgnoreRemainingCallbacks();
         m_imageCaptureCallback = new ImageCaptureCallback(
             onCaptureStarted: () => SimulateCameraShutter(false),
             onImageCaptureFailed: InvokeOnImageCaptureFailed,
@@ -80,7 +80,7 @@ public partial class ImageCapture : CameraFragment
     {
         CancelAnyActiveImageProcessing();
 
-        m_imageCaptureCallback?.Dispose();
+        m_imageCaptureCallback?.IgnoreRemainingCallbacks();
         m_imageCaptureCallback = null;
 
         await base.TryStop();
@@ -96,7 +96,7 @@ public partial class ImageCapture : CameraFragment
     {
         if (imageCaptureException.Message != null)
         {
-            PlatformOnCameraFailed(new CameraException("DidTryCaptureImage", imageCaptureException));
+            OnImageCaptureFailed(new CameraException("DidTryCaptureImage", imageCaptureException));
         }
     }
 
@@ -135,7 +135,7 @@ public partial class ImageCapture : CameraFragment
         }
         catch (Exception e)
         {
-            PlatformOnCameraFailed(new CameraException("ProcessImageFailed", e));
+            OnImageCaptureFailed(new CameraException("ProcessImageFailed", e));
         }
     }
 

@@ -21,11 +21,11 @@ internal class ImageCaptureBottomToolbarView : Grid
         });
     }
 
-    public void GoToStreamingState(IStreamingStateObserver streamingStateObserver)
+    public void GoToStreamingState(IStreamingStateObserver streamingStateObserver, StreamingTrailingControl trailingControl, View? leadingControl = null)
     {
         DisconnectHandlers(() =>
         {
-            Add(new StreamingStateView(streamingStateObserver));
+            Add(new StreamingStateView(streamingStateObserver, trailingControl, leadingControl));
         });
     }
 

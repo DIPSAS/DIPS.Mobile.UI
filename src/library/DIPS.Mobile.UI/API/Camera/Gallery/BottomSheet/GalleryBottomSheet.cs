@@ -212,7 +212,7 @@ internal partial class GalleryBottomSheet : ContentPage, IGalleryDefaultStateObs
         if (args.NewHandler is not null)
         {
             OnImagesChanged();
-            _ = OnCarouselViewPositionChanged(m_carouselView!.Position);    
+            _ = OnCarouselViewPositionChanged(m_carouselView!.Position);
         }
     }
 

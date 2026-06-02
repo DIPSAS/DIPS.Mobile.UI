@@ -147,6 +147,21 @@
     <data name="RemoveImageTitle" xml:space="preserve">
         <value>Fjern bilde</value>
     </data>
+    <data name="Ok" xml:space="preserve">
+        <value>OK</value>
+    </data>
+    <data name="MaxImagesReachedTitle" xml:space="preserve">
+        <value>Maks antall bilder nådd</value>
+    </data>
+    <data name="MaxImagesReachedMessage" xml:space="preserve">
+        <value>Du kan legge til maksimalt {0} bilder.</value>
+    </data>
+    <data name="NoCapturedImages" xml:space="preserve">
+        <value>Ingen bilder</value>
+    </data>
+    <data name="Accessibility_OpenCapturedImages" xml:space="preserve">
+        <value>Åpne bildegalleriet</value>
+    </data>
     <data name="RemoveImageDescription" xml:space="preserve">
         <value>Vil du fjerne bildet?</value>
     </data>

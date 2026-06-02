@@ -72,16 +72,16 @@ public partial class ImageCapture : IConfirmStateObserver
     void IConfirmStateObserver.OnUsePhotoButtonTapped()
     {
         m_onImageCapturedDelegate?.Invoke(m_currentlyCapturedImage);
-        
+
         if (m_cameraSession is MultiCaptureSession)
         {
+            AddImageAndUpdateImagePreview(m_currentlyCapturedImage);
             GoToStreamingState();
             _ = PlatformStart(m_cameraSession.CameraOptions, m_cameraFailedDelegate);
             return;
         }
         
-        ResetAllVisuals();
-        PlatformStop();
+        Stop();
     }
 
     void IConfirmStateObserver.OnRetakePhotoButtonTapped()

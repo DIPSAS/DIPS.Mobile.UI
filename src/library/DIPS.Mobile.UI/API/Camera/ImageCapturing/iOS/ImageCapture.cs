@@ -28,9 +28,9 @@ public partial class ImageCapture : CameraSession
     private partial Task PlatformStop()
     {
         m_capturePhotoOutput = null;
-        m_photoCaptureDelegate?.Dispose();
+        m_photoCaptureDelegate?.IgnoreRemainingCallbacks();
         m_photoCaptureDelegate = null;
-        
+
         return base.StopCameraSession();
     }
 
@@ -58,8 +58,8 @@ public partial class ImageCapture : CameraSession
     private void PhotoCaptured(AVCapturePhoto photo)
     {
         m_isProcessingPhoto = false;
-        
-        m_photoCaptureDelegate?.Dispose();
+
+        m_photoCaptureDelegate?.IgnoreRemainingCallbacks();
         m_photoCaptureDelegate = null;
 
         try
@@ -83,7 +83,7 @@ public partial class ImageCapture : CameraSession
         }
         catch (Exception e)
         {
-            PlatformOnCameraFailed(new CameraException("PhotoCaptured", e));
+            OnImageCaptureFailed(new CameraException("PhotoCaptured", e));
         }
     }
 
@@ -111,7 +111,7 @@ public partial class ImageCapture : CameraSession
             return;
         }
         
-        m_photoCaptureDelegate = new PhotoCaptureDelegate(PhotoCaptured, PlatformOnCameraFailed, () =>
+        m_photoCaptureDelegate = new PhotoCaptureDelegate(PhotoCaptured, OnImageCaptureFailed, () =>
         {
             m_isProcessingPhoto = true;
             _ = SimulateCameraShutter();
@@ -149,6 +149,11 @@ public partial class ImageCapture : CameraSession
 #pragma warning disable CA1422
     private AVCapturePhotoSettings? CreateSettings()
     {
+        // The camera can be stopped while a capture is being set up, for example when the user leaves
+        // the page.
+        if (m_capturePhotoOutput is null)
+            return null;
+
         var formatKey = AVVideo.CodecKey;
         NSObject? formatValue = null;
         if (m_capturePhotoOutput.AvailablePhotoCodecTypes.Contains(AVVideo.CodecJPEG))
@@ -179,15 +184,15 @@ public partial class ImageCapture : CameraSession
 
 internal class PhotoCaptureDelegate(Action<AVCapturePhoto> onPhotoCaptured, Action<CameraException> onPhotoCaptureFailed, Action onBeforeCapture) : AVCapturePhotoCaptureDelegate
 {
-    private Action<CameraException> m_onPhotoCaptureFailed = onPhotoCaptureFailed;
-    private Action<AVCapturePhoto> m_onPhotoCaptured = onPhotoCaptured;
-    private Action m_onBeforeCapture = onBeforeCapture;
+    private Action<CameraException>? m_onPhotoCaptureFailed = onPhotoCaptureFailed;
+    private Action<AVCapturePhoto>? m_onPhotoCaptured = onPhotoCaptured;
+    private Action? m_onBeforeCapture = onBeforeCapture;
 
     public override void WillBeginCapture(AVCapturePhotoOutput captureOutput, AVCaptureResolvedPhotoSettings resolvedSettings)
     {
         Console.WriteLine("--- WillBeginCapture --- | " + captureOutput + "|" + resolvedSettings);
-        
-        m_onBeforeCapture.Invoke();
+
+        m_onBeforeCapture?.Invoke();
     }
 
     public override void DidFinishCapture(AVCapturePhotoOutput captureOutput,
@@ -208,17 +213,21 @@ internal class PhotoCaptureDelegate(Action<AVCapturePhoto> onPhotoCaptured, Acti
         
         if (error != null)
         {
-            m_onPhotoCaptureFailed.Invoke(new CameraException("iOS: DidFinishProcessingPhoto", new Exception(error.ToExceptionMessage()), error.LocalizedDescription, error.LocalizedRecoverySuggestion));
+            m_onPhotoCaptureFailed?.Invoke(new CameraException("iOS: DidFinishProcessingPhoto", new Exception(error.ToExceptionMessage()), error.LocalizedDescription, error.LocalizedRecoverySuggestion));
         }
-        m_onPhotoCaptured.Invoke(photo);
+        m_onPhotoCaptured?.Invoke(photo);
+    }
+    
+    internal void IgnoreRemainingCallbacks()
+    {
+        m_onPhotoCaptureFailed = null;
+        m_onPhotoCaptured = null;
+        m_onBeforeCapture = null;
     }
 
     protected override void Dispose(bool disposing)
     {
+        IgnoreRemainingCallbacks();
         base.Dispose(disposing);
-
-        m_onPhotoCaptureFailed = null!;
-        m_onPhotoCaptured = null!;
-        m_onBeforeCapture = null!;
     }
 }
