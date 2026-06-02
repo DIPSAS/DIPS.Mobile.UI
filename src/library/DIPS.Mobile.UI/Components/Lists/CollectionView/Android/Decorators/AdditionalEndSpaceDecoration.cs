@@ -13,17 +13,20 @@ internal class AdditionalEndSpaceDecoration : RecyclerView.ItemDecoration
     {
         m_collectionView = (CollectionView)collectionView;
     }
-    
+
     public override void GetItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state)
     {
         base.GetItemOffsets(outRect, view, parent, state);
-        
-        var dataSize = state.ItemCount;
+
+        var dataSize = parent.GetAdapter()?.ItemCount ?? state.ItemCount;
         var position = parent.GetChildAdapterPosition(view);
-        if (dataSize > 0 && position == dataSize - 1) {
+        if (position != RecyclerView.NoPosition && dataSize > 0 && position == dataSize - 1)
+        {
             var paddingBottom = (int)(m_collectionView.HasAdditionalSpaceAtTheEnd ? m_collectionView.Padding.Bottom.ToMauiPixel() + (parent.Height / 2) : (int)m_collectionView.Padding.Bottom.ToMauiPixel());
             outRect.Set(0, 0, 0, paddingBottom);
-        } else {
+        }
+        else
+        {
             outRect.Set(0, 0, 0, 0);
         }
     }
