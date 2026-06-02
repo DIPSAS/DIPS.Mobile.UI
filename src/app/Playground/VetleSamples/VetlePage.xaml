@@ -11,112 +11,112 @@
                  Title="ShouldBounce Repro"
                  Shell.NavBarIsVisible="True">
 
-    <dui:ContentPage.ToolbarItems>
-        <ToolbarItem Text="Close"/>
-    </dui:ContentPage.ToolbarItems>
+       <dui:ContentPage.ToolbarItems>
+              <ToolbarItem Text="Close"/>
+       </dui:ContentPage.ToolbarItems>
 
-    <ScrollView>
-        <dui:VerticalStackLayout Spacing="0"
-                                 Margin="{dui:Thickness Left=content_margin_medium, Right=content_margin_medium, Top=content_margin_large}">
+       <ScrollView>
+              <dui:VerticalStackLayout Spacing="0"
+                                       Margin="{dui:Thickness Left=content_margin_medium, Right=content_margin_medium, Top=content_margin_large}">
 
-            <!-- BarcodeScanning repro samples -->
-            <Label Text="BarcodeScanning Issues"
-                   Style="{dui:Styles Label=SectionHeader}"/>
+                     <!-- BarcodeScanning repro samples -->
+                     <Label Text="BarcodeScanning Issues"
+                            Style="{dui:Styles Label=SectionHeader}"/>
 
-            <dui:VerticalStackLayout Spacing="0"
-                                     dui:Layout.AutoCornerRadius="True"
-                                     Margin="{dui:Thickness Top=content_margin_small}">
-                <dui:NavigationListItem x:Name="OverlayToolbarItem"
-                                        Title="Overlay spans toolbar (Android)"
-                                        Subtitle="GraphicsView overlay extends behind nav bar and bottom area"
-                                        HasBottomDivider="True"/>
-                <dui:NavigationListItem x:Name="NoNavBarToolbarItem"
-                                        Title="No nav bar - toolbar squished"
-                                        Subtitle="Top toolbar overlaps status bar when nav bar hidden in modal"
-                                        HasBottomDivider="True"/>
-                <dui:NavigationListItem x:Name="NoNavBarStatusBarItem"
-                                        Title="No nav bar - status bar color"
-                                        Subtitle="Status bar text color not changed when nav bar hidden in modal"/>
-            </dui:VerticalStackLayout>
+                     <dui:VerticalStackLayout Spacing="0"
+                                              dui:Layout.AutoCornerRadius="True"
+                                              Margin="{dui:Thickness Top=content_margin_small}">
+                            <dui:NavigationListItem x:Name="OverlayToolbarItem"
+                                                    Title="Overlay spans toolbar (Android)"
+                                                    Subtitle="GraphicsView overlay extends behind nav bar and bottom area"
+                                                    HasBottomDivider="True"/>
+                            <dui:NavigationListItem x:Name="NoNavBarToolbarItem"
+                                                    Title="No nav bar - toolbar squished"
+                                                    Subtitle="Top toolbar overlaps status bar when nav bar hidden in modal"
+                                                    HasBottomDivider="True"/>
+                            <dui:NavigationListItem x:Name="NoNavBarStatusBarItem"
+                                                    Title="No nav bar - status bar color"
+                                                    Subtitle="Status bar text color not changed when nav bar hidden in modal"/>
+                     </dui:VerticalStackLayout>
 
-            <!-- ScrollView spacing repro -->
-            <Label Text="ScrollView Issues"
-                   Style="{dui:Styles Label=SectionHeader}"
-                   Margin="{dui:Thickness Top=content_margin_large}"/>
+                     <!-- ScrollView spacing repro -->
+                     <Label Text="ScrollView Issues"
+                            Style="{dui:Styles Label=SectionHeader}"
+                            Margin="{dui:Thickness Top=content_margin_large}"/>
 
-            <dui:VerticalStackLayout Spacing="0"
-                                     dui:Layout.AutoCornerRadius="True"
-                                     Margin="{dui:Thickness Top=content_margin_small}">
-                <dui:NavigationListItem x:Name="ScrollViewSpacingItem"
-                                        Title="HasAdditionalSpaceAtTheEnd"
-                                        Subtitle="Bottom spacing not applied on Android (Arena.Mobile#1475)"/>
-            </dui:VerticalStackLayout>
+                     <dui:VerticalStackLayout Spacing="0"
+                                              dui:Layout.AutoCornerRadius="True"
+                                              Margin="{dui:Thickness Top=content_margin_small}">
+                            <dui:NavigationListItem x:Name="ScrollViewSpacingItem"
+                                                    Title="HasAdditionalSpaceAtTheEnd"
+                                                    Subtitle="Bottom spacing not applied on Android (Arena.Mobile#1475)"/>
+                     </dui:VerticalStackLayout>
 
-            <!-- Camera navbar color repro -->
-            <Label Text="Camera Issues"
-                   Style="{dui:Styles Label=SectionHeader}"
-                   Margin="{dui:Thickness Top=content_margin_large}"/>
+                     <!-- Camera navbar color repro -->
+                     <Label Text="Camera Issues"
+                            Style="{dui:Styles Label=SectionHeader}"
+                            Margin="{dui:Thickness Top=content_margin_large}"/>
 
-            <dui:VerticalStackLayout Spacing="0"
-                                     dui:Layout.AutoCornerRadius="True"
-                                     Margin="{dui:Thickness Top=content_margin_small}">
-                <dui:NavigationListItem x:Name="CameraNavBarColorItem"
-                                        Title="NavBar color change after capture"
-                                        Subtitle="Black navbar during camera, switch to default after photo taken"
-                                        HasBottomDivider="True"/>
-                <dui:NavigationListItem x:Name="CameraNavBarColorNoNavBarItem"
-                                        Title="NavBar color change (no nav bar)"
-                                        Subtitle="Same as above but with navigation bar hidden"/>
-            </dui:VerticalStackLayout>
+                     <dui:VerticalStackLayout Spacing="0"
+                                              dui:Layout.AutoCornerRadius="True"
+                                              Margin="{dui:Thickness Top=content_margin_small}">
+                            <dui:NavigationListItem x:Name="CameraNavBarColorItem"
+                                                    Title="NavBar color change after capture"
+                                                    Subtitle="Black navbar during camera, switch to default after photo taken"
+                                                    HasBottomDivider="True"/>
+                            <dui:NavigationListItem x:Name="CameraNavBarColorNoNavBarItem"
+                                                    Title="NavBar color change (no nav bar)"
+                                                    Subtitle="Same as above but with navigation bar hidden"/>
+                     </dui:VerticalStackLayout>
 
-            <!-- DateAndTimePicker MaximumDate time constraint repro -->
-            <Label Text="DateAndTimePicker Issues"
-                   Style="{dui:Styles Label=SectionHeader}"
-                   Margin="{dui:Thickness Top=content_margin_large}"/>
+                     <!-- DateAndTimePicker MaximumDate time constraint repro -->
+                     <Label Text="DateAndTimePicker Issues"
+                            Style="{dui:Styles Label=SectionHeader}"
+                            Margin="{dui:Thickness Top=content_margin_large}"/>
 
-            <dui:VerticalStackLayout Spacing="{dui:Sizes content_margin_small}"
-                                     Margin="{dui:Thickness Top=content_margin_small}">
-                <Label Text="MaximumDate = DateTime.Now — time should be constrained when today is selected"
-                       Style="{dui:Styles Label=UI200}"/>
-                <dui:DateAndTimePicker x:Name="MaxDatePicker"
-                                       MaximumDate="{x:Static system:DateTime.Now}"
-                                       HorizontalOptions="Start"/>
+                     <dui:VerticalStackLayout Spacing="{dui:Sizes content_margin_small}"
+                                              Margin="{dui:Thickness Top=content_margin_small}">
+                            <Label Text="MaximumDate = DateTime.Now — time should be constrained when today is selected"
+                                   Style="{dui:Styles Label=UI200}"/>
+                            <dui:DateAndTimePicker x:Name="MaxDatePicker"
+                                                   MaximumDate="{x:Static system:DateTime.Now}"
+                                                   HorizontalOptions="Start"/>
 
-                <Label Text="MinimumDate = DateTime.Now — time should be constrained when today is selected"
-                       Style="{dui:Styles Label=UI200}"
-                       Margin="{dui:Thickness Top=content_margin_small}"/>
-                <dui:DateAndTimePicker x:Name="MinDatePicker"
-                                       MinimumDate="{x:Static system:DateTime.Now}"
-                                       HorizontalOptions="Start"/>
-            </dui:VerticalStackLayout>
+                            <Label Text="MinimumDate = DateTime.Now — time should be constrained when today is selected"
+                                   Style="{dui:Styles Label=UI200}"
+                                   Margin="{dui:Thickness Top=content_margin_small}"/>
+                            <dui:DateAndTimePicker x:Name="MinDatePicker"
+                                                   MinimumDate="{x:Static system:DateTime.Now}"
+                                                   HorizontalOptions="Start"/>
+                     </dui:VerticalStackLayout>
 
-            <!-- TimePicker MinimumTime/MaximumTime -->
-            <Label Text="TimePicker Time Constraints"
-                   Style="{dui:Styles Label=SectionHeader}"
-                   Margin="{dui:Thickness Top=content_margin_large}"/>
+                     <!-- TimePicker MinimumTime/MaximumTime -->
+                     <Label Text="TimePicker Time Constraints"
+                            Style="{dui:Styles Label=SectionHeader}"
+                            Margin="{dui:Thickness Top=content_margin_large}"/>
 
-            <dui:VerticalStackLayout Spacing="{dui:Sizes content_margin_small}"
-                                     Margin="{dui:Thickness Top=content_margin_small}">
-                <Label Text="MaximumTime = 16:00"
-                       Style="{dui:Styles Label=UI200}"/>
-                <dui:TimePicker MaximumTime="16:00"
-                                HorizontalOptions="Start"/>
+                     <dui:VerticalStackLayout Spacing="{dui:Sizes content_margin_small}"
+                                              Margin="{dui:Thickness Top=content_margin_small}">
+                            <Label Text="MaximumTime = 16:00"
+                                   Style="{dui:Styles Label=UI200}"/>
+                            <dui:TimePicker MaximumTime="16:00"
+                                            HorizontalOptions="Start"/>
 
-                <Label Text="MinimumTime = 08:00"
-                       Style="{dui:Styles Label=UI200}"
-                       Margin="{dui:Thickness Top=content_margin_small}"/>
-                <dui:TimePicker MinimumTime="08:00"
-                                HorizontalOptions="Start"/>
+                            <Label Text="MinimumTime = 08:00"
+                                   Style="{dui:Styles Label=UI200}"
+                                   Margin="{dui:Thickness Top=content_margin_small}"/>
+                            <dui:TimePicker MinimumTime="08:00"
+                                            HorizontalOptions="Start"/>
 
-                <Label Text="MinimumTime = 08:00, MaximumTime = 16:00"
-                       Style="{dui:Styles Label=UI200}"
-                       Margin="{dui:Thickness Top=content_margin_small}"/>
-                <dui:TimePicker MinimumTime="08:00"
-                                MaximumTime="16:00"
-                                HorizontalOptions="Start"/>
-            </dui:VerticalStackLayout>
+                            <Label Text="MinimumTime = 08:00, MaximumTime = 16:00"
+                                   Style="{dui:Styles Label=UI200}"
+                                   Margin="{dui:Thickness Top=content_margin_small}"/>
+                            <dui:TimePicker MinimumTime="08:00"
+                                            MaximumTime="16:00"
+                                            HorizontalOptions="Start"/>
+                     </dui:VerticalStackLayout>
 
-        </dui:VerticalStackLayout>
-    </ScrollView>
+              </dui:VerticalStackLayout>
+       </ScrollView>
 
 </dui:ContentPage>

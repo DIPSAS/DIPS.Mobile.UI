@@ -1,6 +1,8 @@
+using System.Collections;
+using System.Collections.Specialized;
 using DIPS.Mobile.UI.Components.Dividers;
 using DIPS.Mobile.UI.Effects.Layout;
-using DIPS.Mobile.UI.Extensions.iOS;
+using DIPS.Mobile.UI.Extensions;
 using DIPS.Mobile.UI.Internal.Logging;
 using Foundation;
 using Microsoft.Maui.Controls.Handlers.Items2;
@@ -29,7 +31,7 @@ public partial class CollectionViewHandler
     {
         if (handler.PlatformView.Subviews[0] is not UICollectionView uiCollectionView)
             return;
-            
+
         if (virtualView is CollectionView collectionView)
         {
             if (virtualView.ItemsLayout is ItemsLayout { Orientation: ItemsLayoutOrientation.Horizontal })
@@ -42,7 +44,7 @@ public partial class CollectionViewHandler
             }
         }
     }
-    
+
     private static partial void MapRemoveFocusOnScroll(CollectionViewHandler handler,
         Microsoft.Maui.Controls.CollectionView virtualView)
     {
@@ -72,40 +74,174 @@ public class ReorderableItemsViewController(
     CollectionView mauiCollectionView)
     : ReorderableItemsViewController2<ReorderableItemsView>(itemsView, layout)
 {
-    private readonly Dictionary<int, Divider> m_currentDividerSetToInvisibleInSection = new();
-    private readonly Dictionary<int, UICollectionViewCell> m_currentLastCellWithCornerRadiusInSection = new();
-    private readonly Dictionary<int, UICollectionViewCell> m_currentFirstCellWithCornerRadiusInSection = new();
-    
+    private INotifyCollectionChanged? m_observableSource;
+    private readonly List<INotifyCollectionChanged> m_observableGroups = [];
+
+    #region Lifecycle
+
+    public override void ViewDidLoad()
+    {
+        base.ViewDidLoad();
+        SubscribeToItemsSource();
+        mauiCollectionView.PropertyChanged += OnMauiPropertyChanged;
+    }
+
+    protected override void Dispose(bool disposing)
+    {
+        if (disposing)
+        {
+            UnsubscribeFromItemsSource();
+            mauiCollectionView.PropertyChanged -= OnMauiPropertyChanged;
+        }
+        base.Dispose(disposing);
+    }
+
+    #endregion
+
+    #region Cell binding
+
     public override UICollectionViewCell GetCell(UICollectionView collectionView, NSIndexPath indexPath)
     {
         var cell = base.GetCell(collectionView, indexPath);
 
-        TrySetMarginOnCell(cell, mauiCollectionView.Padding);
-        TrySetCornerRadiusOnCell(collectionView, indexPath, cell, mauiCollectionView, m_currentLastCellWithCornerRadiusInSection, m_currentFirstCellWithCornerRadiusInSection);
-        TrySetDividerInvisible(collectionView, indexPath, cell, mauiCollectionView, m_currentDividerSetToInvisibleInSection);
-        
+        var itemCount = (int)collectionView.NumberOfItemsInSection(indexPath.Section);
+        var isFirst = indexPath.Row == 0;
+        var isLast = indexPath.Row == itemCount - 1;
+
+        TrySetMarginOnCell(GetCrossPlatformElement(cell), mauiCollectionView.Padding);
+        ApplyCornerRadius(GetContentView(cell), isFirst, isLast);
+        ApplyDividerVisibility(GetCrossPlatformElement(cell), isLast);
+
         return cell;
     }
 
-    private static void TrySetMarginOnCell(UICollectionViewCell cell, Thickness collectionViewPadding)
-    {
-        var crossPlatformElement = GetCrossPlatformElementFromCell(cell);
+    #endregion
 
+    #region Position helpers
+
+    private bool IsFirstItemInSection(NSIndexPath indexPath)
+    {
+        return indexPath.Row == 0;
+    }
+
+    private bool IsLastItemInSection(UICollectionView collectionView, NSIndexPath indexPath)
+    {
+        var itemCount = (int)collectionView.NumberOfItemsInSection(indexPath.Section);
+        return indexPath.Row == itemCount - 1;
+    }
+
+    #endregion
+
+    #region Divider visibility
+
+    private void ApplyDividerVisibility(Microsoft.Maui.Controls.View? crossPlatformElement, bool isLast)
+    {
+        if (crossPlatformElement is null)
+            return;
+
+        var divider = crossPlatformElement.FindChildOfTypeClosestToRoot<Divider>();
+        if (divider is null)
+            return;
+
+        var shouldHideDivider = Effects.Layout.Layout.GetAutoHideLastDivider(mauiCollectionView) && isLast;
+        divider.Opacity = shouldHideDivider ? 0 : 1;
+    }
+
+    #endregion
+
+    #region Corner radius
+
+    private void ApplyCornerRadius(UIView? contentView, bool isFirst, bool isLast)
+    {
+        if (contentView is null)
+            return;
+
+        var hasCustomFirstCornerRadius = !mauiCollectionView.FirstItemCornerRadius.IsEmpty();
+        var hasCustomLastCornerRadius = !mauiCollectionView.LastItemCornerRadius.IsEmpty();
+        var hasAutoCornerRadius = mauiCollectionView.AutoCornerRadius;
+
+        if (!hasCustomFirstCornerRadius && !hasCustomLastCornerRadius && !hasAutoCornerRadius)
+        {
+            ResetCornerRadius(contentView);
+            return;
+        }
+
+        var cornerRadius = GetCornerRadius(isFirst, isLast, hasCustomFirstCornerRadius, hasCustomLastCornerRadius, hasAutoCornerRadius);
+
+        if (!cornerRadius.IsEmpty())
+        {
+            contentView.ClipsToBounds = true;
+            contentView.Layer.CornerRadius = (nfloat)cornerRadius.HighestCornerRadius();
+            contentView.Layer.MaskedCorners = CACornerMaskHelper.GetCACornerMask(cornerRadius);
+        }
+        else
+        {
+            ResetCornerRadius(contentView);
+        }
+    }
+
+    private static void ResetCornerRadius(UIView contentView)
+    {
+        contentView.ClipsToBounds = false;
+        contentView.Layer.CornerRadius = 0;
+        contentView.Layer.MaskedCorners = 0;
+    }
+
+    private CornerRadius GetCornerRadius(bool isFirst, bool isLast, bool hasCustomFirstCornerRadius, bool hasCustomLastCornerRadius, bool hasAutoCornerRadius)
+    {
+        var cornerRadius = new CornerRadius();
+
+        if ((hasCustomFirstCornerRadius || hasAutoCornerRadius) && isFirst)
+        {
+            cornerRadius = hasCustomFirstCornerRadius
+                ? mauiCollectionView.FirstItemCornerRadius
+                : new CornerRadius(Sizes.GetSize(SizeName.radius_small), Sizes.GetSize(SizeName.radius_small), 0, 0);
+        }
+
+        if ((hasCustomLastCornerRadius || hasAutoCornerRadius) && isLast)
+        {
+            cornerRadius = hasCustomLastCornerRadius
+                ? mauiCollectionView.LastItemCornerRadius
+                : new CornerRadius(cornerRadius.TopLeft, cornerRadius.TopRight, Sizes.GetSize(SizeName.radius_small), Sizes.GetSize(SizeName.radius_small));
+        }
+
+        return cornerRadius;
+    }
+
+    #endregion
+
+    #region Margins
+
+    private static void TrySetMarginOnCell(Microsoft.Maui.Controls.View? crossPlatformElement, Thickness collectionViewPadding)
+    {
         if (crossPlatformElement is null)
         {
             DUILogService.LogError<CollectionViewHandler>("Could not find cross platform element in cell");
             return;
         }
-        
-        crossPlatformElement.Margin = new Thickness(collectionViewPadding.Left, 
-            crossPlatformElement.Margin.Top, 
-            collectionViewPadding.Right, 
+
+        crossPlatformElement.Margin = new Thickness(
+            collectionViewPadding.Left,
+            crossPlatformElement.Margin.Top,
+            collectionViewPadding.Right,
             crossPlatformElement.Margin.Bottom);
     }
 
-    private static Microsoft.Maui.Controls.View? GetCrossPlatformElementFromCell(UICollectionViewCell cell)
+    #endregion
+
+    #region View helpers
+
+    private static UIView? GetContentView(UICollectionViewCell cell)
     {
-        var subView = cell.Subviews[1].Subviews[0];
+        if (cell.Subviews.Length <= 1 || cell.Subviews[1].Subviews.Length == 0)
+            return null;
+
+        return cell.Subviews[1].Subviews[0];
+    }
+
+    private static Microsoft.Maui.Controls.View? GetCrossPlatformElement(UICollectionViewCell cell)
+    {
+        var subView = GetContentView(cell);
         return subView switch
         {
             LayoutView layoutView => (Microsoft.Maui.Controls.View?)layoutView.CrossPlatformLayout,
@@ -114,135 +250,97 @@ public class ReorderableItemsViewController(
         };
     }
 
-    private static void TrySetDividerInvisible(UICollectionView collectionView, NSIndexPath indexPath,
-        UICollectionViewCell cell, CollectionView mauiCollectionView,
-        Dictionary<int, Divider> currentDividerSetToInvisibleInSection)
+    #endregion
+
+    #region Data change observer
+
+    /// <summary>
+    /// When items are inserted, removed, or moved, the boundary items (first/last) may change.
+    /// Visible cells that were previously first/last need their corner radius and divider state updated.
+    /// This observer defers the update to ensure the collection view state is consistent.
+    /// </summary>
+    private void UpdateAllVisibleCells()
     {
-        var autoDividerVisibilityEnabled = Effects.Layout.Layout.GetAutoHideLastDivider(mauiCollectionView);
-        if(!autoDividerVisibilityEnabled)
+        foreach (var cell in CollectionView.VisibleCells)
+        {
+            var indexPath = CollectionView.IndexPathForCell(cell);
+            if (indexPath == null)
+                continue;
+
+            var isFirst = IsFirstItemInSection(indexPath);
+            var isLast = IsLastItemInSection(CollectionView, indexPath);
+
+            ApplyCornerRadius(GetContentView(cell), isFirst, isLast);
+            ApplyDividerVisibility(GetCrossPlatformElement(cell), isLast);
+        }
+    }
+
+    private void SubscribeToItemsSource()
+    {
+        UnsubscribeFromItemsSource();
+        m_observableSource = mauiCollectionView.ItemsSource as INotifyCollectionChanged;
+        if (m_observableSource != null)
+            m_observableSource.CollectionChanged += OnItemsSourceCollectionChanged;
+
+        RefreshGroupSubscriptions();
+    }
+
+    private void UnsubscribeFromItemsSource()
+    {
+        if (m_observableSource != null)
+        {
+            m_observableSource.CollectionChanged -= OnItemsSourceCollectionChanged;
+            m_observableSource = null;
+        }
+
+        UnsubscribeFromGroups();
+    }
+
+    private void OnMauiPropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
+    {
+        if (e.PropertyName == nameof(mauiCollectionView.ItemsSource))
+            SubscribeToItemsSource();
+    }
+
+    private void RefreshGroupSubscriptions()
+    {
+        UnsubscribeFromGroups();
+
+        if (!mauiCollectionView.IsGrouped || mauiCollectionView.ItemsSource is not IEnumerable groups)
             return;
-        
-        Divider? divider = null;
-        cell.BreadthFirstSearchChildrenUntilMatch(view =>
-        {
-            if (view is not ContentView { CrossPlatformLayout: Divider crossPlatformLayout })
-                return false;
 
-            divider = crossPlatformLayout;
-            return true;
-        });
-
-        if(divider is null)
-            return;
-        
-        if (IsLastItemInSection(collectionView, indexPath))
+        foreach (var group in groups.OfType<INotifyCollectionChanged>())
         {
-            if(currentDividerSetToInvisibleInSection.TryGetValue(indexPath.Section, out var value))
-                value.Opacity = 1;
-            divider.Opacity = 0;
-            currentDividerSetToInvisibleInSection[indexPath.Section] = divider;
-        }
-        else
-        {
-            // Reset the divider for all other cells, because of virtualization
-            divider.Opacity = 1;
+            group.CollectionChanged += OnGroupCollectionChanged;
+            m_observableGroups.Add(group);
         }
     }
 
-    private static void TrySetCornerRadiusOnCell(UICollectionView collectionView, NSIndexPath indexPath, UICollectionViewCell cell, CollectionView mauiCollectionView, Dictionary<int, UICollectionViewCell> currentLastCellWithCornerRadiusInSection, Dictionary<int, UICollectionViewCell> currentFirstCellWithCornerRadiusInSection, bool useCache = true)
+    private void UnsubscribeFromGroups()
     {
-        if(mauiCollectionView.LastItemCornerRadius.IsEmpty() && mauiCollectionView.FirstItemCornerRadius.IsEmpty() && !mauiCollectionView.AutoCornerRadius)
+        foreach (var group in m_observableGroups)
         {
-            return;
-        }
-        
-        var viewThatHasCrossPlatformElement = cell.Subviews[1].Subviews[0];
-        var cornerRadius = new CornerRadius();
-        
-        if ((!mauiCollectionView.FirstItemCornerRadius.IsEmpty() || mauiCollectionView.AutoCornerRadius) && IsFirstItemInSection(indexPath))
-        {
-            if(currentFirstCellWithCornerRadiusInSection.TryGetValue(indexPath.Section, out var currentFirstCell))
-            {
-                if (!currentFirstCell.Equals(cell) && currentFirstCellWithCornerRadiusInSection.Remove(indexPath.Section))
-                {
-                    var newIndexPath = NSIndexPath.FromRowSection(indexPath.Row + 1, indexPath.Section);
-                    TrySetCornerRadiusOnCell(collectionView, newIndexPath, currentFirstCell, mauiCollectionView, currentLastCellWithCornerRadiusInSection, currentFirstCellWithCornerRadiusInSection, false);
-                }
-            }
-            
-            // Apply corner radius to the cell if its the first cell
-            cornerRadius = mauiCollectionView.FirstItemCornerRadius.IsEmpty()
-                ? new CornerRadius(Sizes.GetSize(SizeName.radius_small), Sizes.GetSize(SizeName.radius_small), 0, 0)
-                : mauiCollectionView.FirstItemCornerRadius;
-            
-            if(useCache)
-                currentFirstCellWithCornerRadiusInSection[indexPath.Section] = cell;
-        }
-        
-        if ((!mauiCollectionView.LastItemCornerRadius.IsEmpty() || mauiCollectionView.AutoCornerRadius) && IsLastItemInSection(collectionView, indexPath))
-        {
-            if (currentLastCellWithCornerRadiusInSection.TryGetValue(indexPath.Section, out var currentLastCell))
-            {
-                if (!currentLastCell.Equals(cell) && currentLastCellWithCornerRadiusInSection.Remove(indexPath.Section))
-                {
-                    var newIndexPath = NSIndexPath.FromRowSection(indexPath.Row - 1, indexPath.Section);
-                    TrySetCornerRadiusOnCell(collectionView, newIndexPath, currentLastCell, mauiCollectionView, currentLastCellWithCornerRadiusInSection, currentFirstCellWithCornerRadiusInSection, false);
-                }
-            }
-            
-            // Apply corner radius to the cell if its the last cell
-            cornerRadius = mauiCollectionView.LastItemCornerRadius.IsEmpty()
-                ? new CornerRadius(cornerRadius.TopLeft, cornerRadius.TopRight, Sizes.GetSize(SizeName.radius_small), Sizes.GetSize(SizeName.radius_small))
-                : mauiCollectionView.LastItemCornerRadius;
-            
-            if(useCache)
-                currentLastCellWithCornerRadiusInSection[indexPath.Section] = cell;
+            group.CollectionChanged -= OnGroupCollectionChanged;
         }
 
-        if (!cornerRadius.IsEmpty())
-        {
-            SetViewCornerRadius(viewThatHasCrossPlatformElement, cornerRadius);
-        }
-        else
-        {
-            // Reset the corner radius for all other cells, because of virtualization
-            ResetCornerRadius(viewThatHasCrossPlatformElement);
-        }
+        m_observableGroups.Clear();
     }
 
-    private static void ResetCornerRadius(UIView? test)
+    private void OnItemsSourceCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
     {
-        if(test is null)
-            return;
-        
-        test.ClipsToBounds = false;
-        test.Layer.CornerRadius = 0;
-        test.Layer.MaskedCorners = 0;
+        RefreshGroupSubscriptions();
+        ScheduleUpdateAllVisibleCells();
     }
 
-    private static bool IsLastItemInSection(UICollectionView collectionView, NSIndexPath indexPath)
+    private void OnGroupCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
     {
-        return indexPath.Row == collectionView.NumberOfItemsInSection(indexPath.Section) - 1;
+        ScheduleUpdateAllVisibleCells();
     }
 
-    private static bool IsFirstItemInSection(NSIndexPath indexPath)
+    private void ScheduleUpdateAllVisibleCells()
     {
-        return indexPath.Row == 0;
+        CoreFoundation.DispatchQueue.MainQueue.DispatchAsync(UpdateAllVisibleCells);
     }
 
-    private static void SetViewCornerRadius(UIView cell, CornerRadius cornerRadius)
-    {
-        cell.ClipsToBounds = true;
-        cell.Layer.CornerRadius = (nfloat)cornerRadius.HighestCornerRadius();
-        cell.Layer.MaskedCorners = CACornerMaskHelper.GetCACornerMask(cornerRadius);
-    }
-    
-    protected override void Dispose(bool disposing)
-    {
-        base.Dispose(disposing);
-        
-        m_currentDividerSetToInvisibleInSection.Clear();
-        m_currentFirstCellWithCornerRadiusInSection.Clear();
-        m_currentLastCellWithCornerRadiusInSection.Clear();
-    }
+    #endregion
 }

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<dui:ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                 xmlns:dui="http://dips.com/mobile.ui"
+                 xmlns:collectionView="clr-namespace:Components.ComponentsSamples.CollectionView"
+                 x:Class="Components.ComponentsSamples.CollectionView.FlatCollectionViewSample"
+                 x:DataType="collectionView:FlatCollectionViewSampleViewModel"
+                 Title="Flat CollectionView">
+
+    <dui:ContentPage.BindingContext>
+        <collectionView:FlatCollectionViewSampleViewModel/>
+    </dui:ContentPage.BindingContext>
+
+    <dui:CollectionView ItemsSource="{Binding Items}"
+                        x:Name="TheCollectionView"
+                        dui:Layout.AutoCornerRadius="{Binding AutoCornerRadius}"
+                        dui:Layout.AutoHideLastDivider="{Binding AutoHideLastDivider}">
+
+        <dui:CollectionView.Header>
+            <dui:VerticalStackLayout Spacing="{dui:Sizes size_2}"
+                                     Padding="{dui:Thickness Left=size_2, Top=size_2, Right=size_2, Bottom=size_4}">
+                <dui:VerticalStackLayout Spacing="0">
+                    <dui:ListItem Title="Auto corner radius"
+                                  HasBottomDivider="True">
+                        <dui:Switch IsToggled="{Binding AutoCornerRadius}"
+                                    Toggled="OnCollectionViewFeatureToggled"/>
+                    </dui:ListItem>
+                    <dui:ListItem Title="Auto hide last divider">
+                        <dui:Switch IsToggled="{Binding AutoHideLastDivider}"
+                                    Toggled="OnCollectionViewFeatureToggled"/>
+                    </dui:ListItem>
+                </dui:VerticalStackLayout>
+
+                <Grid ColumnDefinitions="*, *"
+                      RowDefinitions="Auto, Auto, Auto, Auto"
+                      ColumnSpacing="{dui:Sizes size_2}"
+                      RowSpacing="{dui:Sizes size_2}">
+                    <dui:Button Text="Add first"
+                                Command="{Binding AddFirstCommand}"/>
+                    <dui:Button Grid.Column="1"
+                                Text="Add middle"
+                                Command="{Binding AddMiddleCommand}"/>
+                    <dui:Button Grid.Row="1"
+                                Text="Add last"
+                                Command="{Binding AddLastCommand}"/>
+                    <dui:Button Grid.Row="1"
+                                Grid.Column="1"
+                                Text="Remove first"
+                                Command="{Binding RemoveFirstCommand}"/>
+                    <dui:Button Grid.Row="2"
+                                Text="Remove last"
+                                Command="{Binding RemoveLastCommand}"/>
+                    <dui:Button Grid.Row="2"
+                                Grid.Column="1"
+                                Text="Clear"
+                                Command="{Binding ClearCommand}"/>
+                    <dui:Button Grid.Row="3"
+                                Grid.ColumnSpan="2"
+                                Text="Reset"
+                                Command="{Binding ResetCommand}"/>
+                </Grid>
+            </dui:VerticalStackLayout>
+        </dui:CollectionView.Header>
+
+        <dui:CollectionView.ItemTemplate>
+            <DataTemplate x:DataType="{x:Type x:String}">
+                <dui:ListItem Title="{Binding .}"
+                        HasBottomDivider="True"/>
+            </DataTemplate>
+        </dui:CollectionView.ItemTemplate>
+
+    </dui:CollectionView>
+
+</dui:ContentPage>
