@@ -54,6 +54,7 @@ public partial class CheckmarkListItem : ListItem, ISelectable
 
     private void OnAddStrokeToCheckmarkChanged()
     {
+#if __IOS__
         if (ImageIcon is null)
             return;
 
@@ -66,5 +67,6 @@ public partial class CheckmarkListItem : ListItem, ISelectable
         {
             DIPS.Mobile.UI.Effects.Layout.Layout.SetStroke(ImageIcon, null);
         }
+#endif
     }
 }

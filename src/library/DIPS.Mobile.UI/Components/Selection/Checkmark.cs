@@ -41,6 +41,7 @@ public partial class Checkmark : ImageButton, ISelectable
 
     private void OnAddStrokeToCheckmarkChanged()
     {
+#if __IOS__
         if (AddStrokeToCheckmark)
         {
             DIPS.Mobile.UI.Effects.Layout.Layout.SetStroke(this, DIPS.Mobile.UI.Resources.Colors.Colors.GetColor(ColorName.color_icon_default));
@@ -50,5 +51,6 @@ public partial class Checkmark : ImageButton, ISelectable
         {
             DIPS.Mobile.UI.Effects.Layout.Layout.SetStroke(this, null);
         }
+#endif
     }
 }
