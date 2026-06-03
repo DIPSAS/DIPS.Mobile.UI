@@ -471,4 +471,61 @@
     <data name="VoiceOver_Trait_CodeUsage_Title" xml:space="preserve">
         <value>Code Usage</value>
     </data>
+    <data name="VoiceOver_NavigationListItem_Title" xml:space="preserve">
+        <value>NavigationListItem</value>
+    </data>
+    <data name="VoiceOver_NavigationListItem_Subtitle" xml:space="preserve">
+        <value>Rows that should be announced as buttons</value>
+    </data>
+    <data name="VoiceOver_NavigationListItem_Description" xml:space="preserve">
+        <value>Focus each row with a screen reader. The row should be announced as the title followed by button.</value>
+    </data>
+    <data name="VoiceOver_NavigationListItem_Standalone_Title" xml:space="preserve">
+        <value>Without list</value>
+    </data>
+    <data name="VoiceOver_NavigationListItem_Standalone_Subtitle" xml:space="preserve">
+        <value>Directly in page content</value>
+    </data>
+    <data name="VoiceOver_NavigationListItem_Standalone_Description" xml:space="preserve">
+        <value>These rows are placed in a regular layout without a surrounding CollectionView.</value>
+    </data>
+    <data name="VoiceOver_NavigationListItem_Collection_Title" xml:space="preserve">
+        <value>In list</value>
+    </data>
+    <data name="VoiceOver_NavigationListItem_Collection_Subtitle" xml:space="preserve">
+        <value>Inside CollectionView</value>
+    </data>
+    <data name="VoiceOver_NavigationListItem_Collection_Description" xml:space="preserve">
+        <value>These rows are placed in a CollectionView, like the component overview.</value>
+    </data>
+    <data name="VoiceOver_NavigationListItem_Appointment_Title" xml:space="preserve">
+        <value>Book appointment</value>
+    </data>
+    <data name="VoiceOver_NavigationListItem_Appointment_Subtitle" xml:space="preserve">
+        <value>Directly in page content</value>
+    </data>
+    <data name="VoiceOver_NavigationListItem_TestResults_Title" xml:space="preserve">
+        <value>Test results</value>
+    </data>
+    <data name="VoiceOver_NavigationListItem_TestResults_Subtitle" xml:space="preserve">
+        <value>With subtitle</value>
+    </data>
+    <data name="VoiceOver_NavigationListItem_Medications_Title" xml:space="preserve">
+        <value>Medications</value>
+    </data>
+    <data name="VoiceOver_NavigationListItem_Medications_Description" xml:space="preserve">
+        <value>Medications and prescriptions</value>
+    </data>
+    <data name="VoiceOver_NavigationListItem_Collection_ButtonSubtitle" xml:space="preserve">
+        <value>Row from the component overview</value>
+    </data>
+    <data name="VoiceOver_NavigationListItem_Collection_ListItemSubtitle" xml:space="preserve">
+        <value>Row with the same component type</value>
+    </data>
+    <data name="VoiceOver_NavigationListItem_Collection_PickerSubtitle" xml:space="preserve">
+        <value>Row with a short title</value>
+    </data>
+    <data name="VoiceOver_NavigationListItem_Collection_TextFieldSubtitle" xml:space="preserve">
+        <value>Row with a longer title</value>
+    </data>
 </root>

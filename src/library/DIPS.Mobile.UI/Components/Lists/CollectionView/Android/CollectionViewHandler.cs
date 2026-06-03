@@ -4,13 +4,17 @@ using Android.Views;
 using AndroidX.RecyclerView.Widget;
 using DIPS.Mobile.UI.Components.Dividers;
 using DIPS.Mobile.UI.Components.Lists.Android;
+using DIPS.Mobile.UI.Effects.Accessibility.Effects;
 using DIPS.Mobile.UI.Effects.Layout;
+using DIPS.Mobile.UI.Extensions;
 using DIPS.Mobile.UI.Extensions.Android;
 using Microsoft.Maui.Controls.Handlers.Items;
 using Microsoft.Maui.Platform;
 using Color = Android.Graphics.Color;
 using CornerRadius = Microsoft.Maui.CornerRadius;
+using AccessibilityTrait = DIPS.Mobile.UI.Effects.Accessibility.Trait;
 using View = Microsoft.Maui.Controls.View;
+using DUIAccessibility = DIPS.Mobile.UI.Effects.Accessibility.Accessibility;
 
 namespace DIPS.Mobile.UI.Components.Lists;
 
@@ -18,7 +22,7 @@ public partial class CollectionViewHandler
 {
     private KeyboardDismissOnScrollListener? m_keyboardDismissOnScrollListener;
     private RecyclerView? m_listenerRegisteredOn;
-    
+
     protected override RecyclerView CreatePlatformView()
     {
         return new MauiRecyclerView(Context, GetItemsLayout, CreateAdapter);
@@ -27,7 +31,7 @@ public partial class CollectionViewHandler
     protected override ReorderableItemsViewAdapter<ReorderableItemsView, IGroupableItemsViewSource> CreateAdapter()
     {
         // Only use new adapter if the ItemsLayout is vertical LinearItemsLayout
-        if(VirtualView is CollectionView { ItemsLayout: LinearItemsLayout {Orientation: ItemsLayoutOrientation.Vertical} })
+        if (VirtualView is CollectionView { ItemsLayout: LinearItemsLayout { Orientation: ItemsLayoutOrientation.Vertical } })
             return new ReorderableItemsViewAdapter(VirtualView);
 
         return base.CreateAdapter();
@@ -36,9 +40,9 @@ public partial class CollectionViewHandler
     protected override void ConnectHandler(RecyclerView platformView)
     {
         base.ConnectHandler(platformView);
-        
+
         // If the list is horizontal, we don't want to do this
-        if(VirtualView is not CollectionView { ItemsLayout: LinearItemsLayout {Orientation: ItemsLayoutOrientation.Vertical} }) 
+        if (VirtualView is not CollectionView { ItemsLayout: LinearItemsLayout { Orientation: ItemsLayoutOrientation.Vertical } })
             return;
 
         // Pads the RecyclerView elements left and right
@@ -56,7 +60,7 @@ public partial class CollectionViewHandler
                 collectionView.ShouldBounce ? OverScrollMode.Always : OverScrollMode.Never;
         }
     }
-    
+
     private static partial void MapRemoveFocusOnScroll(CollectionViewHandler handler,
         Microsoft.Maui.Controls.CollectionView virtualView)
     {
@@ -70,12 +74,12 @@ public partial class CollectionViewHandler
             handler.AddKeyboardDismissListener();
         }
     }
-    
+
     partial void OnItemsSourceMapped()
     {
         if (VirtualView is not CollectionView { RemoveFocusOnScroll: true })
             return;
-        
+
         // MAUI's MauiRecyclerView.UpdateItemsSource() calls ClearOnScrollListeners(),
         // which removes ALL scroll listeners — including ours.
         // This runs via AppendToMapping, guaranteeing it executes AFTER MAUI's mapper.
@@ -94,12 +98,12 @@ public partial class CollectionViewHandler
     {
         if (m_keyboardDismissOnScrollListener == null)
             return;
-        
+
         if (m_listenerRegisteredOn != null)
         {
             m_listenerRegisteredOn.RemoveOnScrollListener(m_keyboardDismissOnScrollListener);
         }
-        
+
         m_keyboardDismissOnScrollListener = null;
         m_listenerRegisteredOn = null;
     }
@@ -107,7 +111,7 @@ public partial class CollectionViewHandler
     protected override void DisconnectHandler(RecyclerView platformView)
     {
         RemoveKeyboardDismissListener();
-        
+
         base.DisconnectHandler(platformView);
     }
 
@@ -127,149 +131,143 @@ public partial class CollectionViewHandler
 public class ReorderableItemsViewAdapter : ReorderableItemsViewAdapter<ReorderableItemsView, IGroupableItemsViewSource>
 {
     private readonly CollectionView m_collectionView;
-    private readonly Dictionary<int, Divider> m_lastDividerSetToInvisibleInPosition = new();
-    private readonly Dictionary<int, RecyclerView.ViewHolder> m_currentLastCellWithCornerRadiusInPosition = new();
-    private readonly Dictionary<int, RecyclerView.ViewHolder> m_currentFirstCellWithCornerRadiusInPosition = new();
+
+    private RecyclerView? m_recyclerView;
+    private CellStateObserver? m_cellStateObserver;
 
     public ReorderableItemsViewAdapter(ReorderableItemsView reorderableItemsView, Func<View, Context, ItemContentView> createView = null) : base(reorderableItemsView, createView)
     {
-        if(reorderableItemsView is CollectionView collectionView)
+        if (reorderableItemsView is CollectionView collectionView)
             m_collectionView = collectionView;
     }
+
+    #region Lifecycle
+
+    public override void OnAttachedToRecyclerView(RecyclerView recyclerView)
+    {
+        base.OnAttachedToRecyclerView(recyclerView);
+
+        m_recyclerView = recyclerView;
+        m_cellStateObserver = new CellStateObserver(this);
+        RegisterAdapterDataObserver(m_cellStateObserver);
+    }
+
+    public override void OnDetachedFromRecyclerView(RecyclerView recyclerView)
+    {
+        if (m_cellStateObserver != null)
+        {
+            UnregisterAdapterDataObserver(m_cellStateObserver);
+            m_cellStateObserver = null;
+        }
+
+        m_recyclerView = null;
+        base.OnDetachedFromRecyclerView(recyclerView);
+    }
+
+    #endregion
+
+    #region Cell binding
 
     public override void OnBindViewHolder(RecyclerView.ViewHolder holder, int position)
     {
         base.OnBindViewHolder(holder, position);
 
-        if (m_collectionView.IsGrouped)
-        {
-            if (!TryGetGroupAndGroupIndex(position, out position, out var group))
-            {
-                return;   
-            }
-            
-            ModifyCell(holder, position, group.HasHeader, group.HasFooter, group.Count);
-        }
-        else
-        {
-            ModifyCell(holder, position, ItemsSource.HasHeader, ItemsSource.HasFooter, ItemsSource.Count);
-        }
+        ApplyCellStyling(holder, position);
+        ScheduleCellStyling(holder);
     }
 
-    internal void ModifyMarginIfNotHeaderAndFooter(global::Android.Graphics.Rect rect, int position)
+    private void ScheduleCellStyling(RecyclerView.ViewHolder holder)
     {
-        if (m_collectionView.IsGrouped)
+        holder.ItemView.Post(() =>
         {
-            if (!TryGetGroupAndGroupIndex(position, out position, out var group))
-            {
-                return;   
-            }
-            
-            InternalModifyMarginIfNotHeaderAndFooter(rect, position, group.HasHeader, group.HasFooter, group.Count);
-        }
-        else
-        {
-            InternalModifyMarginIfNotHeaderAndFooter(rect, position, ItemsSource.HasHeader, ItemsSource.HasFooter, ItemsSource.Count);
-        }
-    }
-
-    private void InternalModifyMarginIfNotHeaderAndFooter(global::Android.Graphics.Rect rect, int position, bool hasHeader, bool hasFooter, int count)
-    {
-        // Don't set margin on header and footer
-        if(hasHeader && position == 0 || hasFooter && position == count - 1)
-            return;
-        
-        rect.Left = (int)m_collectionView.Padding.Left.ToMauiPixel();
-        rect.Right = (int)m_collectionView.Padding.Right.ToMauiPixel();
-    }
-
-    /// <summary>
-    /// Here we shall modify the cell
-    /// </summary>
-    /// <remarks>This is called for each section,
-    /// if the CollectionView has Header and footer,
-    /// and CollectionView has 3 sections,
-    /// this will be called for all items in the sections including section header/footer
-    /// and twice more because of global header and footer,
-    /// so we have to check if the ViewHolder is actually an element in the list
-    /// </remarks>
-    private void ModifyCell(RecyclerView.ViewHolder holder, int position, bool hasHeader, bool hasFooter, int count)
-    {
-        // Header and footer is included as elements
-        var firstItemIndex = hasHeader ? 1 : 0;
-        var lastItemIndex = count - (hasFooter ? 2 : 1);
-
-        TrySetCornerRadiusOnCell(holder, position, firstItemIndex, lastItemIndex);
-        TrySetLastDividerToInvisible(holder, position, lastItemIndex);
-    }
-
-    private void TrySetLastDividerToInvisible(RecyclerView.ViewHolder holder, int position, int lastItemIndex)
-    {
-        if(!Effects.Layout.Layout.GetAutoHideLastDivider(m_collectionView) || (position != lastItemIndex))
-            return;
-        
-        Divider? divider = null;
-        holder.ItemView.BreadthFirstSearchChildrenUntilMatch(view =>
-        {
-            if (view is not ContentViewGroup { CrossPlatformLayout: Divider crossPlatformLayout })
-                return false;
-
-            divider = crossPlatformLayout;
-            return true;
+            var currentPosition = holder.AdapterPosition;
+            if (currentPosition != RecyclerView.NoPosition)
+                ApplyCellStyling(holder, currentPosition);
         });
-
-        if (divider is null)
-            return;
-
-        // We need to check if the last divider was set to invisible in the previous position (Because the list is flattened on Android even though it is grouped)
-        if (m_lastDividerSetToInvisibleInPosition.Remove(position - 1, out var value))
-        {
-            value.IsVisible = true;
-        }
-        
-        divider.IsVisible = false;
-        m_lastDividerSetToInvisibleInPosition[position] = divider;
     }
 
-    /// <summary>
-    /// Here we set the Corner Radius on the cells
-    /// </summary>
-    /// <remarks>
-    /// If the CollectionView is using ObservableCollection and the consumer adds an element,
-    /// we have to cache which cell that has modified its corner radius, so we can reset it,
-    /// because the new cell that has been added should be either the last or first one 
-    /// </remarks>
-    /// <param name="shouldCache">If we shall cache the cell that has modified its corner radius</param>
-    private void TrySetCornerRadiusOnCell(RecyclerView.ViewHolder holder, int position, int firstItemIndex,
-        int lastItemIndex, bool shouldCache = true)
+    private void ApplyCellStyling(RecyclerView.ViewHolder holder, int position)
     {
-        var cornerRadius = new CornerRadius();
-        
-        if ((!m_collectionView.FirstItemCornerRadius.IsEmpty() || m_collectionView.AutoCornerRadius) && position == firstItemIndex)
+        ApplyAccessibilityTraits(holder);
+
+        if (!TryGetItemPosition(position, out var itemPosition, out var count))
         {
-            if (m_currentFirstCellWithCornerRadiusInPosition.Remove(position + 1, out var value))
-            {
-                TrySetCornerRadiusOnCell(value, position + 1, firstItemIndex, lastItemIndex, false);
-            }
-            
-            cornerRadius = m_collectionView.FirstItemCornerRadius.IsEmpty() ? new CornerRadius(Sizes.GetSize(SizeName.radius_small), Sizes.GetSize(SizeName.radius_small), 0, 0) : m_collectionView.FirstItemCornerRadius;
-            if(shouldCache)
-                m_currentFirstCellWithCornerRadiusInPosition[position] = holder;
+            ResetCornerRadius(holder);
+            ApplyDividerVisibility(holder, false);
+            return;
         }
-        
-        if ((!m_collectionView.LastItemCornerRadius.IsEmpty() || m_collectionView.AutoCornerRadius) && position == lastItemIndex)
+
+        var isFirst = IsFirstItem(itemPosition);
+        var isLast = IsLastItem(itemPosition, count);
+
+        ApplyCornerRadius(holder, isFirst, isLast);
+        ApplyDividerVisibility(holder, isLast);
+    }
+
+    #endregion
+
+    #region Accessibility
+
+    private static void ApplyAccessibilityTraits(RecyclerView.ViewHolder holder)
+    {
+        var crossPlatformElement = GetCrossPlatformElement(holder);
+        if (crossPlatformElement is null)
+            return;
+
+        var trait = DUIAccessibility.GetTrait(crossPlatformElement);
+        if (trait != AccessibilityTrait.None || holder.ItemView.GetAccessibilityDelegate() is TraitAccessibilityDelegate)
         {
-            if (m_currentLastCellWithCornerRadiusInPosition.Remove(position - 1, out var value))
-            {
-                TrySetCornerRadiusOnCell(value, position - 1, firstItemIndex, lastItemIndex, false);
-            }
-            
-            cornerRadius = m_collectionView.LastItemCornerRadius.IsEmpty() ? new CornerRadius(cornerRadius.TopLeft, cornerRadius.TopRight, Sizes.GetSize(SizeName.radius_small), Sizes.GetSize(SizeName.radius_small)) : m_collectionView.LastItemCornerRadius;
-            if(shouldCache)
-                m_currentLastCellWithCornerRadiusInPosition[position] = holder;
+            TraitAccessibilityDelegate.ApplyTrait(holder.ItemView, trait);
         }
-        
-        SetCellCornerRadius(holder, cornerRadius);
+    }
+
+    #endregion
+
+    #region Position helpers
+
+    private bool TryGetItemPosition(int adapterPosition, out int itemPosition, out int count)
+    {
+        if (m_collectionView.IsGrouped)
+        {
+            if (!TryGetGroupAndGroupIndex(adapterPosition, out var groupItemPosition, out var group))
+            {
+                itemPosition = 0;
+                count = 0;
+                return false;
+            }
+
+            var headerCount = group.HasHeader ? 1 : 0;
+            var footerCount = group.HasFooter ? 1 : 0;
+            itemPosition = groupItemPosition - headerCount;
+            count = group.Count - headerCount - footerCount;
+            return IsItemPosition(itemPosition, count);
+        }
+
+        itemPosition = adapterPosition - (ItemsSource.HasHeader ? 1 : 0);
+        count = GetItemsCount();
+        return IsItemPosition(itemPosition, count);
+    }
+
+    private static bool IsItemPosition(int position, int count)
+    {
+        return position >= 0 && position < count;
+    }
+
+    private static bool IsFirstItem(int position)
+    {
+        return position == 0;
+    }
+
+    private static bool IsLastItem(int position, int count)
+    {
+        return position == count - 1;
+    }
+
+    private int GetItemsCount()
+    {
+        var headerCount = ItemsSource.HasHeader ? 1 : 0;
+        var footerCount = ItemsSource.HasFooter ? 1 : 0;
+        return Math.Max(0, ItemsSource.Count - headerCount - footerCount);
     }
 
     public bool TryGetGroupAndGroupIndex(int position, out int index, out IItemsViewSource currentGroup)
@@ -279,8 +277,7 @@ public class ReorderableItemsViewAdapter : ReorderableItemsViewAdapter<Reorderab
         try
         {
             currentGroup = ItemsSource.GetGroupItemsViewSource(group);
-            
-            if(currentGroup is null)
+            if (currentGroup is null)
                 return false;
         }
         catch
@@ -293,24 +290,156 @@ public class ReorderableItemsViewAdapter : ReorderableItemsViewAdapter<Reorderab
         return true;
     }
 
-    private static void SetCellCornerRadius(RecyclerView.ViewHolder holder, CornerRadius cornerRadius)
+    #endregion
+
+    #region Divider visibility
+
+    private void ApplyDividerVisibility(RecyclerView.ViewHolder holder, bool isLast)
+    {
+        var crossPlatformElement = GetCrossPlatformElement(holder);
+        if (crossPlatformElement is null)
+            return;
+
+        var divider = crossPlatformElement.FindChildOfTypeClosestToRoot<Divider>();
+        if (divider is null)
+            return;
+
+        var shouldHideDivider = Effects.Layout.Layout.GetAutoHideLastDivider(m_collectionView) && isLast;
+        divider.Opacity = shouldHideDivider ? 0 : 1;
+    }
+
+    #endregion
+
+    #region Corner radius
+
+    private void ApplyCornerRadius(RecyclerView.ViewHolder holder, bool isFirst, bool isLast)
+    {
+        var hasCustomFirstCornerRadius = !m_collectionView.FirstItemCornerRadius.IsEmpty();
+        var hasCustomLastCornerRadius = !m_collectionView.LastItemCornerRadius.IsEmpty();
+        var hasAutoCornerRadius = m_collectionView.AutoCornerRadius;
+
+        if (!hasCustomFirstCornerRadius && !hasCustomLastCornerRadius && !hasAutoCornerRadius)
+        {
+            ResetCornerRadius(holder);
+            return;
+        }
+
+        var cornerRadius = GetCornerRadius(isFirst, isLast, hasCustomFirstCornerRadius, hasCustomLastCornerRadius, hasAutoCornerRadius);
+
+        ApplyCornerRadius(holder, cornerRadius);
+    }
+
+    private static void ApplyCornerRadius(RecyclerView.ViewHolder holder, CornerRadius cornerRadius)
     {
         var materialShapeDrawable = MaterialShapeDrawableHelper.CreateDrawable(cornerRadius);
-      
-        holder.ItemView.ClipToOutline = true;
-
-        // Removes ugly artifact from corners
         materialShapeDrawable.FillColor = ColorStateList.ValueOf(Color.Transparent);
-        
+        holder.ItemView.ClipToOutline = true;
+        holder.ItemView.OutlineProvider = ViewOutlineProvider.Background;
         holder.ItemView.Background = materialShapeDrawable;
     }
-    
-    protected override void Dispose(bool disposing)
+
+    private static void ResetCornerRadius(RecyclerView.ViewHolder holder)
     {
-        base.Dispose(disposing);
-        
-        m_lastDividerSetToInvisibleInPosition.Clear();
-        m_currentLastCellWithCornerRadiusInPosition.Clear();
-        m_currentFirstCellWithCornerRadiusInPosition.Clear();
+        ApplyCornerRadius(holder, new CornerRadius());
     }
+
+    private CornerRadius GetCornerRadius(bool isFirst, bool isLast, bool hasCustomFirstCornerRadius, bool hasCustomLastCornerRadius, bool hasAutoCornerRadius)
+    {
+        var cornerRadius = new CornerRadius();
+
+        if ((hasCustomFirstCornerRadius || hasAutoCornerRadius) && isFirst)
+        {
+            cornerRadius = hasCustomFirstCornerRadius
+                ? m_collectionView.FirstItemCornerRadius
+                : new CornerRadius(Sizes.GetSize(SizeName.radius_small), Sizes.GetSize(SizeName.radius_small), 0, 0);
+        }
+
+        if ((hasCustomLastCornerRadius || hasAutoCornerRadius) && isLast)
+        {
+            cornerRadius = hasCustomLastCornerRadius
+                ? m_collectionView.LastItemCornerRadius
+                : new CornerRadius(cornerRadius.TopLeft, cornerRadius.TopRight, Sizes.GetSize(SizeName.radius_small), Sizes.GetSize(SizeName.radius_small));
+        }
+
+        return cornerRadius;
+    }
+
+    #endregion
+
+    #region Margins
+
+    internal void ModifyMarginIfNotHeaderAndFooter(global::Android.Graphics.Rect rect, int position)
+    {
+        if (!TryGetItemPosition(position, out _, out _))
+            return;
+
+        rect.Left = (int)m_collectionView.Padding.Left.ToMauiPixel();
+        rect.Right = (int)m_collectionView.Padding.Right.ToMauiPixel();
+    }
+
+    #endregion
+
+    #region View helpers
+
+    private static View? GetCrossPlatformElement(RecyclerView.ViewHolder holder)
+    {
+        if (holder is TemplatedItemViewHolder templatedHolder)
+            return templatedHolder.View;
+
+        return null;
+    }
+
+    #endregion
+
+    #region Data change observer
+
+    /// <summary>
+    /// When items are inserted, removed, or moved, the boundary items (first/last) may change.
+    /// Visible cells that were previously first/last need their corner radius and divider state updated.
+    /// This observer defers the update to the next frame to ensure the adapter state is consistent.
+    /// </summary>
+    private void UpdateAllVisibleCells()
+    {
+        if (m_recyclerView == null)
+            return;
+
+        for (var i = 0; i < m_recyclerView.ChildCount; i++)
+        {
+            var child = m_recyclerView.GetChildAt(i);
+            if (child == null)
+                continue;
+
+            var holder = m_recyclerView.GetChildViewHolder(child);
+            var position = holder.AdapterPosition;
+            if (position == RecyclerView.NoPosition)
+                continue;
+
+            ApplyCellStyling(holder, position);
+        }
+    }
+
+    private class CellStateObserver(ReorderableItemsViewAdapter adapter) : RecyclerView.AdapterDataObserver
+    {
+        public override void OnChanged() => ScheduleUpdate();
+        public override void OnItemRangeInserted(int positionStart, int itemCount) => ScheduleUpdate();
+        public override void OnItemRangeRemoved(int positionStart, int itemCount) => ScheduleUpdate();
+        public override void OnItemRangeMoved(int fromPosition, int toPosition, int itemCount) => ScheduleUpdate();
+        public override void OnItemRangeChanged(int positionStart, int itemCount) => ScheduleUpdate();
+
+        private void ScheduleUpdate()
+        {
+            adapter.m_recyclerView?.Post(() =>
+            {
+                adapter.m_recyclerView.InvalidateItemDecorations();
+                adapter.UpdateAllVisibleCells();
+                adapter.m_recyclerView?.Post(() =>
+                {
+                    adapter.m_recyclerView.InvalidateItemDecorations();
+                    adapter.UpdateAllVisibleCells();
+                });
+            });
+        }
+    }
+
+    #endregion
 }

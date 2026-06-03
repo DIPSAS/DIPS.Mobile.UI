@@ -542,6 +542,63 @@
     <data name="VoiceOver_Trait_CodeUsage_Title" xml:space="preserve">
         <value>Kodebruk</value>
     </data>
+    <data name="VoiceOver_NavigationListItem_Title" xml:space="preserve">
+        <value>NavigationListItem</value>
+    </data>
+    <data name="VoiceOver_NavigationListItem_Subtitle" xml:space="preserve">
+        <value>Rader som skal leses som knapp</value>
+    </data>
+    <data name="VoiceOver_NavigationListItem_Description" xml:space="preserve">
+        <value>Fokuser på hver rad med skjermleser. Raden skal leses som tittel etterfulgt av knapp.</value>
+    </data>
+    <data name="VoiceOver_NavigationListItem_Standalone_Title" xml:space="preserve">
+        <value>Uten liste</value>
+    </data>
+    <data name="VoiceOver_NavigationListItem_Standalone_Subtitle" xml:space="preserve">
+        <value>Direkte i et sideinnhold</value>
+    </data>
+    <data name="VoiceOver_NavigationListItem_Standalone_Description" xml:space="preserve">
+        <value>Disse radene ligger i en vanlig layout uten CollectionView rundt seg.</value>
+    </data>
+    <data name="VoiceOver_NavigationListItem_Collection_Title" xml:space="preserve">
+        <value>I liste</value>
+    </data>
+    <data name="VoiceOver_NavigationListItem_Collection_Subtitle" xml:space="preserve">
+        <value>Inne i CollectionView</value>
+    </data>
+    <data name="VoiceOver_NavigationListItem_Collection_Description" xml:space="preserve">
+        <value>Disse radene ligger i en CollectionView, slik komponentoversikten gjør.</value>
+    </data>
+    <data name="VoiceOver_NavigationListItem_Appointment_Title" xml:space="preserve">
+        <value>Bestill time</value>
+    </data>
+    <data name="VoiceOver_NavigationListItem_Appointment_Subtitle" xml:space="preserve">
+        <value>Direkte i sideinnhold</value>
+    </data>
+    <data name="VoiceOver_NavigationListItem_TestResults_Title" xml:space="preserve">
+        <value>Prøvesvar</value>
+    </data>
+    <data name="VoiceOver_NavigationListItem_TestResults_Subtitle" xml:space="preserve">
+        <value>Med undertekst</value>
+    </data>
+    <data name="VoiceOver_NavigationListItem_Medications_Title" xml:space="preserve">
+        <value>Legemidler</value>
+    </data>
+    <data name="VoiceOver_NavigationListItem_Medications_Description" xml:space="preserve">
+        <value>Legemidler og resepter</value>
+    </data>
+    <data name="VoiceOver_NavigationListItem_Collection_ButtonSubtitle" xml:space="preserve">
+        <value>Rad fra komponentoversikten</value>
+    </data>
+    <data name="VoiceOver_NavigationListItem_Collection_ListItemSubtitle" xml:space="preserve">
+        <value>Rad med samme komponenttype</value>
+    </data>
+    <data name="VoiceOver_NavigationListItem_Collection_PickerSubtitle" xml:space="preserve">
+        <value>Rad med kort tittel</value>
+    </data>
+    <data name="VoiceOver_NavigationListItem_Collection_TextFieldSubtitle" xml:space="preserve">
+        <value>Rad med lengre tittel</value>
+    </data>
     <data name="Gallery" xml:space="preserve">
         <value>Gallery</value>
     </data>

@@ -1,6 +1,7 @@
 using Microsoft.Maui.Controls.Platform;
 using Microsoft.Maui.Platform;
 using UIKit;
+using View = Microsoft.Maui.Controls.View;
 
 namespace DIPS.Mobile.UI.Effects.Accessibility.Effects;
 
@@ -8,9 +9,37 @@ internal class TraitPlatformEffect : PlatformEffect
 {
     protected override void OnAttached()
     {
+        ApplyTraits();
+        MainThread.BeginInvokeOnMainThread(ApplyTraits);
+
+        if (Element is View view)
+        {
+            view.PropertyChanged += OnElementPropertyChanged;
+        }
+    }
+
+    private void OnElementPropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
+    {
+        if (e.PropertyName == Accessibility.TraitProperty.PropertyName ||
+            e.PropertyName == SemanticProperties.DescriptionProperty.PropertyName)
+        {
+            MainThread.BeginInvokeOnMainThread(ApplyTraits);
+        }
+    }
+
+    private void ApplyTraits()
+    {
+        if (Control is null)
+            return;
+
         var trait = Accessibility.GetTrait(Element);
 
-        var traits = Control.AccessibilityTraits;
+        Control.AccessibilityTraits = ApplyTraits(Control.AccessibilityTraits, trait);
+    }
+
+    internal static UIAccessibilityTrait ApplyTraits(UIAccessibilityTrait traits, Trait trait)
+    {
+        traits &= ~UIAccessibilityTrait.Button;
 
         if (trait.HasFlag(Trait.Button))
         {
@@ -27,11 +56,14 @@ internal class TraitPlatformEffect : PlatformEffect
             traits &= ~UIAccessibilityTrait.Selected;
         }
 
-        Control.AccessibilityTraits = traits;
+        return traits;
     }
 
     protected override void OnDetached()
     {
-        
+        if (Element is View view)
+        {
+            view.PropertyChanged -= OnElementPropertyChanged;
+        }
     }
 }
