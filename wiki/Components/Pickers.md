@@ -161,7 +161,7 @@ There are three types of date/time pickers:
 ## Date Picker
 A date picker should be used by you to let people pick a date. The date picker is an in-line button with a title that people tap to start picking the date. When a date is picked, the date will be displayed as a part of the in-line button.
 
-When `MinimumDate` or `MaximumDate` is set, Android gives error haptic feedback if a confirmed date is outside the allowed range and clamps the selected date to the nearest boundary.
+When `MinimumDate` or `MaximumDate` is set, Android disables dates outside the allowed range.
 
 ### Usage
 ```xml
