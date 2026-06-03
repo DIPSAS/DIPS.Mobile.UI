@@ -1,76 +1,82 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <dui:ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:dui="http://dips.com/mobile.ui"
-             xmlns:collectionViewTests="clr-namespace:Playground.VetleSamples.CollectionViewTests"
-             x:Class="Playground.VetleSamples.CollectionViewTests.GroupedCollectionView">
-    
-    <ContentPage.BindingContext>
-        <collectionViewTests:GroupedCollectionViewModel />
-    </ContentPage.BindingContext>
-    
-    <Grid RowDefinitions="Auto, *">
-    
-        <dui:Button Text="Clear"
-                    Command="{Binding ResetCommand}" />
-        
-    <dui:CollectionView ItemsSource="{Binding GroupedTest}"
-                        x:Name="CollectionView"
-                        IsGrouped="True"
-                        BackgroundColor="Transparent"
-                        dui:Layout.AutoCornerRadius="True"
-                        dui:Layout.AutoHideLastDivider="True"
-                        Grid.Row="1">
-        
-        <dui:CollectionView.Header>
-            <Grid Padding="{dui:Thickness Top=size_4, Bottom=size_4}">
-                <dui:ListItem Title="Global Header" />
-            </Grid>
-        </dui:CollectionView.Header>
-        
-        <dui:CollectionView.Footer>
-            <Grid Padding="{dui:Thickness Top=size_4}">
-                <dui:ListItem Title="Add item - Global Footer"
-                              Command="{Binding AddItemCommand}" />
-            </Grid>
-        </dui:CollectionView.Footer>
-        
-        <dui:CollectionView.GroupHeaderTemplate>
-            <DataTemplate>
-                <Grid Padding="{dui:Thickness Top=size_4, Bottom=size_4}">
-                    <dui:ListItem Title="Group Header"
-                                  Command="{Binding Source={RelativeSource AncestorType={x:Type collectionViewTests:GroupedCollectionViewModel}}, Path=AddItemAtStartInSectionCommand}"/>
-                </Grid>
-            </DataTemplate>
-        </dui:CollectionView.GroupHeaderTemplate>
-        
-        <dui:CollectionView.GroupFooterTemplate>
-            <DataTemplate>
-                <Grid Padding="{dui:Thickness Bottom=size_4, Top=size_4}">
-                    <dui:ListItem Title="Group Footer"
-                                  Command="{Binding Source={RelativeSource AncestorType={x:Type collectionViewTests:GroupedCollectionViewModel}}, Path=AddItemAtEndInSectionCommand}" />
-                </Grid>
-            </DataTemplate>
-        </dui:CollectionView.GroupFooterTemplate>
-        
-        <dui:CollectionView.ItemTemplate>
-            <DataTemplate>
-                <Grid RowDefinitions="Auto, Auto">
-                    <dui:ListItem Title="{Binding .}"
-                                  Command="{Binding Source={RelativeSource AncestorType={x:Type collectionViewTests:GroupedCollectionViewModel}}, Path=AddItemAtMiddleInSectionCommand}"
-                                  HasBottomDivider="True">
-                        
-                        
-                        
-                    </dui:ListItem>
-                    
-                </Grid>
-            </DataTemplate>
-        </dui:CollectionView.ItemTemplate>
+                 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                 xmlns:dui="http://dips.com/mobile.ui"
+                 xmlns:collectionViewTests="clr-namespace:Playground.VetleSamples.CollectionViewTests"
+                 x:Class="Playground.VetleSamples.CollectionViewTests.GroupedCollectionView">
 
-    </dui:CollectionView>
+    <ContentPage.BindingContext>
+        <collectionViewTests:GroupedCollectionViewModel/>
+    </ContentPage.BindingContext>
+
+    <Grid RowDefinitions="Auto, *">
+
+        <Grid ColumnDefinitions="*, *"
+              ColumnSpacing="{dui:Sizes size_2}">
+            <dui:Button Text="Clear"
+                        Command="{Binding ResetCommand}"/>
+            <dui:Button Grid.Column="1"
+                        Text="Expand section"
+                        Command="{Binding ExpandFirstSectionCommand}"/>
+        </Grid>
+
+        <dui:CollectionView ItemsSource="{Binding GroupedTest}"
+                            x:Name="CollectionView"
+                            IsGrouped="True"
+                            BackgroundColor="Transparent"
+                            dui:Layout.AutoCornerRadius="True"
+                            dui:Layout.AutoHideLastDivider="True"
+                            Grid.Row="1">
+
+            <dui:CollectionView.Header>
+                <Grid Padding="{dui:Thickness Top=size_4, Bottom=size_4}">
+                    <dui:ListItem Title="Global Header"/>
+                </Grid>
+            </dui:CollectionView.Header>
+
+            <dui:CollectionView.Footer>
+                <Grid Padding="{dui:Thickness Top=size_4}">
+                    <dui:ListItem Title="Add item - Global Footer"
+                                  Command="{Binding AddItemCommand}"/>
+                </Grid>
+            </dui:CollectionView.Footer>
+
+            <dui:CollectionView.GroupHeaderTemplate>
+                <DataTemplate>
+                    <Grid Padding="{dui:Thickness Top=size_4, Bottom=size_4}">
+                        <dui:ListItem Title="Group Header"
+                                      Command="{Binding Source={RelativeSource AncestorType={x:Type collectionViewTests:GroupedCollectionViewModel}}, Path=AddItemAtStartInSectionCommand}"/>
+                    </Grid>
+                </DataTemplate>
+            </dui:CollectionView.GroupHeaderTemplate>
+
+            <dui:CollectionView.GroupFooterTemplate>
+                <DataTemplate>
+                    <Grid Padding="{dui:Thickness Bottom=size_4, Top=size_4}">
+                        <dui:ListItem Title="Group Footer"
+                                      Command="{Binding Source={RelativeSource AncestorType={x:Type collectionViewTests:GroupedCollectionViewModel}}, Path=AddItemAtEndInSectionCommand}"/>
+                    </Grid>
+                </DataTemplate>
+            </dui:CollectionView.GroupFooterTemplate>
+
+            <dui:CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Grid RowDefinitions="Auto, Auto">
+                        <dui:ListItem Title="{Binding .}"
+                                      Command="{Binding Source={RelativeSource AncestorType={x:Type collectionViewTests:GroupedCollectionViewModel}}, Path=AddItemAtMiddleInSectionCommand}"
+                                      HasBottomDivider="True">
+
+
+
+                        </dui:ListItem>
+
+                    </Grid>
+                </DataTemplate>
+            </dui:CollectionView.ItemTemplate>
+
+        </dui:CollectionView>
     </Grid>
-    
-    
+
+
 </dui:ContentPage>
