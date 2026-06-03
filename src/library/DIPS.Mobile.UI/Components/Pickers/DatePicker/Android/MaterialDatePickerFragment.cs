@@ -45,11 +45,11 @@ public class MaterialDatePickerFragment : Object, IMaterialDateTimePickerFragmen
         var listValidators = new List<CalendarConstraints.IDateValidator>();
         if (datePicker.MinimumDate != null) //TODO: Support only setting one of these as well
         {
-            listValidators.Add(DateValidatorPointForward.From(datePicker.MinimumDate.Value.ToLong()));
+            listValidators.Add(DateValidatorPointForward.From(datePicker.MinimumDate.Value.Date.ToLong()));
         }
         if (datePicker.MaximumDate != null)
         {
-            listValidators.Add(DateValidatorPointBackward.Before(datePicker.MaximumDate.Value.ToLong()));
+            listValidators.Add(DateValidatorPointBackward.Before(datePicker.MaximumDate.Value.Date.ToLong()));
         }
 
         if (listValidators.Any())
