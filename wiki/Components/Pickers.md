@@ -161,6 +161,8 @@ There are three types of date/time pickers:
 ## Date Picker
 A date picker should be used by you to let people pick a date. The date picker is an in-line button with a title that people tap to start picking the date. When a date is picked, the date will be displayed as a part of the in-line button.
 
+When `MinimumDate` or `MaximumDate` is set, Android gives error haptic feedback if a confirmed date is outside the allowed range and clamps the selected date to the nearest boundary.
+
 ### Usage
 ```xml
 <dui:DatePicker SelectedDate="{Binding SelectedBirthday}"/>
@@ -191,7 +193,7 @@ A `TimePicker` should be used by you to let people pick a time. The `TimePicker`
 ```
 
 ### Constraining selectable times
-You can set `MinimumTime` and `MaximumTime` to restrict the range of times people can choose. On iOS the time picker wheel prevents out-of-range selection. On Android the selected time is clamped after confirmation.
+You can set `MinimumTime` and `MaximumTime` to restrict the range of times people can choose. On iOS the time picker wheel prevents out-of-range selection. On Android the selected time is clamped after confirmation, and out-of-range confirmations give error haptic feedback.
 
 ```xml
 <dui:TimePicker SelectedTime="{Binding SelectedTime}"
@@ -207,7 +209,7 @@ Inspect the [components properties class](https://github.com/DIPSAS/DIPS.Mobile.
 ## DateAndTime Picker
 A `DateAndTimePicker` should be used by you to let people pick both a date -and time. The `DateAndTimePicker` is two in-line buttons with a title that people tap to start picking the date or time. When date is picked, the date or time will be displayed as part of the in-line button.
 
-When `MaximumDate` or `MinimumDate` is set and the selected date equals the boundary date, the time picker is also constrained to the boundary time. On iOS the time wheel prevents out-of-range selection; on Android the value is clamped after confirmation.
+When `MaximumDate` or `MinimumDate` is set and the selected date equals the boundary date, the time picker is also constrained to the boundary time. On iOS the time wheel prevents out-of-range selection; on Android the value is clamped after confirmation, and out-of-range confirmations give error haptic feedback.
 
 ### Usage
 ```xml

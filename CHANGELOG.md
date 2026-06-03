@@ -1,3 +1,6 @@
+## [60.2.4]
+- [Pickers][Android] Added error haptic feedback when DatePicker, TimePicker, or DateAndTimePicker selections are clamped by minimum or maximum constraints.
+
 ## [60.2.3]
 - [CollectionView] Fixed auto-hide-last-divider and auto-corner-radius bugs caused by stale cell caches during virtualization and dynamic item changes. The implementation now uses a stateless reset-then-apply strategy that correctly handles cell recycling, item additions, and removals.
 

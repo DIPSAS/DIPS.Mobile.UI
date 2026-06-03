@@ -5,6 +5,7 @@ using Android.Views;
 using Android.Widget;
 using AndroidX.Lifecycle;
 using DIPS.Mobile.UI.API.Library;
+using DIPS.Mobile.UI.API.Vibration;
 using DIPS.Mobile.UI.Components.BottomSheets;
 using DIPS.Mobile.UI.Components.Buttons.Android;
 using DIPS.Mobile.UI.Components.Pickers.DatePickerShared.Android;
@@ -115,7 +116,7 @@ public class MaterialDatePickerFragment : Object, IMaterialDateTimePickerFragmen
 
         m_extraButton = CreateButton(DUILocalizedStrings.Today, () =>
         {
-            m_datePicker.SetSelectedDateTime(DateTime.Now);
+            SetSelectedDateTime(DateTime.Now);
 
             if (m_datePicker.ShouldCloseOnDateSelected)
             {
@@ -198,7 +199,18 @@ public class MaterialDatePickerFragment : Object, IMaterialDateTimePickerFragmen
 
             var dateTime = m_datePicker.IgnoreLocalTime ? dateFromJava.ToUniversalTime() : dateFromJava.ToLocalTime();
             dateTime = dateTime.ConvertDate(m_datePicker.GetDateTimeKind());
-            m_datePicker.SetSelectedDateTime(dateTime);
+            SetSelectedDateTime(dateTime);
         }
+    }
+
+    private void SetSelectedDateTime(DateTime dateTime)
+    {
+        if (m_datePicker.MinimumDate is { } minimumDate && dateTime.Date < minimumDate.Date ||
+            m_datePicker.MaximumDate is { } maximumDate && dateTime.Date > maximumDate.Date)
+        {
+            VibrationService.Error();
+        }
+
+        m_datePicker.SetSelectedDateTime(dateTime);
     }
 }
