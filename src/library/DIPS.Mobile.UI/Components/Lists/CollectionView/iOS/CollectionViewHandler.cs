@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Specialized;
 using DIPS.Mobile.UI.Components.Dividers;
+using DIPS.Mobile.UI.Effects.Accessibility.Effects;
 using DIPS.Mobile.UI.Effects.Layout;
 using DIPS.Mobile.UI.Extensions;
 using DIPS.Mobile.UI.Internal.Logging;
@@ -8,7 +9,9 @@ using Foundation;
 using Microsoft.Maui.Controls.Handlers.Items2;
 using Microsoft.Maui.Platform;
 using UIKit;
+using AccessibilityTrait = DIPS.Mobile.UI.Effects.Accessibility.Trait;
 using ContentView = Microsoft.Maui.Platform.ContentView;
+using DUIAccessibility = DIPS.Mobile.UI.Effects.Accessibility.Accessibility;
 
 namespace DIPS.Mobile.UI.Components.Lists;
 
@@ -108,11 +111,43 @@ public class ReorderableItemsViewController(
         var isFirst = indexPath.Row == 0;
         var isLast = indexPath.Row == itemCount - 1;
 
-        TrySetMarginOnCell(GetCrossPlatformElement(cell), mauiCollectionView.Padding);
+        var crossPlatformElement = GetCrossPlatformElement(cell);
+
+        TrySetMarginOnCell(crossPlatformElement, mauiCollectionView.Padding);
         ApplyCornerRadius(GetContentView(cell), isFirst, isLast);
-        ApplyDividerVisibility(GetCrossPlatformElement(cell), isLast);
+        ApplyDividerVisibility(crossPlatformElement, isLast);
+        ApplyAccessibilityTraits(cell, crossPlatformElement);
 
         return cell;
+    }
+
+    #endregion
+
+    #region Accessibility
+
+    private static void ApplyAccessibilityTraits(UICollectionViewCell cell, Microsoft.Maui.Controls.View? crossPlatformElement)
+    {
+        if (crossPlatformElement is null)
+            return;
+
+        var trait = DUIAccessibility.GetTrait(crossPlatformElement);
+        ApplyAccessibilityTraits(cell, trait);
+        ApplyAccessibilityTraits(cell.ContentView, trait);
+
+        if (GetContentView(cell) is { } contentView)
+        {
+            ApplyAccessibilityTraits(contentView, trait);
+        }
+
+        if (trait != AccessibilityTrait.None && crossPlatformElement.Handler?.PlatformView is UIView platformView)
+        {
+            ApplyAccessibilityTraits(platformView, trait);
+        }
+    }
+
+    private static void ApplyAccessibilityTraits(UIView view, AccessibilityTrait trait)
+    {
+        view.AccessibilityTraits = TraitPlatformEffect.ApplyTraits(view.AccessibilityTraits, trait);
     }
 
     #endregion

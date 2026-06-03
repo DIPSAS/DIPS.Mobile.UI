@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<dui:ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                 xmlns:dui="http://dips.com/mobile.ui"
+                 xmlns:localizedStrings="clr-namespace:Components.Resources.LocalizedStrings"
+                 xmlns:local="clr-namespace:Components.AccessibilitySamples.VoiceOverSamples.NavigationListItemSamples"
+                 x:Class="Components.AccessibilitySamples.VoiceOverSamples.NavigationListItemSamples.NavigationListItemStandaloneSamples"
+                 x:DataType="local:NavigationListItemAccessibilitySamplesViewModel"
+                 Title="{x:Static localizedStrings:LocalizedStrings.VoiceOver_NavigationListItem_Standalone_Title}">
+
+    <dui:ContentPage.BindingContext>
+        <local:NavigationListItemAccessibilitySamplesViewModel />
+    </dui:ContentPage.BindingContext>
+
+    <dui:ScrollView Padding="{dui:Sizes size_4}">
+        <dui:VerticalStackLayout Spacing="{dui:Sizes size_4}">
+            <dui:Label Text="{x:Static localizedStrings:LocalizedStrings.VoiceOver_NavigationListItem_Standalone_Description}"
+                       Style="{dui:Styles Label=UI200}"
+                       TextColor="{dui:Colors color_text_subtle}" />
+
+            <dui:VerticalStackLayout Spacing="{dui:Sizes size_0}">
+                <dui:NavigationListItem Title="{x:Static localizedStrings:LocalizedStrings.VoiceOver_NavigationListItem_Appointment_Title}"
+                                        Subtitle="{x:Static localizedStrings:LocalizedStrings.VoiceOver_NavigationListItem_Appointment_Subtitle}"
+                                        HasBottomDivider="True"
+                                        Command="{Binding ItemActivatedCommand}" />
+
+                <dui:NavigationListItem Title="{x:Static localizedStrings:LocalizedStrings.VoiceOver_NavigationListItem_TestResults_Title}"
+                                        Subtitle="{x:Static localizedStrings:LocalizedStrings.VoiceOver_NavigationListItem_TestResults_Subtitle}"
+                                        HasBottomDivider="True"
+                                        Command="{Binding ItemActivatedCommand}" />
+
+                <dui:NavigationListItem Title="{x:Static localizedStrings:LocalizedStrings.VoiceOver_NavigationListItem_Medications_Title}"
+                                        SemanticProperties.Description="{x:Static localizedStrings:LocalizedStrings.VoiceOver_NavigationListItem_Medications_Description}"
+                                        Command="{Binding ItemActivatedCommand}" />
+            </dui:VerticalStackLayout>
+        </dui:VerticalStackLayout>
+    </dui:ScrollView>
+
+</dui:ContentPage>

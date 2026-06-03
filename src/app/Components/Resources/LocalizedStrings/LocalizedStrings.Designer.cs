@@ -1082,6 +1082,120 @@ namespace Components.Resources.LocalizedStrings {
                 return ResourceManager.GetString("VoiceOver_Trait_CodeUsage_Title", resourceCulture);
             }
         }
+
+        internal static string VoiceOver_NavigationListItem_Title {
+            get {
+                return ResourceManager.GetString("VoiceOver_NavigationListItem_Title", resourceCulture);
+            }
+        }
+
+        internal static string VoiceOver_NavigationListItem_Subtitle {
+            get {
+                return ResourceManager.GetString("VoiceOver_NavigationListItem_Subtitle", resourceCulture);
+            }
+        }
+
+        internal static string VoiceOver_NavigationListItem_Description {
+            get {
+                return ResourceManager.GetString("VoiceOver_NavigationListItem_Description", resourceCulture);
+            }
+        }
+
+        internal static string VoiceOver_NavigationListItem_Standalone_Title {
+            get {
+                return ResourceManager.GetString("VoiceOver_NavigationListItem_Standalone_Title", resourceCulture);
+            }
+        }
+
+        internal static string VoiceOver_NavigationListItem_Standalone_Subtitle {
+            get {
+                return ResourceManager.GetString("VoiceOver_NavigationListItem_Standalone_Subtitle", resourceCulture);
+            }
+        }
+
+        internal static string VoiceOver_NavigationListItem_Standalone_Description {
+            get {
+                return ResourceManager.GetString("VoiceOver_NavigationListItem_Standalone_Description", resourceCulture);
+            }
+        }
+
+        internal static string VoiceOver_NavigationListItem_Collection_Title {
+            get {
+                return ResourceManager.GetString("VoiceOver_NavigationListItem_Collection_Title", resourceCulture);
+            }
+        }
+
+        internal static string VoiceOver_NavigationListItem_Collection_Subtitle {
+            get {
+                return ResourceManager.GetString("VoiceOver_NavigationListItem_Collection_Subtitle", resourceCulture);
+            }
+        }
+
+        internal static string VoiceOver_NavigationListItem_Collection_Description {
+            get {
+                return ResourceManager.GetString("VoiceOver_NavigationListItem_Collection_Description", resourceCulture);
+            }
+        }
+
+        internal static string VoiceOver_NavigationListItem_Appointment_Title {
+            get {
+                return ResourceManager.GetString("VoiceOver_NavigationListItem_Appointment_Title", resourceCulture);
+            }
+        }
+
+        internal static string VoiceOver_NavigationListItem_Appointment_Subtitle {
+            get {
+                return ResourceManager.GetString("VoiceOver_NavigationListItem_Appointment_Subtitle", resourceCulture);
+            }
+        }
+
+        internal static string VoiceOver_NavigationListItem_TestResults_Title {
+            get {
+                return ResourceManager.GetString("VoiceOver_NavigationListItem_TestResults_Title", resourceCulture);
+            }
+        }
+
+        internal static string VoiceOver_NavigationListItem_TestResults_Subtitle {
+            get {
+                return ResourceManager.GetString("VoiceOver_NavigationListItem_TestResults_Subtitle", resourceCulture);
+            }
+        }
+
+        internal static string VoiceOver_NavigationListItem_Medications_Title {
+            get {
+                return ResourceManager.GetString("VoiceOver_NavigationListItem_Medications_Title", resourceCulture);
+            }
+        }
+
+        internal static string VoiceOver_NavigationListItem_Medications_Description {
+            get {
+                return ResourceManager.GetString("VoiceOver_NavigationListItem_Medications_Description", resourceCulture);
+            }
+        }
+
+        internal static string VoiceOver_NavigationListItem_Collection_ButtonSubtitle {
+            get {
+                return ResourceManager.GetString("VoiceOver_NavigationListItem_Collection_ButtonSubtitle", resourceCulture);
+            }
+        }
+
+        internal static string VoiceOver_NavigationListItem_Collection_ListItemSubtitle {
+            get {
+                return ResourceManager.GetString("VoiceOver_NavigationListItem_Collection_ListItemSubtitle", resourceCulture);
+            }
+        }
+
+        internal static string VoiceOver_NavigationListItem_Collection_PickerSubtitle {
+            get {
+                return ResourceManager.GetString("VoiceOver_NavigationListItem_Collection_PickerSubtitle", resourceCulture);
+            }
+        }
+
+        internal static string VoiceOver_NavigationListItem_Collection_TextFieldSubtitle {
+            get {
+                return ResourceManager.GetString("VoiceOver_NavigationListItem_Collection_TextFieldSubtitle", resourceCulture);
+            }
+        }
         
         internal static string Gallery {
             get {
