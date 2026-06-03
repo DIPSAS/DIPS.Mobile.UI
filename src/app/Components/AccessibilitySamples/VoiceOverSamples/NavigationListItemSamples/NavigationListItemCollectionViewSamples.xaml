@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<dui:ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                 xmlns:dui="http://dips.com/mobile.ui"
+                 xmlns:localizedStrings="clr-namespace:Components.Resources.LocalizedStrings"
+                 xmlns:local="clr-namespace:Components.AccessibilitySamples.VoiceOverSamples.NavigationListItemSamples"
+                 x:Class="Components.AccessibilitySamples.VoiceOverSamples.NavigationListItemSamples.NavigationListItemCollectionViewSamples"
+                 x:DataType="local:NavigationListItemAccessibilitySamplesViewModel"
+                 Title="{x:Static localizedStrings:LocalizedStrings.VoiceOver_NavigationListItem_Collection_Title}">
+
+    <dui:ContentPage.BindingContext>
+        <local:NavigationListItemAccessibilitySamplesViewModel />
+    </dui:ContentPage.BindingContext>
+
+        <Grid RowDefinitions="Auto,*"
+                    RowSpacing="{dui:Sizes size_4}"
+                    Padding="{dui:Sizes size_4}">
+        <dui:VerticalStackLayout Spacing="{dui:Sizes size_2}">
+            <dui:Label Text="{x:Static localizedStrings:LocalizedStrings.VoiceOver_NavigationListItem_Collection_Description}"
+                       Style="{dui:Styles Label=UI200}"
+                       TextColor="{dui:Colors color_text_subtle}" />
+        </dui:VerticalStackLayout>
+
+        <dui:CollectionView Grid.Row="1"
+                            ItemsSource="{Binding CollectionItems}"
+                            ItemSpacing="0"
+                            dui:Layout.AutoHideLastDivider="True">
+            <dui:CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="local:NavigationListItemSampleItem">
+                    <dui:NavigationListItem Title="{Binding Title}"
+                                            Subtitle="{Binding Subtitle}"
+                                            HasBottomDivider="True"
+                                            Command="{Binding Command}" />
+                </DataTemplate>
+            </dui:CollectionView.ItemTemplate>
+        </dui:CollectionView>
+    </Grid>
+
+</dui:ContentPage>
