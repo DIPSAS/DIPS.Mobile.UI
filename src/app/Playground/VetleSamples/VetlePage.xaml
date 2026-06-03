@@ -90,6 +90,25 @@
                                                    HorizontalOptions="Start"/>
                      </dui:VerticalStackLayout>
 
+                     <!-- DatePicker MinimumDate/MaximumDate -->
+                     <Label Text="DatePicker Date Constraints"
+                            Style="{dui:Styles Label=SectionHeader}"
+                            Margin="{dui:Thickness Top=content_margin_large}"/>
+
+                     <dui:VerticalStackLayout Spacing="{dui:Sizes content_margin_small}"
+                                              Margin="{dui:Thickness Top=content_margin_small}">
+                            <Label Text="MaximumDate = DateTime.Now (today should stay selectable)"
+                                   Style="{dui:Styles Label=UI200}"/>
+                            <dui:DatePicker MaximumDate="{x:Static system:DateTime.Now}"
+                                            HorizontalOptions="Start"/>
+
+                            <Label Text="MinimumDate = DateTime.Now (today should stay selectable)"
+                                   Style="{dui:Styles Label=UI200}"
+                                   Margin="{dui:Thickness Top=content_margin_small}"/>
+                            <dui:DatePicker MinimumDate="{x:Static system:DateTime.Now}"
+                                            HorizontalOptions="Start"/>
+                     </dui:VerticalStackLayout>
+
                      <!-- TimePicker MinimumTime/MaximumTime -->
                      <Label Text="TimePicker Time Constraints"
                             Style="{dui:Styles Label=SectionHeader}"

@@ -1,4 +1,5 @@
 using Android.Text.Format;
+using DIPS.Mobile.UI.API.Vibration;
 using DIPS.Mobile.UI.Components.Pickers.DatePickerShared.Android;
 using Google.Android.Material.TimePicker;
 using Microsoft.Maui.Platform;
@@ -49,6 +50,14 @@ public class MaterialTimePickerFragment : Object, IMaterialDateTimePickerFragmen
 
     public void OnClick(View? v)
     {
-        m_timePicker.SetSelectedDateTime(new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, m_materialTimePicker.Hour, m_materialTimePicker.Minute, 0));
+        var selectedTime = new TimeSpan(m_materialTimePicker.Hour, m_materialTimePicker.Minute, 0);
+
+        if (m_timePicker.MinimumTime is { } minimumTime && selectedTime < minimumTime ||
+            m_timePicker.MaximumTime is { } maximumTime && selectedTime > maximumTime)
+        {
+            VibrationService.Error();
+        }
+
+        m_timePicker.SetSelectedDateTime(new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, selectedTime.Hours, selectedTime.Minutes, 0));
     }
 }

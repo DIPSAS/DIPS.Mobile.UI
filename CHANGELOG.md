@@ -1,3 +1,6 @@
+## [60.2.5]
+- [Pickers][Android] Added error haptic feedback when TimePicker or DateAndTimePicker selections are clamped by minimum or maximum constraints.
+
 ## [60.2.4]
 - [NavigationListItem] Groups the row as one accessibility element, applies the platform button trait including when used in a CollectionView, and uses `Title` as the default screen reader description while still allowing consumers to override `SemanticProperties.Description`.
 
