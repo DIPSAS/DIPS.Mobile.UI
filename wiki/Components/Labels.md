@@ -15,6 +15,19 @@ Each of these style categories has a different weight, such as: `UI400`, to cont
 
 Inspect [LabelStyle.cs](https://github.com/DIPSAS/DIPS.Mobile.UI/blob/main/src/library/DIPS.Mobile.UI/Resources/Styles/Label/LabelStyle.cs) to see all of the different styles.
 
+## SectionHeader and accessibility
+
+Use `LabelStyle.SectionHeader` for labels that visually introduce a section, group, or list of content. A `dui:Label` with this style is exposed as a semantic heading with `SemanticProperties.HeadingLevel=Level2` by default, so screen reader users can navigate to it as a heading.
+
+```xml
+<dui:Label Text="Recent patients"
+           Style="{dui:Styles Label=SectionHeader}" />
+```
+
+Override `SemanticProperties.HeadingLevel` on the label when the information hierarchy needs a different level, for example `Level3` for a subsection or `None` when the label is not actually a heading.
+
+For formatted text headings, apply `LabelStyle.SectionHeader` to the parent `dui:Label`. `SpanStyle.SectionHeader` is visual text styling only and does not make the label a semantic heading by itself.
+
 # Usage
 Here we place a `Label` with a style of `Body` with a weight of `400`.
 
