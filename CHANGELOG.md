@@ -1,3 +1,6 @@
+## [60.2.7]
+- [SystemMessage][iOS] Fixed system messages not being removed when displayed inside a modal.
+
 ## [60.2.6]
 - [Label] `SectionHeader` labels are now exposed as level 2 semantic headings by default, improving VoiceOver and TalkBack navigation for section headers.
 
