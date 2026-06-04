@@ -1,3 +1,6 @@
+## [60.2.6]
+- [Label] `SectionHeader` labels are now exposed as level 2 semantic headings by default, improving VoiceOver and TalkBack navigation for section headers.
+
 ## [60.2.5]
 - [Pickers][Android] Added error haptic feedback when TimePicker or DateAndTimePicker selections are clamped by minimum or maximum constraints.
 
