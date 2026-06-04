@@ -1,3 +1,6 @@
+## [60.2.8]
+- [SystemMessage][iOS] Fixed system messages not being removed when displayed inside a modal.
+
 ## [60.2.7]
 - [Touch] Fixed missing button trait when a tappable view gets its accessibility description from a binding.
 

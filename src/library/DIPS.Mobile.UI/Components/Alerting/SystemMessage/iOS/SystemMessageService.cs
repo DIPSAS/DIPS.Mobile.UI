@@ -13,7 +13,12 @@ public static partial class SystemMessageService
         {
             MainThread.BeginInvokeOnMainThread(delegate
             {
-                var rootView = Platform.GetCurrentUIViewController()?.View; 
+                var rootView = Platform.GetCurrentUIViewController()?.View;
+                if (rootView is null)
+                {
+                    return;
+                }
+
                 systemMessage.HeightRequest = rootView.Frame.Height;
                 systemMessage.WidthRequest = rootView.Frame.Width;
                 var systemMessageUIView = systemMessage.ToPlatform(DUI.GetCurrentMauiContext!);
@@ -25,7 +30,13 @@ public static partial class SystemMessageService
 
     private static partial void PlatformRemove()
     {
-        DUI.RootController!.RemoveUIViewChildWithTag(SystemMessageTagId);
+        var currentView = Platform.GetCurrentUIViewController()?.View;
+        currentView?.RemoveUIViewChildWithTag(SystemMessageTagId);
+
+        if (currentView != DUI.RootController)
+        {
+            DUI.RootController?.RemoveUIViewChildWithTag(SystemMessageTagId);
+        }
     }
   
 }
