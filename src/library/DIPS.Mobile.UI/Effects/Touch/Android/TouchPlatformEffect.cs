@@ -82,11 +82,10 @@ public partial class TouchPlatformEffect
         if (Touch.GetIsButtonTraitEnabled(Element))
         {
             var existingDelegate = Control.GetAccessibilityDelegate();
-        
-            // We don't want TalkBack to only say "Button"
-            if(existingDelegate is null)
+
+            if (existingDelegate is TouchAccessibilityDelegate)
                 return;
-        
+
             Control.SetAccessibilityDelegate(new TouchAccessibilityDelegate(existingDelegate));   
         }
     }

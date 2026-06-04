@@ -1,3 +1,6 @@
+## [60.2.7]
+- [Touch] Fixed missing button trait when a tappable view gets its accessibility description from a binding.
+
 ## [60.2.6]
 - [Label] `SectionHeader` labels are now exposed as level 2 semantic headings by default, improving VoiceOver and TalkBack navigation for section headers.
 
