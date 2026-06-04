@@ -9,6 +9,7 @@
                  xmlns:listItemInteractiveContentSamples="clr-namespace:Components.AccessibilitySamples.VoiceOverSamples.ListItemInteractiveContentSamples"
                  xmlns:navigationListItemSamples="clr-namespace:Components.AccessibilitySamples.VoiceOverSamples.NavigationListItemSamples"
                  xmlns:traitSamples="clr-namespace:Components.AccessibilitySamples.VoiceOverSamples.TraitSamples"
+                 xmlns:touchSamples="clr-namespace:Components.AccessibilitySamples.VoiceOverSamples.TouchSamples"
                  x:Class="Components.AccessibilitySamples.VoiceOverSamples.VoiceOverSamples"
                  Title="{x:Static localizedStrings:LocalizedStrings.VoiceOver}">
 
@@ -28,6 +29,11 @@
                               Subtitle="{x:Static localizedStrings:LocalizedStrings.VoiceOver_ListItem_Interactive_Subtitle}"
                               HasBottomDivider="True"
                               Command="{helpers:NavigationCommand ContentPageType={x:Type listItemInteractiveContentSamples:ListItemInteractiveContentSamples}}" />
+
+                <dui:ListItem Title="Touch Command"
+                              Subtitle="Bound accessibility description"
+                              HasBottomDivider="True"
+                              Command="{helpers:NavigationCommand ContentPageType={x:Type touchSamples:TouchSamples}}" />
                 
                 <dui:ListItem Title="{x:Static localizedStrings:LocalizedStrings.VoiceOver_Trait_Title}"
                               Subtitle="{x:Static localizedStrings:LocalizedStrings.VoiceOver_Trait_Subtitle}"
