@@ -166,6 +166,19 @@ Available heading levels: `None`, `Level1`, `Level2`, `Level3`, `Level4`, `Level
 
 **Note:** Not all platforms support all heading levels. Check the specific platform documentation for details.
 
+#### Section headers
+
+Use `dui:Label` with `LabelStyle.SectionHeader` for text that visually introduces a section, group, or list. This style sets `SemanticProperties.HeadingLevel=Level2` by default on labels, giving the visual section header matching screen reader heading semantics.
+
+```xml
+<dui:Label Text="Recent patients"
+           Style="{dui:Styles Label=SectionHeader}" />
+```
+
+Set `SemanticProperties.HeadingLevel` explicitly when a different level is needed, such as `Level3` for a subsection, or `None` when the label uses the visual style without representing a real heading.
+
+When using `FormattedString`, put the `SectionHeader` label style and heading level on the parent `dui:Label`. Span styles are visual only and do not expose heading semantics by themselves.
+
 ---
 
 ## MAUI AutomationProperties

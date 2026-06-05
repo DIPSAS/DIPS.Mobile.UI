@@ -1,5 +1,17 @@
-## [60.2.6]
+## [60.2.10]
 - [CollectionView][Android] Fixed stale divider visibility and corner radius on recycled cells, and reduced scroll jank.
+
+## [60.2.9]
+- Fixed issue where CallerMemberName was not passed on OnPropertyChanged override. Affects ContentPage, Button, Chip, ContextMenuItem, ContextMenuSeparatorItem, ImageButton, ActivityIndicator and SingleLineInputField.
+
+## [60.2.8]
+- [SystemMessage][iOS] Fixed system messages not being removed when displayed inside a modal.
+
+## [60.2.7]
+- [Touch] Fixed missing button trait when a tappable view gets its accessibility description from a binding.
+
+## [60.2.6]
+- [Label] `SectionHeader` labels are now exposed as level 2 semantic headings by default, improving VoiceOver and TalkBack navigation for section headers.
 
 ## [60.2.5]
 - [Pickers][Android] Added error haptic feedback when TimePicker or DateAndTimePicker selections are clamped by minimum or maximum constraints.

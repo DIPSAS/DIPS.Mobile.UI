@@ -38,12 +38,21 @@ public partial class TouchPlatformEffect
 
     private partial void OnAccessibilityDescriptionSet()
     {
-        // Append the AccessibilityTraits to `Button` if there is an accessibility description set
-        if (!string.IsNullOrEmpty(Control.AccessibilityLabel) && Touch.GetIsButtonTraitEnabled(Element))
-        {
-            // Use | to append, to make sure we are not overwriting anything here
-            Control.AccessibilityTraits |= UIAccessibilityTrait.Button;
-        }
+        MainThread.BeginInvokeOnMainThread(AddButtonTraitWhenDescriptionIsSet);
+    }
+
+    private void AddButtonTraitWhenDescriptionIsSet()
+    {
+        if (Control is null or UIButton)
+            return;
+
+        if (!Touch.GetIsButtonTraitEnabled(Element))
+            return;
+
+        if (string.IsNullOrEmpty(SemanticProperties.GetDescription(Element)) && string.IsNullOrEmpty(Control.AccessibilityLabel))
+            return;
+
+        Control.AccessibilityTraits |= UIAccessibilityTrait.Button;
     }
 
     private void OnLongPress(UILongPressGestureRecognizer e)
