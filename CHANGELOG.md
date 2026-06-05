@@ -1,5 +1,5 @@
 ## [60.2.9]
-- [ContentPage] Fixed issue where CallerName was not passed on OnPropertyChanged override.
+- [ContentPage] Fixed issue where CallerMemberName was not passed on OnPropertyChanged override.
 
 ## [60.2.8]
 - [SystemMessage][iOS] Fixed system messages not being removed when displayed inside a modal.
