@@ -1,3 +1,5 @@
+using System.Runtime.CompilerServices;
+
 namespace DIPS.Mobile.UI.Components.ContextMenus;
 
 public class ContextMenuSeparatorItem : Element, IContextMenuItem
@@ -20,7 +22,7 @@ public class ContextMenuSeparatorItem : Element, IContextMenuItem
     public ContextMenu? ContextMenu { get; set; }
 
 #if __IOS__
-    protected override void OnPropertyChanged(string propertyName = null)
+    protected override void OnPropertyChanged([CallerMemberName] string propertyName = null)
     {
         base.OnPropertyChanged(propertyName);
         

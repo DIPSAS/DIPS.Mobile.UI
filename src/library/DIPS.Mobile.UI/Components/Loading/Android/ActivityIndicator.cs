@@ -1,3 +1,4 @@
+using System.Runtime.CompilerServices;
 using DIPS.Mobile.UI.Components.Loading.Android;
 using DIPS.Mobile.UI.Extensions.Android;
 using Google.Android.Material.ProgressIndicator;
@@ -6,7 +7,7 @@ namespace DIPS.Mobile.UI.Components.Loading;
 
 public partial class ActivityIndicator
 {
-    protected override void OnPropertyChanged(string? propertyName = null)
+    protected override void OnPropertyChanged([CallerMemberName] string? propertyName = null)
     {
         base.OnPropertyChanged(propertyName);
 

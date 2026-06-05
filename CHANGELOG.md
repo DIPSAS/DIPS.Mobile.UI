@@ -1,5 +1,5 @@
 ## [60.2.9]
-- [ContentPage] Fixed issue where CallerMemberName was not passed on OnPropertyChanged override.
+- Fixed issue where CallerMemberName was not passed on OnPropertyChanged override. Affects ContentPage, Button, Chip, ContextMenuItem, ContextMenuSeparatorItem, ImageButton, ActivityIndicator and SingleLineInputField
 
 ## [60.2.8]
 - [SystemMessage][iOS] Fixed system messages not being removed when displayed inside a modal.

@@ -1,3 +1,4 @@
+using System.Runtime.CompilerServices;
 using DIPS.Mobile.UI.API.Accessibility;
 using DIPS.Mobile.UI.Effects.Touch;
 using DIPS.Mobile.UI.Formatters;
@@ -136,7 +137,7 @@ public partial class SingleLineInputField : Grid
         InnerGrid.Add(InputView, 0, 1);
     }
 
-    protected override void OnPropertyChanged(string? propertyName = null)
+    protected override void OnPropertyChanged([CallerMemberName] string? propertyName = null)
     {
         base.OnPropertyChanged(propertyName);
 
