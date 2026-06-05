@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<dui:ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                 xmlns:dui="http://dips.com/mobile.ui"
+                 xmlns:collectionViewTests="clr-namespace:Playground.VetleSamples.CollectionViewTests"
+                 x:Class="Playground.VetleSamples.CollectionViewTests.LoadMoreDividerReproPage"
+                 x:DataType="collectionViewTests:LoadMoreDividerReproPageViewModel"
+                 Title="Load more divider repro">
+
+    <dui:ContentPage.BindingContext>
+        <collectionViewTests:LoadMoreDividerReproPageViewModel />
+    </dui:ContentPage.BindingContext>
+
+    <dui:CollectionView ItemsSource="{Binding Documents}"
+                        RemainingItemsThreshold="5"
+                        RemainingItemsThresholdReachedCommand="{Binding LoadMoreDocumentsCommand}"
+                        HasAdditionalSpaceAtTheEnd="False"
+                        dui:Layout.AutoCornerRadius="True"
+                        dui:Layout.AutoHideLastDivider="True">
+
+        <dui:CollectionView.Header>
+            <dui:ListItem Title="Documents"
+                          Subtitle="Scroll to the bottom to append more rows"
+                          HasBottomDivider="True" />
+        </dui:CollectionView.Header>
+
+        <dui:CollectionView.ItemTemplate>
+            <DataTemplate x:DataType="collectionViewTests:DocumentListItem">
+                <Grid RowDefinitions="Auto, Auto, Auto"
+                      ColumnDefinitions="Auto, *, Auto, Auto"
+                      BackgroundColor="{Binding IsSelectedDocument, Converter={dui:BoolToObjectConverter TrueObject={dui:Colors color_surface_subtle_hover}, FalseObject={dui:Colors color_surface_default}}}"
+                      Padding="{dui:Thickness Left=size_2, Top=size_1, Bottom=size_1, Right=size_2}"
+                      dui:Touch.Command="{Binding NavigateToDocumentCommand}"
+                      SemanticProperties.Description="{Binding AccessibilityDescription}">
+
+                    <dui:Image Grid.Row="0"
+                               Grid.RowSpan="2"
+                               Grid.Column="0"
+                               Source="{dui:Icons document_line}"
+                               TintColor="{dui:Colors color_icon_default}"
+                               Margin="{dui:Thickness Right=size_2}"
+                               VerticalOptions="Start"
+                               HeightRequest="{dui:Sizes size_6}"
+                               WidthRequest="{dui:Sizes size_6}" />
+
+                    <dui:Label Grid.Row="0"
+                               Grid.Column="1"
+                               Text="{Binding Title}"
+                               MaxLines="2"
+                               LineBreakMode="TailTruncation"
+                               Margin="{dui:Thickness Right=size_1}"
+                               VerticalTextAlignment="Center" />
+
+                    <HorizontalStackLayout Grid.Row="0"
+                                           Grid.Column="2"
+                                           Spacing="{dui:Sizes size_1}"
+                                           HorizontalOptions="Start"
+                                           VerticalOptions="Center"
+                                           AutomationProperties.ExcludedWithChildren="True">
+                        <dui:Image Source="{dui:Icons not_signed_line}"
+                                   TintColor="{dui:Colors color_icon_subtle}"
+                                   HeightRequest="{dui:Sizes size_4}"
+                                   WidthRequest="{dui:Sizes size_4}"
+                                   IsVisible="{Binding NotSigned}" />
+                        <dui:Image Source="{dui:Icons microphone_line}"
+                                   TintColor="{dui:Colors color_icon_subtle}"
+                                   HeightRequest="{dui:Sizes size_4}"
+                                   WidthRequest="{dui:Sizes size_4}"
+                                   IsVisible="{Binding HasDictation}" />
+                        <dui:Image Source="{dui:Icons comment_line}"
+                                   TintColor="{dui:Colors color_icon_subtle}"
+                                   HeightRequest="{dui:Sizes size_4}"
+                                   WidthRequest="{dui:Sizes size_4}"
+                                   IsVisible="{Binding HasNote}" />
+                        <dui:Image Source="{dui:Icons edit_line}"
+                                   TintColor="{dui:Colors color_icon_subtle}"
+                                   HeightRequest="{dui:Sizes size_4}"
+                                   WidthRequest="{dui:Sizes size_4}"
+                                   IsVisible="{Binding IsApproved, Converter={dui:InvertedBoolConverter}}" />
+                    </HorizontalStackLayout>
+
+                    <dui:Image Grid.Row="0"
+                               Grid.RowSpan="2"
+                               Grid.Column="3"
+                               Source="{dui:Icons arrow_right_s_line}"
+                               TintColor="{dui:Colors color_icon_subtle}"
+                               VerticalOptions="Center"
+                               HorizontalOptions="End" />
+
+                    <dui:VerticalStackLayout Grid.Row="1"
+                                             Grid.Column="1"
+                                             Grid.ColumnSpan="3"
+                                             Padding="{dui:Thickness Right=size_5}"
+                                             Spacing="0">
+                        <dui:Label Text="{Binding Snippet}"
+                                   LineBreakMode="CharacterWrap"
+                                   Style="{dui:Styles Label=UI100}"
+                                   IsVisible="{Binding Snippet, Converter={dui:IsEmptyConverter Inverted=True}}" />
+
+                        <dui:Label Text="{Binding EventTime}"
+                                   TextColor="{dui:Colors color_text_subtle}"
+                                   Style="{dui:Styles Label=UI200}"
+                                   LineBreakMode="TailTruncation" />
+
+                        <dui:Label LineBreakMode="MiddleTruncation"
+                                   Style="{dui:Styles Label=UI200}"
+                                   TextColor="{dui:Colors color_text_subtle}">
+                            <dui:Label.FormattedText>
+                                <FormattedString>
+                                    <Span Text="{Binding AuthorName}"
+                                          Style="{dui:Styles Span=UI200}" />
+                                    <Span Text="  |  "
+                                          Style="{dui:Styles Span=UI200}" />
+                                    <Span Text="{Binding DepartmentShortName}"
+                                          Style="{dui:Styles Span=UI200}" />
+                                </FormattedString>
+                            </dui:Label.FormattedText>
+                        </dui:Label>
+                    </dui:VerticalStackLayout>
+
+                    <dui:Divider Grid.Row="2"
+                                 Grid.Column="0"
+                                 Grid.ColumnSpan="4"
+                                 Margin="{dui:Thickness Left=size_8, Top=size_1}" />
+                </Grid>
+            </DataTemplate>
+        </dui:CollectionView.ItemTemplate>
+
+        <dui:CollectionView.Footer>
+            <dui:ListItem Title="{Binding FooterTitle}"
+                          Subtitle="{Binding FooterSubtitle}" />
+        </dui:CollectionView.Footer>
+
+    </dui:CollectionView>
+</dui:ContentPage>

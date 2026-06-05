@@ -1,3 +1,6 @@
+## [60.2.6]
+- [CollectionView][Android] Fixed stale divider visibility and corner radius on recycled cells, and reduced scroll jank.
+
 ## [60.2.5]
 - [Pickers][Android] Added error haptic feedback when TimePicker or DateAndTimePicker selections are clamped by minimum or maximum constraints.
 

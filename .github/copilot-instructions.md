@@ -184,6 +184,7 @@ When creating samples with multiple related files (XAML, code-behind, ViewModel)
 - **Always use `x:DataType`** on the ContentPage for compiled bindings
 - **Never use** generic `<dui:ViewModel />` in XAML - always create a specific ViewModel class
 - **Don't set BindingContext** in code-behind - declare it in XAML
+- **Prefer XAML-backed sample/repro pages** for UI. Keep code-behind minimal and use a ViewModel/commands for behavior unless the sample specifically needs programmatic UI construction.
 
 Example structure:
 ```

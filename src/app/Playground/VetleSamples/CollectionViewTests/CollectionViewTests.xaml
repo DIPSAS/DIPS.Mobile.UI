@@ -12,6 +12,9 @@
         <dui:NavigationListItem Title="Grouped CollectionView"
                                 Tapped="GroupedCollectionView"
                                 HasBottomDivider="True" />
+        <dui:NavigationListItem Title="Load more divider repro"
+                    Tapped="LoadMoreDividerRepro"
+                    HasBottomDivider="True" />
         
         <Label Text="Focus Cases" 
                FontAttributes="Bold" 

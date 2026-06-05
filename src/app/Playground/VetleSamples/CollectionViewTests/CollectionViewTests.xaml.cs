@@ -17,6 +17,11 @@ public partial class CollectionViewTests
         Shell.Current.Navigation.PushAsync(new GroupedCollectionView());
     }
 
+    private void LoadMoreDividerRepro(object sender, EventArgs e)
+    {
+        Shell.Current.Navigation.PushAsync(new LoadMoreDividerReproPage());
+    }
+
     private void SearchBarOutside(object sender, EventArgs e)
     {
         Shell.Current.Navigation.PushAsync(new RemoveFocusOnScrollPage(wrapInRefreshView: false, searchBarInHeader: false));

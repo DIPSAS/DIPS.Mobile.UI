@@ -14,6 +14,7 @@ using Color = Android.Graphics.Color;
 using CornerRadius = Microsoft.Maui.CornerRadius;
 using AccessibilityTrait = DIPS.Mobile.UI.Effects.Accessibility.Trait;
 using View = Microsoft.Maui.Controls.View;
+using Drawable = Android.Graphics.Drawables.Drawable;
 using DUIAccessibility = DIPS.Mobile.UI.Effects.Accessibility.Accessibility;
 
 namespace DIPS.Mobile.UI.Components.Lists;
@@ -131,14 +132,16 @@ public partial class CollectionViewHandler
 public class ReorderableItemsViewAdapter : ReorderableItemsViewAdapter<ReorderableItemsView, IGroupableItemsViewSource>
 {
     private readonly CollectionView m_collectionView;
+    private readonly Dictionary<RecyclerView.ViewHolder, CellStylingState> m_cellStylingStates = new();
 
     private RecyclerView? m_recyclerView;
     private CellStateObserver? m_cellStateObserver;
+    private bool m_visibleCellUpdateScheduled;
 
-    public ReorderableItemsViewAdapter(ReorderableItemsView reorderableItemsView, Func<View, Context, ItemContentView> createView = null) : base(reorderableItemsView, createView)
+    public ReorderableItemsViewAdapter(ReorderableItemsView reorderableItemsView, Func<View, Context, ItemContentView>? createView = null) : base(reorderableItemsView, createView)
     {
-        if (reorderableItemsView is CollectionView collectionView)
-            m_collectionView = collectionView;
+        m_collectionView = reorderableItemsView as CollectionView
+            ?? throw new ArgumentException($"{nameof(ReorderableItemsViewAdapter)} requires a {nameof(CollectionView)}.", nameof(reorderableItemsView));
     }
 
     #region Lifecycle
@@ -161,6 +164,7 @@ public class ReorderableItemsViewAdapter : ReorderableItemsViewAdapter<Reorderab
         }
 
         m_recyclerView = null;
+        m_cellStylingStates.Clear();
         base.OnDetachedFromRecyclerView(recyclerView);
     }
 
@@ -173,17 +177,6 @@ public class ReorderableItemsViewAdapter : ReorderableItemsViewAdapter<Reorderab
         base.OnBindViewHolder(holder, position);
 
         ApplyCellStyling(holder, position);
-        ScheduleCellStyling(holder);
-    }
-
-    private void ScheduleCellStyling(RecyclerView.ViewHolder holder)
-    {
-        holder.ItemView.Post(() =>
-        {
-            var currentPosition = holder.AdapterPosition;
-            if (currentPosition != RecyclerView.NoPosition)
-                ApplyCellStyling(holder, currentPosition);
-        });
     }
 
     private void ApplyCellStyling(RecyclerView.ViewHolder holder, int position)
@@ -192,7 +185,7 @@ public class ReorderableItemsViewAdapter : ReorderableItemsViewAdapter<Reorderab
 
         if (!TryGetItemPosition(position, out var itemPosition, out var count))
         {
-            ResetCornerRadius(holder);
+            ApplyCornerRadius(holder, new CornerRadius());
             ApplyDividerVisibility(holder, false);
             return;
         }
@@ -296,16 +289,41 @@ public class ReorderableItemsViewAdapter : ReorderableItemsViewAdapter<Reorderab
 
     private void ApplyDividerVisibility(RecyclerView.ViewHolder holder, bool isLast)
     {
-        var crossPlatformElement = GetCrossPlatformElement(holder);
-        if (crossPlatformElement is null)
-            return;
-
-        var divider = crossPlatformElement.FindChildOfTypeClosestToRoot<Divider>();
+        var cellStylingState = GetCellStylingState(holder);
+        var divider = GetDivider(holder, cellStylingState);
         if (divider is null)
             return;
 
         var shouldHideDivider = Effects.Layout.Layout.GetAutoHideLastDivider(m_collectionView) && isLast;
+        if (cellStylingState.DividerHidden == shouldHideDivider)
+            return;
+
         divider.Opacity = shouldHideDivider ? 0 : 1;
+        cellStylingState.DividerHidden = shouldHideDivider;
+    }
+
+    private Divider? GetDivider(RecyclerView.ViewHolder holder, CellStylingState cellStylingState)
+    {
+        var crossPlatformElement = GetCrossPlatformElement(holder);
+        if (crossPlatformElement is null)
+        {
+            cellStylingState.ResetDividerCache();
+            return null;
+        }
+
+        if (!ReferenceEquals(cellStylingState.CrossPlatformElement, crossPlatformElement))
+        {
+            cellStylingState.CrossPlatformElement = crossPlatformElement;
+            cellStylingState.ResetDividerCache();
+        }
+
+        if (!cellStylingState.HasCachedDivider)
+        {
+            cellStylingState.Divider = crossPlatformElement.FindChildOfTypeClosestToRoot<Divider>();
+            cellStylingState.HasCachedDivider = true;
+        }
+
+        return cellStylingState.Divider;
     }
 
     #endregion
@@ -320,7 +338,7 @@ public class ReorderableItemsViewAdapter : ReorderableItemsViewAdapter<Reorderab
 
         if (!hasCustomFirstCornerRadius && !hasCustomLastCornerRadius && !hasAutoCornerRadius)
         {
-            ResetCornerRadius(holder);
+            ApplyCornerRadius(holder, new CornerRadius());
             return;
         }
 
@@ -329,8 +347,20 @@ public class ReorderableItemsViewAdapter : ReorderableItemsViewAdapter<Reorderab
         ApplyCornerRadius(holder, cornerRadius);
     }
 
-    private static void ApplyCornerRadius(RecyclerView.ViewHolder holder, CornerRadius cornerRadius)
+    private void ApplyCornerRadius(RecyclerView.ViewHolder holder, CornerRadius cornerRadius)
     {
+        var cellStylingState = GetCellStylingState(holder);
+        if (cellStylingState.CornerRadius == cornerRadius)
+            return;
+
+        cellStylingState.CornerRadius = cornerRadius;
+
+        if (cornerRadius.IsEmpty())
+        {
+            ResetCornerRadius(holder, cellStylingState);
+            return;
+        }
+
         var materialShapeDrawable = MaterialShapeDrawableHelper.CreateDrawable(cornerRadius);
         materialShapeDrawable.FillColor = ColorStateList.ValueOf(Color.Transparent);
         holder.ItemView.ClipToOutline = true;
@@ -338,9 +368,10 @@ public class ReorderableItemsViewAdapter : ReorderableItemsViewAdapter<Reorderab
         holder.ItemView.Background = materialShapeDrawable;
     }
 
-    private static void ResetCornerRadius(RecyclerView.ViewHolder holder)
+    private static void ResetCornerRadius(RecyclerView.ViewHolder holder, CellStylingState cellStylingState)
     {
-        ApplyCornerRadius(holder, new CornerRadius());
+        holder.ItemView.ClipToOutline = false;
+        holder.ItemView.Background = cellStylingState.OriginalBackground;
     }
 
     private CornerRadius GetCornerRadius(bool isFirst, bool isLast, bool hasCustomFirstCornerRadius, bool hasCustomLastCornerRadius, bool hasAutoCornerRadius)
@@ -381,12 +412,40 @@ public class ReorderableItemsViewAdapter : ReorderableItemsViewAdapter<Reorderab
 
     #region View helpers
 
+    private CellStylingState GetCellStylingState(RecyclerView.ViewHolder holder)
+    {
+        if (!m_cellStylingStates.TryGetValue(holder, out var cellStylingState))
+        {
+            cellStylingState = new CellStylingState(holder.ItemView.Background);
+            m_cellStylingStates[holder] = cellStylingState;
+        }
+
+        return cellStylingState;
+    }
+
     private static View? GetCrossPlatformElement(RecyclerView.ViewHolder holder)
     {
         if (holder is TemplatedItemViewHolder templatedHolder)
             return templatedHolder.View;
 
         return null;
+    }
+
+    private sealed class CellStylingState(Drawable? originalBackground)
+    {
+        public Drawable? OriginalBackground { get; } = originalBackground;
+        public View? CrossPlatformElement { get; set; }
+        public Divider? Divider { get; set; }
+        public bool HasCachedDivider { get; set; }
+        public bool? DividerHidden { get; set; }
+        public CornerRadius? CornerRadius { get; set; }
+
+        public void ResetDividerCache()
+        {
+            Divider = null;
+            HasCachedDivider = false;
+            DividerHidden = null;
+        }
     }
 
     #endregion
@@ -410,12 +469,34 @@ public class ReorderableItemsViewAdapter : ReorderableItemsViewAdapter<Reorderab
                 continue;
 
             var holder = m_recyclerView.GetChildViewHolder(child);
-            var position = holder.AdapterPosition;
+            if (holder == null)
+                continue;
+
+            var position = holder.BindingAdapterPosition;
             if (position == RecyclerView.NoPosition)
                 continue;
 
             ApplyCellStyling(holder, position);
         }
+    }
+
+    private void ScheduleVisibleCellUpdate()
+    {
+        if (m_recyclerView == null || m_visibleCellUpdateScheduled)
+            return;
+
+        m_visibleCellUpdateScheduled = true;
+
+        m_recyclerView.Post(() =>
+        {
+            m_visibleCellUpdateScheduled = false;
+
+            if (m_recyclerView == null)
+                return;
+
+            m_recyclerView.InvalidateItemDecorations();
+            UpdateAllVisibleCells();
+        });
     }
 
     private class CellStateObserver(ReorderableItemsViewAdapter adapter) : RecyclerView.AdapterDataObserver
@@ -428,16 +509,7 @@ public class ReorderableItemsViewAdapter : ReorderableItemsViewAdapter<Reorderab
 
         private void ScheduleUpdate()
         {
-            adapter.m_recyclerView?.Post(() =>
-            {
-                adapter.m_recyclerView.InvalidateItemDecorations();
-                adapter.UpdateAllVisibleCells();
-                adapter.m_recyclerView?.Post(() =>
-                {
-                    adapter.m_recyclerView.InvalidateItemDecorations();
-                    adapter.UpdateAllVisibleCells();
-                });
-            });
+            adapter.ScheduleVisibleCellUpdate();
         }
     }
 
