@@ -1,3 +1,4 @@
+using System.Runtime.CompilerServices;
 using DIPS.Mobile.UI.Resources.Styles.Button;
 
 namespace DIPS.Mobile.UI.Components.Buttons
@@ -38,7 +39,7 @@ namespace DIPS.Mobile.UI.Components.Buttons
             }
         }
 
-        protected override void OnPropertyChanged(string propertyName = null)
+        protected override void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             base.OnPropertyChanged(propertyName);
             
