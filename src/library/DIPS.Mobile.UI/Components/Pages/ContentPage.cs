@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using System.Runtime.CompilerServices;
 using DIPS.Mobile.UI.API.Diagnostics;
 using DIPS.Mobile.UI.API.Library;
 
@@ -65,7 +66,7 @@ namespace DIPS.Mobile.UI.Components.Pages
             }
         }
 
-        protected override void OnPropertyChanged(string? propertyName = null)
+        protected override void OnPropertyChanged([CallerMemberName] string? propertyName = null)
         {
             base.OnPropertyChanged(propertyName);
 
