@@ -1,3 +1,6 @@
+## [60.2.10]
+- Rolled back Microsoft.Maui.Controls from 10.0.60 to 10.0.51.
+
 ## [60.2.9]
 - Fixed issue where CallerMemberName was not passed on OnPropertyChanged override. Affects ContentPage, Button, Chip, ContextMenuItem, ContextMenuSeparatorItem, ImageButton, ActivityIndicator and SingleLineInputField.
 
