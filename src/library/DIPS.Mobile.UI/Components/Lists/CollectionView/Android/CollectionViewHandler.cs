@@ -428,13 +428,20 @@ public class ReorderableItemsViewAdapter : ReorderableItemsViewAdapter<Reorderab
 
         private void ScheduleUpdate()
         {
-            adapter.m_recyclerView?.Post(() =>
+            var recyclerView = adapter.m_recyclerView;
+            recyclerView?.Post(() =>
             {
-                adapter.m_recyclerView.InvalidateItemDecorations();
+                if (!ReferenceEquals(adapter.m_recyclerView, recyclerView))
+                    return;
+
+                recyclerView.InvalidateItemDecorations();
                 adapter.UpdateAllVisibleCells();
-                adapter.m_recyclerView?.Post(() =>
+                recyclerView.Post(() =>
                 {
-                    adapter.m_recyclerView.InvalidateItemDecorations();
+                    if (!ReferenceEquals(adapter.m_recyclerView, recyclerView))
+                        return;
+
+                    recyclerView.InvalidateItemDecorations();
                     adapter.UpdateAllVisibleCells();
                 });
             });
