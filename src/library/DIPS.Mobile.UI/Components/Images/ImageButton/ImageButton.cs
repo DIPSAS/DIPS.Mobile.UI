@@ -1,4 +1,5 @@
 
+using System.Runtime.CompilerServices;
 using Microsoft.Maui.Platform;
 namespace DIPS.Mobile.UI.Components.Images.ImageButton;
 
@@ -6,7 +7,7 @@ public partial class ImageButton : Microsoft.Maui.Controls.ImageButton
 {
     //TODO: Fix when MAUI fixes: https://github.com/dotnet/maui/issues/18001
 #if __ANDROID__
-    protected override void OnPropertyChanged(string propertyName = null)
+    protected override void OnPropertyChanged([CallerMemberName] string propertyName = null)
     {
         base.OnPropertyChanged(propertyName);
         if (propertyName.Equals(IsVisibleProperty.PropertyName))

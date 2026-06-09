@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<dui:ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                 xmlns:dui="http://dips.com/mobile.ui"
+                 xmlns:touchSamples="clr-namespace:Components.AccessibilitySamples.VoiceOverSamples.TouchSamples"
+                 x:Class="Components.AccessibilitySamples.VoiceOverSamples.TouchSamples.TouchSamples"
+                 x:DataType="touchSamples:TouchSamplesViewModel"
+                 Title="Touch Command">
+
+    <dui:ContentPage.BindingContext>
+        <touchSamples:TouchSamplesViewModel />
+    </dui:ContentPage.BindingContext>
+
+    <dui:ScrollView Padding="{dui:Sizes size_4}">
+        <dui:VerticalStackLayout Spacing="{dui:Sizes size_5}">
+
+            <dui:Label Text="Touch.Command with bound SemanticProperties.Description"
+                       Style="{dui:Styles Label=SectionHeader}" />
+
+            <dui:Label Text="The card below should be announced as a button when focused by VoiceOver or TalkBack. Its description comes from a MultiBinding."
+                       Style="{dui:Styles Label=UI200}"
+                       TextColor="{dui:Colors color_text_subtle}" />
+
+            <dui:VerticalStackLayout Spacing="{dui:Sizes size_2}">
+                <dui:VerticalStackLayout Padding="{dui:Sizes size_3}"
+                                         Spacing="{dui:Sizes size_1}"
+                                         BackgroundColor="{dui:Colors color_surface_default}"
+                                         dui:Layout.AutoCornerRadius="True"
+                                         dui:Touch.Command="{Binding OpenPatientCardCommand}">
+                    <SemanticProperties.Description>
+                        <MultiBinding StringFormat="{}{0}, {1}">
+                            <Binding Path="PatientName" />
+                            <Binding Path="PersonaliaText" />
+                        </MultiBinding>
+                    </SemanticProperties.Description>
+
+                    <dui:Label Text="{Binding PatientName}"
+                               Style="{dui:Styles Label=Body400}"
+                               AutomationProperties.IsInAccessibleTree="False" />
+
+                    <dui:Label Text="{Binding PersonaliaText}"
+                               Style="{dui:Styles Label=UI200}"
+                               TextColor="{dui:Colors color_text_subtle}"
+                               AutomationProperties.IsInAccessibleTree="False" />
+                </dui:VerticalStackLayout>
+
+                <dui:Label Text="{Binding TapStatusText}"
+                           Style="{dui:Styles Label=UI100}"
+                           TextColor="{dui:Colors color_text_subtle}" />
+            </dui:VerticalStackLayout>
+
+        </dui:VerticalStackLayout>
+    </dui:ScrollView>
+
+</dui:ContentPage>

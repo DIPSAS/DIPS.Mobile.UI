@@ -23,6 +23,22 @@ internal class LabelStyleResources
         [LabelStyle.Header700] = s_sharedStyles[TextStyle.Header700],
         [LabelStyle.Header600] = s_sharedStyles[TextStyle.Header600],
         [LabelStyle.Header500] = s_sharedStyles[TextStyle.Header500],
-        [LabelStyle.SectionHeader] = s_sharedStyles[TextStyle.SectionHeader]
+        [LabelStyle.SectionHeader] = CreateSectionHeaderStyle()
     };
+
+    private static Style CreateSectionHeaderStyle()
+    {
+        return new Style(typeof(Components.Labels.Label))
+        {
+            BasedOn = s_sharedStyles[TextStyle.SectionHeader],
+            Setters =
+            {
+                new Setter
+                {
+                    Property = SemanticProperties.HeadingLevelProperty,
+                    Value = SemanticHeadingLevel.Level2
+                }
+            }
+        };
+    }
 }

@@ -3,6 +3,24 @@
 - [Checkmark] Added `AddStrokeToCheckmark` property to display a visible stroke around the checkmark
 - [CheckmarkListItem] Added `AddStrokeToCheckmark` property to display a visible stroke around the checkmark icon
 
+## [60.2.10]
+- [ScrollView][Android] Rolled back Microsoft.Maui.Controls from 10.0.60 to 10.0.51 due to an Android scroll regression.
+
+## [60.2.9]
+- Fixed issue where CallerMemberName was not passed on OnPropertyChanged override. Affects ContentPage, Button, Chip, ContextMenuItem, ContextMenuSeparatorItem, ImageButton, ActivityIndicator and SingleLineInputField.
+
+## [60.2.8]
+- [SystemMessage][iOS] Fixed system messages not being removed when displayed inside a modal.
+
+## [60.2.7]
+- [Touch] Fixed missing button trait when a tappable view gets its accessibility description from a binding.
+
+## [60.2.6]
+- [Label] `SectionHeader` labels are now exposed as level 2 semantic headings by default, improving VoiceOver and TalkBack navigation for section headers.
+
+## [60.2.5]
+- [Pickers][Android] Added error haptic feedback when TimePicker or DateAndTimePicker selections are clamped by minimum or maximum constraints.
+
 ## [60.2.4]
 - [NavigationListItem] Groups the row as one accessibility element, applies the platform button trait including when used in a CollectionView, and uses `Title` as the default screen reader description while still allowing consumers to override `SemanticProperties.Description`.
 
