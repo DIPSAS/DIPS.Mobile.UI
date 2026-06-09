@@ -1,5 +1,9 @@
+## [60.2.11]
+- [CollectionView][Android] Fixed crash when deferred item decoration updates ran after the RecyclerView was detached during list reloads.
+
 ## [60.2.10]
 - [ScrollView][Android] Rolled back Microsoft.Maui.Controls from 10.0.60 to 10.0.51 due to an Android scroll regression.
+
 
 ## [60.2.9]
 - Fixed issue where CallerMemberName was not passed on OnPropertyChanged override. Affects ContentPage, Button, Chip, ContextMenuItem, ContextMenuSeparatorItem, ImageButton, ActivityIndicator and SingleLineInputField.
