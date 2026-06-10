@@ -6,11 +6,14 @@
              x:Class="Components.ComponentsSamples.BottomSheets.Sheets.NavigationPage1"
              Title="Page 1">
 
-    <dui:VerticalStackLayout Spacing="0"
+    <dui:VerticalStackLayout Spacing="{dui:Sizes content_margin_medium}"
                              Margin="{dui:Thickness Left=content_margin_medium, Right=content_margin_medium, Top=content_margin_large}">
         <dui:Label Text="This is page 1. You navigated here from the root."
                    Padding="{dui:Thickness size_4}"
                    Style="{dui:Styles Label=UI200}" />
+
+        <dui:Button Text="Pop to root"
+                    Clicked="OnPopToRootClicked" />
     </dui:VerticalStackLayout>
 
 </dui:ContentPage>

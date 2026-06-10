@@ -208,6 +208,7 @@ BottomSheet har et internt navigasjons-API som lar deg dytte (push) og poppe vis
 |---|---|
 | `PushAsync(ContentPage page)` | Dytter en ContentPage på arkets interne navigasjonsstakk. Sidens Content vises med animasjon og Title brukes i navigasjonsbaren. |
 | `PopAsync()` | Popper øverste visning og returnerer til forrige innhold. Gjør ingenting dersom stakken er tom. |
+| `PopToRootAsync()` | Popper alle visninger fra navigasjonsstakken og returnerer til rotinnholdet med én animert overgang. Gjør ingenting dersom stakken allerede er på rot. |
 | `CanPopNavigation` | `bool` – `true` dersom det finnes innhold som kan poppes. |
 | `ShowBottombarButtonsOnSubViews` | Bindable property (`bool`, default `false`). Når `true`, forblir bunnbar-knappene synlige på alle pushede visninger. Knappene er bundet til rot-arkets `BindingContext`. |
 
@@ -222,6 +223,9 @@ await bottomSheet.PushAsync(new MyDetailPage());
 
 // Gå tilbake til forrige visning
 await bottomSheet.PopAsync();
+
+// Eller hopp helt tilbake til rotinnholdet, uansett hvor djupt du er
+await bottomSheet.PopToRootAsync();
 ```
 
 ## Begrensningar / viktig å vite

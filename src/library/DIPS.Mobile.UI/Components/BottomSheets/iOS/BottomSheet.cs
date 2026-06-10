@@ -25,4 +25,15 @@ public partial class BottomSheet
 
         return Task.CompletedTask;
     }
+
+    private partial Task PlatformPopToRootAsync(IReadOnlyList<BottomSheetNavigationEntry> popped)
+    {
+        var navigationController = ViewController?.NavigationController ??
+            throw new InvalidOperationException("NavigationController is not available. Cannot pop to root content from bottom sheet.");
+
+        navigationController.PopToRootViewController(animated: true);
+        // Content cleanup for each popped page is handled by BottomSheetNavigationContentViewController.Dispose
+
+        return Task.CompletedTask;
+    }
 }

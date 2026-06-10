@@ -95,6 +95,41 @@ public partial class BottomSheetHandler
         m_navigationBackCallback?.UpdateEnabled();
     }
 
+    internal void PopToRootNavigationContent(IReadOnlyList<BottomSheetNavigationEntry> popped)
+    {
+        if (m_navigationContainer is null || m_nativeNavigationStack.Count == 0) return;
+
+        // Material 3 shared axis transition (X-axis, backward) — single animation for the whole pop
+        var transition = new MaterialSharedAxis(MaterialSharedAxis.X, /* entering */ false);
+        transition.SetDuration(300);
+        global::Android.Transitions.TransitionManager.BeginDelayedTransition(m_navigationContainer, transition);
+
+        // Remove the currently visible pushed view
+        m_navigationContainer.RemoveView(m_currentNativeContentView);
+
+        // Remove all intermediate pushed views still attached to the container.
+        // The native stack contains, from bottom to top: [root, push1, push2, ...]. We keep the root.
+        while (m_nativeNavigationStack.Count > 1)
+        {
+            var intermediate = m_nativeNavigationStack.Pop();
+            m_navigationContainer.RemoveView(intermediate);
+        }
+
+        // Restore the root view
+        var rootNativeView = m_nativeNavigationStack.Pop();
+        rootNativeView.Visibility = ViewStates.Visible;
+        m_currentNativeContentView = rootNativeView;
+
+        // Disconnect handlers for every popped MAUI page
+        foreach (var entry in popped)
+        {
+            entry.Page.Content.DisconnectHandlers();
+        }
+
+        UpdateHeaderToolbarFromBottomSheet();
+        m_navigationBackCallback?.UpdateEnabled();
+    }
+
     private void CleanupNavigationStack()
     {
         while (m_nativeNavigationStack.Count > 0)

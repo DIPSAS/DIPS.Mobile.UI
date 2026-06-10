@@ -52,6 +52,32 @@ namespace DIPS.Mobile.UI.Components.BottomSheets
         }
 
         /// <summary>
+        /// Pops all content from the bottom sheet's internal navigation stack and returns to the root content with a single animated transition.
+        /// Does nothing if the stack is already at the root.
+        /// </summary>
+        public async Task PopToRootAsync()
+        {
+            if (NavigationStack.Count == 0) return;
+
+            // Snapshot in pop-order (top first). Stack.ToArray() already returns top-to-bottom.
+            var popped = NavigationStack.ToArray();
+            NavigationStack.Clear();
+            try
+            {
+                await PlatformPopToRootAsync(popped);
+            }
+            catch
+            {
+                // Restore stack in original order (bottom-to-top)
+                for (var i = popped.Length - 1; i >= 0; i--)
+                {
+                    NavigationStack.Push(popped[i]);
+                }
+                throw;
+            }
+        }
+
+        /// <summary>
         /// Called by platform code when the user interactively pops (e.g. iOS swipe-back gesture).
         /// Keeps the managed navigation stack in sync.
         /// </summary>
@@ -65,6 +91,7 @@ namespace DIPS.Mobile.UI.Components.BottomSheets
 
         private partial Task PlatformPushAsync(ContentPage page);
         private partial Task PlatformPopAsync(BottomSheetNavigationEntry popped);
+        private partial Task PlatformPopToRootAsync(IReadOnlyList<BottomSheetNavigationEntry> popped);
     }
 }
 

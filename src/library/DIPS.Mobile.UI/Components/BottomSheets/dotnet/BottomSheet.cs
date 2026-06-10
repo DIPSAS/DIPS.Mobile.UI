@@ -9,4 +9,7 @@ public partial class BottomSheet
 
     private partial Task PlatformPopAsync(BottomSheetNavigationEntry popped) =>
         throw new Only_Here_For_UnitTests();
+
+    private partial Task PlatformPopToRootAsync(IReadOnlyList<BottomSheetNavigationEntry> popped) =>
+        throw new Only_Here_For_UnitTests();
 }

@@ -14,7 +14,12 @@ public partial class NavigationPage2
 
     private async void OnGoDeeperTapped(object? sender, EventArgs e)
     {
-        await m_sheet.PushAsync(new NavigationPage3());
+        await m_sheet.PushAsync(new NavigationPage3(m_sheet));
+    }
+
+    private async void OnPopToRootClicked(object? sender, EventArgs e)
+    {
+        await m_sheet.PopToRootAsync();
     }
 }
 

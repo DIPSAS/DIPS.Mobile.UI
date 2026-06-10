@@ -6,7 +6,7 @@
              x:Class="Components.ComponentsSamples.BottomSheets.Sheets.NavigationPage2"
              Title="Page 2">
 
-    <dui:VerticalStackLayout Spacing="0"
+    <dui:VerticalStackLayout Spacing="{dui:Sizes content_margin_medium}"
                              Margin="{dui:Thickness Left=content_margin_medium, Right=content_margin_medium, Top=content_margin_large}">
         <dui:Label Text="This is page 2. Tap the item below to push yet another page."
                    Padding="{dui:Thickness size_4}"
@@ -15,6 +15,9 @@
         <dui:NavigationListItem Title="Go deeper"
                                 Subtitle="Push a third page from here"
                                 Tapped="OnGoDeeperTapped" />
+
+        <dui:Button Text="Pop to root"
+                    Clicked="OnPopToRootClicked" />
     </dui:VerticalStackLayout>
 
 </dui:ContentPage>

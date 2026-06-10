@@ -9,7 +9,7 @@ public partial class BottomSheetWithNavigation
 
     private async void OnPage1Tapped(object? sender, EventArgs e)
     {
-        await Sheet.PushAsync(new NavigationPage1());
+        await Sheet.PushAsync(new NavigationPage1(Sheet));
     }
 
     private async void OnPage2Tapped(object? sender, EventArgs e)
