@@ -44,9 +44,11 @@ public partial class BarcodeScanner : CameraFragment, IObserver
 
     internal partial async Task PlatformStop()
     {
+        m_imageAnalysisUseCase?.ClearAnalyzer();
         m_barcodeScanner?.Close();
         m_barcodeScanner = null;
         await base.TryStop();
+        m_imageAnalysisUseCase = null;
         m_imageAnalysisExecutor?.Shutdown();
         m_imageAnalysisExecutor = null;
     }
@@ -63,6 +65,9 @@ public partial class BarcodeScanner : CameraFragment, IObserver
     }
     private void SetupBarCodeScanning()
     {
+        if (m_barcodeScanner is not null)
+            return;
+
         //From docs: https://developers.google.com/ml-kit/vision/barcode-scanning/android#kotlin
         var barcodeScannerBuilder = new BarcodeScannerOptions.Builder();
         //Set formats
