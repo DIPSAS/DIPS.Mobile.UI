@@ -14,7 +14,7 @@ namespace DIPS.Mobile.UI.API.Camera.ImageCapturing.Views.BottomToolbar.Streaming
 /// </summary>
 internal sealed partial class CapturedImagesGalleryButton : Grid
 {
-    private const float ThumbnailSize = 48;
+    private static readonly double ThumbnailSize = Sizes.GetSize(SizeName.size_12);
 
     private readonly BoxView m_placeholder;
     private readonly Image m_thumbnail;
@@ -83,6 +83,11 @@ internal sealed partial class CapturedImagesGalleryButton : Grid
         Add(m_placeholder);
         Add(m_thumbnail);
         Add(m_countBadge);
+
+        // The children are decorative; keep focus on the container only.
+        AutomationProperties.SetExcludedWithChildren(m_placeholder, true);
+        AutomationProperties.SetExcludedWithChildren(m_thumbnail, true);
+        AutomationProperties.SetExcludedWithChildren(m_countBadge, true);
 
         this.RotateWithDeviceOrientation();
     }

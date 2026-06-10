@@ -47,8 +47,8 @@ public record MultiImageCaptureOptions
     /// <summary>
     /// Maximum amount of images the user is allowed to capture in one session. Captured images
     /// are held in-memory during a camera session, so this is also the safeguard that keeps memory bounded.
-    /// <remarks>Defaults to 15.</remarks>
     /// </summary>
+    /// <remarks>Defaults to 15.</remarks>
     public int MaxImageCount { get; init; } = 15;
 
     /// <summary>

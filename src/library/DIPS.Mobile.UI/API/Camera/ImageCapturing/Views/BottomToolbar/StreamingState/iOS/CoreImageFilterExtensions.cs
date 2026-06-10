@@ -10,8 +10,8 @@ internal static class CoreImageFilterExtensions
     /// Gaussian blur mixes each pixel with surrounding ones. At a photo's edge there is nothing outside to
     /// mix with, so the edges will fade out. EdgeClamp repeats edge pixels outwards to fix this.
     /// </summary>
-    /// <param name="image"></param>
-    /// <returns></returns>
+    /// <param name="image">The input image.</param>
+    /// <returns>A clamped image suitable for subsequent blur filtering.</returns>
     public static CIImage RegisterEdgeClampFilter(this CIImage image)
     {
         ArgumentNullException.ThrowIfNull(image);

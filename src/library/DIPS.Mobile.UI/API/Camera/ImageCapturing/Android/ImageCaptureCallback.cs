@@ -20,9 +20,9 @@ internal class ImageCaptureCallback : AndroidX.Camera.Core.ImageCapture.OnImageC
     }
     
     /// <remarks>
-    /// If CameraX hands this Java callback to managed code after the C# instance has been disposed, Android will try to rebuild the 
+    /// If CameraX hands this Java callback to managed code after the C# instance has been disposed, Android will try to rebuild the
     /// managed object, and crash if this constructor doesn't exist.
-    
+    ///
     /// From the .NET for Android architecture docs, "Premature Dispose() Calls" section:
     /// https://learn.microsoft.com/en-us/previous-versions/xamarin/android/internals/architecture
     /// "If a JNI handle enters managed code after the mapping has been broken, it looks like Java Activation,
