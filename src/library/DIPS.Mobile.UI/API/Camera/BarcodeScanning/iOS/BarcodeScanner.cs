@@ -83,10 +83,8 @@ public partial class BarcodeScanner : CameraSession
         SetRecommendedZoomFactor();
     }
 
-    //Choosing build in wide angle camera, same as the sample app from Apple: AVCamBarCode: https://developer.apple.com/documentation/avfoundation/capture_setup/avcambarcode_detecting_barcodes_and_faces
-    public override AVCaptureDevice? SelectCaptureDevice() =>
-        AVCaptureDevice.GetDefaultDevice(AVCaptureDeviceType.BuiltInWideAngleCamera,
-            AVMediaTypes.Video, AVCaptureDevicePosition.Back);
+    // Prefer virtual back cameras so iOS starts at normal 1x wide framing but can switch to macro-capable lenses when close.
+    public override AVCaptureDevice? SelectCaptureDevice() => SelectPreferredBackCaptureDevice();
 
     //Taken from: https://developer.apple.com/wwdc21/10047?time=117
     //and sample code from Apple: https://developer.apple.com/documentation/avfoundation/capture_setup/avcambarcode_detecting_barcodes_and_faces
@@ -125,7 +123,7 @@ public partial class BarcodeScanner : CameraSession
         
         if (m_cameraPreview is { CameraZoomView: not null })
         {
-            m_cameraPreview.CameraZoomView.SetZoomRatio((float)captureDevice.VideoZoomFactor);
+            m_cameraPreview.CameraZoomView.SetZoomRatio(ToDisplayZoomRatio((float)captureDevice.VideoZoomFactor));
         }
     }
 

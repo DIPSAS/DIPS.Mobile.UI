@@ -30,6 +30,8 @@ To start off, add a `CameraPreview` to your page and give it a `x:Name`. This le
 
 DIPS.Mobile.UI provides a camera API for people to scan barcodes. The implementations are optimised and is inspired by [ML Kit Barcode scanning](https://developers.google.com/ml-kit/vision/barcode-scanning) for Android and [AVCamBarcode from Apple](https://developer.apple.com/documentation/avfoundation/capture_setup/avcambarcode_detecting_barcodes_and_faces) for iOS.
 
+> **NOTE:** On iOS, devices with ultra-wide cameras can use the macro-capable lens for close-range barcode focus while starting the preview in normal wide framing. On those devices, the zoom controls can show `0.5x` for the ultra-wide lens.
+
 ## Start scanning
 To get started, create an `BarcodeScanner` object in your code behind, and `Start()` it when it makes sense for people.
 

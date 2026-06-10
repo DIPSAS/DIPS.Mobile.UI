@@ -1,5 +1,8 @@
-## [60.2.12]
+## [60.2.13]
 - [BarcodeScanner] Shows validation failure messages above the scan rectangle when rejected barcode results include an error message, adds success/error haptics, and adds automatic camera zoom tips with `BarcodeScannerStartOptions.Hint`.
+
+## [60.2.12]
+- [Camera][iOS] Added ultra-wide capable back camera selection and zoom mapping for barcode scanning and image capture on supported devices.
 
 ## [60.2.11]
 - [CollectionView][Android] Fixed crash when deferred item decoration updates ran after the RecyclerView was detached during list reloads.
