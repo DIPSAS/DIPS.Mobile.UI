@@ -229,6 +229,12 @@ public abstract class CameraFragment : Fragment
         base.OnStart();
     }
 
+    public override void OnStop()
+    {
+        UnRegisterRotationEvents();
+        base.OnStop();
+    }
+
     private void AddTapToFocus()
     {
         if(PreviewViewHandler is not null)
