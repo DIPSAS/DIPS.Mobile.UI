@@ -22,6 +22,8 @@ private readonly ImageCapture m_imageCapture = new();
 
 > We recommend starting the camera in `OnAppearing`.
 
+> **NOTE:** On iOS, devices with ultra-wide cameras can use the ultra-wide lens through the shared zoom controls while starting the preview in normal wide framing. On those devices, the zoom controls can show `0.5x` for the ultra-wide lens.
+
 ## Capturing a single image
 
 Call `StartSingleImageCapture` with the preview, your "image captured" delegate, your "camera failed" delegate, and a `CameraOptions` object:

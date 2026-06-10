@@ -18,7 +18,7 @@ public abstract class CameraSession
 #nullable enable
     
     internal AVCaptureVideoPreviewLayer? PreviewLayer { get; private set; }
-    //The lens to be used for scanning bar codes
+    //The active capture device used by the current camera session
     internal AVCaptureDevice? CaptureDevice { get; private set; }
     
     internal PreviewView? PreviewView { get; private set; }
@@ -34,6 +34,7 @@ public abstract class CameraSession
     private CameraFailed? m_cameraFailedDelegate;
     private NSObject? m_startedSessionObserver;
     private NSObject? m_sessionStoppedObserver;
+    private bool m_shouldStartAtWideConstituent;
     
     private TaskCompletionSource<bool>? m_sessionStartedTask;
     private TaskCompletionSource<bool>? m_sessionStoppedTask;
@@ -129,6 +130,7 @@ public abstract class CameraSession
         //Call beginConfiguration() before changing a session’s inputs or outputs, and call commitConfiguration() after making changes.
         CaptureSession.BeginConfiguration();
         
+        m_shouldStartAtWideConstituent = false;
         CaptureDevice = SelectCaptureDevice();
         
         if (CaptureDevice == null) throw new Exception("Unable to select an capture device.");
@@ -145,7 +147,7 @@ public abstract class CameraSession
         }
         else
         {
-            throw new Exception("Unable to use the back camera wide angle camera to detect bar codes");
+            throw new Exception("Unable to use the selected back camera");
         }
         
         // Set quality based on target resolution
@@ -172,6 +174,7 @@ public abstract class CameraSession
         
         m_avCaptureOutput = avCaptureOutput;
 
+        SetInitialWideConstituentZoomFactor();
         AddCameraZoomView();
         
         if (CaptureSession.CanAddOutput(m_avCaptureOutput))
@@ -246,7 +249,7 @@ public abstract class CameraSession
         var maximumDisplayZoomFactor = GetMaximumDisplayZoomFactor();
         if (m_cameraPreview?.CameraZoomView is not null)
         {
-            m_cameraPreview.CameraZoomView?.SetZoomRatio(ToDisplayZoomRatio((float)CaptureDevice.VideoZoomFactor));
+            m_cameraPreview.CameraZoomView?.SetZoomRatio(GetCurrentDisplayZoomFactor());
         }
         else if(m_cameraPreview is not null)
         {
@@ -254,8 +257,11 @@ public abstract class CameraSession
                 minimumDisplayZoomFactor,
                 maximumDisplayZoomFactor,
                 zoomRatio => OnChangedZoomRatio(ToCaptureDeviceZoomRatio(zoomRatio))) { Opacity = 0 };
+            m_cameraPreview.CameraZoomView.SetZoomRatio(GetCurrentDisplayZoomFactor());
         }
     }
+
+    private float GetCurrentDisplayZoomFactor() => ToDisplayZoomRatio((float)CaptureDevice!.VideoZoomFactor);
 
     private void PreviewViewOnOnTapToFocus(float x, float y)
     {
@@ -273,9 +279,17 @@ public abstract class CameraSession
         m_cameraPreview?.CameraZoomView?.OnPinchToZoom(ToDisplayZoomRatio(zoomRatio));
     }
 
-    protected virtual float ToDisplayZoomRatio(float captureDeviceZoomRatio) => captureDeviceZoomRatio;
+    protected virtual float ToDisplayZoomRatio(float captureDeviceZoomRatio)
+    {
+        var wideConstituentZoomFactor = GetWideConstituentZoomFactor();
+        return wideConstituentZoomFactor is null ? captureDeviceZoomRatio : captureDeviceZoomRatio / (float)wideConstituentZoomFactor.Value;
+    }
 
-    protected virtual float ToCaptureDeviceZoomRatio(float displayZoomRatio) => displayZoomRatio;
+    protected virtual float ToCaptureDeviceZoomRatio(float displayZoomRatio)
+    {
+        var wideConstituentZoomFactor = GetWideConstituentZoomFactor();
+        return wideConstituentZoomFactor is null ? displayZoomRatio : displayZoomRatio * (float)wideConstituentZoomFactor.Value;
+    }
 
     protected virtual float GetMaximumCaptureDeviceZoomFactor() => Math.Min(
         (float)CaptureDevice!.ActiveFormat.VideoMaxZoomFactor,
@@ -342,6 +356,71 @@ public abstract class CameraSession
     public abstract void ConfigureSession();
 
     public abstract AVCaptureDevice? SelectCaptureDevice();
+
+    private protected AVCaptureDevice? SelectPreferredBackCaptureDevice()
+    {
+        return TryGetPreferredBackCaptureDevice(AVCaptureDeviceType.BuiltInTripleCamera, shouldStartAtWideConstituent: true) ??
+               TryGetPreferredBackCaptureDevice(AVCaptureDeviceType.BuiltInDualWideCamera, shouldStartAtWideConstituent: true) ??
+               TryGetPreferredBackCaptureDevice(AVCaptureDeviceType.BuiltInDualCamera, shouldStartAtWideConstituent: false) ??
+               TryGetPreferredBackCaptureDevice(AVCaptureDeviceType.BuiltInUltraWideCamera, shouldStartAtWideConstituent: false) ??
+               TryGetPreferredBackCaptureDevice(AVCaptureDeviceType.BuiltInWideAngleCamera, shouldStartAtWideConstituent: false);
+    }
+
+    private AVCaptureDevice? TryGetPreferredBackCaptureDevice(AVCaptureDeviceType deviceType, bool shouldStartAtWideConstituent)
+    {
+        var captureDevice = AVCaptureDevice.GetDefaultDevice(deviceType, AVMediaTypes.Video, AVCaptureDevicePosition.Back);
+        if (captureDevice is null)
+        {
+            return null;
+        }
+
+        m_shouldStartAtWideConstituent = shouldStartAtWideConstituent;
+        return captureDevice;
+    }
+
+    private void SetInitialWideConstituentZoomFactor()
+    {
+        if (CaptureDevice is null)
+        {
+            return;
+        }
+
+        var wideConstituentZoomFactor = GetWideConstituentZoomFactor();
+        if (wideConstituentZoomFactor is null)
+        {
+            return;
+        }
+
+        if (!CaptureDevice.LockForConfiguration(out var error))
+        {
+            if (error != null)
+            {
+                throw new Exception(error.ToString());
+            }
+
+            return;
+        }
+
+        try
+        {
+            CaptureDevice.VideoZoomFactor = wideConstituentZoomFactor.Value;
+        }
+        finally
+        {
+            CaptureDevice.UnlockForConfiguration();
+        }
+    }
+
+    private nfloat? GetWideConstituentZoomFactor()
+    {
+        if (!m_shouldStartAtWideConstituent || CaptureDevice is null)
+        {
+            return null;
+        }
+
+        var switchOverZoomFactors = CaptureDevice.VirtualDeviceSwitchOverVideoZoomFactors;
+        return switchOverZoomFactors.Length == 0 ? null : (nfloat)switchOverZoomFactors[0].DoubleValue;
+    }
     
     private void SetContinuousAutoFocus()
     {
