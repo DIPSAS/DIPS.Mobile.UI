@@ -1,10 +1,13 @@
 using DIPS.Mobile.UI.API.Camera.Preview;
+using DIPS.Mobile.UI.Resources.Styles;
+using DIPS.Mobile.UI.Resources.Styles.Label;
 using DIPS.Mobile.UI.Resources.Colors;
 using DIPS.Mobile.UI.Resources.Icons;
 using DIPS.Mobile.UI.Resources.Sizes;
 using Microsoft.Maui.Controls.Shapes;
 using DuiColors = DIPS.Mobile.UI.Resources.Colors.Colors;
 using DuiImage = DIPS.Mobile.UI.Components.Images.Image.Image;
+using LayoutEffect = DIPS.Mobile.UI.Effects.Layout.Layout;
 
 namespace DIPS.Mobile.UI.API.Camera.BarcodeScanning;
 
@@ -20,7 +23,11 @@ internal class BarcodeScanRectangleOverlay : Grid
     private readonly GraphicsView m_dimGraphicsView;
     private readonly GraphicsView m_cornersGraphicsView;
     private readonly Border m_collectionToken;
+    private readonly Grid m_feedbackMessageContainer;
+    private readonly Label m_feedbackMessageLabel;
     private View? m_tooltipView;
+    private bool m_wasTooltipVisibleBeforeFeedback;
+    private int m_feedbackMessageVersion;
     private readonly float m_widthFraction;
     private readonly float m_heightFraction;
     private readonly uint m_bracketsTravelLength;
@@ -43,6 +50,7 @@ internal class BarcodeScanRectangleOverlay : Grid
     private const string AnimationKeyBracketsSuccess = "BracketsSuccess";
     private const string AnimationKeyBracketsFailure = "BracketsFailure";
     private const string AnimationKeyCollectionToken = "CollectionToken";
+    private const string AnimationKeyFeedbackMessage = "FeedbackMessage";
 
     public BarcodeScanRectangleOverlay(float widthFraction, float heightFraction, TimeSpan bracketsTravelDuration, TimeSpan formingDuration)
     {
@@ -103,16 +111,51 @@ internal class BarcodeScanRectangleOverlay : Grid
             Scale = .65
         };
 
+        (m_feedbackMessageContainer, m_feedbackMessageLabel) = CreateFeedbackMessageView();
+
         InputTransparent = true;
         BackgroundColor = Microsoft.Maui.Graphics.Colors.Transparent;
 
         Children.Add(m_dimGraphicsView);
         Children.Add(m_cornersGraphicsView);
         Children.Add(m_collectionToken);
+        Children.Add(m_feedbackMessageContainer);
 
         SizeChanged += OnSizeChanged;
+        m_feedbackMessageContainer.SizeChanged += OnFeedbackMessageSizeChanged;
 
         StartBreathingAnimation();
+    }
+
+    private static (Grid Container, Label MessageLabel) CreateFeedbackMessageView()
+    {
+        var messageLabel = new Label
+        {
+            Style = Styles.GetLabelStyle(LabelStyle.UI200),
+            TextColor = DuiColors.GetColor(ColorName.color_text_on_button),
+            HorizontalTextAlignment = TextAlignment.Center,
+            LineBreakMode = LineBreakMode.WordWrap
+        };
+
+        var container = new Grid
+        {
+            InputTransparent = true,
+            HorizontalOptions = LayoutOptions.Center,
+            VerticalOptions = LayoutOptions.Start,
+            Padding = new Thickness(
+                Sizes.GetSize(SizeName.content_margin_medium),
+                Sizes.GetSize(SizeName.content_margin_small)),
+            BackgroundColor = DuiColors.GetColor(ColorName.color_fill_danger),
+            IsVisible = false,
+            Opacity = 0,
+            Scale = .96,
+            AnchorX = .5,
+            AnchorY = 1,
+            Children = { messageLabel }
+        };
+
+        LayoutEffect.SetCornerRadius(container, new CornerRadius(Sizes.GetSize(SizeName.radius_medium)));
+        return (container, messageLabel);
     }
 
     private void StartBreathingAnimation()
@@ -144,14 +187,26 @@ internal class BarcodeScanRectangleOverlay : Grid
 
     internal void SetTooltipView(View tooltipView)
     {
+        if (ReferenceEquals(m_tooltipView, tooltipView))
+            return;
+
+        if (m_tooltipView is not null)
+        {
+            m_tooltipView.SizeChanged -= OnTooltipSizeChanged;
+            Children.Remove(m_tooltipView);
+            m_tooltipView.DisconnectHandlers();
+        }
+
         m_tooltipView = tooltipView;
         m_tooltipView.InputTransparent = true;
         m_tooltipView.HorizontalOptions = LayoutOptions.Center;
         m_tooltipView.VerticalOptions = LayoutOptions.Start;
+        m_tooltipView.IsVisible = true;
 
         Children.Add(m_tooltipView);
 
         m_tooltipView.SizeChanged += OnTooltipSizeChanged;
+        PositionTooltip();
     }
 
     private void OnTooltipSizeChanged(object? sender, EventArgs e)
@@ -162,6 +217,12 @@ internal class BarcodeScanRectangleOverlay : Grid
     private void OnSizeChanged(object? sender, EventArgs e)
     {
         PositionTooltip();
+        PositionFeedbackMessage();
+    }
+
+    private void OnFeedbackMessageSizeChanged(object? sender, EventArgs e)
+    {
+        PositionFeedbackMessage();
     }
 
     private void PositionTooltip()
@@ -176,10 +237,27 @@ internal class BarcodeScanRectangleOverlay : Grid
         m_tooltipView.TranslationY = rectY - m_tooltipView.Height - spacing;
     }
 
+    private void PositionFeedbackMessage()
+    {
+        if (Height <= 0 || Width <= 0 || m_feedbackMessageContainer.Height <= 0)
+            return;
+
+        var rectHeight = Height * m_heightFraction;
+        var rectY = GetCameraFeedCenterY((float)Width, (float)Height) - rectHeight / 2f;
+        var spacing = Sizes.GetSize(SizeName.content_margin_small);
+        var horizontalMargin = Sizes.GetSize(SizeName.page_margin_medium);
+
+        m_feedbackMessageContainer.MaximumWidthRequest = Math.Max(0, Width - horizontalMargin * 2);
+        m_feedbackMessageContainer.TranslationY = Math.Max(
+            Sizes.GetSize(SizeName.content_margin_medium),
+            rectY - m_feedbackMessageContainer.Height - spacing);
+    }
+
     internal void Cleanup()
     {
         StopAllAnimations();
         SizeChanged -= OnSizeChanged;
+        m_feedbackMessageContainer.SizeChanged -= OnFeedbackMessageSizeChanged;
 
         if (m_tooltipView is not null)
         {
@@ -197,13 +275,77 @@ internal class BarcodeScanRectangleOverlay : Grid
         m_cornersGraphicsView.AbortAnimation(AnimationKeyBracketsSuccess);
         m_cornersGraphicsView.AbortAnimation(AnimationKeyBracketsFailure);
         m_collectionToken.AbortAnimation(AnimationKeyCollectionToken);
+        HideFeedbackMessage();
+    }
+
+    private void ShowFeedbackMessage(string? message)
+    {
+        if (string.IsNullOrWhiteSpace(message))
+            return;
+
+        var messageVersion = ++m_feedbackMessageVersion;
+        m_feedbackMessageLabel.Text = message;
+        m_wasTooltipVisibleBeforeFeedback = m_tooltipView?.IsVisible == true;
+
+        if (m_tooltipView is not null)
+        {
+            m_tooltipView.IsVisible = false;
+        }
+
+        PositionFeedbackMessage();
+        m_feedbackMessageContainer.AbortAnimation(AnimationKeyFeedbackMessage);
+        m_feedbackMessageContainer.IsVisible = true;
+        m_feedbackMessageContainer.Opacity = 0;
+        m_feedbackMessageContainer.Scale = .96;
+
+        var animation = new Animation
+        {
+            { 0.0, 0.16, new Animation(v =>
+            {
+                m_feedbackMessageContainer.Opacity = v;
+                m_feedbackMessageContainer.Scale = .96 + .04 * v;
+            }, 0, 1, Easing.CubicOut) },
+            { 0.16, 0.26, new Animation(v => m_feedbackMessageContainer.Scale = v, 1, 1.03, Easing.CubicOut) },
+            { 0.26, 0.38, new Animation(v => m_feedbackMessageContainer.Scale = v, 1.03, 1, Easing.CubicInOut) },
+            { 0.38, 0.78, new Animation(_ => { }, 0, 1) },
+            { 0.78, 1.0, new Animation(v =>
+            {
+                m_feedbackMessageContainer.Opacity = v;
+                m_feedbackMessageContainer.Scale = .98 + .02 * v;
+            }, 1, 0, Easing.CubicIn) }
+        };
+
+        animation.Commit(m_feedbackMessageContainer, AnimationKeyFeedbackMessage,
+            rate: 16,
+            length: 1800,
+            finished: (_, cancelled) =>
+            {
+                if (cancelled || messageVersion != m_feedbackMessageVersion)
+                    return;
+
+                HideFeedbackMessage(restoreTooltip: true);
+            });
+    }
+
+    private void HideFeedbackMessage(bool restoreTooltip = false)
+    {
+        ++m_feedbackMessageVersion;
+        m_feedbackMessageContainer.AbortAnimation(AnimationKeyFeedbackMessage);
+        m_feedbackMessageContainer.IsVisible = false;
+        m_feedbackMessageContainer.Opacity = 0;
+        m_feedbackMessageContainer.Scale = .96;
+
+        if (restoreTooltip && m_tooltipView is not null)
+        {
+            m_tooltipView.IsVisible = m_wasTooltipVisibleBeforeFeedback;
+        }
     }
 
     internal void SetBarcodeDetected()
     {
         StopBreathingAnimation();
         m_cornersDrawable.Inset = 0;
-        m_cornersDrawable.BracketColor = CornerBracketsDrawable.DetectedBracketColor;
+        m_cornersDrawable.BracketColor = CornerBracketsDrawable.s_detectedBracketColor;
         m_cornersDrawable.MaxStrokeWidth = CornerBracketsDrawable.DetectedStrokeWidth;
         m_cornersGraphicsView.Invalidate();
     }
@@ -369,7 +511,7 @@ internal class BarcodeScanRectangleOverlay : Grid
     {
         m_cornersGraphicsView.AbortAnimation(AnimationKeyBracketsForming);
         
-        m_cornersDrawable.BracketColor = CornerBracketsDrawable.SuccessBracketColor;
+        m_cornersDrawable.BracketColor = CornerBracketsDrawable.s_successBracketColor;
         m_cornersDrawable.MaxStrokeWidth = CornerBracketsDrawable.SuccessStrokeWidth;
         m_cornersGraphicsView.Invalidate();
 
@@ -476,16 +618,18 @@ internal class BarcodeScanRectangleOverlay : Grid
 
     internal async Task PlayFailureAndResetAsync(string? errorMessage)
     {
+        ShowFeedbackMessage(errorMessage);
+
         m_cornersGraphicsView.AbortAnimation(AnimationKeyBracketsForming);
-        m_cornersDrawable.BracketColor = CornerBracketsDrawable.FailureBracketColor;
+        m_cornersDrawable.BracketColor = CornerBracketsDrawable.s_failureBracketColor;
         m_cornersDrawable.MaxStrokeWidth = CornerBracketsDrawable.FailureStrokeWidth;
         m_cornersGraphicsView.Invalidate();
 
         var shakeDistance = Sizes.GetSize(SizeName.size_2);
-        await m_cornersGraphicsView.TranslateTo(-shakeDistance, 0, 55, Easing.CubicOut);
-        await m_cornersGraphicsView.TranslateTo(shakeDistance, 0, 80, Easing.CubicInOut);
-        await m_cornersGraphicsView.TranslateTo(-shakeDistance / 2, 0, 65, Easing.CubicInOut);
-        await m_cornersGraphicsView.TranslateTo(0, 0, 80, Easing.CubicOut);
+        await m_cornersGraphicsView.TranslateToAsync(-shakeDistance, 0, 55, Easing.CubicOut);
+        await m_cornersGraphicsView.TranslateToAsync(shakeDistance, 0, 80, Easing.CubicInOut);
+        await m_cornersGraphicsView.TranslateToAsync(-shakeDistance / 2, 0, 65, Easing.CubicInOut);
+        await m_cornersGraphicsView.TranslateToAsync(0, 0, 80, Easing.CubicOut);
 
         ResetBarcodeDetection();
     }
@@ -500,7 +644,7 @@ internal class BarcodeScanRectangleOverlay : Grid
         m_lastTrackingTargetUpdateMilliseconds = 0;
         m_cornersGraphicsView.TranslationX = 0;
         m_cornersDrawable.FormingProgress = 0;
-        m_cornersDrawable.BracketColor = CornerBracketsDrawable.DefaultBracketColor;
+        m_cornersDrawable.BracketColor = CornerBracketsDrawable.s_defaultBracketColor;
         m_cornersDrawable.MaxStrokeWidth = CornerBracketsDrawable.DefaultStrokeWidth;
 
         var currentRect = m_cornersDrawable.OverrideRect;
@@ -656,10 +800,10 @@ internal class BarcodeScanRectangleOverlay : Grid
         private const float BracketLength = 30f;
         internal const float DefaultStrokeWidth = 4f;
         
-        internal static readonly Color DefaultBracketColor = Microsoft.Maui.Graphics.Colors.White;
-        internal static readonly Color DetectedBracketColor = DuiColors.GetColor(ColorName.color_border_warning);
-        internal static readonly Color SuccessBracketColor = DuiColors.GetColor(ColorName.color_border_success);
-        internal static readonly Color FailureBracketColor = DuiColors.GetColor(ColorName.color_border_danger);
+        internal static readonly Color s_defaultBracketColor = Microsoft.Maui.Graphics.Colors.White;
+        internal static readonly Color s_detectedBracketColor = DuiColors.GetColor(ColorName.color_border_warning);
+        internal static readonly Color s_successBracketColor = DuiColors.GetColor(ColorName.color_border_success);
+        internal static readonly Color s_failureBracketColor = DuiColors.GetColor(ColorName.color_border_danger);
         internal const float DetectedStrokeWidth = 2f;
         internal const float SuccessStrokeWidth = 3f;
         internal const float FailureStrokeWidth = 3f;
@@ -689,7 +833,7 @@ internal class BarcodeScanRectangleOverlay : Grid
         /// <summary>
         /// The color used for the corner bracket strokes.
         /// </summary>
-        internal Color BracketColor { get; set; } = DefaultBracketColor;
+        internal Color BracketColor { get; set; } = s_defaultBracketColor;
 
         public CornerBracketsDrawable(float widthFraction, float heightFraction)
         {

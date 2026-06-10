@@ -644,6 +644,48 @@ namespace Components.Resources.LocalizedStrings {
                 return ResourceManager.GetString("BarcodeScanning", resourceCulture);
             }
         }
+
+        internal static string BarcodeScannerFeedbackTitle {
+            get {
+                return ResourceManager.GetString("BarcodeScannerFeedbackTitle", resourceCulture);
+            }
+        }
+
+        internal static string BarcodeScannerFeedbackSubtitle {
+            get {
+                return ResourceManager.GetString("BarcodeScannerFeedbackSubtitle", resourceCulture);
+            }
+        }
+
+        internal static string BarcodeScannerFeedbackTooltipText {
+            get {
+                return ResourceManager.GetString("BarcodeScannerFeedbackTooltipText", resourceCulture);
+            }
+        }
+
+        internal static string BarcodeScannerFeedbackFocusHint {
+            get {
+                return ResourceManager.GetString("BarcodeScannerFeedbackFocusHint", resourceCulture);
+            }
+        }
+
+        internal static string BarcodeScannerFeedbackAlreadyScanned {
+            get {
+                return ResourceManager.GetString("BarcodeScannerFeedbackAlreadyScanned", resourceCulture);
+            }
+        }
+
+        internal static string BarcodeScannerFeedbackWrongPatient {
+            get {
+                return ResourceManager.GetString("BarcodeScannerFeedbackWrongPatient", resourceCulture);
+            }
+        }
+
+        internal static string BarcodeScannerFeedbackNotLabel {
+            get {
+                return ResourceManager.GetString("BarcodeScannerFeedbackNotLabel", resourceCulture);
+            }
+        }
         
         internal static string Barcode {
             get {

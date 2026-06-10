@@ -318,6 +318,27 @@
     <data name="BarcodeScanning" xml:space="preserve">
         <value>Barcode Scanning</value>
     </data>
+    <data name="BarcodeScannerFeedbackTitle" xml:space="preserve">
+        <value>Barcode scanner feedback</value>
+    </data>
+    <data name="BarcodeScannerFeedbackSubtitle" xml:space="preserve">
+        <value>Shows rejection reasons above the scan area</value>
+    </data>
+    <data name="BarcodeScannerFeedbackTooltipText" xml:space="preserve">
+        <value>Place the label inside the frame and hold the camera steady.</value>
+    </data>
+    <data name="BarcodeScannerFeedbackFocusHint" xml:space="preserve">
+        <value>Hold the label farther away to focus.</value>
+    </data>
+    <data name="BarcodeScannerFeedbackAlreadyScanned" xml:space="preserve">
+        <value>The label has already been scanned.</value>
+    </data>
+    <data name="BarcodeScannerFeedbackWrongPatient" xml:space="preserve">
+        <value>The label does not belong to this patient.</value>
+    </data>
+    <data name="BarcodeScannerFeedbackNotLabel" xml:space="preserve">
+        <value>The code you scanned is not a label.</value>
+    </data>
     <data name="Barcode" xml:space="preserve">
         <value>Barcode</value>
     </data>

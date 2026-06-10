@@ -22,6 +22,8 @@ public partial class BarcodeScanner : ICameraUseCase
     private readonly HashSet<string> m_confirmedBarcodeValues = new(StringComparer.Ordinal);
     private bool m_isCoolingDown;
     private Timer? m_cooldownTimer;
+    private CancellationTokenSource? m_automaticHintCts;
+    private bool m_hasCompletedAutomaticHint;
 
     // Confirmation handler & overlay
     private IBarcodeConfirmationHandler? m_confirmationHandler;
@@ -59,6 +61,7 @@ public partial class BarcodeScanner : ICameraUseCase
         var ct = m_sessionCts.Token;
         BeginNewScanRun();
         await StopPlatformIfNeededAsync();
+        StopAutomaticHint();
         RemoveOverlayViews();
         m_currentStartOptions = startOptions;
         m_cameraPreview = cameraPreview;
@@ -67,6 +70,7 @@ public partial class BarcodeScanner : ICameraUseCase
         m_confirmationHandler = null;
         ResetScanState();
         DisposeCooldownTimer();
+        m_hasCompletedAutomaticHint = false;
         m_confirmedBarcodeValues.Clear();
 
         m_scanSession?.Dispose();
@@ -86,7 +90,7 @@ public partial class BarcodeScanner : ICameraUseCase
             ConstructOverlayViews(m_currentStartOptions);
             m_confirmationHandler = CreateConfirmationHandler();
             m_scanSession.AttachProgressCounter(m_cameraPreview);
-            await PlatformStart(m_currentStartOptions, m_currentStartOptions.OnCameraFailed);
+            await PlatformStart(m_currentStartOptions, onCameraFailed);
 
             // The overlay must match the PreviewView's translation so the dim and
             // scan rectangle cover the same area as the camera feed.
@@ -103,6 +107,7 @@ public partial class BarcodeScanner : ICameraUseCase
 
             m_isPlatformStarted = true;
             m_scanSession.Start();
+            RestartAutomaticHintTimer();
 
             if (m_cameraPreview?.CameraZoomView is not null)
             {
@@ -177,6 +182,7 @@ public partial class BarcodeScanner : ICameraUseCase
             m_scanSession?.PauseScanning();
             ResetBarcodeConfirmationState(resetOverlay);
             DisposeCooldownTimer();
+            StopAutomaticHint();
             m_confirmedBarcodeValues.Clear();
         }
         catch (Exception e)
@@ -200,7 +206,8 @@ public partial class BarcodeScanner : ICameraUseCase
             m_confirmationHandler?.Reset();
             DisposeCooldownTimer();
             m_confirmedBarcodeValues.Clear();
-            m_scanSession.ResumeScanning();
+            m_scanSession?.ResumeScanning();
+            RestartAutomaticHintTimer();
         }
         catch (Exception e)
         {
@@ -230,6 +237,7 @@ public partial class BarcodeScanner : ICameraUseCase
         StopPlatformIfNeeded();
         ResetBarcodeConfirmationState(resetOverlay);
         DisposeCooldownTimer();
+        StopAutomaticHint();
         m_confirmationHandler?.Dispose();
         m_confirmationHandler = null;
         m_scanSession?.Dispose();
@@ -255,6 +263,8 @@ public partial class BarcodeScanner : ICameraUseCase
         var barcodeKey = BarcodeDetectionAggregator.GetBarcodeKey(barcode);
         if (string.IsNullOrWhiteSpace(barcodeKey))
             return;
+
+        StopAutomaticHint();
 
         if (m_confirmedBarcodeValues.Contains(barcodeKey))
         {
@@ -367,6 +377,7 @@ public partial class BarcodeScanner : ICameraUseCase
         m_confirmedBarcodeValues.Clear();
         ResetScanState();
         m_scanRectangleOverlay?.ResetBarcodeDetection();
+        RestartAutomaticHintTimer();
     }
 
     private void StartCooldown()
@@ -399,6 +410,127 @@ public partial class BarcodeScanner : ICameraUseCase
         m_isCoolingDown = false;
     }
 
+    private void RestartAutomaticHintTimer()
+    {
+        StopAutomaticHint();
+
+        if (!TryGetAutomaticHint(out var hintText, out var delay))
+            return;
+
+        var scanRunId = CurrentScanRunId;
+        m_automaticHintCts = new CancellationTokenSource();
+        _ = ShowAutomaticHintAfterDelayAsync(hintText, delay, scanRunId, m_automaticHintCts.Token);
+    }
+
+    private async Task ShowAutomaticHintAfterDelayAsync(string hintText, TimeSpan delay, int scanRunId, CancellationToken cancellationToken)
+    {
+        try
+        {
+            if (delay > TimeSpan.Zero)
+            {
+                await Task.Delay(delay, cancellationToken);
+            }
+
+            if (cancellationToken.IsCancellationRequested || scanRunId != CurrentScanRunId || !IsSessionActive)
+                return;
+
+            await MainThread.InvokeOnMainThreadAsync(() => TryShowAutomaticHintAsync(hintText, scanRunId, cancellationToken));
+        }
+        catch (TaskCanceledException)
+        {
+        }
+        catch (Exception exception)
+        {
+            DUILogService.LogError<BarcodeScanner>($"Barcode scanner automatic hint failed: {exception.Message}");
+        }
+    }
+
+    private bool TryGetAutomaticHint(out string hintText, out TimeSpan delay)
+    {
+        hintText = string.Empty;
+        delay = TimeSpan.Zero;
+
+        var hint = m_currentStartOptions.Hint;
+        if (m_cameraPreview is null || m_hasCompletedAutomaticHint || !hint.ShowAutomaticHint || string.IsNullOrWhiteSpace(hint.HintText) || m_cameraPreview.HasZoomed)
+            return false;
+
+        hintText = hint.HintText;
+        delay = hint.Delay < TimeSpan.Zero ? TimeSpan.Zero : hint.Delay;
+        return true;
+    }
+
+    private async Task TryShowAutomaticHintAsync(string hintText, int scanRunId, CancellationToken cancellationToken)
+    {
+        if (cancellationToken.IsCancellationRequested || scanRunId != CurrentScanRunId || !IsSessionActive)
+            return;
+
+        if (m_hasCompletedAutomaticHint || m_cameraPreview?.HasZoomed is not false)
+            return;
+
+        m_hasCompletedAutomaticHint = true;
+
+        if (!await CanShowAutomaticHintAsync())
+            return;
+
+        if (cancellationToken.IsCancellationRequested || scanRunId != CurrentScanRunId || !IsSessionActive || m_cameraPreview?.HasZoomed is not false)
+            return;
+
+        try
+        {
+            m_cameraPreview.ShowZoomSliderTip(hintText);
+        }
+        catch (Exception exception)
+        {
+            DUILogService.LogError<BarcodeScanner>($"Barcode scanner zoom tip failed: {exception.Message}");
+            return;
+        }
+
+        await NotifyAutomaticHintShownAsync();
+    }
+
+    private async Task<bool> CanShowAutomaticHintAsync()
+    {
+        if (m_cameraPreview?.HasZoomed is not false)
+            return false;
+
+        try
+        {
+            return m_currentStartOptions.Hint.CanShowHintAsync is null || await m_currentStartOptions.Hint.CanShowHintAsync.Invoke();
+        }
+        catch (Exception exception)
+        {
+            DUILogService.LogError<BarcodeScanner>($"Barcode scanner hint visibility callback failed: {exception.Message}");
+            return false;
+        }
+    }
+
+    private async Task NotifyAutomaticHintShownAsync()
+    {
+        try
+        {
+            if (m_currentStartOptions.Hint.OnHintShownAsync is not null)
+            {
+                await m_currentStartOptions.Hint.OnHintShownAsync.Invoke();
+            }
+        }
+        catch (Exception exception)
+        {
+            DUILogService.LogError<BarcodeScanner>($"Barcode scanner hint shown callback failed: {exception.Message}");
+        }
+    }
+
+    private void StopAutomaticHint()
+    {
+        DisposeAutomaticHintTimer();
+    }
+
+    private void DisposeAutomaticHintTimer()
+    {
+        m_automaticHintCts?.Cancel();
+        m_automaticHintCts?.Dispose();
+        m_automaticHintCts = null;
+    }
+
     private void ResetBarcodeConfirmationState(bool resetOverlay = true)
     {
         m_confirmationHandler?.Reset();
@@ -421,7 +553,8 @@ public partial class BarcodeScanner : ICameraUseCase
             return;
 
         StartCooldown();
-        m_scanSession.ResumeScanning();
+        m_scanSession?.ResumeScanning();
+        RestartAutomaticHintTimer();
     }
 
     private int BeginNewScanRun() => Interlocked.Increment(ref m_scanRunId);
