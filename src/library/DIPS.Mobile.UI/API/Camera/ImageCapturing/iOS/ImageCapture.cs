@@ -53,11 +53,7 @@ public partial class ImageCapture : CameraSession
     private partial void PlatformOnCameraFailed(CameraException cameraException) =>
         OnCameraFailed<ImageCapture>(cameraException);
 
-    public override AVCaptureDevice? SelectCaptureDevice() =>
-        AVCaptureDevice.GetDefaultDevice(AVCaptureDeviceType.BuiltInWideAngleCamera,
-            AVMediaTypes.Video, AVCaptureDevicePosition.Back) ??
-        AVCaptureDevice.GetDefaultDevice(AVCaptureDeviceType.BuiltInDualCamera,
-            AVMediaTypes.Video, AVCaptureDevicePosition.Back);
+    public override AVCaptureDevice? SelectCaptureDevice() => SelectPreferredBackCaptureDevice();
 
     private void PhotoCaptured(AVCapturePhoto photo)
     {
@@ -223,6 +219,6 @@ internal class PhotoCaptureDelegate(Action<AVCapturePhoto> onPhotoCaptured, Acti
 
         m_onPhotoCaptureFailed = null!;
         m_onPhotoCaptured = null!;
-        m_onBeforeCapture = null;
+        m_onBeforeCapture = null!;
     }
 }
