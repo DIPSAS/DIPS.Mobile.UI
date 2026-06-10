@@ -18,9 +18,6 @@ internal class ZoomButtons : HorizontalStackLayout
     {
         m_onChangedZoomRatio = onChangedZoomRatio;
         m_onPanned = onPanned;
-
-        // We do not support ultra-wide cameras yet, so we can safely assume that the minimum ratio is 1
-        minRatio = 1;
         
         var panGestureRecognizer = new PanGestureRecognizer();
         panGestureRecognizer.PanUpdated += OnPanned;
@@ -33,35 +30,49 @@ internal class ZoomButtons : HorizontalStackLayout
         Padding = 2;
         
         UI.Effects.Layout.Layout.SetCornerRadius(this, Sizes.GetSize(SizeName.size_5));
-        
-        var firstButton = CreateCameraZoomButton(minRatio, true);
-        var secondButton = CreateCameraZoomButton(minRatio + 1);
-        var thirdButton = CreateCameraZoomButton(MathF.Min(secondButton.DefaultZoomRatio + 1, maxRatio));
 
-        // If we have not yet hit the max ratio, lets add another button
-        ZoomButton? fourthButton = null;
-        if (Math.Abs(thirdButton.DefaultZoomRatio - maxRatio) > 0.01f)
+        m_zoomButtons = CreateDefaultZoomRatios(minRatio, maxRatio)
+            .Select((zoomRatio, index) => CreateCameraZoomButton(zoomRatio, index == 0))
+            .ToList();
+
+        m_currentlyActiveButton = m_zoomButtons.First();
+
+        foreach (var zoomButton in m_zoomButtons)
         {
-            fourthButton = CreateCameraZoomButton(MathF.Min(secondButton.DefaultZoomRatio + 2, maxRatio));
+            Add(zoomButton);
         }
-
-        m_currentlyActiveButton = firstButton.IsDefaultActive ? firstButton : secondButton;
-        
-        Add(firstButton);
-        Add(secondButton);
-        Add(thirdButton);
-        
-        if(fourthButton is not null)
-            Add(fourthButton);
         
         this.SizeChanged += OnSizeChanged;
         
-        m_zoomButtons = [firstButton, secondButton, thirdButton];
-        
-        if(fourthButton is not null)
-            m_zoomButtons.Add(fourthButton);
-        
         DUI.OrientationChanged += OrientationChanged;
+    }
+
+    private static List<float> CreateDefaultZoomRatios(float minRatio, float maxRatio)
+    {
+        var zoomRatios = new List<float>();
+
+        AddZoomRatio(minRatio);
+        AddZoomRatio(minRatio < 1 ? 1 : minRatio + 1);
+        AddZoomRatio(MathF.Min(zoomRatios.Last() + 1, maxRatio));
+
+        var fourthZoomRatio = maxRatio;
+        if (Math.Abs(zoomRatios.Last() - fourthZoomRatio) > 0.01f)
+        {
+            AddZoomRatio(fourthZoomRatio);
+        }
+
+        return zoomRatios;
+
+        void AddZoomRatio(float zoomRatio)
+        {
+            zoomRatio = Math.Clamp(zoomRatio, minRatio, maxRatio);
+            if (zoomRatios.Any(existingZoomRatio => Math.Abs(existingZoomRatio - zoomRatio) <= 0.01f))
+            {
+                return;
+            }
+
+            zoomRatios.Add(zoomRatio);
+        }
     }
 
     private void OrientationChanged(OrientationDegree orientationDegree)
@@ -170,7 +181,7 @@ internal class ZoomButton : ContentView
         
         m_label = new Label
         {
-            Text = IsDefaultActive ? $"{defaultZoomRatio} ×" : $"{defaultZoomRatio}",
+            Text = IsDefaultActive ? $"{FormatZoomRatio(defaultZoomRatio)} ×" : FormatZoomRatio(defaultZoomRatio),
             TextColor = IsDefaultActive ? Colors.Gold : Colors.White,
             VerticalTextAlignment = TextAlignment.Center,
             HorizontalTextAlignment = TextAlignment.Center,
@@ -227,9 +238,11 @@ internal class ZoomButton : ContentView
 
     public void ResetToDefault()
     {
-        m_label.Text = $"{DefaultZoomRatio}";
+        m_label.Text = FormatZoomRatio(DefaultZoomRatio);
         m_label.TextColor = Colors.White;
     }
+
+    private static string FormatZoomRatio(float zoomRatio) => zoomRatio.ToString("0.#");
     
     public float DefaultZoomRatio { get; }
     public bool IsDefaultActive { get; }

@@ -186,7 +186,7 @@ public abstract class CameraSession
             //Commit the configuration
             CaptureSession.CommitConfiguration();
             
-            PreviewView.AddPinchToZoom(CaptureDevice);
+            PreviewView.AddPinchToZoom(CaptureDevice, GetMaximumCaptureDeviceZoomFactor());
             PreviewView.AddTapToFocus(CaptureDevice);
             PreviewView.OnTapToFocus += PreviewViewOnOnTapToFocus;
 
@@ -242,15 +242,18 @@ public abstract class CameraSession
         if (m_cameraPreview is null || CaptureDevice is null)
             return;
 
+        var minimumDisplayZoomFactor = ToDisplayZoomRatio((float)CaptureDevice.MinAvailableVideoZoomFactor);
+        var maximumDisplayZoomFactor = GetMaximumDisplayZoomFactor();
         if (m_cameraPreview?.CameraZoomView is not null)
         {
-            m_cameraPreview.CameraZoomView?.SetZoomRatio((float)CaptureDevice.VideoZoomFactor);
+            m_cameraPreview.CameraZoomView?.SetZoomRatio(ToDisplayZoomRatio((float)CaptureDevice.VideoZoomFactor));
         }
         else if(m_cameraPreview is not null)
         {
-            m_cameraPreview.CameraZoomView = new CameraZoomView((float)CaptureDevice.MinAvailableVideoZoomFactor,
-                (int)Math.Min(CaptureDevice.MaxAvailableVideoZoomFactor, PreviewView.MaxZoomRatio),
-                OnChangedZoomRatio) { Opacity = 0 };
+            m_cameraPreview.CameraZoomView = new CameraZoomView(
+                minimumDisplayZoomFactor,
+                maximumDisplayZoomFactor,
+                zoomRatio => OnChangedZoomRatio(ToCaptureDeviceZoomRatio(zoomRatio))) { Opacity = 0 };
         }
     }
 
@@ -267,8 +270,18 @@ public abstract class CameraSession
         {
             m_cameraPreview.HasZoomed = true;
         }
-        m_cameraPreview?.CameraZoomView?.OnPinchToZoom(zoomRatio);
+        m_cameraPreview?.CameraZoomView?.OnPinchToZoom(ToDisplayZoomRatio(zoomRatio));
     }
+
+    protected virtual float ToDisplayZoomRatio(float captureDeviceZoomRatio) => captureDeviceZoomRatio;
+
+    protected virtual float ToCaptureDeviceZoomRatio(float displayZoomRatio) => displayZoomRatio;
+
+    protected virtual float GetMaximumCaptureDeviceZoomFactor() => Math.Min(
+        (float)CaptureDevice!.ActiveFormat.VideoMaxZoomFactor,
+        ToCaptureDeviceZoomRatio(PreviewView.MaxZoomRatio));
+
+    protected virtual float GetMaximumDisplayZoomFactor() => ToDisplayZoomRatio(GetMaximumCaptureDeviceZoomFactor());
 
     private void AddObservers()
     {
@@ -307,6 +320,7 @@ public abstract class CameraSession
 
         try
         {
+            zoomRatio = Math.Clamp(zoomRatio, (float)CaptureDevice.MinAvailableVideoZoomFactor, GetMaximumCaptureDeviceZoomFactor());
             CaptureDevice.RampToVideoZoom(zoomRatio, 5.0f);
             if (m_cameraPreview != null)
             {

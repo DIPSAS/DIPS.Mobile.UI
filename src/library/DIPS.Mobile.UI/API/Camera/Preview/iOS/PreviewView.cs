@@ -77,15 +77,15 @@ internal sealed class PreviewView : ContentView
         /*UISlider?.BecomeFirstResponder();*/ //Make sure slider does not loose focus for people to slide it after they tap to focus
     }
     
-    public void AddPinchToZoom(AVCaptureDevice captureDevice)
+    public void AddPinchToZoom(AVCaptureDevice captureDevice, float maximumZoomRatio)
     {
         m_pinchToZoomGestureRecognizer =
-            new UIPinchGestureRecognizer((recognizer => PinchToZoom(recognizer, captureDevice)));
+            new UIPinchGestureRecognizer((recognizer => PinchToZoom(recognizer, captureDevice, maximumZoomRatio)));
         AddGestureRecognizer(m_pinchToZoomGestureRecognizer);
     }
     
     //Taken from: https://stackoverflow.com/a/31214458
-    private void PinchToZoom(UIPinchGestureRecognizer pinchRecognizer, AVCaptureDevice captureDevice)
+    private void PinchToZoom(UIPinchGestureRecognizer pinchRecognizer, AVCaptureDevice captureDevice, float maximumZoomRatio)
     {
         if (pinchRecognizer.State == UIGestureRecognizerState.Changed)
         {
@@ -94,13 +94,12 @@ internal sealed class PreviewView : ContentView
                 try
                 {
                     var pinchVelocityDividerFactor = 10f;
-                    var desiredZoomFactor = captureDevice.VideoZoomFactor +
+                    var desiredZoomFactor = (double)captureDevice.VideoZoomFactor +
                                             Math.Atan2(pinchRecognizer.Velocity, pinchVelocityDividerFactor);
                     
-                    var maxZoomFactor = Math.Min(captureDevice.ActiveFormat.VideoMaxZoomFactor, MaxZoomRatio);
+                    var maxZoomFactor = Math.Min((double)captureDevice.ActiveFormat.VideoMaxZoomFactor, maximumZoomRatio);
                     // Check if desiredZoomFactor fits required range from 1.0 to activeFormat.videoMaxZoomFactor
-                    var zoomFactor = (nfloat)Math.Max(1.0,
-                        Math.Min(desiredZoomFactor, maxZoomFactor));
+                    var zoomFactor = (nfloat)Math.Max(1.0, Math.Min(desiredZoomFactor, maxZoomFactor));
                     captureDevice.VideoZoomFactor = zoomFactor;
 
                     OnZoomChanged?.Invoke((float)zoomFactor);

@@ -16,15 +16,19 @@ internal class ZoomSlider : Grid
     private Border m_zoomRatioLevelBorder;
     private Label m_zoomRatioLevelLabel;
     
+    private readonly float m_minRatio;
     private readonly float m_maxRatio;
     
     private readonly Action<float> m_onChangedZoomRatio;
     private readonly Action<PanUpdatedEventArgs> m_onPanned;
     
     private double m_startingX;
+    private float m_startingZoomRatio;
     private double m_minimumZoomRatiosLayoutTranslationX;
     private double m_maxZoomRatiosLayoutTranslationX;
     private double m_zoomRatioLevel;
+    private float? m_pendingZoomRatio;
+    private bool m_hasMeasuredZoomRatiosLayout;
     
     private int m_currentSnappedZoomRatio;
 
@@ -34,6 +38,7 @@ internal class ZoomSlider : Grid
     {
         InputTransparent = true;
         CascadeInputTransparent = false;
+        m_minRatio = minRatio;
         m_maxRatio = maxRatio;
         m_onChangedZoomRatio = onChangedZoomRatio;
         m_onPanned = onPanned;
@@ -159,12 +164,23 @@ internal class ZoomSlider : Grid
     
     private void ZoomRatiosLayoutOnSizeChanged(object? sender, EventArgs e)
     {
-        if(m_zoomRatiosLayout.TranslationX != 0)
+        if (m_zoomRatiosLayout.Width <= 0)
             return;
-        
-        m_zoomRatiosLayout.TranslationX += m_zoomRatiosLayout.Width / 2;
-        m_maxZoomRatiosLayoutTranslationX = m_zoomRatiosLayout.TranslationX;
+
+        if (m_hasMeasuredZoomRatiosLayout && m_pendingZoomRatio is null)
+            return;
+
+        m_maxZoomRatiosLayoutTranslationX = m_zoomRatiosLayout.Width / 2;
         m_minimumZoomRatiosLayoutTranslationX = m_maxZoomRatiosLayoutTranslationX - m_zoomRatiosLayout.Width;
+        m_hasMeasuredZoomRatiosLayout = true;
+
+        if (m_pendingZoomRatio is { } pendingZoomRatio)
+        {
+            SetZoomRatio(pendingZoomRatio);
+            return;
+        }
+
+        m_zoomRatiosLayout.TranslationX = m_maxZoomRatiosLayoutTranslationX;
     }
 
     private double CalculateZoomRatio(double desiredTranslationX)
@@ -173,20 +189,27 @@ internal class ZoomSlider : Grid
         currentTranslation = m_zoomRatiosLayout.Width - currentTranslation;
         var translationPercentage = (currentTranslation / m_zoomRatiosLayout.Width);
 
-        var zoomRatioIndex = ((m_maxRatio - 1) * 10) * translationPercentage;
+        var zoomRatioIndex = ((m_maxRatio - m_minRatio) * 10) * translationPercentage;
         
-        return zoomRatioIndex / 10 + 1;
+        return zoomRatioIndex / 10 + m_minRatio;
     }
 
     private double CalculateTranslationXFromZoomRatio(float zoomRatio)
     {
-        return m_maxZoomRatiosLayoutTranslationX - (m_zoomRatiosLayout.Width * ((zoomRatio - 1) / (m_maxRatio - 1)));
+        if (Math.Abs(m_maxRatio - m_minRatio) < 0.01f)
+        {
+            return m_maxZoomRatiosLayoutTranslationX;
+        }
+
+        return m_maxZoomRatiosLayoutTranslationX - (m_zoomRatiosLayout.Width * ((zoomRatio - m_minRatio) / (m_maxRatio - m_minRatio)));
     }
 
     private void PanGestureRecognizerOnPanUpdated(PanUpdatedEventArgs e)
     {
         m_onPanned.Invoke(e);
     }
+
+    private float ClampZoomRatio(float zoomRatio) => Math.Clamp(zoomRatio, m_minRatio, m_maxRatio);
     
     public void TranslateZoomSlider(PanUpdatedEventArgs e)
     {
@@ -194,27 +217,24 @@ internal class ZoomSlider : Grid
         {
             case GestureStatus.Started:
                 m_startingX = e.TotalX;
+                m_startingZoomRatio = ClampZoomRatio((float)m_zoomRatioLevel);
                 
                 m_cancellationTokenSource.Cancel();
                 m_cancellationTokenSource = new CancellationTokenSource();
                 break;
             case GestureStatus.Running:
                 {
-                    var desiredTranslationX = m_zoomRatiosLayout.TranslationX + e.TotalX - m_startingX;
-            
-                    var actualZoomRatio = CalculateZoomRatio(m_zoomRatiosLayout.TranslationX);
-                    
-                    // Vibrate when near integers
-                    var roundedZoomRatio = (int)MathF.Round((float)actualZoomRatio);
-                    if (Math.Abs(roundedZoomRatio - actualZoomRatio) < 0.025f)
+                    if (m_minRatio < 1)
                     {
-                        if (roundedZoomRatio != m_currentSnappedZoomRatio)
-                        {
-                            VibrationService.SelectionChanged();
-                        }
-                        m_currentSnappedZoomRatio = roundedZoomRatio;
+                        var dragRange = Math.Max(Width, 1);
+                        var zoomRatioDelta = (float)((m_startingX - e.TotalX) / dragRange * (m_maxRatio - m_minRatio));
+                        var desiredZoomRatio = ClampZoomRatio(m_startingZoomRatio + zoomRatioDelta);
+                        m_zoomRatiosLayout.TranslationX = CalculateTranslationXFromZoomRatio(desiredZoomRatio);
+                        UpdateZoomRatio(desiredZoomRatio);
+                        break;
                     }
-                    else m_currentSnappedZoomRatio = -1;
+
+                    var desiredTranslationX = m_zoomRatiosLayout.TranslationX + e.TotalX - m_startingX;
                     
                     // Stop the user from panning too far or too little
                     if(desiredTranslationX > m_maxZoomRatiosLayoutTranslationX)
@@ -229,11 +249,28 @@ internal class ZoomSlider : Grid
                     m_zoomRatiosLayout.TranslationX = desiredTranslationX;
                     m_startingX = e.TotalX;
 
-                    ZoomRatioLevel = actualZoomRatio;
+                    UpdateZoomRatio(CalculateZoomRatio(desiredTranslationX));
 
                     break;
                 }
         }
+    }
+
+    private void UpdateZoomRatio(double zoomRatio)
+    {
+        // Vibrate when near integers
+        var roundedZoomRatio = (int)MathF.Round((float)zoomRatio);
+        if (Math.Abs(roundedZoomRatio - zoomRatio) < 0.025f)
+        {
+            if (roundedZoomRatio != m_currentSnappedZoomRatio)
+            {
+                VibrationService.SelectionChanged();
+            }
+            m_currentSnappedZoomRatio = roundedZoomRatio;
+        }
+        else m_currentSnappedZoomRatio = -1;
+
+        ZoomRatioLevel = zoomRatio;
     }
 
     public double ZoomRatioLevel
@@ -249,13 +286,23 @@ internal class ZoomSlider : Grid
 
     public void SetZoomRatio(float zoomRatio)
     {
-        m_zoomRatiosLayout.TranslationX = CalculateTranslationXFromZoomRatio((int)zoomRatio);
+        zoomRatio = ClampZoomRatio(zoomRatio);
+        m_zoomRatioLevel = zoomRatio;
+        m_zoomRatioLevelLabel.Text = zoomRatio.ToString("F1");
+
+        if (!m_hasMeasuredZoomRatiosLayout)
+        {
+            m_pendingZoomRatio = zoomRatio;
+            return;
+        }
+
+        m_zoomRatiosLayout.TranslationX = CalculateTranslationXFromZoomRatio(zoomRatio);
+        m_pendingZoomRatio = null;
     }
 
     public async Task<bool> OnPinchToZoom(float zoomRatio)
     {
-        m_zoomRatiosLayout.TranslationX = CalculateTranslationXFromZoomRatio(zoomRatio);
-        m_zoomRatioLevelLabel.Text = zoomRatio.ToString("F1");
+        SetZoomRatio(zoomRatio);
 
         m_cancellationTokenSource.Cancel();
         m_cancellationTokenSource = new CancellationTokenSource();

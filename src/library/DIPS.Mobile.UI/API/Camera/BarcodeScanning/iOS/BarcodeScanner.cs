@@ -9,6 +9,7 @@ public partial class BarcodeScanner : CameraSession
     //The rectangle that people see in the preview which we will focus on scanning bar codes in
     private AVCaptureMetadataOutput? m_captureMetadataOutput;
     private double m_rectOfInterestWidth;
+    private bool m_shouldStartAtWideConstituent;
 
     private readonly DispatchQueue m_metadataObjectsQueue = new(label: "metadata objects queue", attributes: new(), target: null);
     
@@ -80,13 +81,88 @@ public partial class BarcodeScanner : CameraSession
         {
             PreviewView.TryAddOrUpdateRectOfInterest();
         }
+        SetInitialWideConstituentZoomFactor();
         SetRecommendedZoomFactor();
     }
 
-    //Choosing build in wide angle camera, same as the sample app from Apple: AVCamBarCode: https://developer.apple.com/documentation/avfoundation/capture_setup/avcambarcode_detecting_barcodes_and_faces
-    public override AVCaptureDevice? SelectCaptureDevice() =>
-        AVCaptureDevice.GetDefaultDevice(AVCaptureDeviceType.BuiltInWideAngleCamera,
-            AVMediaTypes.Video, AVCaptureDevicePosition.Back);
+    // Prefer virtual back cameras so iOS starts at normal 1x wide framing but can switch to macro-capable lenses when close.
+    public override AVCaptureDevice? SelectCaptureDevice()
+    {
+        m_shouldStartAtWideConstituent = false;
+
+        return TryGetCaptureDevice(AVCaptureDeviceType.BuiltInTripleCamera, shouldStartAtWideConstituent: true) ??
+               TryGetCaptureDevice(AVCaptureDeviceType.BuiltInDualWideCamera, shouldStartAtWideConstituent: true) ??
+               TryGetCaptureDevice(AVCaptureDeviceType.BuiltInDualCamera, shouldStartAtWideConstituent: false) ??
+               TryGetCaptureDevice(AVCaptureDeviceType.BuiltInWideAngleCamera, shouldStartAtWideConstituent: false);
+    }
+
+    private AVCaptureDevice? TryGetCaptureDevice(AVCaptureDeviceType deviceType, bool shouldStartAtWideConstituent)
+    {
+        var captureDevice = AVCaptureDevice.GetDefaultDevice(deviceType, AVMediaTypes.Video, AVCaptureDevicePosition.Back);
+        if (captureDevice is null)
+        {
+            return null;
+        }
+
+        m_shouldStartAtWideConstituent = shouldStartAtWideConstituent;
+        return captureDevice;
+    }
+
+    private void SetInitialWideConstituentZoomFactor()
+    {
+        if (!m_shouldStartAtWideConstituent || CaptureDevice is null)
+        {
+            return;
+        }
+
+        var wideConstituentZoomFactor = GetWideConstituentZoomFactor();
+        if (wideConstituentZoomFactor is null)
+        {
+            return;
+        }
+
+        if (!CaptureDevice.LockForConfiguration(out var error))
+        {
+            if (error != null)
+            {
+                throw new Exception(error.ToString());
+            }
+
+            return;
+        }
+
+        try
+        {
+            CaptureDevice.VideoZoomFactor = wideConstituentZoomFactor.Value;
+        }
+        finally
+        {
+            CaptureDevice.UnlockForConfiguration();
+        }
+    }
+
+    protected override float ToDisplayZoomRatio(float captureDeviceZoomRatio)
+    {
+        var wideConstituentZoomFactor = GetWideConstituentZoomFactor();
+        return wideConstituentZoomFactor is null ? captureDeviceZoomRatio : captureDeviceZoomRatio / (float)wideConstituentZoomFactor.Value;
+    }
+
+    protected override float ToCaptureDeviceZoomRatio(float displayZoomRatio)
+    {
+        var wideConstituentZoomFactor = GetWideConstituentZoomFactor();
+        return wideConstituentZoomFactor is null ? displayZoomRatio : displayZoomRatio * (float)wideConstituentZoomFactor.Value;
+    }
+
+    private nfloat? GetWideConstituentZoomFactor()
+    {
+        if (!m_shouldStartAtWideConstituent || CaptureDevice is null)
+        {
+            return null;
+        }
+
+        var switchOverZoomFactors = CaptureDevice.VirtualDeviceSwitchOverVideoZoomFactors;
+        return switchOverZoomFactors.Length == 0 ? null : (nfloat)switchOverZoomFactors[0].DoubleValue;
+    }
 
     //Taken from: https://developer.apple.com/wwdc21/10047?time=117
     //and sample code from Apple: https://developer.apple.com/documentation/avfoundation/capture_setup/avcambarcode_detecting_barcodes_and_faces
@@ -125,7 +201,7 @@ public partial class BarcodeScanner : CameraSession
         
         if (m_cameraPreview is { CameraZoomView: not null })
         {
-            m_cameraPreview.CameraZoomView.SetZoomRatio((float)captureDevice.VideoZoomFactor);
+            m_cameraPreview.CameraZoomView.SetZoomRatio(ToDisplayZoomRatio((float)captureDevice.VideoZoomFactor));
         }
     }
 
