@@ -1,5 +1,12 @@
-## [60.2.13]
+## [60.2.15]
 - [BarcodeScanner] Shows validation failure messages above the scan rectangle when rejected barcode results include an error message, adds success/error haptics, and adds automatic camera zoom tips with `BarcodeScannerStartOptions.Hint`.
+
+## [60.2.14]
+- [CollectionView][iOS] Fixed item template root corner radius and stroke being cleared when `AutoCornerRadius` is disabled.
+
+## [60.2.13]
+- [BarcodeScanner] Fixed scanner start/resume racing an in-progress native camera stop, which could leave detection unstable after rapid lifecycle changes.
+- [BarcodeScanner][Android] Fixed scanner crashes and unstable detection when the app is backgrounded while barcode analysis is in progress and then opened again.
 
 ## [60.2.12]
 - [Camera][iOS] Added ultra-wide capable back camera selection and zoom mapping for barcode scanning and image capture on supported devices.

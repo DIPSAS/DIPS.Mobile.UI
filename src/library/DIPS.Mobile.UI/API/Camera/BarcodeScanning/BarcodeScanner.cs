@@ -13,6 +13,7 @@ public partial class BarcodeScanner : ICameraUseCase
     private BarcodeScannerStartOptions m_currentStartOptions = new();
     private BarcodeScanSession? m_scanSession;
     private CancellationTokenSource? m_sessionCts;
+    private Task m_platformStopTask = Task.CompletedTask;
     private int m_scanRunId;
     private bool m_isDisposed;
     private bool m_isPlatformStarted;
@@ -582,10 +583,26 @@ public partial class BarcodeScanner : ICameraUseCase
     private async Task StopPlatformIfNeededAsync()
     {
         if (!m_isPlatformStarted)
+        {
+            await m_platformStopTask;
             return;
+        }
 
         m_isPlatformStarted = false;
-        await PlatformStop();
+        m_platformStopTask = StopPlatformCoreAsync();
+        await m_platformStopTask;
+    }
+
+    private async Task StopPlatformCoreAsync()
+    {
+        try
+        {
+            await PlatformStop();
+        }
+        catch (Exception e)
+        {
+            Log(e.Message);
+        }
     }
 
     private void CancelSession()
