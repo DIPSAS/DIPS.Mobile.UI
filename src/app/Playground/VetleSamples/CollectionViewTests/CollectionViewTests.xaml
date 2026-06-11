@@ -12,6 +12,9 @@
         <dui:NavigationListItem Title="Grouped CollectionView"
                                 Tapped="GroupedCollectionView"
                                 HasBottomDivider="True" />
+        <dui:NavigationListItem Title="Corner radius regressions (#1723 + #638)"
+                                Tapped="CornerRadiusRegressionCases"
+                                HasBottomDivider="True" />
         
         <Label Text="Focus Cases" 
                FontAttributes="Bold" 

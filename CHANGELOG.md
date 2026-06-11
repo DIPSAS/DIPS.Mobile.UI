@@ -1,3 +1,6 @@
+## [60.2.14]
+- [CollectionView][iOS] Fixed item template root corner radius and stroke being cleared when `AutoCornerRadius` is disabled.
+
 ## [60.2.13]
 - [BarcodeScanner] Fixed scanner start/resume racing an in-progress native camera stop, which could leave detection unstable after rapid lifecycle changes.
 - [BarcodeScanner][Android] Fixed scanner crashes and unstable detection when the app is backgrounded while barcode analysis is in progress and then opened again.
