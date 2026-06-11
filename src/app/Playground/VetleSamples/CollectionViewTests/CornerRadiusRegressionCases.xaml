@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<dui:ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                 xmlns:dui="http://dips.com/mobile.ui"
+                 xmlns:collectionViewTests="clr-namespace:Playground.VetleSamples.CollectionViewTests"
+                 x:Class="Playground.VetleSamples.CollectionViewTests.CornerRadiusRegressionCases"
+                 x:DataType="collectionViewTests:CornerRadiusRegressionCasesViewModel"
+                 Title="Corner radius regressions"
+                 BackgroundColor="{dui:Colors color_surface_neutral}">
+
+    <ContentPage.BindingContext>
+        <collectionViewTests:CornerRadiusRegressionCasesViewModel />
+    </ContentPage.BindingContext>
+
+    <dui:ScrollView>
+        <dui:VerticalStackLayout Padding="{dui:Thickness size_3}"
+                                 Spacing="{dui:Sizes size_4}">
+
+            <dui:VerticalStackLayout Spacing="{dui:Sizes size_2}">
+                <dui:Label Text="#1723 - Template root styling"
+                           Style="{dui:Styles Label=UI300}" />
+                <dui:Label Text="Each item root owns its corner radius and stroke. The cards should stay rounded even though CollectionView AutoCornerRadius is false."
+                           Style="{dui:Styles Label=Body200}"
+                           TextColor="{dui:Colors color_text_subtle}" />
+
+                <dui:CollectionView ItemsSource="{Binding RootStyledCards}"
+                                    HeightRequest="300"
+                                    ItemSpacing="{dui:Sizes size_3}"
+                                    BackgroundColor="Transparent"
+                                    dui:Layout.AutoCornerRadius="False">
+                    <dui:CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="collectionViewTests:CornerRadiusCardItem">
+                            <Grid RowDefinitions="Auto, Auto"
+                                  Padding="{dui:Thickness size_3}"
+                                  BackgroundColor="{dui:Colors color_surface_default}"
+                                  dui:Layout.CornerRadius="{dui:CornerRadius size_2}"
+                                  dui:Layout.Stroke="{dui:Colors color_border_default}">
+                                <dui:Label Text="{Binding Title}"
+                                           Style="{dui:Styles Label=UI300}" />
+                                <dui:Label Grid.Row="1"
+                                           Text="{Binding Description}"
+                                           Style="{dui:Styles Label=Body200}"
+                                           TextColor="{dui:Colors color_text_subtle}" />
+                            </Grid>
+                        </DataTemplate>
+                    </dui:CollectionView.ItemTemplate>
+                </dui:CollectionView>
+            </dui:VerticalStackLayout>
+
+            <dui:VerticalStackLayout Spacing="{dui:Sizes size_2}">
+                <dui:Label Text="#638 - Grouped auto corner radius"
+                           Style="{dui:Styles Label=UI300}" />
+                <dui:Label Text="The last plan element in each section should keep bottom corner radius and the last divider should be hidden."
+                           Style="{dui:Styles Label=Body200}"
+                           TextColor="{dui:Colors color_text_subtle}" />
+
+                <Grid ColumnDefinitions="*, *"
+                      RowDefinitions="Auto, Auto"
+                      ColumnSpacing="{dui:Sizes size_2}"
+                      RowSpacing="{dui:Sizes size_2}">
+                    <dui:Button Text="Add last"
+                                Command="{Binding AddLastPlanElementCommand}" />
+                    <dui:Button Grid.Column="1"
+                                Text="Minimize"
+                                Command="{Binding MinimizeFirstPlanElementGroupCommand}" />
+                    <dui:Button Grid.Row="1"
+                                Text="Expand"
+                                Command="{Binding ExpandFirstPlanElementGroupCommand}" />
+                    <dui:Button Grid.Row="1"
+                                Grid.Column="1"
+                                Text="Reset"
+                                Command="{Binding ResetPlanElementGroupsCommand}" />
+                </Grid>
+
+                <dui:CollectionView ItemsSource="{Binding PlanElementGroups}"
+                                    HeightRequest="420"
+                                    IsGrouped="True"
+                                    BackgroundColor="Transparent"
+                                    dui:Layout.AutoCornerRadius="True"
+                                    dui:Layout.AutoHideLastDivider="True">
+                    <dui:CollectionView.GroupHeaderTemplate>
+                        <DataTemplate x:DataType="collectionViewTests:PlanElementGroup">
+                            <dui:Label Text="{Binding Header}"
+                                       Padding="{dui:Thickness Left=size_3, Top=size_4, Bottom=size_1}"
+                                       Style="{dui:Styles Label=SectionHeader}" />
+                        </DataTemplate>
+                    </dui:CollectionView.GroupHeaderTemplate>
+
+                    <dui:CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="collectionViewTests:PlanElementItem">
+                            <Grid ColumnDefinitions="8, *"
+                                  RowDefinitions="Auto, Auto"
+                                  BackgroundColor="{dui:Colors color_surface_default}">
+                                <BoxView Grid.RowSpan="2"
+                                         Color="{Binding StatusColor}" />
+
+                                <Grid Grid.Column="1"
+                                      Padding="{dui:Thickness size_2}"
+                                      RowDefinitions="Auto, Auto">
+                                    <dui:Label Text="{Binding Title}"
+                                               Style="{dui:Styles Label=UI300}" />
+                                    <dui:Label Grid.Row="1"
+                                               Text="{Binding Description}"
+                                               Style="{dui:Styles Label=Body200}"
+                                               TextColor="{dui:Colors color_text_subtle}" />
+                                </Grid>
+
+                                <dui:Divider Grid.Column="1"
+                                             Grid.Row="1"
+                                             HeightRequest="{dui:Sizes stroke_medium}" />
+                            </Grid>
+                        </DataTemplate>
+                    </dui:CollectionView.ItemTemplate>
+                </dui:CollectionView>
+            </dui:VerticalStackLayout>
+        </dui:VerticalStackLayout>
+    </dui:ScrollView>
+</dui:ContentPage>
