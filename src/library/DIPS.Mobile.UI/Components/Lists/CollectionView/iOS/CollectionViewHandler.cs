@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Specialized;
+using DIPS.Mobile.UI.Components;
 using DIPS.Mobile.UI.Components.Dividers;
 using DIPS.Mobile.UI.Effects.Accessibility.Effects;
 using DIPS.Mobile.UI.Effects.Layout;
@@ -17,13 +18,20 @@ namespace DIPS.Mobile.UI.Components.Lists;
 
 public partial class CollectionViewHandler
 {
+    private const int MaxPendingFocusRestoreLayoutPasses = 3;
+    private IReloadFocusPreservable? m_focusedHeaderOrFooterElementBeforeItemsSourceMapping;
+    private IReloadFocusPreservable? m_pendingFocusRestore;
+    private int m_pendingFocusRestoreLayoutPasses;
+    private INotifyCollectionChanged? m_focusPreservingItemsSource;
+    private readonly List<INotifyCollectionChanged> m_focusPreservingGroups = [];
+
     protected override ItemsViewController2<ReorderableItemsView> CreateController(ReorderableItemsView itemsView,
         UICollectionViewLayout layout)
     {
         // ONLY create a ReorderableItemsViewController if the CollectionView is using a vertical LinearItemsLayout, otherwise use the default controller.
         if (VirtualView is CollectionView { ItemsLayout: LinearItemsLayout { Orientation: ItemsLayoutOrientation.Vertical } })
         {
-            return new ReorderableItemsViewController(itemsView, layout, (VirtualView as CollectionView)!);
+            return new ReorderableItemsViewController(itemsView, layout, (VirtualView as CollectionView)!, this, CompletePendingFocusRestoreAfterLayout);
         }
 
         return base.CreateController(itemsView, layout);
@@ -51,22 +59,206 @@ public partial class CollectionViewHandler
     private static partial void MapRemoveFocusOnScroll(CollectionViewHandler handler,
         Microsoft.Maui.Controls.CollectionView virtualView)
     {
-        if (handler.PlatformView.Subviews[0] is not UICollectionView uiCollectionView)
+        if (handler.GetUICollectionView() is not { } uiCollectionView)
             return;
 
         if (virtualView is CollectionView collectionView)
-        {
-            uiCollectionView.KeyboardDismissMode = collectionView.RemoveFocusOnScroll
-                ? UIScrollViewKeyboardDismissMode.OnDrag
-                : UIScrollViewKeyboardDismissMode.None;
-        }
+            SetKeyboardDismissMode(uiCollectionView, collectionView);
+    }
+
+    partial void BeforeItemsSourceMapped()
+    {
+        if (VirtualView is CollectionView collectionView)
+            SubscribeToFocusPreservingItemsSource(collectionView);
+
+        m_focusedHeaderOrFooterElementBeforeItemsSourceMapping = CaptureFocusedHeaderOrFooterElement();
+    }
+
+    protected override void DisconnectHandler(UIView platformView)
+    {
+        UnsubscribeFromFocusPreservingItemsSource();
+        base.DisconnectHandler(platformView);
+    }
+
+    partial void OnItemsSourceMapped()
+    {
+        if (VirtualView is CollectionView collectionView && GetUICollectionView() is { } uiCollectionView)
+            SetKeyboardDismissMode(uiCollectionView, collectionView);
+
+        var focusedElement = m_focusedHeaderOrFooterElementBeforeItemsSourceMapping;
+        m_focusedHeaderOrFooterElementBeforeItemsSourceMapping = null;
+        ScheduleFocusRestoreAfterNextLayout(focusedElement);
+    }
+
+    private UICollectionView? GetUICollectionView()
+    {
+        if (PlatformView.Subviews.Length == 0)
+            return null;
+
+        return PlatformView.Subviews[0] as UICollectionView;
+    }
+
+    private static void SetKeyboardDismissMode(UICollectionView uiCollectionView, CollectionView collectionView)
+    {
+        uiCollectionView.KeyboardDismissMode = collectionView.RemoveFocusOnScroll
+            ? UIScrollViewKeyboardDismissMode.OnDrag
+            : UIScrollViewKeyboardDismissMode.None;
     }
 
     internal partial void ReloadData(CollectionViewHandler handler)
     {
         if (handler.PlatformView.Subviews[0] is UICollectionView uiCollectionView)
         {
+            var focusedElement = handler.CaptureFocusedHeaderOrFooterElement();
             uiCollectionView.ReloadData();
+            handler.ScheduleFocusRestoreAfterNextLayout(focusedElement);
+        }
+    }
+
+    private IReloadFocusPreservable? CaptureFocusedHeaderOrFooterElement()
+    {
+        return FindFocusedHeaderOrFooterElement();
+    }
+
+    private IReloadFocusPreservable? FindFocusedHeaderOrFooterElement()
+    {
+        if (VirtualView is not CollectionView collectionView)
+            return null;
+
+        return FindFocusedElement(collectionView.Header) ?? FindFocusedElement(collectionView.Footer);
+    }
+
+    private static IReloadFocusPreservable? FindFocusedElement(object? candidate)
+    {
+        if (candidate is IReloadFocusPreservable { HasPreservedFocus: true } focusPreservableElement)
+        {
+            return focusPreservableElement;
+        }
+
+        if (candidate is Microsoft.Maui.Controls.VisualElement { IsFocused: true } focusedElement)
+            return new VisualElementFocusPreserver(focusedElement);
+
+        if (candidate is not IVisualTreeElement visualTreeElement)
+            return null;
+
+        foreach (var child in visualTreeElement.GetVisualChildren())
+        {
+            if (FindFocusedElement(child) is { } focusedChild)
+                return focusedChild;
+        }
+
+        return null;
+    }
+
+    private void ScheduleFocusRestoreAfterNextLayout(IReloadFocusPreservable? focusedElement)
+    {
+        if (focusedElement is null)
+            return;
+
+        m_pendingFocusRestore = focusedElement;
+        m_pendingFocusRestoreLayoutPasses = 0;
+    }
+
+    private void CompletePendingFocusRestoreAfterLayout()
+    {
+        var focusedElement = m_pendingFocusRestore;
+        if (focusedElement is null)
+            return;
+
+        if (GetUICollectionView() is { Tracking: true } or { Dragging: true } or { Decelerating: true })
+        {
+            m_pendingFocusRestore = null;
+            m_pendingFocusRestoreLayoutPasses = 0;
+            return;
+        }
+
+        var restoredFocus = focusedElement.TryRestoreFocus();
+        if (restoredFocus)
+        {
+            m_pendingFocusRestore = null;
+            m_pendingFocusRestoreLayoutPasses = 0;
+            return;
+        }
+
+        m_pendingFocusRestoreLayoutPasses++;
+        if (m_pendingFocusRestoreLayoutPasses >= MaxPendingFocusRestoreLayoutPasses)
+        {
+            m_pendingFocusRestore = null;
+            m_pendingFocusRestoreLayoutPasses = 0;
+        }
+    }
+
+    private void SubscribeToFocusPreservingItemsSource(CollectionView collectionView)
+    {
+        UnsubscribeFromFocusPreservingItemsSource();
+
+        if (collectionView.ItemsSource is INotifyCollectionChanged observableSource)
+        {
+            m_focusPreservingItemsSource = observableSource;
+            observableSource.CollectionChanged += OnFocusPreservingItemsSourceCollectionChanged;
+        }
+
+        RefreshFocusPreservingGroupSubscriptions(collectionView);
+    }
+
+    private void UnsubscribeFromFocusPreservingItemsSource()
+    {
+        if (m_focusPreservingItemsSource is not null)
+        {
+            m_focusPreservingItemsSource.CollectionChanged -= OnFocusPreservingItemsSourceCollectionChanged;
+            m_focusPreservingItemsSource = null;
+        }
+
+        foreach (var group in m_focusPreservingGroups)
+        {
+            group.CollectionChanged -= OnFocusPreservingItemsSourceCollectionChanged;
+        }
+
+        m_focusPreservingGroups.Clear();
+    }
+
+    private void RefreshFocusPreservingGroupSubscriptions(CollectionView collectionView)
+    {
+        foreach (var group in m_focusPreservingGroups)
+        {
+            group.CollectionChanged -= OnFocusPreservingItemsSourceCollectionChanged;
+        }
+
+        m_focusPreservingGroups.Clear();
+
+        if (!collectionView.IsGrouped || collectionView.ItemsSource is not IEnumerable groups)
+            return;
+
+        foreach (var group in groups.OfType<INotifyCollectionChanged>())
+        {
+            group.CollectionChanged += OnFocusPreservingItemsSourceCollectionChanged;
+            m_focusPreservingGroups.Add(group);
+        }
+    }
+
+    private void OnFocusPreservingItemsSourceCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
+    {
+        if (m_pendingFocusRestore is null)
+            ScheduleFocusRestoreAfterNextLayout(CaptureFocusedHeaderOrFooterElement());
+
+        if (VirtualView is CollectionView collectionView)
+            RefreshFocusPreservingGroupSubscriptions(collectionView);
+    }
+
+    private sealed class VisualElementFocusPreserver(Microsoft.Maui.Controls.VisualElement visualElement) : IReloadFocusPreservable
+    {
+        public bool HasPreservedFocus => visualElement.IsFocused;
+
+        public bool TryRestoreFocus()
+        {
+            if (visualElement.IsFocused)
+                return true;
+
+            if (visualElement.Handler is null)
+                return false;
+
+            visualElement.Focus();
+            return visualElement.IsFocused;
         }
     }
 }
@@ -74,7 +266,9 @@ public partial class CollectionViewHandler
 public class ReorderableItemsViewController(
     ReorderableItemsView itemsView,
     UICollectionViewLayout layout,
-    CollectionView mauiCollectionView)
+    CollectionView mauiCollectionView,
+    CollectionViewHandler collectionViewHandler,
+    Action collectionViewDidLayoutSubviews)
     : ReorderableItemsViewController2<ReorderableItemsView>(itemsView, layout)
 {
     private INotifyCollectionChanged? m_observableSource;
@@ -97,6 +291,12 @@ public class ReorderableItemsViewController(
             mauiCollectionView.PropertyChanged -= OnMauiPropertyChanged;
         }
         base.Dispose(disposing);
+    }
+
+    public override void ViewDidLayoutSubviews()
+    {
+        base.ViewDidLayoutSubviews();
+        collectionViewDidLayoutSubviews();
     }
 
     #endregion

@@ -8,18 +8,20 @@ namespace DIPS.Mobile.UI.Components.Lists;
 
 public partial class CollectionViewHandler : CollectionViewHandlerImpl
 {
+    static CollectionViewHandler()
+    {
+        CollectionViewPropertyMapper.ModifyMapping(
+            nameof(Microsoft.Maui.Controls.ItemsView.ItemsSource),
+            static (CollectionViewHandler handler, Microsoft.Maui.Controls.CollectionView collectionView, Action<IElementHandler, IElement>? map) =>
+            {
+                handler.BeforeItemsSourceMapped();
+                map?.Invoke(handler, collectionView);
+                handler.OnItemsSourceMapped();
+            });
+    }
 
     public CollectionViewHandler() : base(CollectionViewPropertyMapper)
     {
-        // Run after MAUI's MapItemsSource, which calls ClearOnScrollListeners()
-        // and removes all scroll listeners — including ours.
-        // AppendToMapping guarantees this runs AFTER the base mapper.
-         CollectionViewPropertyMapper.AppendToMapping(
-            nameof(Microsoft.Maui.Controls.ItemsView.ItemsSource),
-            static (CollectionViewHandler handler, Microsoft.Maui.Controls.CollectionView _) =>
-            {
-                handler.OnItemsSourceMapped();
-            });
     }
 
     public static readonly PropertyMapper<Microsoft.Maui.Controls.CollectionView, CollectionViewHandler> CollectionViewPropertyMapper = new PropertyMapper<Microsoft.Maui.Controls.CollectionView, CollectionViewHandler>(Mapper)
@@ -27,6 +29,8 @@ public partial class CollectionViewHandler : CollectionViewHandlerImpl
         [nameof(CollectionView.ShouldBounce)] = MapShouldBounce,
         [nameof(CollectionView.RemoveFocusOnScroll)] = MapRemoveFocusOnScroll
     };
+
+    partial void BeforeItemsSourceMapped();
 
     partial void OnItemsSourceMapped();
     

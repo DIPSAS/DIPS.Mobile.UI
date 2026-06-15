@@ -82,7 +82,7 @@ public partial class CollectionViewHandler
 
         // MAUI's MauiRecyclerView.UpdateItemsSource() calls ClearOnScrollListeners(),
         // which removes ALL scroll listeners — including ours.
-        // This runs via AppendToMapping, guaranteeing it executes AFTER MAUI's mapper.
+        // This runs after MAUI's mapper through the shared ItemsSource mapping wrapper.
         RemoveKeyboardDismissListener();
         AddKeyboardDismissListener();
     }

@@ -38,6 +38,12 @@
         <dui:NavigationListItem Title="Observable Add: SearchBar in Header"
                                 Tapped="ObservableAddSearchBarInHeader"
                                 HasBottomDivider="True" />
+        <dui:NavigationListItem Title="Auto Search: Replace ItemsSource"
+                                Tapped="AutoSearchReplaceItemsSource"
+                                HasBottomDivider="True" />
+        <dui:NavigationListItem Title="SearchCommand: Replace ItemsSource"
+                    Tapped="SearchCommandReplaceItemsSource"
+                    HasBottomDivider="True" />
         <dui:NavigationListItem Title="ScrollView: SearchBar outside"
                                 Tapped="ScrollViewSearchBarOutside"
                                 HasBottomDivider="True" />

@@ -61,4 +61,14 @@ public partial class CollectionViewTests
     {
         Shell.Current.Navigation.PushAsync(new RemoveFocusOnScrollPage(wrapInRefreshView: false, searchBarInHeader: true, incrementalAdd: true));
     }
+
+    private void AutoSearchReplaceItemsSource(object sender, EventArgs e)
+    {
+        Shell.Current.Navigation.PushAsync(new RemoveFocusOnScrollAutoSearchPage());
+    }
+
+    private void SearchCommandReplaceItemsSource(object sender, EventArgs e)
+    {
+        Shell.Current.Navigation.PushAsync(new RemoveFocusOnScrollAutoSearchPage(RemoveFocusOnScrollAutoSearchPage.SearchTriggerMode.SearchCommand));
+    }
 }

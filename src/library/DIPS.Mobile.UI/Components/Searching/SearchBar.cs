@@ -1,9 +1,12 @@
+using DIPS.Mobile.UI.Components;
 using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
 
 namespace DIPS.Mobile.UI.Components.Searching
 {
-    public partial class SearchBar : View
+    public partial class SearchBar : View, IReloadFocusPreservable
     {
+        private bool m_hasFocus;
+
         public CancellationTokenSource? SearchCancellationToken { get; private set; }
 
         public SearchBar()
@@ -61,12 +64,25 @@ namespace DIPS.Mobile.UI.Components.Searching
 
         internal void SendFocused()
         {
+            m_hasFocus = true;
             Focused?.Invoke(this, EventArgs.Empty);
         }
 
         internal void SendUnfocused()
         {
+            m_hasFocus = false;
             Unfocused?.Invoke(this, EventArgs.Empty);
+        }
+
+        bool IReloadFocusPreservable.HasPreservedFocus => m_hasFocus;
+
+        bool IReloadFocusPreservable.TryRestoreFocus()
+        {
+            if (Handler is not SearchBarHandler)
+                return false;
+
+            Focus();
+            return true;
         }
     }
 }
