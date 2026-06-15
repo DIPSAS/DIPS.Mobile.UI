@@ -1,3 +1,6 @@
+## [60.2.15]
+- [ImageCapture][iOS] Fixed full-screen gallery previews showing black images when opened from thumbnails.
+
 ## [60.2.14]
 - [CollectionView][iOS] Fixed item template root corner radius and stroke being cleared when `AutoCornerRadius` is disabled.
 
