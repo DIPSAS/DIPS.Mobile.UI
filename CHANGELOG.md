@@ -1,3 +1,7 @@
+## [60.2.14]
+- [CollectionView][SearchBar] Preserved focus for search bars in CollectionView headers and footers when the list reloads, with `SearchBar.ShouldPreserveFocusOnCollectionViewReload` available as an opt-out.
+- [CollectionView][Android] Fixed programmatic list reloads incorrectly dismissing the keyboard for focused header or footer search bars while keeping keyboard dismissal on user-initiated scrolls.
+
 ## [60.2.13]
 - [BarcodeScanner] Fixed scanner start/resume racing an in-progress native camera stop, which could leave detection unstable after rapid lifecycle changes.
 - [BarcodeScanner][Android] Fixed scanner crashes and unstable detection when the app is backgrounded while barcode analysis is in progress and then opened again.

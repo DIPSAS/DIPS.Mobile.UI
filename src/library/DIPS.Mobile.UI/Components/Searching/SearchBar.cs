@@ -74,11 +74,11 @@ namespace DIPS.Mobile.UI.Components.Searching
             Unfocused?.Invoke(this, EventArgs.Empty);
         }
 
-        bool IReloadFocusPreservable.HasPreservedFocus => m_hasFocus;
+        bool IReloadFocusPreservable.HasPreservedFocus => ShouldPreserveFocusOnCollectionViewReload && m_hasFocus;
 
         bool IReloadFocusPreservable.TryRestoreFocus()
         {
-            if (Handler is not SearchBarHandler)
+            if (!ShouldPreserveFocusOnCollectionViewReload || Handler is not SearchBarHandler)
                 return false;
 
             Focus();

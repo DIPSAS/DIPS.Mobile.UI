@@ -13,6 +13,19 @@ namespace DIPS.Mobile.UI.Components.Searching
             get => (bool)GetValue(ShouldCloseKeyboardOnSearchProperty);
             set => SetValue(ShouldCloseKeyboardOnSearchProperty, value);
         }
+
+        /// <summary>
+        /// Determines whether focus should be preserved when this search bar is in a collection view header or footer and the collection view reloads.
+        /// </summary>
+        /// <remarks>
+        /// When using <see cref="SearchCommand"/> and expecting focus to remain after the keyboard return key is tapped,
+        /// <see cref="ShouldCloseKeyboardOnReturnKeyTapped"/> must be set to false.
+        /// </remarks>
+        public bool ShouldPreserveFocusOnCollectionViewReload
+        {
+            get => (bool)GetValue(ShouldPreserveFocusOnCollectionViewReloadProperty);
+            set => SetValue(ShouldPreserveFocusOnCollectionViewReloadProperty, value);
+        }
         
         /// <summary>
         /// iOS: Sets the text of the return key
@@ -336,6 +349,12 @@ namespace DIPS.Mobile.UI.Components.Searching
         
         public static readonly BindableProperty ShouldCloseKeyboardOnSearchProperty = BindableProperty.Create(
             nameof(ShouldCloseKeyboardOnReturnKeyTapped),
+            typeof(bool),
+            typeof(SearchBar),
+            true);
+
+        public static readonly BindableProperty ShouldPreserveFocusOnCollectionViewReloadProperty = BindableProperty.Create(
+            nameof(ShouldPreserveFocusOnCollectionViewReload),
             typeof(bool),
             typeof(SearchBar),
             true);

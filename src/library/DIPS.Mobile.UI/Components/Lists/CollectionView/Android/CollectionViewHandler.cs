@@ -2,6 +2,7 @@ using Android.Content;
 using Android.Content.Res;
 using Android.Views;
 using AndroidX.RecyclerView.Widget;
+using DIPS.Mobile.UI.Components;
 using DIPS.Mobile.UI.Components.Dividers;
 using DIPS.Mobile.UI.Components.Lists.Android;
 using DIPS.Mobile.UI.Effects.Accessibility.Effects;
@@ -22,6 +23,7 @@ public partial class CollectionViewHandler
 {
     private KeyboardDismissOnScrollListener? m_keyboardDismissOnScrollListener;
     private RecyclerView? m_listenerRegisteredOn;
+    private IReloadFocusPreservable? m_focusedHeaderOrFooterElementBeforeItemsSourceMapping;
 
     protected override RecyclerView CreatePlatformView()
     {
@@ -75,22 +77,80 @@ public partial class CollectionViewHandler
         }
     }
 
+    partial void BeforeItemsSourceMapped()
+    {
+        m_focusedHeaderOrFooterElementBeforeItemsSourceMapping = CaptureFocusedHeaderOrFooterElement();
+    }
+
     partial void OnItemsSourceMapped()
     {
-        if (VirtualView is not CollectionView { RemoveFocusOnScroll: true })
+        if (VirtualView is CollectionView { RemoveFocusOnScroll: true })
+        {
+            // MAUI's MauiRecyclerView.UpdateItemsSource() calls ClearOnScrollListeners(),
+            // which removes ALL scroll listeners — including ours.
+            // This runs after MAUI's mapper through the shared ItemsSource mapping wrapper.
+            RemoveKeyboardDismissListener();
+            AddKeyboardDismissListener();
+        }
+
+        var focusedElement = m_focusedHeaderOrFooterElementBeforeItemsSourceMapping;
+        m_focusedHeaderOrFooterElementBeforeItemsSourceMapping = null;
+        RestoreFocusAfterItemsSourceMapped(focusedElement);
+    }
+
+    private IReloadFocusPreservable? CaptureFocusedHeaderOrFooterElement()
+    {
+        if (VirtualView is not CollectionView collectionView)
+            return null;
+
+        return FindFocusedElement(collectionView.Header) ?? FindFocusedElement(collectionView.Footer);
+    }
+
+    private static IReloadFocusPreservable? FindFocusedElement(object? candidate)
+    {
+        if (candidate is IReloadFocusPreservable { HasPreservedFocus: true } focusPreservableElement)
+        {
+            return focusPreservableElement;
+        }
+
+        if (candidate is Microsoft.Maui.Controls.VisualElement { IsFocused: true } focusedElement)
+            return new VisualElementFocusPreserver(focusedElement);
+
+        if (candidate is not IVisualTreeElement visualTreeElement)
+            return null;
+
+        foreach (var child in visualTreeElement.GetVisualChildren())
+        {
+            if (FindFocusedElement(child) is { } focusedChild)
+                return focusedChild;
+        }
+
+        return null;
+    }
+
+    private void RestoreFocusAfterItemsSourceMapped(IReloadFocusPreservable? focusedElement)
+    {
+        if (focusedElement is null)
             return;
 
-        // MAUI's MauiRecyclerView.UpdateItemsSource() calls ClearOnScrollListeners(),
-        // which removes ALL scroll listeners — including ours.
-        // This runs after MAUI's mapper through the shared ItemsSource mapping wrapper.
-        RemoveKeyboardDismissListener();
-        AddKeyboardDismissListener();
+        if (PlatformView.ScrollState == RecyclerView.ScrollStateDragging)
+            return;
+
+        focusedElement.TryRestoreFocus();
+        PlatformView.Post(() =>
+        {
+            if (PlatformView.ScrollState != RecyclerView.ScrollStateDragging)
+            {
+                focusedElement.TryRestoreFocus();
+            }
+        });
     }
 
     private void AddKeyboardDismissListener()
     {
         m_keyboardDismissOnScrollListener = new KeyboardDismissOnScrollListener();
         PlatformView.AddOnScrollListener(m_keyboardDismissOnScrollListener);
+        PlatformView.AddOnItemTouchListener(m_keyboardDismissOnScrollListener);
         m_listenerRegisteredOn = PlatformView;
     }
 
@@ -102,6 +162,7 @@ public partial class CollectionViewHandler
         if (m_listenerRegisteredOn != null)
         {
             m_listenerRegisteredOn.RemoveOnScrollListener(m_keyboardDismissOnScrollListener);
+            m_listenerRegisteredOn.RemoveOnItemTouchListener(m_keyboardDismissOnScrollListener);
         }
 
         m_keyboardDismissOnScrollListener = null;
@@ -123,8 +184,27 @@ public partial class CollectionViewHandler
             return;
         }
 
+        var focusedElement = handler.CaptureFocusedHeaderOrFooterElement();
         var adapter = recyclerView.GetAdapter();
         adapter?.NotifyDataSetChanged();
+        handler.RestoreFocusAfterItemsSourceMapped(focusedElement);
+    }
+
+    private sealed class VisualElementFocusPreserver(Microsoft.Maui.Controls.VisualElement visualElement) : IReloadFocusPreservable
+    {
+        public bool HasPreservedFocus => visualElement.IsFocused;
+
+        public bool TryRestoreFocus()
+        {
+            if (visualElement.IsFocused)
+                return true;
+
+            if (visualElement.Handler is null)
+                return false;
+
+            visualElement.Focus();
+            return visualElement.IsFocused;
+        }
     }
 }
 

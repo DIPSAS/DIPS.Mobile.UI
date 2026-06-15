@@ -155,6 +155,11 @@ public partial class CollectionViewHandler
         if (focusedElement is null)
             return;
 
+        if (GetUICollectionView() is not { Tracking: true } and not { Dragging: true } and not { Decelerating: true })
+        {
+            focusedElement.TryRestoreFocus();
+        }
+
         m_pendingFocusRestore = focusedElement;
         m_pendingFocusRestoreLayoutPasses = 0;
     }
