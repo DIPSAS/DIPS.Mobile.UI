@@ -8,6 +8,7 @@ using DIPS.Mobile.UI.API.Camera.Shared;
 using DIPS.Mobile.UI.Components.Alerting.Dialog;
 using DIPS.Mobile.UI.Components.BottomSheets;
 using DIPS.Mobile.UI.Components.BottomSheets.Header;
+using DIPS.Mobile.UI.Converters.ValueConverters;
 using DIPS.Mobile.UI.Resources.LocalizedStrings.LocalizedStrings;
 using DIPS.Mobile.UI.Resources.Styles;
 using DIPS.Mobile.UI.Resources.Styles.Button;
@@ -260,7 +261,13 @@ internal partial class GalleryBottomSheet : ContentPage, IGalleryDefaultStateObs
 
     private static View CreateImageView()
     {
-        return new CapturedImageCarouselItemView();
+        var image = new Image { VerticalOptions = LayoutOptions.Center };
+        image.SetBinding(
+            Image.SourceProperty,
+            static (CapturedImage capturedImage) => capturedImage.AsByteArray,
+            converter: new ByteArrayToImageSourceConverter());
+
+        return new Grid { Children = { image } };
     }
 
     private void OnImagesChanged()
@@ -377,27 +384,4 @@ internal partial class GalleryBottomSheet : ContentPage, IGalleryDefaultStateObs
         m_rotatingImageTcs.SetResult();   
     }
 
-    private sealed class CapturedImageCarouselItemView : Grid
-    {
-        private readonly Image m_image = new()
-        {
-            Aspect = Aspect.AspectFit,
-            HorizontalOptions = LayoutOptions.Fill,
-            VerticalOptions = LayoutOptions.Fill
-        };
-
-        public CapturedImageCarouselItemView()
-        {
-            Add(m_image);
-        }
-
-        protected override void OnBindingContextChanged()
-        {
-            base.OnBindingContextChanged();
-
-            m_image.Source = BindingContext is CapturedImage capturedImage
-                ? ImageSource.FromStream(() => new MemoryStream(capturedImage.AsByteArray))
-                : null;
-        }
-    }
 }
