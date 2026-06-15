@@ -8,7 +8,6 @@ using DIPS.Mobile.UI.API.Camera.Shared;
 using DIPS.Mobile.UI.Components.Alerting.Dialog;
 using DIPS.Mobile.UI.Components.BottomSheets;
 using DIPS.Mobile.UI.Components.BottomSheets.Header;
-using DIPS.Mobile.UI.Converters.ValueConverters;
 using DIPS.Mobile.UI.Resources.LocalizedStrings.LocalizedStrings;
 using DIPS.Mobile.UI.Resources.Styles;
 using DIPS.Mobile.UI.Resources.Styles.Button;
@@ -259,11 +258,9 @@ internal partial class GalleryBottomSheet : ContentPage, IGalleryDefaultStateObs
         m_topToolbar.UpdateNumberOfImagesLabel(text);
     }
 
-    private static Image CreateImageView()
+    private static View CreateImageView()
     {
-        var image = new Image { VerticalOptions = LayoutOptions.Center };
-        image.SetBinding(Image.SourceProperty, new Binding(".", converter: new ByteArrayToImageSourceConverter()));
-        return image;
+        return new CapturedImageCarouselItemView();
     }
 
     private void OnImagesChanged()
@@ -273,7 +270,7 @@ internal partial class GalleryBottomSheet : ContentPage, IGalleryDefaultStateObs
             Close();
             return;
         }
-        
+
         if(m_positionBeforeRemoval > Images.Count - 1)
             m_positionBeforeRemoval = Images.Count - 1;
 
@@ -310,7 +307,7 @@ internal partial class GalleryBottomSheet : ContentPage, IGalleryDefaultStateObs
             Loop = false,
             ItemTemplate = new DataTemplate(CreateImageView),
             Position = carouselViewPosition, 
-            ItemsSource = Images.Select(i => i.AsByteArray)
+            ItemsSource = Images
         };
         m_carouselViewWrapperView.Content = m_carouselView;
         
@@ -378,5 +375,29 @@ internal partial class GalleryBottomSheet : ContentPage, IGalleryDefaultStateObs
         }));
             
         m_rotatingImageTcs.SetResult();   
+    }
+
+    private sealed class CapturedImageCarouselItemView : Grid
+    {
+        private readonly Image m_image = new()
+        {
+            Aspect = Aspect.AspectFit,
+            HorizontalOptions = LayoutOptions.Fill,
+            VerticalOptions = LayoutOptions.Fill
+        };
+
+        public CapturedImageCarouselItemView()
+        {
+            Add(m_image);
+        }
+
+        protected override void OnBindingContextChanged()
+        {
+            base.OnBindingContextChanged();
+
+            m_image.Source = BindingContext is CapturedImage capturedImage
+                ? ImageSource.FromStream(() => new MemoryStream(capturedImage.AsByteArray))
+                : null;
+        }
     }
 }
