@@ -1,5 +1,8 @@
-## [60.2.15]
+## [60.2.16]
 - [BarcodeScanner] Shows validation failure messages above the scan rectangle when rejected barcode results include an error message, adds success/error haptics, and adds automatic camera zoom tips with `BarcodeScannerStartOptions.Hint`.
+
+## [60.2.15]
+- [ImageCapture][iOS] Fixed full-screen gallery previews showing black images when opened from thumbnails.
 
 ## [60.2.14]
 - [CollectionView][iOS] Fixed item template root corner radius and stroke being cleared when `AutoCornerRadius` is disabled.
