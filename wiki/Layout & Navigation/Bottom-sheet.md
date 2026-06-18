@@ -177,5 +177,60 @@ The bottom sheet supports `BottombarButtons`, which can be used similarly to `To
 ```
 > Most likely you will want to set `VerticalOptions="End"` on the buttons, otherwise the they will fill out its vertical height to the container.
 
+### Persisting the bottom bar across `PushAsync` sub-views
+By default, when you push a sub-view onto the sheet via `PushAsync`, the bottom bar is only rendered on the root sheet. Set `ShowBottombarButtonsOnSubViews="True"` to keep the same `BottombarButtons` visible across every pushed sub-view. The buttons remain bound to the root sheet's `BindingContext`, so commands continue to target the root sheet's view model rather than the sub-view.
+
+```xml
+<dui:BottomSheet ShowBottombarButtonsOnSubViews="True">
+    <dui:BottomSheet.BottombarButtons>
+        <dui:Button Text="Reset"
+                    Command="{Binding ResetCommand}"
+                    Style="{dui:Styles Button=GhostLarge}"
+                    VerticalOptions="End" />
+        <dui:Button Text="Apply"
+                    Command="{Binding ApplyCommand}"
+                    HorizontalOptions="Fill"
+                    VerticalOptions="End" />
+    </dui:BottomSheet.BottombarButtons>
+</dui:BottomSheet>
+```
+
 # Properties
 Inspect the [components properties class](https://github.com/DIPSAS/DIPS.Mobile.UI/blob/main/src/library/DIPS.Mobile.UI/Components/BottomSheets/BottomSheet.Properties.cs) to further customise and use it.
+
+# Navigasjon
+
+BottomSheet har et internt navigasjons-API som lar deg dytte (push) og poppe visninger inne i et allerede åpent ark. Dette gir mulighet for flerstegsflytar uten å åpne nye ark.
+
+## API
+
+| Metode / Egenskap | Beskrivelse |
+|---|---|
+| `PushAsync(ContentPage page)` | Dytter en ContentPage på arkets interne navigasjonsstakk. Sidens Content vises med animasjon og Title brukes i navigasjonsbaren. |
+| `PopAsync()` | Popper øverste visning og returnerer til forrige innhold. Gjør ingenting dersom stakken er tom. |
+| `PopToRootAsync()` | Popper alle visninger fra navigasjonsstakken og returnerer til rotinnholdet med én animert overgang. Gjør ingenting dersom stakken allerede er på rot. |
+| `CanPopNavigation` | `bool` – `true` dersom det finnes innhold som kan poppes. |
+| `ShowBottombarButtonsOnSubViews` | Bindable property (`bool`, default `false`). Når `true`, forblir bunnbar-knappene synlige på alle pushede visninger. Knappene er bundet til rot-arkets `BindingContext`. |
+
+## Eksempel
+
+```csharp
+var bottomSheet = new MyBottomSheet();
+await BottomSheetService.Open(bottomSheet);
+
+// Dytt en ny visning etter at arket er åpnet
+await bottomSheet.PushAsync(new MyDetailPage());
+
+// Gå tilbake til forrige visning
+await bottomSheet.PopAsync();
+
+// Eller hopp helt tilbake til rotinnholdet, uansett hvor djupt du er
+await bottomSheet.PopToRootAsync();
+```
+
+## Begrensningar / viktig å vite
+
+- **Arket må være åpent** – `PushAsync` kan kun kalles etter at arket er presentert (`Open()` fullført / `Opened`-event fyrt). Kall før åpning vil kaste exception.
+- **Navigasjonsstakken er intern per BottomSheet-instans** – den deles ikke mellom ark.
+- **iOS sveip-tilbake** – På iOS håndteres sveip-tilbake-gester automatisk; den interne stakken holdes synkronisert.
+- **Automatisk tilbake-knapp** – Tilbake-knapp i navigasjonsbaren vises automatisk når det finnes innhold på stakken.

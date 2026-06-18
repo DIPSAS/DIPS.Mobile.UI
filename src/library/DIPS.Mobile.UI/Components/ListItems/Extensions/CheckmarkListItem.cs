@@ -51,4 +51,22 @@ public partial class CheckmarkListItem : ListItem, ISelectable
         
         SelectionChanged?.Invoke(this, new SelectionChangedEventArgs(!IsSelected, IsSelected));
     }
+
+    private void OnAddStrokeToCheckmarkChanged()
+    {
+#if __IOS__
+        if (ImageIcon is null)
+            return;
+
+        if (AddStrokeToCheckmark)
+        {
+            DIPS.Mobile.UI.Effects.Layout.Layout.SetStroke(ImageIcon, DIPS.Mobile.UI.Resources.Colors.Colors.GetColor(ColorName.color_icon_default));
+            DIPS.Mobile.UI.Effects.Layout.Layout.SetStrokeThickness(ImageIcon, 2);
+        }
+        else
+        {
+            DIPS.Mobile.UI.Effects.Layout.Layout.SetStroke(ImageIcon, null);
+        }
+#endif
+    }
 }
