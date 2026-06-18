@@ -3,8 +3,25 @@
 - [Checkmark] Added `AddStrokeToCheckmark` property to display a visible stroke around the checkmark
 - [CheckmarkListItem] Added `AddStrokeToCheckmark` property to display a visible stroke around the checkmark icon
 
+## [60.2.15]
+- [ImageCapture][iOS] Fixed full-screen gallery previews showing black images when opened from thumbnails.
+
+## [60.2.14]
+- [CollectionView][iOS] Fixed item template root corner radius and stroke being cleared when `AutoCornerRadius` is disabled.
+
+## [60.2.13]
+- [BarcodeScanner] Fixed scanner start/resume racing an in-progress native camera stop, which could leave detection unstable after rapid lifecycle changes.
+- [BarcodeScanner][Android] Fixed scanner crashes and unstable detection when the app is backgrounded while barcode analysis is in progress and then opened again.
+
+## [60.2.12]
+- [Camera][iOS] Added ultra-wide capable back camera selection and zoom mapping for barcode scanning and image capture on supported devices.
+
+## [60.2.11]
+- [CollectionView][Android] Fixed crash when deferred item decoration updates ran after the RecyclerView was detached during list reloads.
+
 ## [60.2.10]
 - [ScrollView][Android] Rolled back Microsoft.Maui.Controls from 10.0.60 to 10.0.51 due to an Android scroll regression.
+
 
 ## [60.2.9]
 - Fixed issue where CallerMemberName was not passed on OnPropertyChanged override. Affects ContentPage, Button, Chip, ContextMenuItem, ContextMenuSeparatorItem, ImageButton, ActivityIndicator and SingleLineInputField.

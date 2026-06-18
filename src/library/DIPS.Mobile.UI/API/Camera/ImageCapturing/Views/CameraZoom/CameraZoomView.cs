@@ -20,9 +20,6 @@ internal class CameraZoomView : Grid
         InputTransparent = true;
         CascadeInputTransparent = false;
         
-        // We do not support ultra-wide cameras yet, so we can safely assume that the minimum ratio is 1
-        minRatio = 1;
-        
         VerticalOptions = LayoutOptions.End;
 
         Margin = new Thickness(0, 0, 0, Sizes.GetSize(SizeName.content_margin_large));

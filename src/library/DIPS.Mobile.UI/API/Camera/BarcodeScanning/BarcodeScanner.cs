@@ -13,6 +13,7 @@ public partial class BarcodeScanner : ICameraUseCase
     private BarcodeScannerStartOptions m_currentStartOptions = new();
     private BarcodeScanSession? m_scanSession;
     private CancellationTokenSource? m_sessionCts;
+    private Task m_platformStopTask = Task.CompletedTask;
     private int m_scanRunId;
     private bool m_isDisposed;
     private bool m_isPlatformStarted;
@@ -86,7 +87,7 @@ public partial class BarcodeScanner : ICameraUseCase
             ConstructOverlayViews(m_currentStartOptions);
             m_confirmationHandler = CreateConfirmationHandler();
             m_scanSession.AttachProgressCounter(m_cameraPreview);
-            await PlatformStart(m_currentStartOptions, m_currentStartOptions.OnCameraFailed);
+            await PlatformStart(m_currentStartOptions, onCameraFailed);
 
             // The overlay must match the PreviewView's translation so the dim and
             // scan rectangle cover the same area as the camera feed.
@@ -200,7 +201,7 @@ public partial class BarcodeScanner : ICameraUseCase
             m_confirmationHandler?.Reset();
             DisposeCooldownTimer();
             m_confirmedBarcodeValues.Clear();
-            m_scanSession.ResumeScanning();
+            m_scanSession!.ResumeScanning();
         }
         catch (Exception e)
         {
@@ -421,7 +422,7 @@ public partial class BarcodeScanner : ICameraUseCase
             return;
 
         StartCooldown();
-        m_scanSession.ResumeScanning();
+        m_scanSession!.ResumeScanning();
     }
 
     private int BeginNewScanRun() => Interlocked.Increment(ref m_scanRunId);
@@ -449,10 +450,26 @@ public partial class BarcodeScanner : ICameraUseCase
     private async Task StopPlatformIfNeededAsync()
     {
         if (!m_isPlatformStarted)
+        {
+            await m_platformStopTask;
             return;
+        }
 
         m_isPlatformStarted = false;
-        await PlatformStop();
+        m_platformStopTask = StopPlatformCoreAsync();
+        await m_platformStopTask;
+    }
+
+    private async Task StopPlatformCoreAsync()
+    {
+        try
+        {
+            await PlatformStop();
+        }
+        catch (Exception e)
+        {
+            Log(e.Message);
+        }
     }
 
     private void CancelSession()

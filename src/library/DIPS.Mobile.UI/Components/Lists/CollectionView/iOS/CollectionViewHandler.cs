@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Specialized;
+using CoreAnimation;
 using DIPS.Mobile.UI.Components.Dividers;
 using DIPS.Mobile.UI.Effects.Accessibility.Effects;
 using DIPS.Mobile.UI.Effects.Layout;
@@ -79,6 +80,7 @@ public class ReorderableItemsViewController(
 {
     private INotifyCollectionChanged? m_observableSource;
     private readonly List<INotifyCollectionChanged> m_observableGroups = [];
+    private readonly Dictionary<IntPtr, CornerRadiusState> m_originalCornerRadiusStates = [];
 
     #region Lifecycle
 
@@ -95,6 +97,7 @@ public class ReorderableItemsViewController(
         {
             UnsubscribeFromItemsSource();
             mauiCollectionView.PropertyChanged -= OnMauiPropertyChanged;
+            m_originalCornerRadiusStates.Clear();
         }
         base.Dispose(disposing);
     }
@@ -197,7 +200,7 @@ public class ReorderableItemsViewController(
 
         if (!hasCustomFirstCornerRadius && !hasCustomLastCornerRadius && !hasAutoCornerRadius)
         {
-            ResetCornerRadius(contentView);
+            RestoreOriginalCornerRadius(contentView);
             return;
         }
 
@@ -205,22 +208,35 @@ public class ReorderableItemsViewController(
 
         if (!cornerRadius.IsEmpty())
         {
-            contentView.ClipsToBounds = true;
-            contentView.Layer.CornerRadius = (nfloat)cornerRadius.HighestCornerRadius();
-            contentView.Layer.MaskedCorners = CACornerMaskHelper.GetCACornerMask(cornerRadius);
+            ApplyCollectionViewCornerRadius(contentView, cornerRadius);
         }
         else
         {
-            ResetCornerRadius(contentView);
+            RestoreOriginalCornerRadius(contentView);
         }
     }
 
-    private static void ResetCornerRadius(UIView contentView)
+    private void ApplyCollectionViewCornerRadius(UIView contentView, CornerRadius cornerRadius)
     {
-        contentView.ClipsToBounds = false;
-        contentView.Layer.CornerRadius = 0;
-        contentView.Layer.MaskedCorners = 0;
+        var key = contentView.Handle;
+        m_originalCornerRadiusStates.TryAdd(key, new CornerRadiusState(contentView.ClipsToBounds, contentView.Layer.CornerRadius, contentView.Layer.MaskedCorners));
+
+        contentView.ClipsToBounds = true;
+        contentView.Layer.CornerRadius = (nfloat)cornerRadius.HighestCornerRadius();
+        contentView.Layer.MaskedCorners = CACornerMaskHelper.GetCACornerMask(cornerRadius);
     }
+
+    private void RestoreOriginalCornerRadius(UIView contentView)
+    {
+        if (!m_originalCornerRadiusStates.Remove(contentView.Handle, out var originalState))
+            return;
+
+        contentView.ClipsToBounds = originalState.ClipsToBounds;
+        contentView.Layer.CornerRadius = originalState.CornerRadius;
+        contentView.Layer.MaskedCorners = originalState.MaskedCorners;
+    }
+
+    private readonly record struct CornerRadiusState(bool ClipsToBounds, nfloat CornerRadius, CACornerMask MaskedCorners);
 
     private CornerRadius GetCornerRadius(bool isFirst, bool isLast, bool hasCustomFirstCornerRadius, bool hasCustomLastCornerRadius, bool hasAutoCornerRadius)
     {
