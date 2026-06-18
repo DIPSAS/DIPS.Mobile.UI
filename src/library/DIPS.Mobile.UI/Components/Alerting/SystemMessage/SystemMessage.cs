@@ -11,9 +11,9 @@ namespace DIPS.Mobile.UI.Components.Alerting.SystemMessage;
 
 internal class SystemMessage : Grid, IDisposable
 {
-    private const double DismissVelocityThreshold = .22;
+    private const double DismissVelocityThreshold = .12;
     private const double UpwardDismissHeightThreshold = .3;
-    private const double VerticalIntentRatio = 1.15;
+    private const double VerticalIntentRatio = .85;
     private const double DragFollowMultiplier = 1.08;
     private const uint SnapBackAnimationLength = 240;
     private const uint FlingAwayAnimationLength = 220;
@@ -24,7 +24,9 @@ internal class SystemMessage : Grid, IDisposable
     private readonly Grid m_contentGrid;
     private readonly Border m_backgroundBorder;
     private readonly PanGestureRecognizer m_panGestureRecognizer = new();
+    private DateTimeOffset m_panStartedAt;
     private DateTimeOffset m_lastPanUpdateTime;
+    private double m_panStartedY;
     private double m_lastPanY;
     private double m_panVelocityY;
     private bool m_hasDetectedPanDirection;
@@ -66,8 +68,7 @@ internal class SystemMessage : Grid, IDisposable
                 : [new ColumnDefinition(GridLength.Auto)]
         };
 
-        AutomationProperties.SetIsInAccessibleTree(m_contentGrid, true);
-        SemanticProperties.SetDescription(m_contentGrid, $"{DUILocalizedStrings.SystemMessage}: {configurator.Text}");
+        AutomationProperties.SetExcludedWithChildren(m_contentGrid, true);
         m_contentGrid.GestureRecognizers.Add(m_panGestureRecognizer);
         
         
@@ -119,8 +120,7 @@ internal class SystemMessage : Grid, IDisposable
 
         m_contentGrid.Scale = 0.75;
 
-        Padding = new Thickness(Sizes.GetSize(SizeName.size_10), 
-            Sizes.GetSize(SizeName.content_margin_large));
+        Padding = new Thickness(Sizes.GetSize(SizeName.size_10), GetTopPadding());
     }
     
     public void Show()
@@ -145,6 +145,13 @@ internal class SystemMessage : Grid, IDisposable
         MainThread.BeginInvokeOnMainThread(() => m_onFinished.Invoke(true));
     }
 
+    private static double GetTopPadding()
+    {
+        return DeviceInfo.Platform == DevicePlatform.Android
+            ? Sizes.GetSize(SizeName.size_10)
+            : Sizes.GetSize(SizeName.content_margin_large);
+    }
+
     private void OnMessagePanned(object? sender, PanUpdatedEventArgs e)
     {
         if (m_isDismissing)
@@ -155,7 +162,9 @@ internal class SystemMessage : Grid, IDisposable
             case GestureStatus.Started:
                 this.AbortAnimation(nameof(SnapBack));
                 this.AbortAnimation(nameof(FlingAway));
-                m_lastPanUpdateTime = DateTimeOffset.UtcNow;
+                m_panStartedAt = DateTimeOffset.UtcNow;
+                m_lastPanUpdateTime = m_panStartedAt;
+                m_panStartedY = e.TotalY;
                 m_lastPanY = e.TotalY;
                 m_panVelocityY = 0;
                 m_hasDetectedPanDirection = false;
@@ -169,14 +178,24 @@ internal class SystemMessage : Grid, IDisposable
                 ApplyDrag(e.TotalY);
                 break;
             case GestureStatus.Completed:
-                if (!m_isVerticalPan)
+                if (!m_hasDetectedPanDirection && !TryHandleVerticalPan(e.TotalX, e.TotalY))
+                {
                     return;
+                }
 
+                if (!m_isVerticalPan)
+                {
+                    return;
+                }
+
+                UpdateCompletedPanVelocity(e.TotalY);
                 _ = ShouldDismiss(e.TotalY) ? FlingAway(e.TotalY) : SnapBack();
                 break;
             case GestureStatus.Canceled:
                 if (!m_isVerticalPan)
+                {
                     return;
+                }
 
                 _ = SnapBack();
                 break;
@@ -191,6 +210,15 @@ internal class SystemMessage : Grid, IDisposable
         m_panVelocityY = (e.TotalY - m_lastPanY) / elapsedMilliseconds;
         m_lastPanY = e.TotalY;
         m_lastPanUpdateTime = now;
+    }
+
+    private void UpdateCompletedPanVelocity(double translationY)
+    {
+        var elapsedMilliseconds = Math.Max((DateTimeOffset.UtcNow - m_panStartedAt).TotalMilliseconds, 1);
+        var averageVelocityY = (translationY - m_panStartedY) / elapsedMilliseconds;
+
+        if (Math.Abs(averageVelocityY) > Math.Abs(m_panVelocityY))
+            m_panVelocityY = averageVelocityY;
     }
 
     private bool TryHandleVerticalPan(double translationX, double translationY)
@@ -209,8 +237,6 @@ internal class SystemMessage : Grid, IDisposable
             return false;
 
         m_timer.Stop();
-        m_lastPanUpdateTime = DateTimeOffset.UtcNow;
-        m_lastPanY = translationY;
         return true;
     }
 
