@@ -30,6 +30,8 @@ SystemMessageService.Display(config =>
 });
 ```
 
+When a system message appears, screen readers announce it as `System melding: <message>`. People can also drag and fling the message away to dismiss it.
+
 # Dialogs
 Dialogs presents critical information that users needs right away. There are three different dialogs: 
 * _Regular_. A dialog with a title, description and a single button.

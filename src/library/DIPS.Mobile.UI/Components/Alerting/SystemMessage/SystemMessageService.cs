@@ -10,7 +10,7 @@ public static partial class SystemMessageService
         var configurator = new SystemMessageConfigurator();
         config.Invoke(configurator);
         
-        var systemMessage = new SystemMessage(configurator, () => _ = Remove(true));
+        var systemMessage = new SystemMessage(configurator, animate => _ = Remove(animate));
         m_systemMessageQueue.Enqueue(systemMessage);
         
         // If this is the first message, show it, otherwise just store it 

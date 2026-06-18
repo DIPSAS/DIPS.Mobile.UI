@@ -20,7 +20,7 @@ public interface ISystemMessageConfigurator
     Color TextColor { get; set; }
     
     /// <summary>
-    /// Sets the icon color
+    /// Sets the icon color. Defaults to <see cref="TextColor"/>.
     /// </summary>
     Color IconColor { get; set; }
     
