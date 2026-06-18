@@ -1,3 +1,6 @@
+## [60.5.0] 
+- Resources was updated from DIPS.Mobile.DesignTokens
+
 ## [60.4.0]
 - [BarcodeScanner] Shows validation failure messages above the scan rectangle when rejected barcode results include an error message, adds success/error haptics, and adds automatic camera zoom tips with `BarcodeScannerStartOptions.Hint`.
 

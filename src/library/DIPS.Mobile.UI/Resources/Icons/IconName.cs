@@ -363,5 +363,7 @@ lab_syringe=214,
 sort=215,
 ///<summary><a href="https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/open_in_new.svg">View the icon in the browser</a></summary>
 open_in_new=216,
+///<summary><a href="https://raw.githubusercontent.com/DIPSAS/DIPS.Mobile.UI/main/src/library/DIPS.Mobile.UI/Resources/Icons/edit_off.svg">View the icon in the browser</a></summary>
+edit_off=217,
     }
 }
