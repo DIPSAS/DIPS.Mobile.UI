@@ -323,6 +323,27 @@
     <data name="BarcodeScanning" xml:space="preserve">
         <value>Strekkode skanning</value>
     </data>
+    <data name="BarcodeScannerFeedbackTitle" xml:space="preserve">
+        <value>Strekkode skanning med tilbakemelding</value>
+    </data>
+    <data name="BarcodeScannerFeedbackSubtitle" xml:space="preserve">
+        <value>Viser avvisningsårsaker over skanneområdet</value>
+    </data>
+    <data name="BarcodeScannerFeedbackTooltipText" xml:space="preserve">
+        <value>Plasser etiketten innenfor rammen og hold kameraet rolig.</value>
+    </data>
+    <data name="BarcodeScannerFeedbackFocusHint" xml:space="preserve">
+        <value>Hold etiketten lenger unna for å fokusere.</value>
+    </data>
+    <data name="BarcodeScannerFeedbackAlreadyScanned" xml:space="preserve">
+        <value>Etiketten er allerede skannet.</value>
+    </data>
+    <data name="BarcodeScannerFeedbackWrongPatient" xml:space="preserve">
+        <value>Etiketten hører ikke til denne pasienten.</value>
+    </data>
+    <data name="BarcodeScannerFeedbackNotLabel" xml:space="preserve">
+        <value>Koden du skannet er ikke en etikett.</value>
+    </data>
     <data name="Barcode" xml:space="preserve">
         <value>Strekkode</value>
     </data>

@@ -132,6 +132,51 @@ When `Completion.RequiredCount` is greater than zero, the scanner displays a sim
 
 If `ValidateBarcodeAsync` throws, the scanner treats the barcode as invalid, plays the failure animation, logs the exception, and resumes scanning.
 
+## Show scanner feedback above the scan rectangle
+When you use `ScanRectangleBarcodeScanStrategy`, rejected validation results can show a short message above the scan rectangle while the failure animation plays. Return `BarcodeScanValidationResult.Invalid(errorMessage, reasonCode)` from `ValidateBarcodeAsync` to explain why the scan was rejected.
+
+```csharp
+private Task<BarcodeScanValidationResult> ValidateBarcodeAsync(string barcode)
+{
+    return barcode switch
+    {
+        _ when ViewModel.HasAlreadyScanned(barcode) => Task.FromResult(
+            BarcodeScanValidationResult.Invalid("The label has already been scanned.", "already-scanned")),
+        _ when !ViewModel.BelongsToCurrentPatient(barcode) => Task.FromResult(
+            BarcodeScanValidationResult.Invalid("The label does not belong to this patient.", "wrong-patient")),
+        _ when !ViewModel.IsLabel(barcode) => Task.FromResult(
+            BarcodeScanValidationResult.Invalid("The code you scanned is not a label.", "not-label")),
+        _ => Task.FromResult(BarcodeScanValidationResult.Valid())
+    };
+}
+```
+
+Use `Hint` when the scanner should automatically show the camera zoom tip if scanning takes longer than expected, for example “Hold the label farther away to focus.” The scanner attempts the automatic hint once per scanner session and does not show it after people have already used zoom. You can also provide callbacks to decide whether the hint can be shown and to record that it was shown.
+
+```csharp
+await m_scanner.Start(new BarcodeScannerStartOptions
+{
+    Preview = CameraPreview,
+    OnCameraFailed = CameraFailed,
+    Strategy = new ScanRectangleBarcodeScanStrategy(),
+    ValidateBarcodeAsync = ValidateBarcodeAsync,
+    Hint = new BarcodeScannerHintOptions
+    {
+        ShowAutomaticHint = true,
+        HintText = "Hold the label farther away to focus.",
+        Delay = TimeSpan.FromSeconds(15),
+        CanShowHintAsync = () => TipService.CanShow(BarcodeScanningZoomTip),
+        OnHintShownAsync = () =>
+        {
+            TipService.DidShow(BarcodeScanningZoomTip);
+            return Task.CompletedTask;
+        }
+    }
+});
+```
+
+Use `SetTooltipView` after `Start()` only when you need fully custom tooltip content above the scan rectangle.
+
 ## Stop scanning
 Remember to release resources to make sure your page does not leak memory.
 

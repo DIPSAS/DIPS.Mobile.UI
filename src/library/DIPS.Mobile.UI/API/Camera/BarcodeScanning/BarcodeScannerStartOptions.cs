@@ -47,6 +47,11 @@ public class BarcodeScannerStartOptions
     public BarcodeScanCompletionOptions? Completion { get; set; }
 
     /// <summary>
+    /// Gets or sets automatic hint options for scan rectangle barcode scanner sessions.
+    /// </summary>
+    public BarcodeScannerHintOptions Hint { get; set; } = new();
+
+    /// <summary>
     /// Gets or sets the cooldown applied after a scan has been accepted or rejected.
     /// </summary>
     public TimeSpan DuplicateScanCooldown { get; set; } = TimeSpan.FromMilliseconds(800);

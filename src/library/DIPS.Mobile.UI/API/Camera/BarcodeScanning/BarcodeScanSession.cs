@@ -1,4 +1,5 @@
 using DIPS.Mobile.UI.API.Camera.Preview;
+using DIPS.Mobile.UI.API.Vibration;
 using DIPS.Mobile.UI.Internal.Logging;
 
 namespace DIPS.Mobile.UI.API.Camera.BarcodeScanning;
@@ -110,6 +111,7 @@ internal sealed class BarcodeScanSession
     private async Task<bool> AcceptBarcodeScanResultAsync(BarcodeScanResult barcodeScanResult, BarcodeScanRectangleOverlay? scanRectangleOverlay)
     {
         State = BarcodeScannerState.SuccessAnimating;
+        RunFeedbackVibration(VibrationService.Success);
 
         var successAnimationTask = scanRectangleOverlay?.PlaySuccessAndResetAsync() ?? Task.CompletedTask;
         if (ShouldShowProgressCounter && scanRectangleOverlay is not null)
@@ -150,6 +152,7 @@ internal sealed class BarcodeScanSession
     private async Task<bool> RejectBarcodeScanResultAsync(BarcodeScanResult barcodeScanResult, BarcodeScanValidationResult validationResult, BarcodeScanRectangleOverlay? scanRectangleOverlay)
     {
         State = BarcodeScannerState.FailureAnimating;
+        RunFeedbackVibration(VibrationService.Error);
 
         if (scanRectangleOverlay is not null)
         {
@@ -161,6 +164,21 @@ internal sealed class BarcodeScanSession
 
         await NotifyBarcodeRejectedAsync(barcodeScanResult, validationResult);
         return !m_isDisposed && State != BarcodeScannerState.Paused;
+    }
+
+    private static void RunFeedbackVibration(Action vibration)
+    {
+        MainThread.BeginInvokeOnMainThread(() =>
+        {
+            try
+            {
+                vibration.Invoke();
+            }
+            catch (Exception exception)
+            {
+                DUILogService.LogError<BarcodeScanner>($"Barcode scanner feedback vibration failed: {exception.Message}");
+            }
+        });
     }
 
     private async Task NotifyBarcodeAcceptedAsync(BarcodeScanResult barcodeScanResult)
