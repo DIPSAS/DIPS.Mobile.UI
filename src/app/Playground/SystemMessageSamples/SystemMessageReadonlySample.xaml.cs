@@ -7,7 +7,7 @@ namespace Playground.SystemMessageSamples;
 public partial class SystemMessageReadonlySample
 {
     private const string ReadonlyMessage = "Databasen er satt i lesemodus. Du kan fortsette å arbeide, men kun med lesetilgang inntil systemet er satt tilbake i normal drift igjen.";
-    private const string NormalModeMessage = "Databasen er ikke lenger i lesemodus.\nDu kan nå arbeide videre som far.";
+    private const string NormalModeMessage = "Databasen er ikke lenger i lesemodus.Du kan nå arbeide videre som før.";
 
     public SystemMessageReadonlySample()
     {
