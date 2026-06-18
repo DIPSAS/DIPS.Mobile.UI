@@ -126,7 +126,7 @@ internal class SystemMessage : Grid, IDisposable
     public void Show()
     {
         SemanticScreenReader.Default.Announce($"{DUILocalizedStrings.SystemMessage}: {m_configurator.Text}");
-        
+
         m_timer.Enabled = true;
         m_timer.Elapsed += OnTimerEnded;
 
@@ -134,8 +134,8 @@ internal class SystemMessage : Grid, IDisposable
         m_contentGrid.Opacity = 1;
         m_contentGrid.Scale = 1;
 #else
-    _ = m_contentGrid.FadeToAsync(1, easing: Easing.CubicOut);
-    _ = m_contentGrid.ScaleToAsync(1, easing: Easing.CubicOut);
+        _ = m_contentGrid.FadeToAsync(1, easing: Easing.CubicOut);
+        _ = m_contentGrid.ScaleToAsync(1, easing: Easing.CubicOut);
 #endif
     }
 
@@ -236,11 +236,11 @@ internal class SystemMessage : Grid, IDisposable
         var distance = Math.Abs(translationY);
         var velocity = Math.Abs(m_panVelocityY);
         var projectedY = translationY + m_panVelocityY * FlingAwayAnimationLength;
-         var projectedDistance = Math.Abs(projectedY);
-         var upwardDismissDistance = Math.Max(Sizes.GetSize(SizeName.size_5), m_contentGrid.Height * UpwardDismissHeightThreshold);
+        var projectedDistance = Math.Abs(projectedY);
+        var upwardDismissDistance = Math.Max(Sizes.GetSize(SizeName.size_5), m_contentGrid.Height * UpwardDismissHeightThreshold);
 
         return (translationY < 0 && distance >= upwardDismissDistance) ||
-             distance >= Sizes.GetSize(SizeName.size_10) ||
+               distance >= Sizes.GetSize(SizeName.size_10) ||
                projectedDistance >= Sizes.GetSize(SizeName.size_14) ||
                velocity >= DismissVelocityThreshold;
     }
