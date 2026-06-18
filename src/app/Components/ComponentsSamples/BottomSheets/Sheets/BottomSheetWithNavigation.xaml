@@ -1,0 +1,38 @@
+<dui:BottomSheet xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                 xmlns:dui="http://dips.com/mobile.ui"
+                 x:Class="Components.ComponentsSamples.BottomSheets.Sheets.BottomSheetWithNavigation"
+                 x:Name="Sheet"
+                 Positioning="Large"
+                 Title="Navigation"
+                 BackgroundColor="{dui:Colors color_surface_neutral}"
+                 ShowBottombarButtonsOnSubViews="True">
+    
+    <dui:VerticalStackLayout Spacing="0"
+                             Margin="{dui:Thickness Left=content_margin_medium, Right=content_margin_medium, Top=content_margin_large}">
+        <dui:Label Text="This is the root content of the bottom sheet. Tap one of the items below to navigate to a new page inside the sheet. The bottom bar buttons stay visible across pushed sub-views."
+                   Padding="{dui:Thickness size_4}"
+                   Style="{dui:Styles Label=UI200}" />
+        
+        <dui:NavigationListItem Title="Page 1"
+                                Subtitle="Push a simple page"
+                                HasBottomDivider="True"
+                                Tapped="OnPage1Tapped" />
+
+        <dui:NavigationListItem Title="Page 2"
+                                Subtitle="Push another page with its own navigation"
+                                Tapped="OnPage2Tapped" />
+    </dui:VerticalStackLayout>
+
+    <dui:BottomSheet.BottombarButtons>
+
+        <dui:Button Text="Reset"
+                    Style="{dui:Styles Button=GhostLarge}"
+                    VerticalOptions="End" />
+
+        <dui:Button Text="Apply"
+                    HorizontalOptions="Fill"
+                    VerticalOptions="End" />
+
+    </dui:BottomSheet.BottombarButtons>
+</dui:BottomSheet>

@@ -44,6 +44,7 @@ namespace DIPS.Mobile.UI.Components.BottomSheets
             return BottomSheetService.Open(this);
         }
 
+
         internal SearchBar SearchBar { get; private set; }
 
         internal void SendClose()

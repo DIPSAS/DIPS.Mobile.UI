@@ -17,12 +17,26 @@ public static partial class BottomSheetService
             var currentViewController = Platform.GetCurrentUIViewController();
             if (currentViewController is null)
                 return;
-            
-            navigationController.ModalPresentationStyle = bottomSheet.IsDraggable ? UIModalPresentationStyle.PageSheet : UIModalPresentationStyle.FullScreen;
 
-            TryAddGrabberAndSetSheetPresentationProperties(navigationController, bottomSheetViewController);
+            // When bottom bar buttons should be visible on sub-views, use a container VC
+            // that keeps the bottom bar OUTSIDE the UINavigationController hierarchy.
+            UIViewController viewControllerToPresent;
+            if (bottomSheet.ShowBottombarButtonsOnSubViews && bottomSheet.HasBottomBarButtons)
+            {
+                var hostVc = new BottomSheetHostViewController(navigationController, bottomSheetViewController);
+                bottomSheetViewController.HostViewController = hostVc;
+                viewControllerToPresent = hostVc;
+            }
+            else
+            {
+                viewControllerToPresent = navigationController;
+            }
 
-            await currentViewController.PresentViewControllerAsync(navigationController, true);
+            viewControllerToPresent.ModalPresentationStyle = bottomSheet.IsDraggable ? UIModalPresentationStyle.PageSheet : UIModalPresentationStyle.FullScreen;
+
+            TryAddGrabberAndSetSheetPresentationProperties(viewControllerToPresent, bottomSheetViewController);
+
+            await currentViewController.PresentViewControllerAsync(viewControllerToPresent, true);
         }
         catch (Exception e)
         {
@@ -66,7 +80,12 @@ public static partial class BottomSheetService
     {
         if (bottomSheet?.ViewController == null) return;
         
-        await bottomSheet.ViewController.DismissViewControllerAsync(animated);
+        // Dismiss the presented VC (either host VC or nav controller)
+        var vcToDismiss = (UIViewController?)bottomSheet.ViewController.HostViewController 
+                          ?? bottomSheet.ViewController;
+        await vcToDismiss.DismissViewControllerAsync(animated);
+        
+        bottomSheet.ViewController.HostViewController?.Dispose();
         bottomSheet.ViewController.Dispose();
     }
 }

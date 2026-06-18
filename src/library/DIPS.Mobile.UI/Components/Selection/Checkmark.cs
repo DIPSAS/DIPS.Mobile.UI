@@ -38,4 +38,19 @@ public partial class Checkmark : ImageButton, ISelectable
         SelectedCommand?.Execute(SelectedCommandParameter);
         SelectionChanged?.Invoke(this, new SelectionChangedEventArgs(!IsSelected, IsSelected));
     }
+
+    private void OnAddStrokeToCheckmarkChanged()
+    {
+#if __IOS__
+        if (AddStrokeToCheckmark)
+        {
+            DIPS.Mobile.UI.Effects.Layout.Layout.SetStroke(this, DIPS.Mobile.UI.Resources.Colors.Colors.GetColor(ColorName.color_icon_default));
+            DIPS.Mobile.UI.Effects.Layout.Layout.SetStrokeThickness(this, 2);
+        }
+        else
+        {
+            DIPS.Mobile.UI.Effects.Layout.Layout.SetStroke(this, null);
+        }
+#endif
+    }
 }

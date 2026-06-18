@@ -1,5 +1,10 @@
-## [60.2.16]
+## [60.4.0]
 - [BarcodeScanner] Shows validation failure messages above the scan rectangle when rejected barcode results include an error message, adds success/error haptics, and adds automatic camera zoom tips with `BarcodeScannerStartOptions.Hint`.
+
+## [60.3.0]
+- [Bottomsheet] Added page navigation inside bottomsheet
+- [Checkmark] Added `AddStrokeToCheckmark` property to display a visible stroke around the checkmark
+- [CheckmarkListItem] Added `AddStrokeToCheckmark` property to display a visible stroke around the checkmark icon
 
 ## [60.2.15]
 - [ImageCapture][iOS] Fixed full-screen gallery previews showing black images when opened from thumbnails.
