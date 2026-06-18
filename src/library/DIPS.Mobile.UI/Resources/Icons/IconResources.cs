@@ -186,6 +186,7 @@ this file is generated
 ["lab_syringe"] = "lab_syringe.png",
 ["sort"] = "sort.png",
 ["open_in_new"] = "open_in_new.png",
+["edit_off"] = "edit_off.png",
 
 
             };
