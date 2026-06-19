@@ -71,7 +71,7 @@ protected override void OnAppearing()
 > Notice that `CameraPreview` is the code behind reference from the preview guide.
 
 ## Validate barcodes before accepting them
-Use `ValidateBarcodeAsync` when the scanner should ask your app whether a detected barcode belongs in the current workflow before playing the success animation. If validation returns invalid, the scanner plays the failure animation, does not increment the progress counter, and then resumes scanning.
+Use `ValidateBarcodeAsync` when the scanner should ask your app whether a detected barcode belongs in the current workflow before playing the success animation. If validation returns invalid, the scanner plays the failure animation, does not increment the progress counter, and then resumes scanning. Repeated scans of the same barcode are processed like any other scan; reject already-scanned values in `ValidateBarcodeAsync` when your workflow needs that behavior.
 
 ```csharp
 private readonly BarcodeScanner m_scanner = new();
