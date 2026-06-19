@@ -1,3 +1,6 @@
+## [60.5.1]
+- [BarcodeScanner] Fixed repeated scans of the same barcode being suppressed after the scanner resumes.
+
 ## [60.5.0] 
 - Resources was updated from DIPS.Mobile.DesignTokens
 

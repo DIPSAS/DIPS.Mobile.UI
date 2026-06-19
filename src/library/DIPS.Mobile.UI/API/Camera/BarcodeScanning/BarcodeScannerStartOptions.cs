@@ -52,7 +52,9 @@ public class BarcodeScannerStartOptions
     public BarcodeScannerHintOptions Hint { get; set; } = new();
 
     /// <summary>
-    /// Gets or sets the cooldown applied after a scan has been accepted or rejected.
+    /// Gets or sets the legacy duplicate scan cooldown value.
     /// </summary>
+    /// <remarks>The scanner no longer suppresses repeated barcode values, so this setting is ignored.</remarks>
+    [Obsolete("BarcodeScanner no longer suppresses duplicate scans. This setting is ignored.")]
     public TimeSpan DuplicateScanCooldown { get; set; } = TimeSpan.FromMilliseconds(800);
 }
