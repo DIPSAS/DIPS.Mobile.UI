@@ -15,6 +15,12 @@ internal class SystemMessage : Grid, IDisposable
     private const double UpwardDismissHeightThreshold = .3;
     private const double VerticalIntentRatio = .85;
     private const double DragFollowMultiplier = 1.08;
+    private const double OpenStartScale = .62;
+    private const double OpenOvershootScale = 1.025;
+    private const uint OpenScaleInAnimationLength = 280;
+    private const uint OpenSettleAnimationLength = 220;
+    private const uint CloseLiftAnimationLength = 140;
+    private const uint CloseAwayAnimationLength = 230;
     private const uint SnapBackAnimationLength = 240;
     private const uint FlingAwayAnimationLength = 220;
 
@@ -118,7 +124,8 @@ internal class SystemMessage : Grid, IDisposable
         InputTransparent = true;
         CascadeInputTransparent = false;
 
-        m_contentGrid.Scale = 0.75;
+        m_contentGrid.Opacity = 0;
+        m_contentGrid.Scale = OpenStartScale;
 
         Padding = new Thickness(Sizes.GetSize(SizeName.size_10), GetTopPadding());
     }
@@ -130,19 +137,21 @@ internal class SystemMessage : Grid, IDisposable
         m_timer.Enabled = true;
         m_timer.Elapsed += OnTimerEnded;
 
-#if __ANDROID__ //Skip animation until this is fixed: https://github.com/dotnet/maui/issues/11852
-        m_contentGrid.Opacity = 1;
-        m_contentGrid.Scale = 1;
-#else
-        _ = m_contentGrid.FadeToAsync(1, easing: Easing.CubicOut);
-        _ = m_contentGrid.ScaleToAsync(1, easing: Easing.CubicOut);
-#endif
+        _ = AnimateIn();
     }
 
     private void OnTimerEnded(object? sender, ElapsedEventArgs e)
     {
         m_timer.Stop();
         MainThread.BeginInvokeOnMainThread(() => m_onFinished.Invoke(true));
+    }
+
+    private async Task AnimateIn()
+    {
+        var fade = m_contentGrid.FadeToAsync(1, OpenScaleInAnimationLength, Easing.CubicOut);
+        var scale = m_contentGrid.ScaleToAsync(OpenOvershootScale, OpenScaleInAnimationLength, Easing.CubicOut);
+        await Task.WhenAll(fade, scale);
+        await m_contentGrid.ScaleToAsync(1, OpenSettleAnimationLength, Easing.CubicOut);
     }
 
     private static double GetTopPadding()
@@ -320,8 +329,10 @@ internal class SystemMessage : Grid, IDisposable
         m_isDismissing = true;
         m_timer.Stop();
 
-        var fade = m_contentGrid.FadeToAsync(0, easing: Easing.CubicIn);
-        var scale = m_contentGrid.ScaleToAsync(.75, easing: Easing.CubicIn);
+        await m_contentGrid.ScaleToAsync(OpenOvershootScale, CloseLiftAnimationLength, Easing.CubicOut);
+
+        var fade = m_contentGrid.FadeToAsync(0, CloseAwayAnimationLength, Easing.CubicIn);
+        var scale = m_contentGrid.ScaleToAsync(OpenStartScale, CloseAwayAnimationLength, Easing.CubicIn);
         await Task.WhenAll(fade, scale);
     }
 
