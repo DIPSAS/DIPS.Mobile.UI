@@ -1,7 +1,14 @@
+using DIPS.Mobile.UI.Resources.Styles.SystemMessage;
+
 namespace DIPS.Mobile.UI.Components.Alerting.SystemMessage;
 
 public interface ISystemMessageConfigurator
 {
+    /// <summary>
+    /// Sets the style colors of the message. This applies system message colors based on the matching alert style colors, but does not set icons.
+    /// </summary>
+    SystemMessageStyle Style { get; set; }
+
     /// <summary>
     /// Sets the background color of the message
     /// </summary>

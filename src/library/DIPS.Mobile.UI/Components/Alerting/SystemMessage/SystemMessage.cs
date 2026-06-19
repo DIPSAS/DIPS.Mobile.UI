@@ -1,7 +1,9 @@
 using System.Timers;
 using DIPS.Mobile.UI.Internal;
+using DIPS.Mobile.UI.Resources.Colors;
 using DIPS.Mobile.UI.Resources.LocalizedStrings.LocalizedStrings;
 using Microsoft.Maui.Controls.Shapes;
+using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
 using Image = DIPS.Mobile.UI.Components.Images.Image.Image;
 using Timer = System.Timers.Timer;
 
@@ -24,6 +26,7 @@ internal class SystemMessage : ContentView, IDisposable
         m_onFinished = onFinished;
 
         m_timer = new Timer(configurator.Duration);
+        var hasIcon = configurator.Icon is not null;
         
         var label = new Label
         {
@@ -38,15 +41,13 @@ internal class SystemMessage : ContentView, IDisposable
         m_contentGrid = new Grid
         {
             AutomationId = "ContentGrid".ToDUIAutomationId<SystemMessage>(),
-            ColumnSpacing = Sizes.GetSize(SizeName.content_margin_xsmall),
+            ColumnSpacing = hasIcon ? Sizes.GetSize(SizeName.content_margin_xsmall) : 0,
             Padding = Sizes.GetSize(SizeName.content_margin_medium),
             HorizontalOptions = LayoutOptions.Center,
             VerticalOptions = LayoutOptions.Start,
-            ColumnDefinitions = new ColumnDefinitionCollection
-            {
-                new(GridLength.Auto),
-                new(GridLength.Star)
-            }
+            ColumnDefinitions = hasIcon
+                ? [new ColumnDefinition(GridLength.Auto), new ColumnDefinition(GridLength.Star)]
+                : [new ColumnDefinition(GridLength.Auto)]
         };
         
         
@@ -57,13 +58,22 @@ internal class SystemMessage : ContentView, IDisposable
             AutomationId = "FakeBorder".ToDUIAutomationId<SystemMessage>(),
             BackgroundColor = configurator.BackgroundColor,
             Margin = m_contentGrid.Padding.Top * -1,
-            StrokeShape = new RoundRectangle { CornerRadius = Sizes.GetSize(SizeName.radius_medium) }
+            Stroke = configurator.Stroke,
+            StrokeThickness = Sizes.GetSize(SizeName.stroke_medium),
+            StrokeShape = new RoundRectangle { CornerRadius = Sizes.GetSize(SizeName.radius_small) },
+            Shadow = new Shadow
+            {
+                Brush = new SolidColorBrush(Colors.GetColor(ColorName.color_surface_backdrop, .65f)),
+                Offset = new Point(0, Sizes.GetSize(SizeName.size_1)),
+                Radius = (float)Sizes.GetSize(SizeName.size_2),
+                Opacity = .75f
+            }
         };
 
         m_contentGrid.Add(border);
-        Grid.SetColumnSpan(border, 2);
+        Grid.SetColumnSpan(border, hasIcon ? 2 : 1);
         
-        if(configurator.Icon is not null)
+        if(hasIcon)
         {
             m_contentGrid.Add(new Image
             {
@@ -75,7 +85,7 @@ internal class SystemMessage : ContentView, IDisposable
             
         }
         
-        m_contentGrid.Add(label, 1);
+        m_contentGrid.Add(label, hasIcon ? 1 : 0);
         
         Content = m_contentGrid;
 

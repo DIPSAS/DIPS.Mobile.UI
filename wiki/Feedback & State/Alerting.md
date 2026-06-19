@@ -14,10 +14,20 @@ In the following example a system message with the text: "A system message" and 
 
 ```csharp
 SystemMessageService.Display(config =>
-        {
-            config.Text = "A system message";
-            config.Duration = 2000;
-        });
+{
+    config.Text = "A system message";
+    config.Duration = 2000;
+});
+```
+
+System messages can use their own styles based on the same color roles as alerts. This applies the background color, text color and border color, but does not set an icon.
+
+```csharp
+SystemMessageService.Display(config =>
+{
+    config.Text = "The changes were saved";
+    config.Style = SystemMessageStyle.Success;
+});
 ```
 
 # Dialogs

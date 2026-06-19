@@ -1,3 +1,6 @@
+## [61.1.0]
+- [SystemMessage] Added `SystemMessageStyle` support for Alert-based background, text and border colors, and added border and shadow to displayed messages.
+
 ## [61.0.0]
 - [BarcodeScanner] **BREAKING**: Removed `BarcodeScannerStartOptions.DuplicateScanCooldown`. Repeated scans of the same barcode are no longer suppressed after the scanner resumes.
 
