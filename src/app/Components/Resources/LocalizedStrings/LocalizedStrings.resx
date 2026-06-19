@@ -263,8 +263,17 @@
     <data name="Saving" xml:space="preserve">
         <value>Lagring</value>
     </data>
+    <data name="Information" xml:space="preserve">
+        <value>Informasjon</value>
+    </data>
     <data name="Error" xml:space="preserve">
         <value>Feil</value>
+    </data>
+    <data name="Warning" xml:space="preserve">
+        <value>Advarsel</value>
+    </data>
+    <data name="Success" xml:space="preserve">
+        <value>Suksess</value>
     </data>
     <data name="To" xml:space="preserve">
         <value>Til</value>

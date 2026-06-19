@@ -4,6 +4,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:dui="http://dips.com/mobile.ui"
              xmlns:localizedStrings="clr-namespace:Components.Resources.LocalizedStrings"
+             xmlns:systemMessageStyles="clr-namespace:DIPS.Mobile.UI.Resources.Styles.SystemMessage;assembly=DIPS.Mobile.UI"
              xmlns:systemMessages="clr-namespace:Components.ComponentsSamples.Alerting.SystemMessages"
              x:Class="Components.ComponentsSamples.Alerting.SystemMessages.SystemMessageSamples"
              Padding="{dui:Sizes size_5}"
@@ -73,6 +74,18 @@
             
             <dui:NavigationListItem Title="{x:Static localizedStrings:LocalizedStrings.ShowSystemMessage}"
                                     Command="{Binding DisplayCommand}" />
+            <dui:NavigationListItem Title="{x:Static localizedStrings:LocalizedStrings.Information}"
+                                    Command="{Binding DisplayStyleCommand}"
+                                    CommandParameter="{x:Static systemMessageStyles:SystemMessageStyle.Information}" />
+            <dui:NavigationListItem Title="{x:Static localizedStrings:LocalizedStrings.Error}"
+                                    Command="{Binding DisplayStyleCommand}"
+                                    CommandParameter="{x:Static systemMessageStyles:SystemMessageStyle.Error}" />
+            <dui:NavigationListItem Title="{x:Static localizedStrings:LocalizedStrings.Warning}"
+                                    Command="{Binding DisplayStyleCommand}"
+                                    CommandParameter="{x:Static systemMessageStyles:SystemMessageStyle.Warning}" />
+            <dui:NavigationListItem Title="{x:Static localizedStrings:LocalizedStrings.Success}"
+                                    Command="{Binding DisplayStyleCommand}"
+                                    CommandParameter="{x:Static systemMessageStyles:SystemMessageStyle.Success}" />
             <dui:NavigationListItem Title="{x:Static localizedStrings:LocalizedStrings.RemoveSystemMessage}"
                                     Command="{Binding RemoveCommand}" />
             <dui:NavigationListItem Title="{x:Static localizedStrings:LocalizedStrings.RemoveSystemMessageAnimate}"

@@ -2,8 +2,7 @@ using System.Windows.Input;
 using DIPS.Mobile.UI.Components.Alerting.Alert;
 using DIPS.Mobile.UI.Components.Alerting.SystemMessage;
 using DIPS.Mobile.UI.MVVM;
-using DIPS.Mobile.UI.Resources.Colors;
-using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
+using DIPS.Mobile.UI.Resources.Styles.SystemMessage;
 
 namespace Components.ComponentsSamples.Alerting.Alerts;
 
@@ -18,8 +17,7 @@ public class AlertSamplesViewModel : ViewModel
             SystemMessageService.Display(config =>
             {
                 config.Text = s;
-                config.BackgroundColor = Colors.GetColor(ColorName.color_surface_information);
-                config.TextColor = Colors.GetColor(ColorName.color_text_action);
+                config.Style = SystemMessageStyle.Information;
             });
         });
 

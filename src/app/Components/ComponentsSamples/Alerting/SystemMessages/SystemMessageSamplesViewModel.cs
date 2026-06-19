@@ -3,8 +3,10 @@ using DIPS.Mobile.UI.Components.Alerting.SystemMessage;
 using DIPS.Mobile.UI.MVVM;
 using DIPS.Mobile.UI.Resources.Colors;
 using DIPS.Mobile.UI.Resources.Icons;
+using DIPS.Mobile.UI.Resources.Styles.SystemMessage;
 using Colors = DIPS.Mobile.UI.Resources.Colors.Colors;
 using Enum = System.Enum;
+using LocalizedStrings = Components.Resources.LocalizedStrings.LocalizedStrings;
 
 namespace Components.ComponentsSamples.Alerting.SystemMessages;
 
@@ -20,6 +22,7 @@ public class SystemMessageSamplesViewModel : ViewModel
     public SystemMessageSamplesViewModel()
     {
         DisplayCommand = new Command(Display);
+        DisplayStyleCommand = new Command<SystemMessageStyle>(DisplayStyle);
         RemoveCommand = new Command(() => Remove(false));
         RemoveAnimateCommand = new Command(() => Remove(true));
         DisposeCommand = new Command(Dispose);
@@ -71,20 +74,51 @@ public class SystemMessageSamplesViewModel : ViewModel
 
     private void Display()
     {
+        Display(null);
+    }
+
+    private void DisplayStyle(SystemMessageStyle style)
+    {
+        Display(style);
+    }
+
+    private void Display(SystemMessageStyle? style)
+    {
         SystemMessageService.Display(config =>
         {
             config.Duration = ((int)Duration);
             if(!string.IsNullOrEmpty(Input))
                 config.Text = Input;
+
+            if (style is not null)
+            {
+                config.Style = style.Value;
+                if (string.IsNullOrEmpty(Input))
+                    config.Text = GetStyleText(style.Value);
+            }
+
             if(m_selectedIconColor is not null)
                 config.IconColor = m_selectedIconColor;
             if(m_selectedIcon is not null)
                 config.Icon = m_selectedIcon;
-            if(m_selectedTextColor is not null)
+
+            if(style is null && m_selectedTextColor is not null)
                 config.TextColor = m_selectedTextColor;
-            if(m_selectedBackgroundColor is not null)
+            if(style is null && m_selectedBackgroundColor is not null)
                 config.BackgroundColor = m_selectedBackgroundColor;
         });
+    }
+
+    private static string GetStyleText(SystemMessageStyle style)
+    {
+        return style switch
+        {
+            SystemMessageStyle.Information => LocalizedStrings.Information,
+            SystemMessageStyle.Error => LocalizedStrings.Error,
+            SystemMessageStyle.Warning => LocalizedStrings.Warning,
+            SystemMessageStyle.Success => LocalizedStrings.Success,
+            _ => string.Empty
+        };
     }
     
     private void Dispose()
@@ -95,6 +129,7 @@ public class SystemMessageSamplesViewModel : ViewModel
     public ICommand RemoveAnimateCommand { get; }
     public ICommand RemoveCommand { get; }
     public ICommand DisplayCommand { get; }
+    public ICommand DisplayStyleCommand { get; }
     public ICommand DisposeCommand { get; }
     public ICommand ChangeTextColorCommand { get; }
     public ICommand ChangeBackgroundColorCommand { get; }

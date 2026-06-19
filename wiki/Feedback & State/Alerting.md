@@ -14,11 +14,23 @@ In the following example a system message with the text: "A system message" and 
 
 ```csharp
 SystemMessageService.Display(config =>
-        {
-            config.Text = "A system message";
-            config.Duration = 2000;
-        });
+{
+    config.Text = "A system message";
+    config.Duration = 2000;
+});
 ```
+
+System messages can use their own styles based on the same color roles as alerts. This applies the background color, text color and border color, but does not set an icon.
+
+```csharp
+SystemMessageService.Display(config =>
+{
+    config.Text = "The changes were saved";
+    config.Style = SystemMessageStyle.Success;
+});
+```
+
+When a system message appears, screen readers announce it as `System melding: <message>`. People can also drag and fling the message away to dismiss it.
 
 # Dialogs
 Dialogs presents critical information that users needs right away. There are three different dialogs: 
