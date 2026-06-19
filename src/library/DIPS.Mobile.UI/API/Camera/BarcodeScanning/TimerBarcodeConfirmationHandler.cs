@@ -36,11 +36,6 @@ internal sealed class TimerBarcodeConfirmationHandler : IBarcodeConfirmationHand
             null, m_detectionTime, Timeout.InfiniteTimeSpan);
     }
 
-    public void OnConfirmedBarcodeRedetected()
-    {
-        // No barcode-lost tracking in timer mode.
-    }
-
     public void ResetTrackingState()
     {
         // No transient tracking state in timer mode.

@@ -1,3 +1,6 @@
+## [61.0.0]
+- [BarcodeScanner] **BREAKING**: Removed `BarcodeScannerStartOptions.DuplicateScanCooldown`. Repeated scans of the same barcode are no longer suppressed after the scanner resumes.
+
 ## [60.5.0] 
 - Resources was updated from DIPS.Mobile.DesignTokens
 

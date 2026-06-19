@@ -7,8 +7,6 @@ namespace DIPS.Mobile.UI.API.Camera.BarcodeScanning;
 
 public partial class BarcodeScanner : ICameraUseCase
 {
-    private const int CooldownTimeout = 500;
-
     // Session lifecycle
     private BarcodeScannerStartOptions m_currentStartOptions = new();
     private BarcodeScanSession? m_scanSession;
@@ -18,11 +16,8 @@ public partial class BarcodeScanner : ICameraUseCase
     private bool m_isDisposed;
     private bool m_isPlatformStarted;
 
-    // Detection pipeline & cooldown
+    // Detection pipeline
     private readonly BarcodeDetectionAggregator m_detectionAggregator = new();
-    private readonly HashSet<string> m_confirmedBarcodeValues = new(StringComparer.Ordinal);
-    private bool m_isCoolingDown;
-    private Timer? m_cooldownTimer;
     private CancellationTokenSource? m_automaticHintCts;
     private bool m_hasCompletedAutomaticHint;
 
@@ -70,9 +65,7 @@ public partial class BarcodeScanner : ICameraUseCase
         m_confirmationHandler?.Dispose();
         m_confirmationHandler = null;
         ResetScanState();
-        DisposeCooldownTimer();
         m_hasCompletedAutomaticHint = false;
-        m_confirmedBarcodeValues.Clear();
 
         m_scanSession?.Dispose();
         m_scanSession = new BarcodeScanSession(m_currentStartOptions, StopPlatformIfNeededAsync);
@@ -182,9 +175,7 @@ public partial class BarcodeScanner : ICameraUseCase
             EndCurrentScanRun();
             m_scanSession?.PauseScanning();
             ResetBarcodeConfirmationState(resetOverlay);
-            DisposeCooldownTimer();
             StopAutomaticHint();
-            m_confirmedBarcodeValues.Clear();
         }
         catch (Exception e)
         {
@@ -205,8 +196,6 @@ public partial class BarcodeScanner : ICameraUseCase
             BeginNewScanRun();
             ResetScanState();
             m_confirmationHandler?.Reset();
-            DisposeCooldownTimer();
-            m_confirmedBarcodeValues.Clear();
             m_scanSession?.ResumeScanning();
             RestartAutomaticHintTimer();
         }
@@ -237,7 +226,6 @@ public partial class BarcodeScanner : ICameraUseCase
         EndCurrentScanRun();
         StopPlatformIfNeeded();
         ResetBarcodeConfirmationState(resetOverlay);
-        DisposeCooldownTimer();
         StopAutomaticHint();
         m_confirmationHandler?.Dispose();
         m_confirmationHandler = null;
@@ -266,15 +254,6 @@ public partial class BarcodeScanner : ICameraUseCase
             return;
 
         StopAutomaticHint();
-
-        if (m_confirmedBarcodeValues.Contains(barcodeKey))
-        {
-            m_confirmationHandler?.OnConfirmedBarcodeRedetected();
-            return;
-        }
-
-        if (m_isCoolingDown)
-            return;
 
         m_detectionAggregator.AddObservation(barcode);
 
@@ -319,11 +298,6 @@ public partial class BarcodeScanner : ICameraUseCase
         }
 
         Log($"The most detected bar code: {mostDetectedBarcodeObservation.Barcode}");
-        foreach (var obs in orderedObservations)
-        {
-            m_confirmedBarcodeValues.Add(BarcodeDetectionAggregator.GetBarcodeKey(obs.Barcode));
-        }
-
         ResetBarcodeConfirmationState(resetOverlay: false);
 
         var barcodeScanResult = new BarcodeScanResult(mostDetectedBarcodeObservation.Barcode,
@@ -375,40 +349,9 @@ public partial class BarcodeScanner : ICameraUseCase
         if (!IsSessionActive)
             return;
 
-        m_confirmedBarcodeValues.Clear();
         ResetScanState();
         m_scanRectangleOverlay?.ResetBarcodeDetection();
         RestartAutomaticHintTimer();
-    }
-
-    private void StartCooldown()
-    {
-        m_isCoolingDown = true;
-        m_cooldownTimer?.Dispose();
-        var scanRunId = CurrentScanRunId;
-        m_cooldownTimer = new Timer(_ => MainThread.BeginInvokeOnMainThread(() => FinishCooldown(scanRunId)),
-            null, (int)Math.Max(m_currentStartOptions.DuplicateScanCooldown.TotalMilliseconds, CooldownTimeout), Timeout.Infinite);
-    }
-
-    private void FinishCooldown(int scanRunId)
-    {
-        if (scanRunId != CurrentScanRunId)
-            return;
-
-        m_isCoolingDown = false;
-        if (m_scanRectangleOverlay is null)
-        {
-            m_confirmedBarcodeValues.Clear();
-        }
-        m_cooldownTimer?.Dispose();
-        m_cooldownTimer = null;
-    }
-
-    private void DisposeCooldownTimer()
-    {
-        m_cooldownTimer?.Dispose();
-        m_cooldownTimer = null;
-        m_isCoolingDown = false;
     }
 
     private void RestartAutomaticHintTimer()
@@ -553,7 +496,6 @@ public partial class BarcodeScanner : ICameraUseCase
         if (!CanResumeSession)
             return;
 
-        StartCooldown();
         m_scanSession?.ResumeScanning();
         RestartAutomaticHintTimer();
     }

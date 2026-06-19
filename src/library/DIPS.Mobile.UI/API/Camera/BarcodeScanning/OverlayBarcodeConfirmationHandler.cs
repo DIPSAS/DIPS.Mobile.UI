@@ -77,11 +77,6 @@ internal sealed class OverlayBarcodeConfirmationHandler : IBarcodeConfirmationHa
         }
     }
 
-    public void OnConfirmedBarcodeRedetected()
-    {
-        ResetBarcodeLostTimer();
-    }
-
     public void ResetTrackingState()
     {
         m_isTrackingBarcode = false;

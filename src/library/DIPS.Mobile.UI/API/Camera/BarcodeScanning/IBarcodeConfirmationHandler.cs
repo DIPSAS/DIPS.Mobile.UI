@@ -8,15 +8,9 @@ namespace DIPS.Mobile.UI.API.Camera.BarcodeScanning;
 internal interface IBarcodeConfirmationHandler : IDisposable
 {
     /// <summary>
-    /// Called when a new (unconfirmed, non-cooldown) barcode observation has been recorded.
+    /// Called when a barcode observation has been recorded.
     /// </summary>
     void OnBarcodeDetected(RectF? overlayBounds);
-
-    /// <summary>
-    /// Called when an already-confirmed barcode is detected again.
-    /// Keeps the overlay barcode-lost timer alive in overlay mode; no-op in timer mode.
-    /// </summary>
-    void OnConfirmedBarcodeRedetected();
 
     /// <summary>
     /// Resets transient tracking state (e.g. bracket animation flags) without disposing timers.
