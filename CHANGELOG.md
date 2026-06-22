@@ -1,3 +1,6 @@
+## [61.2.0] 
+- Resources was updated from DIPS.Mobile.DesignTokens
+
 ## [61.1.0]
 - [SystemMessage] Added `SystemMessageStyle` support for Alert-based background, text and border colors, border and shadow, fling-to-dismiss, and screen reader announcement.
 

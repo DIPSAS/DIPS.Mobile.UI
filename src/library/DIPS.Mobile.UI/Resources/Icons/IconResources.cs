@@ -187,6 +187,7 @@ this file is generated
 ["sort"] = "sort.png",
 ["open_in_new"] = "open_in_new.png",
 ["edit_off"] = "edit_off.png",
+["ki_logo_blue"] = "ki_logo_blue.png",
 
 
             };
