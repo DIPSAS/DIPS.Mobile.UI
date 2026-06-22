@@ -9,6 +9,7 @@ public partial class MultiImageCaptureModalPage
     private readonly bool m_requiresConfirmation;
     private readonly List<CapturedImage> m_capturedImages = [];
     private readonly ImageCapture m_imageCapture = new();
+    private bool m_hasStartedCapture;
     private readonly TaskCompletionSource<List<CapturedImage>> m_completion =
         new(TaskCreationOptions.RunContinuationsAsynchronously);
 
@@ -24,6 +25,10 @@ public partial class MultiImageCaptureModalPage
     {
         base.OnAppearing();
 
+        if (m_hasStartedCapture)
+            return;
+        m_hasStartedCapture = true;
+
         var cameraOptions = new CameraOptions
         {
             CancelButtonCommand = new Command(OnCancelled)
@@ -32,16 +37,21 @@ public partial class MultiImageCaptureModalPage
         var multiImageCaptureOptions = new MultiImageCaptureOptions
         {
             RequiresConfirmationOnEachImage = m_requiresConfirmation,
-            FinishedButtonCommand = new Command(OnFinished)
+            FinishedButtonCommand = new Command(OnFinished),
+            MaxImageCount = 10,
+            OnImageRemoved = OnImageRemoved
         };
         
         await m_imageCapture.StartMultiImageCapture(CameraPreview, OnImageCaptured, OnCameraFailed,
             cameraOptions, multiImageCaptureOptions);
     }
 
-    protected override void OnDisappearing()
+    protected override void OnHandlerChanging(HandlerChangingEventArgs args)
     {
-        base.OnDisappearing();
+        base.OnHandlerChanging(args);
+
+        if (args.NewHandler is not null)
+            return;
 
         m_imageCapture.Stop();
 
@@ -52,6 +62,11 @@ public partial class MultiImageCaptureModalPage
     private void OnImageCaptured(CapturedImage capturedImage)
     {
         m_capturedImages.Add(capturedImage);
+    }
+
+    private void OnImageRemoved(CapturedImage capturedImage)
+    {
+        m_capturedImages.Remove(capturedImage);
     }
 
     private async void OnFinished()

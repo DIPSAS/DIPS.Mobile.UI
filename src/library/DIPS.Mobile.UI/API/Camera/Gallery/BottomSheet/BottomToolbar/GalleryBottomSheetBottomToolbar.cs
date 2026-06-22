@@ -39,6 +39,6 @@ internal class GalleryBottomSheetBottomToolbar : Grid
         };
         
         Add(removeButtonWithText);
-        Add(doneButtonWithText);   
+        Add(doneButtonWithText);
     }
 }

@@ -1,6 +1,7 @@
 using DIPS.Mobile.UI.API.Camera.ImageCapturing.BottomSheets;
 using DIPS.Mobile.UI.API.Camera.ImageCapturing.Observers;
 using DIPS.Mobile.UI.API.Camera.ImageCapturing.Settings;
+using DIPS.Mobile.UI.API.Camera.ImageCapturing.Views.BottomToolbar.StreamingState;
 using DIPS.Mobile.UI.API.Camera.Shared;
 using DIPS.Mobile.UI.API.Library;
 using DIPS.Mobile.UI.MemoryManagement;
@@ -21,26 +22,22 @@ internal class ImageCaptureTopToolbarView : Grid
     private Button? m_settingsButton;
     private Button? m_infoButton;
     private Button? m_editButton;
-    private Button? m_finishedButton;
 
     private OrientationDegree m_currentOrientationDegree;
 
     private bool m_isConfirmState;
 
-    public ImageCaptureTopToolbarView(CaptureSession captureSession, Action onCancelButtonTapped, Action onFinishedButtonTapped)
+    public ImageCaptureTopToolbarView(CaptureSession captureSession, Action onCancelButtonTapped)
     {
         m_captureSession = captureSession;
-
-        var multiCaptureSession = captureSession as MultiCaptureSession;
-        var isMultiMode = multiCaptureSession is not null;
-
+        
         m_doneButton = new Button
         {
             Style = Styles.GetButtonStyle(ButtonStyle.GhostLarge),
             Text = captureSession.CameraOptions.CancelButtonText,
             TextColor = Colors.White,
             VerticalOptions = LayoutOptions.Center,
-            HorizontalOptions = isMultiMode ? LayoutOptions.Start : LayoutOptions.End,
+            HorizontalOptions = LayoutOptions.End,
             Command = new Command(onCancelButtonTapped)
         };
 
@@ -54,22 +51,6 @@ internal class ImageCaptureTopToolbarView : Grid
         Add(m_doneButton);
         Add(m_upperLeftColumn);
 
-        if (multiCaptureSession is not null)
-        {
-            var finishedButtonText = multiCaptureSession.MultiImageCaptureOptions.FinishedButtonText;
-            m_finishedButton = new Button
-            {
-                Style = Styles.GetButtonStyle(ButtonStyle.GhostLarge),
-                Text = !string.IsNullOrEmpty(finishedButtonText) ? finishedButtonText : DUILocalizedStrings.Done,
-                TextColor = Colors.White,
-                VerticalOptions = LayoutOptions.Center,
-                HorizontalOptions = LayoutOptions.End,
-                Command = new Command(onFinishedButtonTapped)
-            };
-
-            Add(m_finishedButton);
-        }
-
         DUI.OrientationChanged += OnOrientationChanged;
     }
 
@@ -78,7 +59,6 @@ internal class ImageCaptureTopToolbarView : Grid
         if (!m_isConfirmState)
         {
             m_doneButton.RotateTo(orientationDegree.OrientationDegreeToMauiRotation());
-            m_finishedButton?.RotateTo(orientationDegree.OrientationDegreeToMauiRotation());
             m_settingsButton?.RotateTo(orientationDegree.OrientationDegreeToMauiRotation());
         }
 
@@ -161,6 +141,10 @@ internal class ImageCaptureTopToolbarView : Grid
             {
                 new ImageCaptureSettingsBottomSheet(m_captureSession.CameraOptions, streamingStateObserver.OnSettingsChanged).Open();
             });
+        }
+        else if (m_captureSession is MultiCaptureSession)
+        {
+            m_upperLeftColumn.Add(new FlashButton(streamingStateObserver));
         }
     }
 

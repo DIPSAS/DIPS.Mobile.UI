@@ -303,6 +303,36 @@ namespace DIPS.Mobile.UI.Resources.LocalizedStrings.LocalizedStrings {
             }
         }
         
+        internal static string Ok {
+            get {
+                return ResourceManager.GetString("Ok", resourceCulture);
+            }
+        }
+        
+        internal static string MaxImagesReachedTitle {
+            get {
+                return ResourceManager.GetString("MaxImagesReachedTitle", resourceCulture);
+            }
+        }
+        
+        internal static string MaxImagesReachedMessage {
+            get {
+                return ResourceManager.GetString("MaxImagesReachedMessage", resourceCulture);
+            }
+        }
+        
+        internal static string NoCapturedImages {
+            get {
+                return ResourceManager.GetString("NoCapturedImages", resourceCulture);
+            }
+        }
+        
+        internal static string Accessibility_OpenCapturedImages {
+            get {
+                return ResourceManager.GetString("Accessibility_OpenCapturedImages", resourceCulture);
+            }
+        }
+        
         internal static string RemoveImageDescription {
             get {
                 return ResourceManager.GetString("RemoveImageDescription", resourceCulture);
@@ -584,7 +614,7 @@ namespace DIPS.Mobile.UI.Resources.LocalizedStrings.LocalizedStrings {
                 return ResourceManager.GetString("Of", resourceCulture);
             }
         }
-
+        
         internal static string BarcodeScanProgress {
             get {
                 return ResourceManager.GetString("BarcodeScanProgress", resourceCulture);

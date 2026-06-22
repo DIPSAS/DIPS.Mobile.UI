@@ -10,6 +10,9 @@ public class ButtonWithText : VerticalStackLayout
 {
     public ButtonWithText(string text, ImageSource imageSource, Action? onTapped)
     {
+        ArgumentException.ThrowIfNullOrEmpty(text);
+        ArgumentNullException.ThrowIfNull(imageSource);
+
         var button = new Button
         {
             ImageSource = imageSource,
@@ -18,7 +21,7 @@ public class ButtonWithText : VerticalStackLayout
             Style = Styles.GetButtonStyle(ButtonStyle.GhostIconLarge),
             Command = new Command(onTapped)
         };
-        
+
         var label = new Label
         {
             Text = text,
@@ -27,7 +30,12 @@ public class ButtonWithText : VerticalStackLayout
             HorizontalOptions = LayoutOptions.Center,
             Margin = new Thickness(0, Sizes.GetSize(SizeName.content_margin_medium), 0, 0)
         };
-        
+
+        // The button shows only an icon, so screen readers have no name to read.
+        // Name the button with the caption, and stop the caption from being read again on its own.
+        SemanticProperties.SetDescription(button, text);
+        AutomationProperties.SetExcludedWithChildren(label, true);
+
         Add(button);
         Add(label);
     }

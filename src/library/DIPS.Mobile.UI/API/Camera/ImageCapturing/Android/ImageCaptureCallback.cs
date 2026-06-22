@@ -1,3 +1,4 @@
+using Android.Runtime;
 using AndroidX.Camera.Core;
 
 namespace DIPS.Mobile.UI.API.Camera.ImageCapturing;
@@ -17,11 +18,25 @@ internal class ImageCaptureCallback : AndroidX.Camera.Core.ImageCapture.OnImageC
         m_onImageCaptured = onImageCaptured;
         m_onImageCaptureFailed = onImageCaptureFailed;
     }
+    
+    /// <remarks>
+    /// If CameraX hands this Java callback to managed code after the C# instance has been disposed, Android will try to rebuild the
+    /// managed object, and crash if this constructor doesn't exist.
+    ///
+    /// From the .NET for Android architecture docs, "Premature Dispose() Calls" section:
+    /// https://learn.microsoft.com/en-us/previous-versions/xamarin/android/internals/architecture
+    /// "If a JNI handle enters managed code after the mapping has been broken, it looks like Java Activation,
+    /// and the (IntPtr, JniHandleOwnership) constructor will be checked for and invoked. If the constructor
+    /// doesn't exist, then an exception will be thrown."
+    /// </remarks>
+    protected ImageCaptureCallback(IntPtr javaReference, JniHandleOwnership transfer)
+        : base(javaReference, transfer)
+    {
+    }
 
     /// <summary>
     /// Called when the camera hardware has started exposing the sensor.
     /// Use this to display shutter animation or similar feedback.
-    ///
     /// </summary>
     /// <remarks>
     /// From docs:
@@ -41,7 +56,7 @@ internal class ImageCaptureCallback : AndroidX.Camera.Core.ImageCapture.OnImageC
     {
         m_onImageCaptureFailed?.Invoke(exception);
         base.OnError(exception);
-        ClearDelegates();
+        IgnoreRemainingCallbacks();
     }
 
     public override void OnCaptureSuccess(IImageProxy image)
@@ -49,10 +64,16 @@ internal class ImageCaptureCallback : AndroidX.Camera.Core.ImageCapture.OnImageC
         m_onImageCaptured?.Invoke(image);
         base.OnCaptureSuccess(image);
         image?.Close();
-        ClearDelegates();
+        IgnoreRemainingCallbacks();
     }
-
-    private void ClearDelegates()
+    
+    /// <remarks>
+    /// From the .NET for Android architecture docs, "Premature Dispose() Calls" section:
+    /// https://learn.microsoft.com/en-us/previous-versions/xamarin/android/internals/architecture
+    /// "Only Dispose() of managed callable wrapper subclasses when you know that the Java object will not be
+    /// used anymore..."
+    /// </remarks>
+    internal void IgnoreRemainingCallbacks()
     {
         m_onCaptureStarted = null;
         m_onImageCaptured = null;
@@ -61,7 +82,7 @@ internal class ImageCaptureCallback : AndroidX.Camera.Core.ImageCapture.OnImageC
 
     protected override void Dispose(bool disposing)
     {
-        ClearDelegates();
+        IgnoreRemainingCallbacks();
         base.Dispose(disposing);
     }
 }

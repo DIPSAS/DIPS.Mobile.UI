@@ -319,6 +319,14 @@ public partial class CameraPreview : ContentView
         PreviewView.IsVisible = false;
     }
 
+    /// <summary>
+    /// Shows the camera preview again after <see cref="HidePreview"/>.
+    /// </summary>
+    internal void ShowPreview()
+    {
+        PreviewView.IsVisible = true;
+    }
+
     public void GoToStreamingState()
     {
         PreviewView.IsVisible = true;

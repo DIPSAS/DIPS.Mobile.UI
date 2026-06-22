@@ -1,3 +1,8 @@
+## [61.4.0]
+- [ImageCapture] When taking several photos in a row, the most recent photo now shows as a thumbnail in the bottom-left corner of the camera and updates with each capture. The thumbnail can be tapped to review and/or remove photos from the capture session.
+- [ImageCapture] Added MaxImageCount with a default of 15 when using MultiImageCapture to avoid crash as images are stored in-memory only.
+- [Gallery] Fixed issue where gallery always reset to the first image when the collection changed.
+
 ## [61.3.0] 
 - Resources was updated from DIPS.Mobile.DesignTokens
 

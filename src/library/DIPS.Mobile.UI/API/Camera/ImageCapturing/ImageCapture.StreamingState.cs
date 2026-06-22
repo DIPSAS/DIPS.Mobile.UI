@@ -1,4 +1,5 @@
 using DIPS.Mobile.UI.API.Camera.ImageCapturing.Observers;
+using DIPS.Mobile.UI.API.Camera.ImageCapturing.Views.BottomToolbar.StreamingState;
 using DIPS.Mobile.UI.Components.Alerting.Dialog;
 using DIPS.Mobile.UI.Resources.LocalizedStrings.LocalizedStrings;
 
@@ -8,6 +9,12 @@ public partial class ImageCapture : IStreamingStateObserver
 {
     void IStreamingStateObserver.OnTappedShutterButton()
     {
+        if (HasReachedImageLimit)
+        {
+            ShowMaxImagesReachedMessage();
+            return;
+        }
+
         try
         {
             m_bottomToolbarView?.SetShutterButtonEnabled(false);
@@ -15,7 +22,7 @@ public partial class ImageCapture : IStreamingStateObserver
         }
         catch (Exception e)
         {
-            PlatformOnCameraFailed(new CameraException("DidTryCaptureImage", e));
+            OnImageCaptureFailed(new CameraException("DidTryCaptureImage", e));
         }
     }
 
@@ -28,7 +35,17 @@ public partial class ImageCapture : IStreamingStateObserver
     {
         m_cameraPreview.GoToStreamingState();
         m_topToolbarView.GoToStreamingState(this);
-        m_bottomToolbarView.GoToStreamingState(this);
+
+        StreamingTrailingControl trailingControl = m_cameraSession switch
+        {
+            MultiCaptureSession multiCaptureSession =>
+                new StreamingTrailingControl.FinishCapture(multiCaptureSession.MultiImageCaptureOptions.FinishedButtonText, OnFinishedImageCaptureButtonTapped),
+            _ => new StreamingTrailingControl.Flash()
+        };
+
+        var leadingControl = CreateCapturedImagesGalleryButtonForMultiCapture();
+
+        m_bottomToolbarView.GoToStreamingState(this, trailingControl, leadingControl);
 
         m_bottomToolbarView.SetShutterButtonEnabled(true);
 

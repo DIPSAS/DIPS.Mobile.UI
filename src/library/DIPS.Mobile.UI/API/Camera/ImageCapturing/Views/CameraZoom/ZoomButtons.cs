@@ -1,4 +1,3 @@
-using DIPS.Mobile.UI.API.Library;
 using DIPS.Mobile.UI.Resources.Styles;
 using DIPS.Mobile.UI.Resources.Styles.Label;
 using Microsoft.Maui.Controls.Shapes;
@@ -44,9 +43,9 @@ internal class ZoomButtons : HorizontalStackLayout
         
         this.SizeChanged += OnSizeChanged;
         
-        DUI.OrientationChanged += OrientationChanged;
+        ApplyRotationBehaviorOnZoomButtons();
     }
-
+    
     private static List<float> CreateDefaultZoomRatios(float minRatio, float maxRatio)
     {
         var zoomRatios = new List<float>();
@@ -75,14 +74,11 @@ internal class ZoomButtons : HorizontalStackLayout
         }
     }
 
-    private void OrientationChanged(OrientationDegree orientationDegree)
+    private void ApplyRotationBehaviorOnZoomButtons()
     {
-        foreach (var child in Children)
+        foreach (var zoomButton in m_zoomButtons)
         {
-            if (child is View view)
-            {
-                view.RotateTo(orientationDegree.OrientationDegreeToMauiRotation());
-            }
+            zoomButton.RotateWithDeviceOrientation();
         }
     }
 
@@ -142,7 +138,6 @@ internal class ZoomButtons : HorizontalStackLayout
         if (args.NewHandler is not null)
             return;
         
-        DUI.OrientationChanged -= OrientationChanged;
         this.SizeChanged -= OnSizeChanged;
         
     }

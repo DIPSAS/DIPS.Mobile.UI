@@ -1,4 +1,3 @@
-using DIPS.Mobile.UI.API.Library;
 using DIPS.Mobile.UI.API.Vibration;
 using DIPS.Mobile.UI.Components.Slidable;
 using DIPS.Mobile.UI.Resources.Styles;
@@ -84,12 +83,7 @@ internal class ZoomSlider : Grid
         CreateZoomDisplayButton();
         
         m_zoomRatiosLayout.SizeChanged += ZoomRatiosLayoutOnSizeChanged;
-        DUI.OrientationChanged += OnOrientationChanged;
-    }
-
-    private void OnOrientationChanged(OrientationDegree orientationDegree)
-    {
-        m_zoomRatioLevelLabel.RotateTo(orientationDegree.OrientationDegreeToMauiRotation());
+        m_zoomRatioLevelLabel.RotateWithDeviceOrientation();
     }
 
     public void FadeTo(float opacity)
@@ -327,7 +321,6 @@ internal class ZoomSlider : Grid
             return;
 
         m_zoomRatiosLayout.SizeChanged -= ZoomRatiosLayoutOnSizeChanged;
-        DUI.OrientationChanged -= OnOrientationChanged;
         m_cancellationTokenSource.Cancel();
     }
 }

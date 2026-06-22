@@ -18,18 +18,27 @@ public partial class Gallery : Grid
     private readonly ContentView m_borderAroundNumberOfImages;
     private readonly Button? m_navigateNextImageButton;
     private readonly Button? m_navigatePreviousImageButton;
-    
+
     private bool m_isAnyImageZoomed;
-    
+    private int m_indexToRevealOnSettle = -1;
+
     private INotifyCollectionChanged? m_previousCollection;
 
     public Gallery()
     {
         BackgroundColor = Colors.Black;
 
-        var carouselView = new CarouselView.CarouselView { HorizontalScrollBarVisibility = ScrollBarVisibility.Never };
-        carouselView.SetBinding(ItemsView.ItemsSourceProperty, static (Gallery gallery) => gallery.Images, source: this);
+        var carouselView = new CarouselView.CarouselView
+        {
+            HorizontalScrollBarVisibility = ScrollBarVisibility.Never,
+            // CarouselView's default behavior scrolls back to the first image whenever the image
+            // collection changes, so removing any image but the first would jump the view to the
+            // start. KeepScrollOffset avoids this by staying at the same position.
+            ItemsUpdatingScrollMode = ItemsUpdatingScrollMode.KeepScrollOffset
+        };
         
+        carouselView.SetBinding(ItemsView.ItemsSourceProperty, static (Gallery gallery) => gallery.Images, source: this);
+
         carouselView.ItemTemplate = new DataTemplate(() =>
         {
             var zoomContainer = new PanZoomContainer.PanZoomContainer();
@@ -37,9 +46,10 @@ public partial class Gallery : Grid
             zoomContainer.PropertyChanged += OnZoomContainerPropertyChanged;
             return zoomContainer;
         });
-        
+
         carouselView.Loop = false;
         carouselView.PeekAreaInsets = new Thickness(0);
+        carouselView.PositionChanged += OnCarouselViewPositionChanged;
         AutomationProperties.SetExcludedWithChildren(carouselView, true);
         this.SetBinding(CurrentImageIndexProperty, static (CarouselView.CarouselView carouselView) => carouselView.Position, source: carouselView, mode: BindingMode.TwoWay);
         
@@ -114,8 +124,48 @@ public partial class Gallery : Grid
     {
         base.OnHandlerChanged();
 
+        HideUntilCarouselSettlesOnInitialImage();
         UpdateNavigationButtonsVisibility();
         AnnounceCurrentImage();
+    }
+
+    private void HideUntilCarouselSettlesOnInitialImage()
+    {
+        // On initial load, CarouselView renders the image on index 0 before changing to an image on a non-zero index,
+        // leading to a short flash of the first image.
+        // To fix this, we hide the whole gallery until the carousel reports it has reached the target, then fade it in.
+        if (Handler is null || CurrentImageIndex <= 0)
+            return;
+
+        m_indexToRevealOnSettle = CurrentImageIndex;
+        
+        Opacity = 0;
+        
+        _ = RevealAfterSettleTimeout();
+    }
+
+    private void OnCarouselViewPositionChanged(object? sender, PositionChangedEventArgs e)
+    {
+        if (m_indexToRevealOnSettle < 0 || e.CurrentPosition != m_indexToRevealOnSettle)
+            return;
+
+        FadeGalleryIn();
+    }
+
+    private async Task RevealAfterSettleTimeout()
+    {
+        await Task.Delay(250);
+        
+        FadeGalleryIn();
+    }
+
+    private void FadeGalleryIn()
+    {
+        if (m_indexToRevealOnSettle < 0)
+            return;
+
+        m_indexToRevealOnSettle = -1;
+        _ = this.FadeToAsync(1, 150);
     }
 
     private void AnnounceCurrentImage()

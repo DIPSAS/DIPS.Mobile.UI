@@ -43,6 +43,18 @@ public record MultiImageCaptureOptions
 
     /// <summary>Invoked when the user taps the finished button to confirm the captured images.</summary>
     public ICommand? FinishedButtonCommand { get; init; }
+
+    /// <summary>
+    /// Maximum amount of images the user is allowed to capture in one session. Captured images
+    /// are held in-memory during a camera session, so this is also the safeguard that keeps memory bounded.
+    /// </summary>
+    /// <remarks>Defaults to 15.</remarks>
+    public int MaxImageCount { get; init; } = 15;
+
+    /// <summary>
+    /// Invoked when the user removes an image from the in-camera gallery.
+    /// </summary>
+    public OnCapturedImageRemoved? OnImageRemoved { get; init; }
 }
 
 internal class CameraInfo

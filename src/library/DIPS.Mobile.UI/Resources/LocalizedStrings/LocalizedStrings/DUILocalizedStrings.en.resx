@@ -143,6 +143,21 @@
     <data name="RemoveImageTitle" xml:space="preserve">
         <value>Remove image</value>
     </data>
+    <data name="Ok" xml:space="preserve">
+        <value>OK</value>
+    </data>
+    <data name="MaxImagesReachedTitle" xml:space="preserve">
+        <value>Maximum number of images reached</value>
+    </data>
+    <data name="MaxImagesReachedMessage" xml:space="preserve">
+        <value>You can add a maximum of {0} images.</value>
+    </data>
+    <data name="NoCapturedImages" xml:space="preserve">
+        <value>No images</value>
+    </data>
+    <data name="Accessibility_OpenCapturedImages" xml:space="preserve">
+        <value>Open the image gallery</value>
+    </data>
     <data name="RemoveImageDescription" xml:space="preserve">
         <value>Do you want to remove the image?</value>
     </data>
