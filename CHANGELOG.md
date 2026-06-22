@@ -1,3 +1,6 @@
+## [61.3.0] 
+- Resources was updated from DIPS.Mobile.DesignTokens
+
 ## [61.2.0] 
 - Resources was updated from DIPS.Mobile.DesignTokens
 
