@@ -8,10 +8,10 @@ using DIPS.Mobile.UI.API.Camera.Shared;
 using DIPS.Mobile.UI.Components.Alerting.Dialog;
 using DIPS.Mobile.UI.Components.BottomSheets;
 using DIPS.Mobile.UI.Components.BottomSheets.Header;
-using DIPS.Mobile.UI.Converters.ValueConverters;
 using DIPS.Mobile.UI.Resources.LocalizedStrings.LocalizedStrings;
 using DIPS.Mobile.UI.Resources.Styles;
 using DIPS.Mobile.UI.Resources.Styles.Button;
+using System.ComponentModel;
 
 #if __IOS__
 using UIKit;
@@ -37,6 +37,7 @@ internal partial class GalleryBottomSheet : ContentPage, IGalleryDefaultStateObs
     private readonly Grid m_grid;
     private readonly GalleryBottomSheetTopToolbar m_topToolbar;
     private readonly GalleryBottomSheetBottomToolbar m_bottomToolbar;
+    private List<GalleryImageItem> m_galleryImageItems = [];
     
     private CarouselView? m_carouselView;
     private CancellationTokenSource m_cancellationTokenSource = new();
@@ -202,12 +203,19 @@ internal partial class GalleryBottomSheet : ContentPage, IGalleryDefaultStateObs
 
     public Task Close(bool animated = true)
     {
+        DisposeGalleryImageItems();
         return Shell.Current.Navigation.PopModalAsync(true);
     }
 
     protected override void OnHandlerChanging(HandlerChangingEventArgs args)
     {
         base.OnHandlerChanging(args);
+
+        if(args.NewHandler is null)
+        {
+            DisposeGalleryImageItems();
+            return;
+        }
 
         if (args.NewHandler is not null)
         {
@@ -237,6 +245,12 @@ internal partial class GalleryBottomSheet : ContentPage, IGalleryDefaultStateObs
             
             UpdateNavigationButtonsVisibility(currentPosition);
             m_currentlyCapturedImageDisplayed = Images[currentPosition];
+#if __IOS__
+            // CarouselView reuses native cells on iOS, which can leave neighbor items with stale
+            // stream image state. Refreshing adjacent sources ensures they reload correctly.
+            RefreshImageSource(currentPosition - 1);
+            RefreshImageSource(currentPosition + 1);
+#endif
             
             UpdateNumberOfImagesLabel(currentPosition);
         }
@@ -259,15 +273,69 @@ internal partial class GalleryBottomSheet : ContentPage, IGalleryDefaultStateObs
         m_topToolbar.UpdateNumberOfImagesLabel(text);
     }
 
+    private void RefreshImageSource(int index)
+    {
+        if(index < 0 || index >= m_galleryImageItems.Count)
+            return;
+
+        m_galleryImageItems[index].RefreshSource();
+    }
+
     private static View CreateImageView()
     {
-        var image = new Image { VerticalOptions = LayoutOptions.Center };
-        image.SetBinding(
-            Image.SourceProperty,
-            static (CapturedImage capturedImage) => capturedImage.AsByteArray,
-            converter: new ByteArrayToImageSourceConverter());
+        return new ImageView();
+    }
 
-        return new Grid { Children = { image } };
+    private sealed class ImageView : Grid
+    {
+        private readonly Image m_image = new()
+        {
+            VerticalOptions = LayoutOptions.Center
+        };
+
+        public ImageView()
+        {
+            m_image.SetBinding(Image.SourceProperty, new Binding(nameof(GalleryImageItem.Source)));
+            Children.Add(m_image);
+        }
+    }
+
+    private sealed class GalleryImageItem : INotifyPropertyChanged
+    {
+        private ImageSource? m_source;
+
+        public GalleryImageItem(CapturedImage capturedImage)
+        {
+            CapturedImage = capturedImage;
+            RefreshSource();
+        }
+
+        private CapturedImage CapturedImage { get; }
+
+        public ImageSource? Source
+        {
+            get => m_source;
+            private set
+            {
+                if (ReferenceEquals(m_source, value))
+                    return;
+
+                m_source = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Source)));
+            }
+        }
+
+        public event PropertyChangedEventHandler? PropertyChanged;
+
+        public void RefreshSource()
+        {
+            Source = ImageSource.FromStream(() => new MemoryStream(CapturedImage.AsByteArray));
+        }
+    }
+
+    private void DisposeGalleryImageItems()
+    {
+        m_galleryImageItems.Clear();
     }
 
     private void OnImagesChanged()
@@ -296,6 +364,8 @@ internal partial class GalleryBottomSheet : ContentPage, IGalleryDefaultStateObs
             }
         }
 
+        DisposeGalleryImageItems();
+
         var carouselViewPosition = m_startingIndex;
         
         if(m_positionBeforeRemoval is not null)
@@ -314,7 +384,7 @@ internal partial class GalleryBottomSheet : ContentPage, IGalleryDefaultStateObs
             Loop = false,
             ItemTemplate = new DataTemplate(CreateImageView),
             Position = carouselViewPosition, 
-            ItemsSource = Images
+            ItemsSource = m_galleryImageItems = Images.Select(image => new GalleryImageItem(image)).ToList()
         };
         m_carouselViewWrapperView.Content = m_carouselView;
         
