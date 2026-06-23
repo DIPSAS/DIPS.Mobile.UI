@@ -246,8 +246,11 @@ internal partial class GalleryBottomSheet : ContentPage, IGalleryDefaultStateObs
             UpdateNavigationButtonsVisibility(currentPosition);
             m_currentlyCapturedImageDisplayed = Images[currentPosition];
 #if __IOS__
-            // CarouselView reuses native cells on iOS, which can leave neighbor items with stale
-            // stream image state. Refreshing adjacent sources ensures they reload correctly.
+            // CarouselView reuses native cells on iOS, which can leave current/neighbor items
+            // with stale stream image state. Refreshing them ensures they reload correctly.
+            // Repro example: Capture 3 images. Open image 1, swipe to 3, close. Open image 2,
+            // swipe to 1 (ok), then to 3 (can become black). Similar inverse repro from 3 -> 1.
+            RefreshImageSource(currentPosition);
             RefreshImageSource(currentPosition - 1);
             RefreshImageSource(currentPosition + 1);
 #endif
