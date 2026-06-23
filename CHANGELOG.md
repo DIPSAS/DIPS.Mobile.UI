@@ -26,6 +26,9 @@
 - [Checkmark] Added `AddStrokeToCheckmark` property to display a visible stroke around the checkmark
 - [CheckmarkListItem] Added `AddStrokeToCheckmark` property to display a visible stroke around the checkmark icon
 
+## [60.2.16]
+- [ImageCapture][iOS] Fixed intermittent black images in full-screen gallery previews by refreshing stream-backed sources for current and neighboring carousel items during position updates.
+
 ## [60.2.15]
 - [ImageCapture][iOS] Fixed full-screen gallery previews showing black images when opened from thumbnails.
 
