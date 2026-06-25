@@ -93,6 +93,16 @@ public partial class MainPage
         Shell.Current.Navigation.PushAsync(new ItemPickerRefreshRepro());
     }
 
+    private void GoToPatientListMenuFlingRepro(object sender, EventArgs e)
+    {
+        Shell.Current.Navigation.PushAsync(new PatientListMenuFlingReproPage());
+    }
+
+    private void GoToDatePickerFlingRepro(object sender, EventArgs e)
+    {
+        Shell.Current.Navigation.PushAsync(new DatePickerFlingReproPage());
+    }
+
     private void GoToCollectionViewTests(object sender, EventArgs e)
     {
         Shell.Current.Navigation.PushAsync(new CollectionViewTests());

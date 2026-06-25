@@ -1,3 +1,6 @@
+## [60.2.17]
+- [Touch][iOS] Fixed scroll gestures on tappable rows getting stuck after dismissing context menus or picker popovers, and prevented taps behind open overlays from activating touch commands.
+
 ## [60.2.16]
 - [ImageCapture][iOS] Fixed intermittent black images in full-screen gallery previews by refreshing stream-backed sources for current and neighboring carousel items during position updates.
 
