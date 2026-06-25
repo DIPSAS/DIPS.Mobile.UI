@@ -7,6 +7,7 @@ public partial class ContextMenuPlatformEffect
 {
     private UIButton? m_uiButtonToRemove;
     private UIMenu? m_cachedMenu;
+    private IDisposable? m_pressedMenuTouchBlocker;
     
 #nullable disable
     private ContextMenu m_contextMenu;

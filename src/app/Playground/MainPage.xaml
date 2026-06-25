@@ -27,6 +27,10 @@
                                     Tapped="GoToCollectionViewTests" />
             <dui:NavigationListItem Title="ItemPicker Refresh Repro"
                                     Tapped="GoToItemPickerRefreshRepro" />
+            <dui:NavigationListItem Title="Patient List Menu Fling Repro"
+                                    Tapped="GoToPatientListMenuFlingRepro" />
+            <dui:NavigationListItem Title="DatePicker Fling Repro"
+                                    Tapped="GoToDatePickerFlingRepro" />
             <dui:NavigationListItem Title="Barcode Resume Repro (#1415)"
                                     Tapped="GoToBarcodeScanResumeRepro" />
             <dui:NavigationListItem Title="Barcode Resume Repro (Modal)"
