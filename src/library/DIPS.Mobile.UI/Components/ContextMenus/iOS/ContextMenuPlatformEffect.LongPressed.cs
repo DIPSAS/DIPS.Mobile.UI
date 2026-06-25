@@ -50,7 +50,7 @@ public partial class ContextMenuPlatformEffect
             IUIContextMenuInteractionAnimating? animator)
         {
             if (Element is null)
-                return; 
+                return;
 
             Touch.SetIsEnabled(Element, true);
         }
