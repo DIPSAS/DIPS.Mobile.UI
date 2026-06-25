@@ -1,6 +1,7 @@
 using System.ComponentModel;
 using CoreGraphics;
 using DIPS.Mobile.UI.Components.ContextMenus.iOS;
+using DIPS.Mobile.UI.Effects.Touch.iOS;
 using Foundation;
 using Microsoft.Maui.Platform;
 using UIKit;
@@ -34,9 +35,11 @@ public partial class ContextMenuPlatformEffect
 
     private UIButton CreateOverlayButton()
     {
-        var uiButton = new UIButton();
-        uiButton.TranslatesAutoresizingMaskIntoConstraints = false;
-        
+        var uiButton = new ContextMenuButton(this)
+        {
+            TranslatesAutoresizingMaskIntoConstraints = false
+        };
+
         Control.AddSubview(uiButton);
         m_uiButtonToRemove = uiButton;
         
@@ -97,11 +100,46 @@ public partial class ContextMenuPlatformEffect
             m_uiButton.Menu = null;
         m_cachedMenu?.Dispose();
         m_cachedMenu = null;
+        m_pressedMenuTouchBlocker?.Dispose();
+        m_pressedMenuTouchBlocker = null;
         m_uiButtonToRemove?.RemoveFromSuperview();
         
         m_contextMenu.SetPlatformRebuildAction(null);
         
         if(Element is not null)
             Element.PropertyChanged -= ElementOnPropertyChanged;
+    }
+
+    private sealed class ContextMenuButton(ContextMenuPlatformEffect effect) : UIButton
+    {
+        private readonly WeakReference<ContextMenuPlatformEffect> m_effectReference = new(effect);
+
+        public override void WillDisplayMenu(UIContextMenuInteraction interaction,
+            UIContextMenuConfiguration configuration, IUIContextMenuInteractionAnimating? animator)
+        {
+            if (m_effectReference.TryGetTarget(out var contextMenuPlatformEffect))
+            {
+                contextMenuPlatformEffect.m_pressedMenuTouchBlocker ??= TouchOverlayTouchBlocker.Block();
+            }
+
+            base.WillDisplayMenu(interaction, configuration, animator);
+        }
+
+        public override void WillEnd(UIContextMenuInteraction interaction, UIContextMenuConfiguration configuration,
+            IUIContextMenuInteractionAnimating? animator)
+        {
+            if (m_effectReference.TryGetTarget(out var contextMenuPlatformEffect))
+            {
+                contextMenuPlatformEffect.DisposePressedMenuTouchBlocker();
+            }
+
+            base.WillEnd(interaction, configuration, animator);
+        }
+    }
+
+    private void DisposePressedMenuTouchBlocker()
+    {
+        m_pressedMenuTouchBlocker?.Dispose();
+        m_pressedMenuTouchBlocker = null;
     }
 }

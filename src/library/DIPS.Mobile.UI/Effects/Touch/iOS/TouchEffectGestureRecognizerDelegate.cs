@@ -6,9 +6,7 @@ internal class TouchEffectGestureRecognizerDelegate : UIGestureRecognizerDelegat
 {
     public override bool ShouldReceiveTouch(UIGestureRecognizer recognizer, UITouch touch)
     {
-        // Do not allow touch recognition if a context menu is currently displayed.
-        // NOTE: This can be subject to change in future iOS versions
-        if (Platform.GetCurrentUIViewController()?.Class.Name?.Contains("UIContextMenuActionsOnlyViewController") ?? false)
+        if (TouchOverlayTouchBlocker.IsBlocked || TouchOverlayTouchBlocker.IsBlockedByActivePopover)
             return false;
 
         var test = Platform.GetCurrentUIViewController()?.Class.Name;
@@ -27,8 +25,11 @@ internal class TouchEffectGestureRecognizerDelegate : UIGestureRecognizerDelegat
         return false;
     }
 
-    private bool CheckRecognizers(UIView view, UIView superViewThatContainsRecognizer)
+    private bool CheckRecognizers(UIView? view, UIView superViewThatContainsRecognizer)
     {
+        if (view is null)
+            return false;
+
         var gestureRecognizers = view.GestureRecognizers;
 
         if (view.Equals(superViewThatContainsRecognizer))
@@ -46,11 +47,11 @@ internal class TouchEffectGestureRecognizerDelegate : UIGestureRecognizerDelegat
         UIGestureRecognizer otherGestureRecognizer)
     {
         if (gestureRecognizer is TouchEffectTapGestureRecognizer touchGesture &&
-            otherGestureRecognizer is UIPanGestureRecognizer &&
-            otherGestureRecognizer.State == UIGestureRecognizerState.Began)
+            otherGestureRecognizer is UIPanGestureRecognizer)
         {
             TouchPlatformEffect.HandleTouch(UIGestureRecognizerState.Cancelled, ref touchGesture.m_currentState,
                 gestureRecognizer.View);
+            return false;
         }
 
         return true;
