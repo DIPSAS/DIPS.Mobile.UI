@@ -42,6 +42,8 @@ internal class BarcodeScanRectangleOverlay : Grid
     private const float TrackingTargetLargeChangeThreshold = 48f;
     private const float TrackingTargetSmoothing = .35f;
     private const float TrackingTargetFastSmoothing = .65f;
+    private const uint BracketsReturnLength = 280;
+    private const int FailureRescanCooldownMilliseconds = 500;
 
     private const string AnimationKeyCornerBreathing = "CornerBreathing";
     private const string AnimationKeyBracketsToBarcode = "BracketsToBarcode";
@@ -631,10 +633,16 @@ internal class BarcodeScanRectangleOverlay : Grid
         await m_cornersGraphicsView.TranslateToAsync(-shakeDistance / 2, 0, 65, Easing.CubicInOut);
         await m_cornersGraphicsView.TranslateToAsync(0, 0, 80, Easing.CubicOut);
 
-        ResetBarcodeDetection();
+        await ResetBarcodeDetectionAsync();
+        await Task.Delay(FailureRescanCooldownMilliseconds);
     }
 
     internal void ResetBarcodeDetection()
+    {
+        _ = ResetBarcodeDetectionAsync();
+    }
+
+    private Task ResetBarcodeDetectionAsync()
     {
         m_cornersGraphicsView.AbortAnimation(AnimationKeyBracketsToBarcode);
         m_cornersGraphicsView.AbortAnimation(AnimationKeyBracketsReturn);
@@ -652,11 +660,11 @@ internal class BarcodeScanRectangleOverlay : Grid
 
         if (currentRect is not null)
         {
-            // Animate back to scan rectangle
             var startX = currentRect.Value.X;
             var startY = currentRect.Value.Y;
             var startW = currentRect.Value.Width;
             var startH = currentRect.Value.Height;
+            var taskCompletionSource = new TaskCompletionSource<bool>();
 
             var animation = new Animation(v =>
             {
@@ -671,21 +679,24 @@ internal class BarcodeScanRectangleOverlay : Grid
 
             animation.Commit(m_cornersGraphicsView, AnimationKeyBracketsReturn,
                 rate: 16,
-                length: 280,
+                length: BracketsReturnLength,
                 finished: (_, cancelled) =>
                 {
                     m_cornersDrawable.OverrideRect = null;
                     if (!cancelled)
                         StartBreathingAnimation();
+
+                    taskCompletionSource.TrySetResult(true);
                 });
-        }
-        else
-        {
-            m_cornersDrawable.OverrideRect = null;
-            StartBreathingAnimation();
+
+            return taskCompletionSource.Task;
         }
 
+        m_cornersDrawable.OverrideRect = null;
+        StartBreathingAnimation();
+        return Task.CompletedTask;
     }
+
     private RectF GetScanRectangleForDrawable()
     {
         var w = (float)Width;

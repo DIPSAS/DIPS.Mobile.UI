@@ -102,6 +102,15 @@ public partial class StepFlow : ContentView
             {
                 m_stack.Children.Insert(Math.Min(i, m_stack.Children.Count), item);
             }
+            item.RefreshTapTarget();
+        }
+    }
+
+    private void RefreshItemTapTargets()
+    {
+        foreach (var item in m_items)
+        {
+            item.RefreshTapTarget();
         }
     }
 
@@ -161,8 +170,15 @@ public partial class StepFlow : ContentView
 
     private void OnControllerFlowCompleted(object? sender, EventArgs e)
     {
+        RefreshItemTapTargets();
         FlowCompleted?.Invoke(this, EventArgs.Empty);
     }
+
+    internal bool CanGoBackFromCompletedSteps => m_attachedController is { } controller
+        ? !controller.IsCompleted
+        : !AreAllItemsCompleted();
+
+    private bool AreAllItemsCompleted() => m_items.Count > 0 && m_items.All(item => item.State == StepFlowItemState.Completed);
 
     private void OnItemCardTapped(object? sender, EventArgs e)
     {
@@ -173,7 +189,28 @@ public partial class StepFlow : ContentView
         if (controller is null)
         {
             // Escape hatch (no controller): manually enforce single-active.
-            if (item.State == StepFlowItemState.Completed && item.LockWhenCompleted) return;
+            if (item.State == StepFlowItemState.Completed && !item.CanGoBack) return;
+            if (item.State == StepFlowItemState.Completed && !CanGoBackFromCompletedSteps) return;
+            if (item.State == StepFlowItemState.Completed && item.CanGoBack)
+            {
+                var targetIndex = m_items.IndexOf(item);
+                if (targetIndex < 0) return;
+
+                for (var i = 0; i < m_items.Count; i++)
+                {
+                    var other = m_items[i];
+                    if (ReferenceEquals(other, item))
+                    {
+                        other.State = StepFlowItemState.Active;
+                    }
+                    else if (i > targetIndex || other.State == StepFlowItemState.Active)
+                    {
+                        other.State = StepFlowItemState.Disabled;
+                    }
+                }
+                return;
+            }
+
             foreach (var other in m_items)
             {
                 if (!ReferenceEquals(other, item) && other.State == StepFlowItemState.Active)
@@ -186,6 +223,12 @@ public partial class StepFlow : ContentView
         }
 
         if (item.Index < 0) return;
+        if (item.State == StepFlowItemState.Completed && item.CanGoBack)
+        {
+            controller.GoBackTo(item.Index);
+            return;
+        }
+
         controller.GoTo(item.Index);
     }
 
@@ -230,7 +273,7 @@ public partial class StepFlow : ContentView
         if (m_scrollerResolved) return m_cachedScroller;
         m_scrollerResolved = true;
 
-        Element? walker = Parent;
+        var walker = Parent;
         while (walker is not null)
         {
             if (walker is MauiScrollView sv)

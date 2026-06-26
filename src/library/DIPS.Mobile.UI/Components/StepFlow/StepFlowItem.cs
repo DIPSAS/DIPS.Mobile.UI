@@ -52,6 +52,11 @@ public partial class StepFlowItem : ContentView
     /// <summary>Raised when the user taps the card. The container decides whether the tap should activate the step.</summary>
     internal event EventHandler? CardTapped;
 
+    internal void RefreshTapTarget()
+    {
+        UpdateCardTapTarget(State);
+    }
+
     public StepFlowItem()
     {
         m_animationToken = "stepflow-item-" + Guid.NewGuid().ToString("N");
@@ -233,9 +238,15 @@ public partial class StepFlowItem : ContentView
             return;
         if (State == StepFlowItemState.Active)
             return;
-        if (State == StepFlowItemState.Completed && LockWhenCompleted)
-            return;
-        if (State == StepFlowItemState.Disabled && Parent is StepFlow flow && !flow.AllowDirectStepActivation)
+        if (State == StepFlowItemState.Completed)
+        {
+            var flow = FindParentStepFlow();
+            if (flow?.CanGoBackFromCompletedSteps != true)
+                return;
+            if (!CanGoBack)
+                return;
+        }
+        if (State == StepFlowItemState.Disabled && FindParentStepFlow()?.AllowDirectStepActivation != true)
             return;
 
         CardTapped?.Invoke(this, EventArgs.Empty);
@@ -243,11 +254,54 @@ public partial class StepFlowItem : ContentView
 
     private void UpdateCardTapTarget(StepFlowItemState state)
     {
-        var command = state == StepFlowItemState.Active ? null : m_cardTappedCommand;
+        var command = CanTapCard(state) ? m_cardTappedCommand : null;
         if (ReferenceEquals(Touch.GetCommand(m_root), command))
             return;
 
+        if (command is null && Touch.GetCommand(m_root) is not null)
+        {
+            Dispatcher.Dispatch(() =>
+            {
+                if (!CanTapCard(State) && Touch.GetCommand(m_root) is not null)
+                {
+                    Touch.SetCommand(m_root, null!);
+                }
+            });
+            return;
+        }
+
         Touch.SetCommand(m_root, command!);
+    }
+
+    private bool CanTapCard(StepFlowItemState state) => state switch
+    {
+        StepFlowItemState.Active => false,
+        StepFlowItemState.Completed => CanTapCompletedCard(),
+        StepFlowItemState.Disabled => FindParentStepFlow()?.AllowDirectStepActivation == true,
+        _ => true
+    };
+
+    private bool CanTapCompletedCard()
+    {
+        var flow = FindParentStepFlow();
+        if (flow?.CanGoBackFromCompletedSteps != true)
+            return false;
+
+        return CanGoBack;
+    }
+
+    private StepFlow? FindParentStepFlow()
+    {
+        var walker = Parent;
+        while (walker is not null)
+        {
+            if (walker is StepFlow flow)
+                return flow;
+
+            walker = walker.Parent;
+        }
+
+        return null;
     }
 
     private void OnStateChanged(StepFlowItemState oldState, StepFlowItemState newState)
@@ -291,6 +345,7 @@ public partial class StepFlowItem : ContentView
                 break;
 
             case StepFlowItemState.Active:
+                this.AbortAnimation(m_animationToken + "-opacity");
                 StopCompletionAnimation();
                 AnimateIndicator(show: false, animate);
                 LayoutEffect.SetStroke(m_root, Colors.GetColor(ColorName.color_text_default));
@@ -402,9 +457,9 @@ public partial class StepFlowItem : ContentView
 
         this.AbortAnimation(m_animationToken + "-body");
         parent.Commit(this, m_animationToken + "-body", rate: 16, length: ExpandDurationMs,
-            easing: Easing.Linear, finished: (_, _) =>
+            easing: Easing.Linear, finished: (_, wasCancelled) =>
             {
-                if (State != StepFlowItemState.Active || Handler is null)
+                if (wasCancelled || State != StepFlowItemState.Active || Handler is null)
                     return;
                 // Hand the slot back to auto-sizing so future content changes (async loads,
                 // text wraps) just work without a re-measure dance.
@@ -437,8 +492,11 @@ public partial class StepFlowItem : ContentView
 
         this.AbortAnimation(m_animationToken + "-body");
         parent.Commit(this, m_animationToken + "-body", rate: 16, length: CollapseDurationMs,
-            easing: Easing.Linear, finished: (_, _) =>
+            easing: Easing.Linear, finished: (_, wasCancelled) =>
             {
+                if (wasCancelled || State == StepFlowItemState.Active)
+                    return;
+
                 m_bodyContainer.IsVisible = false;
                 m_bodyContainer.TranslationY = 0;
             });

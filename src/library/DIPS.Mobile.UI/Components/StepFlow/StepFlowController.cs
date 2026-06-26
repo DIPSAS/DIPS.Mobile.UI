@@ -103,7 +103,8 @@ public class StepFlowController : ViewModel
 
     /// <summary>
     /// Activates the step at <paramref name="index"/>. No-op if the step is
-    /// <see cref="StepFlowItemState.Disabled"/> or <see cref="StepFlowItemState.Completed"/>.
+    /// <see cref="StepFlowItemState.Completed"/>. Use <see cref="GoBackTo"/> to activate a
+    /// completed step and require it to be confirmed again.
     /// </summary>
     public void GoTo(int index)
     {
@@ -112,6 +113,35 @@ public class StepFlowController : ViewModel
         if (state == StepFlowItemState.Completed) return;
 
         ActivateInternal(index);
+    }
+
+    /// <summary>
+    /// Activates a completed previous step and resets that step and all following steps so they
+    /// must be confirmed again. No-op if the step is not completed or the flow is already
+    /// completed.
+    /// </summary>
+    public void GoBackTo(int index)
+    {
+        if (!IsValidIndex(index)) return;
+        if (IsCompleted) return;
+        if (m_states[index] != StepFlowItemState.Completed) return;
+
+        for (var i = 0; i < m_stepCount; i++)
+        {
+            if (i == index)
+            {
+                if (m_states[i] != StepFlowItemState.Active)
+                    SetStateInternal(i, StepFlowItemState.Active);
+            }
+            else if (i > index || m_states[i] == StepFlowItemState.Active)
+            {
+                if (m_states[i] != StepFlowItemState.Disabled)
+                    SetStateInternal(i, StepFlowItemState.Disabled);
+            }
+        }
+
+        CurrentIndex = index;
+        StepActivated?.Invoke(this, new StepFlowEventArgs(index));
     }
 
     /// <summary>Resets the flow: step 0 becomes <see cref="StepFlowItemState.Active"/>, the rest <see cref="StepFlowItemState.Disabled"/>.</summary>

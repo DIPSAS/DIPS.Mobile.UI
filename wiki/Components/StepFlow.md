@@ -78,7 +78,8 @@ public class SamplingViewModel : ViewModel
 | `AutoAdvanceDelay` | Delay before auto-advance. Defaults to 800 ms. |
 | `CompleteCurrent()` | Marks `CurrentIndex` `Completed` and (optionally) auto-advances. |
 | `Complete(int)` | Marks the step at the given index `Completed`. |
-| `GoTo(int)` | Activates the step at the given index. No-op if disabled or completed. |
+| `GoTo(int)` | Activates the step at the given index. No-op if completed. |
+| `GoBackTo(int)` | Activates a completed previous step and resets that step and all following steps so they must be confirmed again. No-op after the full flow is completed. |
 | `Reset()` | Step 0 → `Active`, all others → `Disabled`. |
 | `SetState(int, state)` | Explicitly set a step's state. Use sparingly. |
 | `StepCompleted` | Raised when a step transitions to `Completed`. |
@@ -103,7 +104,7 @@ public class SamplingViewModel : ViewModel
 | `Subtitle` | Optional smaller line below the title. |
 | `Content` | The body shown when the step is `Active`. XAML default content. |
 | `IndicatorTemplate` | Optional template for the leading indicator. Defaults to a numbered/check circle. |
-| `LockWhenCompleted` | When `true` (default) tapping a completed step does nothing. |
+| `CanGoBack` | When `true`, tapping a completed step activates it again and resets this and following steps so they must be confirmed again. No-op after the full flow is completed. |
 | `State` | Current `StepFlowItemState`. Driven by the container — read-only for advanced scenarios. |
 
 ### `StepFlowItemState`
@@ -141,6 +142,18 @@ Set `AutoScrollIntoView="False"` on the `StepFlow` to opt out — for example wh
 ```
 
 If no ancestor `ScrollView` is found, `AutoScrollIntoView` is a silent no-op. Non-MAUI scrollers (`CollectionView` etc.) are not supported.
+
+## Going back
+
+Set `CanGoBack="True"` on completed steps that people may revisit while the flow is still in progress. When the step is tapped, StepFlow activates that step and resets it plus all following steps to require confirmation again. Once every step is completed, back navigation is disabled.
+
+```xml
+<dui:StepFlow Controller="{Binding Flow}">
+    <dui:StepFlowItem Title="Confirm patient" />
+    <dui:StepFlowItem Title="Scan sample labels" CanGoBack="True" />
+    <dui:StepFlowItem Title="Confirm sampling" CanGoBack="True" />
+</dui:StepFlow>
+```
 
 ## Escape hatch (binding-only)
 
