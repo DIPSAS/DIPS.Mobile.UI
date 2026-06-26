@@ -8,16 +8,20 @@ public partial class DateAndTimePicker
     public static readonly BindableProperty SelectedDateTimeProperty = BindableProperty.Create(
         nameof(SelectedDateTime),
         typeof(DateTime),
-        typeof(DateAndTimePicker), 
-        DateTime.Now,
+        typeof(DateAndTimePicker),
+        default(DateTime),
         defaultBindingMode:BindingMode.TwoWay,
         propertyChanged: (bindable, _, date) =>
         {
             if(date is not DateTime time)
                 return;
-            
+
             ((DateAndTimePicker)bindable).OnSelectedDateTimeChanged(time);
-        });
+        },
+        // A plain DateTime.Now default value is read only once and then shared by every picker,
+        // so all pickers showed the same frozen time until app restart. The creator runs once per
+        // picker, so each picker gets the current time instead.
+        defaultValueCreator: bindable => DateTime.Now);
 
     /// <summary>
     /// The date people selected from the date picker.
