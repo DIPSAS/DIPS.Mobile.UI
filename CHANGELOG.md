@@ -1,3 +1,6 @@
+## [61.5.3]
+- [DateAndTimePicker][DatePicker][HorizontalInlineDatePicker] Fixed issue where the default value of pickers with no set value was reused and never updated until restart. 
+
 ## [61.5.2]
 - [Touch][iOS] Fixed popovers and context menus opened from `Touch.Command` breaking scrolling and swipe-back gestures after dismissal.
 
