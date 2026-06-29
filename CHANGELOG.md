@@ -1,5 +1,8 @@
-## [61.5.2]
+## [61.5.3]
 - [DateAndTimePicker][DatePicker][HorizontalInlineDatePicker] Fixed issue where the default value of pickers with no set value was reused and never updated until restart. 
+
+## [61.5.2]
+- [Touch][iOS] Fixed popovers and context menus opened from `Touch.Command` breaking scrolling and swipe-back gestures after dismissal.
 
 ## [61.5.1]
 - [Touch][iOS] Fixed scroll gestures on tappable rows getting stuck after dismissing context menus or picker popovers, and prevented taps behind open overlays from activating touch commands.
