@@ -47,12 +47,18 @@ public class TouchEffectTapGestureRecognizer : UIGestureRecognizer
     public override void TouchesEnded(NSSet touches, UIEvent evt)
     {
         base.TouchesEnded(touches, evt);
-        
-        if(!m_longPressDetected && m_currentState is not UIGestureRecognizerState.Cancelled)
-            m_onTap.Invoke();
+
+        var shouldInvokeTap = !m_longPressDetected && m_currentState is not UIGestureRecognizerState.Cancelled;
         
         TouchPlatformEffect.HandleTouch(UIGestureRecognizerState.Ended, ref m_currentState, m_uiView);
         m_longPressDetected = false;
+
+        State = shouldInvokeTap ? UIGestureRecognizerState.Ended : UIGestureRecognizerState.Failed;
+
+        if (shouldInvokeTap)
+        {
+            MainThread.BeginInvokeOnMainThread(m_onTap);
+        }
     }
 
     public override void TouchesCancelled(NSSet touches, UIEvent evt)
@@ -60,6 +66,7 @@ public class TouchEffectTapGestureRecognizer : UIGestureRecognizer
         base.TouchesCancelled(touches, evt);
 
         TouchPlatformEffect.HandleTouch(UIGestureRecognizerState.Cancelled, ref m_currentState, m_uiView);
+        State = UIGestureRecognizerState.Cancelled;
         m_longPressDetected = false;
     }
     
@@ -76,6 +83,7 @@ public class TouchEffectTapGestureRecognizer : UIGestureRecognizer
         {
             TouchPlatformEffect.HandleTouch(UIGestureRecognizerState.Cancelled, ref m_currentState, m_uiView);
             m_isCancelled = true;
+            State = UIGestureRecognizerState.Failed;
         }
         
         base.TouchesMoved(touches, evt);
