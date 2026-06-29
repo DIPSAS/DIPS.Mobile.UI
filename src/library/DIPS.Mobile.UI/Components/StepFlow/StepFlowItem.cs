@@ -240,10 +240,7 @@ public partial class StepFlowItem : ContentView
             return;
         if (State == StepFlowItemState.Completed)
         {
-            var flow = FindParentStepFlow();
-            if (flow?.CanGoBackFromCompletedSteps != true)
-                return;
-            if (!CanGoBack)
+            if (FindParentStepFlow()?.CanActivateCompletedStep(this) != true)
                 return;
         }
         if (State == StepFlowItemState.Disabled && FindParentStepFlow()?.AllowDirectStepActivation != true)
@@ -283,11 +280,7 @@ public partial class StepFlowItem : ContentView
 
     private bool CanTapCompletedCard()
     {
-        var flow = FindParentStepFlow();
-        if (flow?.CanGoBackFromCompletedSteps != true)
-            return false;
-
-        return CanGoBack;
+        return FindParentStepFlow()?.CanActivateCompletedStep(this) == true;
     }
 
     private StepFlow? FindParentStepFlow()

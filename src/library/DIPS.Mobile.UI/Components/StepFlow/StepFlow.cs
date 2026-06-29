@@ -174,9 +174,15 @@ public partial class StepFlow : ContentView
         FlowCompleted?.Invoke(this, EventArgs.Empty);
     }
 
-    internal bool CanGoBackFromCompletedSteps => m_attachedController is { } controller
-        ? !controller.IsCompleted
-        : !AreAllItemsCompleted();
+    internal bool CanActivateCompletedStep(StepFlowItem item) =>
+        m_items.Contains(item) &&
+        item.State == StepFlowItemState.Completed &&
+        item.CanGoBack &&
+        !IsFlowCompleted();
+
+    private bool IsFlowCompleted() => m_attachedController is { } controller
+        ? controller.IsCompleted
+        : AreAllItemsCompleted();
 
     private bool AreAllItemsCompleted() => m_items.Count > 0 && m_items.All(item => item.State == StepFlowItemState.Completed);
 
@@ -188,44 +194,69 @@ public partial class StepFlow : ContentView
         var controller = m_attachedController;
         if (controller is null)
         {
-            // Escape hatch (no controller): manually enforce single-active.
-            if (item.State == StepFlowItemState.Completed && !item.CanGoBack) return;
-            if (item.State == StepFlowItemState.Completed && !CanGoBackFromCompletedSteps) return;
-            if (item.State == StepFlowItemState.Completed && item.CanGoBack)
-            {
-                var targetIndex = m_items.IndexOf(item);
-                if (targetIndex < 0) return;
-
-                for (var i = 0; i < m_items.Count; i++)
-                {
-                    var other = m_items[i];
-                    if (ReferenceEquals(other, item))
-                    {
-                        other.State = StepFlowItemState.Active;
-                    }
-                    else if (i > targetIndex || other.State == StepFlowItemState.Active)
-                    {
-                        other.State = StepFlowItemState.Disabled;
-                    }
-                }
-                return;
-            }
-
-            foreach (var other in m_items)
-            {
-                if (!ReferenceEquals(other, item) && other.State == StepFlowItemState.Active)
-                {
-                    other.State = StepFlowItemState.Disabled;
-                }
-            }
-            item.State = StepFlowItemState.Active;
+            ActivateTappedItemWithoutController(item);
             return;
         }
 
-        if (item.Index < 0) return;
-        if (item.State == StepFlowItemState.Completed && item.CanGoBack)
+        ActivateTappedItemWithController(controller, item);
+    }
+
+    private void ActivateTappedItemWithoutController(StepFlowItem item)
+    {
+        // Escape hatch (no controller): manually enforce single-active.
+        if (item.State == StepFlowItemState.Completed)
         {
-            controller.GoBackTo(item.Index);
+            ActivateCompletedItemWithoutController(item);
+            return;
+        }
+
+        DisableOtherActiveItems(item);
+        item.State = StepFlowItemState.Active;
+    }
+
+    private void ActivateCompletedItemWithoutController(StepFlowItem item)
+    {
+        if (!CanActivateCompletedStep(item)) return;
+
+        var targetIndex = m_items.IndexOf(item);
+        if (targetIndex < 0) return;
+
+        for (var i = 0; i < m_items.Count; i++)
+        {
+            var other = m_items[i];
+            if (ReferenceEquals(other, item))
+            {
+                other.State = StepFlowItemState.Active;
+                continue;
+            }
+
+            if (i > targetIndex || other.State == StepFlowItemState.Active)
+            {
+                other.State = StepFlowItemState.Disabled;
+            }
+        }
+    }
+
+    private void DisableOtherActiveItems(StepFlowItem item)
+    {
+        foreach (var other in m_items)
+        {
+            if (!ReferenceEquals(other, item) && other.State == StepFlowItemState.Active)
+            {
+                other.State = StepFlowItemState.Disabled;
+            }
+        }
+    }
+
+    private void ActivateTappedItemWithController(StepFlowController controller, StepFlowItem item)
+    {
+        if (item.Index < 0) return;
+        if (item.State == StepFlowItemState.Completed)
+        {
+            if (CanActivateCompletedStep(item))
+            {
+                controller.GoBackTo(item.Index);
+            }
             return;
         }
 
