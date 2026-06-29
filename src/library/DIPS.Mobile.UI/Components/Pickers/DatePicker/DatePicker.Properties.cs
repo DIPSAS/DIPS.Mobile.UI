@@ -60,8 +60,12 @@ namespace DIPS.Mobile.UI.Components.Pickers.DatePicker
             typeof(DateTime),
             typeof(DatePicker),
             defaultBindingMode:BindingMode.TwoWay,
-            defaultValue:DateTime.Now,
-            propertyChanged: (bindable, _, _) => ((DatePicker)bindable).OnSelectedDateChanged());
+            defaultValue:default(DateTime),
+            propertyChanged: (bindable, _, _) => ((DatePicker)bindable).OnSelectedDateChanged(),
+            // A plain DateTime.Now default value is read only once and then shared by every picker,
+            // so all pickers showed the same frozen time until app restart. The creator runs once per
+            // picker, so each picker gets the current time instead.
+            defaultValueCreator: bindable => DateTime.Now);
         
         public static readonly BindableProperty SelectedDateCommandProperty = BindableProperty.Create(
             nameof(SelectedDateCommand),

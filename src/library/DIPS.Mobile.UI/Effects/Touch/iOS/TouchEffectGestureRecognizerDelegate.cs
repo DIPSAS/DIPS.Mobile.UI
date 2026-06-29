@@ -47,11 +47,11 @@ internal class TouchEffectGestureRecognizerDelegate : UIGestureRecognizerDelegat
         UIGestureRecognizer otherGestureRecognizer)
     {
         if (gestureRecognizer is TouchEffectTapGestureRecognizer touchGesture &&
-            otherGestureRecognizer is UIPanGestureRecognizer)
+            otherGestureRecognizer is UIPanGestureRecognizer &&
+            otherGestureRecognizer.State == UIGestureRecognizerState.Began)
         {
             TouchPlatformEffect.HandleTouch(UIGestureRecognizerState.Cancelled, ref touchGesture.m_currentState,
                 gestureRecognizer.View);
-            return false;
         }
 
         return true;

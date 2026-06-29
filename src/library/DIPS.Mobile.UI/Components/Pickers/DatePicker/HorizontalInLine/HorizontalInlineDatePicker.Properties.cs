@@ -5,11 +5,18 @@ public partial class HorizontalInlineDatePicker
     public static readonly BindableProperty SelectedDateProperty = BindableProperty.Create(
         nameof(SelectedDate),
         typeof(DateTime),
-        typeof(HorizontalInlineDatePicker), defaultValue: DateTime.Now, BindingMode.TwoWay, propertyChanged: (b, _, _) =>
+        typeof(HorizontalInlineDatePicker),
+        defaultValue: default(DateTime),
+        defaultBindingMode: BindingMode.TwoWay,
+        propertyChanged: (b, _, _) =>
         {
             if (b is not HorizontalInlineDatePicker horizontalInlineDatePicker) return;
             horizontalInlineDatePicker.OnSelectedDateChanged();
-        }) ;
+        },
+        // A plain DateTime.Now default value is read only once and then shared by every picker,
+        // so all pickers showed the same frozen time until app restart. The creator runs once per
+        // picker, so each picker gets the current time instead.
+        defaultValueCreator: b => DateTime.Now);
 
     /// <summary>
     /// The date that people selected from the horizontal in line date picker.
