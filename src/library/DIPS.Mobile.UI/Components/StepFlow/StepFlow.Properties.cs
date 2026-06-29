@@ -49,7 +49,8 @@ public partial class StepFlow
         nameof(AllowDirectStepActivation),
         typeof(bool),
         typeof(StepFlow),
-        defaultValue: false);
+        defaultValue: false,
+        propertyChanged: (b, _, _) => ((StepFlow)b).RefreshItemTapTargets());
 
     public static readonly BindableProperty AutoScrollIntoViewProperty = BindableProperty.Create(
         nameof(AutoScrollIntoView),

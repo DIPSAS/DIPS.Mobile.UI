@@ -39,11 +39,15 @@ public partial class StepFlowItem
         set => SetValue(IndicatorTemplateProperty, value);
     }
 
-    /// <summary>When <c>true</c> (the default), tapping a completed step does nothing.</summary>
-    public bool LockWhenCompleted
+    /// <summary>
+    /// When <c>true</c>, tapping this completed step activates it again and resets this and the
+    /// following steps so they must be confirmed again. Only applies while the flow is in
+    /// progress. Defaults to <c>false</c>.
+    /// </summary>
+    public bool CanGoBack
     {
-        get => (bool)GetValue(LockWhenCompletedProperty);
-        set => SetValue(LockWhenCompletedProperty, value);
+        get => (bool)GetValue(CanGoBackProperty);
+        set => SetValue(CanGoBackProperty, value);
     }
 
     /// <summary>
@@ -83,11 +87,12 @@ public partial class StepFlowItem
         typeof(StepFlowItem),
         propertyChanged: (b, _, _) => ((StepFlowItem)b).OnIndicatorTemplateChanged());
 
-    public static readonly BindableProperty LockWhenCompletedProperty = BindableProperty.Create(
-        nameof(LockWhenCompleted),
+    public static readonly BindableProperty CanGoBackProperty = BindableProperty.Create(
+        nameof(CanGoBack),
         typeof(bool),
         typeof(StepFlowItem),
-        defaultValue: true);
+        defaultValue: false,
+        propertyChanged: (b, _, _) => ((StepFlowItem)b).RefreshTapTarget());
 
     public static readonly BindableProperty StateProperty = BindableProperty.Create(
         nameof(State),

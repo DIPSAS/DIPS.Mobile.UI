@@ -102,6 +102,15 @@ public partial class StepFlow : ContentView
             {
                 m_stack.Children.Insert(Math.Min(i, m_stack.Children.Count), item);
             }
+            item.RefreshTapTarget();
+        }
+    }
+
+    private void RefreshItemTapTargets()
+    {
+        foreach (var item in m_items)
+        {
+            item.RefreshTapTarget();
         }
     }
 
@@ -161,8 +170,21 @@ public partial class StepFlow : ContentView
 
     private void OnControllerFlowCompleted(object? sender, EventArgs e)
     {
+        RefreshItemTapTargets();
         FlowCompleted?.Invoke(this, EventArgs.Empty);
     }
+
+    internal bool CanActivateCompletedStep(StepFlowItem item) =>
+        m_items.Contains(item) &&
+        item.State == StepFlowItemState.Completed &&
+        item.CanGoBack &&
+        !IsFlowCompleted();
+
+    private bool IsFlowCompleted() => m_attachedController is { } controller
+        ? controller.IsCompleted
+        : AreAllItemsCompleted();
+
+    private bool AreAllItemsCompleted() => m_items.Count > 0 && m_items.All(item => item.State == StepFlowItemState.Completed);
 
     private void OnItemCardTapped(object? sender, EventArgs e)
     {
@@ -172,20 +194,72 @@ public partial class StepFlow : ContentView
         var controller = m_attachedController;
         if (controller is null)
         {
-            // Escape hatch (no controller): manually enforce single-active.
-            if (item.State == StepFlowItemState.Completed && item.LockWhenCompleted) return;
-            foreach (var other in m_items)
-            {
-                if (!ReferenceEquals(other, item) && other.State == StepFlowItemState.Active)
-                {
-                    other.State = StepFlowItemState.Disabled;
-                }
-            }
-            item.State = StepFlowItemState.Active;
+            ActivateTappedItemWithoutController(item);
             return;
         }
 
+        ActivateTappedItemWithController(controller, item);
+    }
+
+    private void ActivateTappedItemWithoutController(StepFlowItem item)
+    {
+        // Escape hatch (no controller): manually enforce single-active.
+        if (item.State == StepFlowItemState.Completed)
+        {
+            ActivateCompletedItemWithoutController(item);
+            return;
+        }
+
+        DisableOtherActiveItems(item);
+        item.State = StepFlowItemState.Active;
+    }
+
+    private void ActivateCompletedItemWithoutController(StepFlowItem item)
+    {
+        if (!CanActivateCompletedStep(item)) return;
+
+        var targetIndex = m_items.IndexOf(item);
+        if (targetIndex < 0) return;
+
+        for (var i = 0; i < m_items.Count; i++)
+        {
+            var other = m_items[i];
+            if (ReferenceEquals(other, item))
+            {
+                other.State = StepFlowItemState.Active;
+                continue;
+            }
+
+            if (i > targetIndex || other.State == StepFlowItemState.Active)
+            {
+                other.State = StepFlowItemState.Disabled;
+            }
+        }
+    }
+
+    private void DisableOtherActiveItems(StepFlowItem item)
+    {
+        foreach (var other in m_items)
+        {
+            if (!ReferenceEquals(other, item) && other.State == StepFlowItemState.Active)
+            {
+                other.State = StepFlowItemState.Disabled;
+            }
+        }
+    }
+
+    private void ActivateTappedItemWithController(StepFlowController controller, StepFlowItem item)
+    {
         if (item.Index < 0) return;
+        if (item.State == StepFlowItemState.Completed)
+        {
+            if (CanActivateCompletedStep(item))
+            {
+                controller.GoBackTo(item.Index);
+            }
+            return;
+        }
+
         controller.GoTo(item.Index);
     }
 
@@ -230,7 +304,7 @@ public partial class StepFlow : ContentView
         if (m_scrollerResolved) return m_cachedScroller;
         m_scrollerResolved = true;
 
-        Element? walker = Parent;
+        var walker = Parent;
         while (walker is not null)
         {
             if (walker is MauiScrollView sv)

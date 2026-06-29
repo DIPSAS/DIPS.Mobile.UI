@@ -12,6 +12,7 @@ public class StepFlowSamplesViewModel : ViewModel
     private bool m_isScanningDone;
     private bool m_isFlowFinished;
     private bool m_autoScrollIntoView = true;
+    private bool m_canGoBack = true;
 
     public StepFlowSamplesViewModel()
     {
@@ -57,6 +58,12 @@ public class StepFlowSamplesViewModel : ViewModel
     {
         get => m_autoScrollIntoView;
         set => RaiseWhenSet(ref m_autoScrollIntoView, value);
+    }
+
+    public bool CanGoBack
+    {
+        get => m_canGoBack;
+        set => RaiseWhenSet(ref m_canGoBack, value);
     }
 
     public AsyncCommand ConfirmPatientCommand { get; }
