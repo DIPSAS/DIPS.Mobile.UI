@@ -109,7 +109,10 @@ namespace DIPS.Mobile.UI.Components.BottomSheets
                 grid.AddColumnDefinition(new ColumnDefinition(GridLength.Star));
                 var index = grid.ColumnDefinitions.Count - 1;
                 grid.Add(button, index);
-                button.AutomationId = $"BottomBarButton{index}".ToDUIAutomationId<BottomSheet>();
+                if (button.AutomationId is null)
+                {
+                    button.AutomationId = $"BottomBarButton{index}".ToDUIAutomationId<BottomSheet>();
+                }
             }
         
             grid.BindingContext = BindingContext;
