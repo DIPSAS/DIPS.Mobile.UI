@@ -115,7 +115,7 @@
                                                  Spacing="{dui:Sizes size_2}">
                             <BindableLayout.ItemTemplate>
                                 <DataTemplate x:DataType="local:StepFlowSampleRequisitionViewModel">
-                                    <Border AutomationId="StepFlowSamples_CompleteSampling_RequisitionListItem"
+                                    <Border
                                             Padding="{dui:Thickness Top=size_3, Bottom=size_3, Right=size_3, Left=size_3}"
                                             BackgroundColor="{dui:Colors color_surface_default}"
                                             Stroke="{dui:Colors color_border_default}">
