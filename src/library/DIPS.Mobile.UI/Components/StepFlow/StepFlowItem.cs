@@ -506,9 +506,10 @@ public partial class StepFlowItem : ContentView
         if (Content is null)
             return 0;
 
-        var available = m_root.Width > 0 ? m_root.Width - m_root.Padding.HorizontalThickness : double.PositiveInfinity;
-        var measured = Content.Measure(available, double.PositiveInfinity);
-        return measured.Height;
+var available = m_root.Width > 0 ? Math.Max(0, m_root.Width - m_root.Padding.HorizontalThickness) : double.PositiveInfinity;
+var measured = Content.Measure(available, double.PositiveInfinity);
+var height = measured.Height;
+return double.IsNaN(height) || double.IsInfinity(height) ? 0 : height;
     }
 
     private Task CollapseAsync()
