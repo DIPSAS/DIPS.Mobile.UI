@@ -1,3 +1,6 @@
+## [62.0.2]
+- [StepFlow][Android] Fixed bug where a step would cut dynamic content when activating
+
 ## [62.0.1]
 - [BottomSheet] Fixed crash when bottom bar buttons already have consumer-provided `AutomationId` values.
 

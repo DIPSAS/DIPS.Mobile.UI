@@ -85,18 +85,58 @@
                     </dui:VerticalStackLayout>
                 </dui:StepFlowItem>
 
-                <!-- Step 3: Confirm sampling -->
-                <dui:StepFlowItem Title="Confirm sampling"
+                <!-- Step 3: Consumer-like intermediate step before complete sampling. -->
+                <dui:StepFlowItem Title="Verify sample details before completing"
                                   CanGoBack="{Binding CanGoBack}">
                     <dui:VerticalStackLayout Spacing="{dui:Sizes size_3}">
                         <dui:Label Style="{dui:Styles Label=UI200}"
-                                   Text="{Binding PatientName, StringFormat='Patient: {0}'}" />
+                                   Text="Intermediate step" />
                         <dui:Label Style="{dui:Styles Label=UI100}"
-                                   Text="{Binding ScannedLabels.Count, StringFormat='Scanned labels: {0}'}" />
+                                   Text="This step makes the next item behave like the consumer's step 4. Press Continue to dynamically enable and activate complete sampling." />
                         <BoxView HeightRequest="160"
                                  BackgroundColor="{dui:Colors color_surface_neutral}" />
-                        <dui:Button Text="Submit"
-                                    Command="{Binding SubmitSamplingCommand}" />
+                        <dui:Button Text="Continue to complete sampling"
+                                    Command="{Binding ConfirmSampleDetailsCommand}" />
+                    </dui:VerticalStackLayout>
+                </dui:StepFlowItem>
+
+                <!-- Step 4: Dynamic simple-box repro. -->
+                <dui:StepFlowItem Title="Complete sampling and verify all requisitions before completing the sampling workflow"
+                                  CanGoBack="{Binding CanGoBack}"
+                                  IsEnabled="{Binding CanActivateCompleteSamplingStep}">
+                    <dui:VerticalStackLayout Spacing="{dui:Sizes size_4}"
+                                             AutomationId="StepFlowSamples_CompleteSampling_Content"
+                                             Padding="{dui:Thickness Top=size_2}">
+                        <dui:Label Style="{dui:Styles Label=UI100}"
+                                   Text="One simple box is added dynamically for each label scanned in the previous step." />
+
+                        <dui:VerticalStackLayout BindableLayout.ItemsSource="{Binding Requisitions}"
+                                                 AutomationId="StepFlowSamples_CompleteSampling_RequisitionList"
+                                                 Spacing="{dui:Sizes size_2}">
+                            <BindableLayout.ItemTemplate>
+                                <DataTemplate x:DataType="local:StepFlowSampleRequisitionViewModel">
+                                    <Border
+                                            Padding="{dui:Thickness Top=size_3, Bottom=size_3, Right=size_3, Left=size_3}"
+                                            BackgroundColor="{dui:Colors color_surface_default}"
+                                            Stroke="{dui:Colors color_border_default}">
+                                        <Border.StrokeShape>
+                                            <RoundRectangle CornerRadius="{dui:Sizes size_2}" />
+                                        </Border.StrokeShape>
+
+                                        <dui:Label Text="{Binding Title, Mode=OneTime}"
+                                                   Style="{dui:Styles Label=Body300}" />
+                                    </Border>
+                                </DataTemplate>
+                            </BindableLayout.ItemTemplate>
+                        </dui:VerticalStackLayout>
+
+                        <dui:Button Text="Complete sampling"
+                                    AutomationId="StepFlowSamples_CompleteSampling_CompleteButton"
+                                    SemanticProperties.Description="Complete sampling"
+                                    Command="{Binding SubmitSamplingCommand}"
+                                    IsEnabled="{Binding CanComplete}"
+                                    Style="{dui:Styles Button=CallToActionLarge}"
+                                    HorizontalOptions="Fill" />
                     </dui:VerticalStackLayout>
                 </dui:StepFlowItem>
 
