@@ -573,6 +573,12 @@ namespace DIPS.Mobile.UI.Resources.LocalizedStrings.LocalizedStrings {
             }
         }
         
+        internal static string StopDictation {
+            get {
+                return ResourceManager.GetString("StopDictation", resourceCulture);
+            }
+        }
+        
         internal static string CounterValue {
             get {
                 return ResourceManager.GetString("CounterValue", resourceCulture);

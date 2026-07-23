@@ -1,6 +1,7 @@
 using Android.Graphics.Drawables;
 using Android.Widget;
 using DIPS.Mobile.UI.Components.BottomSheets.Android;
+using DIPS.Mobile.UI.Components.TextFields.Dictation;
 using Microsoft.Maui.Controls.Platform;
 using Microsoft.Maui.Platform;
 using View = Android.Views.View;
@@ -37,6 +38,19 @@ public partial class EntryHandler
     private void OnFocusChanged(object? sender, View.FocusChangeEventArgs e)
     {
         PlatformView.SetBackground(((VirtualView as Entry)!).HasBorder ? DefaultBackground : null);
+
+        if (!DictationFeature.IsAvailable)
+            return;
+
+        if (e.HasFocus)
+        {
+            DictationKeyboardOverlay.Current.AttachToActivity(Platform.CurrentActivity);
+            DictationSessionCoordinator.Current.NotifyFieldFocused(this);
+        }
+        else
+        {
+            DictationSessionCoordinator.Current.NotifyFieldBlurred(this);
+        }
     }
 
     private static partial void MapShouldUseDefaultPadding(EntryHandler handler, Entry entry)
@@ -59,8 +73,10 @@ public partial class EntryHandler
 
     protected override void DisconnectHandler(MauiAppCompatEditText platformView)
     {
+        DictationSessionCoordinator.Current.NotifyFieldBlurred(this);
+
         base.DisconnectHandler(platformView);
-        
+
         platformView.FocusChange -= OnFocusChanged;
         platformView.EditorAction -= PlatformViewOnEditorAction;
     }

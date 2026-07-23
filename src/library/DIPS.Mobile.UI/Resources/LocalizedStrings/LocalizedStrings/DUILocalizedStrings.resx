@@ -282,6 +282,9 @@
     <data name="Dictation" xml:space="preserve">
         <value>Diktering</value>
     </data>
+    <data name="StopDictation" xml:space="preserve">
+        <value>Stopp diktering</value>
+    </data>
     <data name="CounterValue" xml:space="preserve">
         <value>Teller verdi</value>
     </data>
