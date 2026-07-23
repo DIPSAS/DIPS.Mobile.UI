@@ -1,3 +1,6 @@
+## [62.1.0]
+- [Dictation] The dictation microphone now lives on the keyboard instead of inside input fields, so any focused text field can be dictated into. Still activated via `DUI.ExperimentalFeatures.DictationInTextFields`.
+
 ## [62.0.2]
 - [StepFlow][Android] Fixed bug where a step would cut dynamic content when activating
 

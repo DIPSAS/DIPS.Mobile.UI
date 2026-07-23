@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<dui:ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                 xmlns:dui="http://dips.com/mobile.ui"
+                 x:Class="Components.ComponentsSamples.TextFields.KeyboardDictation.KeyboardDictationSamplePage"
+                 Padding="{dui:Sizes size_4}"
+                 Title="Keyboard Dictation">
+
+    <dui:ScrollView>
+        <dui:VerticalStackLayout Spacing="{dui:Sizes size_3}">
+
+            <dui:Label Text="Focus any field to raise the keyboard. A microphone appears above the keyboard. Tap it to start and stop dictation, and the recognized text streams into the focused field. This sample uses the built-in dictation simulator." />
+
+            <dui:Entry x:Name="DictationEntry"
+                       Placeholder="Entry"
+                       HasBorder="True" />
+
+            <dui:Editor x:Name="DictationEditor"
+                        Placeholder="Editor"
+                        HeightRequest="120"
+                        HasBorder="True" />
+
+            <dui:MultiLineInputField x:Name="DictationMultiLineInputField"
+                                     HeaderText="MultiLineInputField" />
+
+            <!-- Space so the multiline caret can go under the keyboard, to check the Android microphone stays pinned. -->
+            <BoxView HeightRequest="600" />
+
+        </dui:VerticalStackLayout>
+    </dui:ScrollView>
+
+</dui:ContentPage>

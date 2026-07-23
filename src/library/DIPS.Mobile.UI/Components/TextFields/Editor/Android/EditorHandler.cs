@@ -1,5 +1,6 @@
 using Android.Graphics.Drawables;
 using DIPS.Mobile.UI.Components.BottomSheets.Android;
+using DIPS.Mobile.UI.Components.TextFields.Dictation;
 using Microsoft.Maui.Controls.Platform;
 using Microsoft.Maui.Platform;
 using View = Android.Views.View;
@@ -37,8 +38,21 @@ public partial class EditorHandler
 
             m_firstTimeFocus = false;
         }
-        
+
         PlatformView.SetBackground(((VirtualView as Editor)!).HasBorder ? DefaultBackground : null);
+
+        if (!DictationFeature.IsAvailable)
+            return;
+
+        if (e.HasFocus)
+        {
+            DictationKeyboardOverlay.Current.AttachToActivity(Platform.CurrentActivity);
+            DictationSessionCoordinator.Current.NotifyFieldFocused(this);
+        }
+        else
+        {
+            DictationSessionCoordinator.Current.NotifyFieldBlurred(this);
+        }
     }
 
     private static partial void MapShouldSelectTextOnTapped(EditorHandler handler, Editor entry)
@@ -61,8 +75,10 @@ public partial class EditorHandler
 
     protected override void DisconnectHandler(MauiAppCompatEditText platformView)
     {
+        DictationSessionCoordinator.Current.NotifyFieldBlurred(this);
+
         base.DisconnectHandler(platformView);
-        
+
         platformView.FocusChange -= OnFocusChanged;
     }
 }

@@ -7,6 +7,7 @@
              xmlns:editor="clr-namespace:Components.ComponentsSamples.TextFields.Editor"
              xmlns:textArea="clr-namespace:Components.ComponentsSamples.TextFields.SingleLineTextArea"
              xmlns:multiLineTextArea="clr-namespace:Components.ComponentsSamples.TextFields.MultiLineTextArea"
+             xmlns:keyboardDictation="clr-namespace:Components.ComponentsSamples.TextFields.KeyboardDictation"
              xmlns:dui="http://dips.com/mobile.ui"
              x:Class="Components.ComponentsSamples.TextFields.TextFieldsSamples">
 
@@ -20,7 +21,10 @@
         <dui:NavigationListItem Title="SingleLineInputField" 
                                 Command="{helpers:NavigationCommand {x:Type textArea:SingleLineInputFieldSamples}}"
                                 HasBottomDivider="True" />
-        <dui:NavigationListItem Title="MultiLineInputField" 
-                                Command="{helpers:NavigationCommand {x:Type multiLineTextArea:MultiLineInputFieldSamples}}" />
+        <dui:NavigationListItem Title="MultiLineInputField"
+                                Command="{helpers:NavigationCommand {x:Type multiLineTextArea:MultiLineInputFieldSamples}}"
+                                HasBottomDivider="True" />
+        <dui:NavigationListItem Title="Keyboard Dictation"
+                                Command="{helpers:NavigationCommand {x:Type keyboardDictation:KeyboardDictationSamplePage}}" />
     </dui:VerticalStackLayout>
 </dui:ContentPage>
