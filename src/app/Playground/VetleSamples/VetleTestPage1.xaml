@@ -39,6 +39,9 @@
             
             <dui:Button Text="Hello"
                         Clicked="Button_OnClicked2"></dui:Button>
+
+            <dui:Button Text="Open 'Not fit to content' bottom sheet"
+                        Clicked="OpenNotFitToContent_OnClicked"></dui:Button>
         
     
            

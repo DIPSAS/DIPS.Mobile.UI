@@ -40,6 +40,11 @@ public partial class VetleTestPage1
         new TestBottomSheetFitToContent().Open();
     }
 
+    private void OpenNotFitToContent_OnClicked(object sender, EventArgs e)
+    {
+        new TestBottomSheetNotFitToContent().Open();
+    }
+
     private void Lol(object sender, EventArgs e)
     {
         new BottomSheetWithToolbar().Open();
