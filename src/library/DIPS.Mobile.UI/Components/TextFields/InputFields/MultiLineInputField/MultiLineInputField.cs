@@ -175,9 +175,12 @@ public partial class MultiLineInputField : SingleLineInputField
     
     private void OnSaveTapped()
     {
+        // Unfocusing hides the buttons only when the text has not changed since the field was focused. Save keeps
+        // the edited text, so make it the new starting point before unfocusing, otherwise the buttons stay visible.
+        m_textWhenFirstFocused = InputView?.Text;
+
         ResetFocus();
 
-        m_textWhenFirstFocused = InputView?.Text;
         SaveTapped?.Invoke(this, EventArgs.Empty);
         SaveCommand?.Execute(SaveCommandParameter);
     }

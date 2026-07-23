@@ -74,11 +74,13 @@ internal sealed class MauiDoneAccessoryView : UIToolbar
         if (isActive)
         {
             m_microphoneButton.Image = m_stopIndicatorImage ??= CreateStopIndicatorImage();
+            m_microphoneButton.AccessibilityLabel = DUILocalizedStrings.StopDictation;
             return;
         }
 
         m_microphoneButton.Image = UIImage.GetSystemImage(IdleMicrophoneSymbolName);
         m_microphoneButton.TintColor = Colors.GetColor(ColorName.color_icon_default).ToPlatform();
+        m_microphoneButton.AccessibilityLabel = DUILocalizedStrings.Dictation;
     }
 
     // Should be changed to stop-filled once the icon has been added.

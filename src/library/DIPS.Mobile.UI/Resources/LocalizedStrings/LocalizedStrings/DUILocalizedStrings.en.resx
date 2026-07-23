@@ -275,6 +275,9 @@
     <data name="Dictation" xml:space="preserve">
         <value>Dictation</value>
     </data>
+    <data name="StopDictation" xml:space="preserve">
+        <value>Stop dictation</value>
+    </data>
     <data name="CounterValue" xml:space="preserve">
         <value>Counter value</value>
     </data>

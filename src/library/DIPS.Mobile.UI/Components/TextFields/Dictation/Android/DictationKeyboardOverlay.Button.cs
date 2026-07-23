@@ -137,6 +137,7 @@ internal sealed partial class DictationKeyboardOverlay
             iconView.SetScaleType(ImageView.ScaleType.Center);
             iconView.ClearColorFilter();
             iconView.SetImageDrawable(m_stopSquareDrawable);
+            iconView.ContentDescription = DUILocalizedStrings.StopDictation;
             return;
         }
 
@@ -144,6 +145,7 @@ internal sealed partial class DictationKeyboardOverlay
         iconView.SetColorFilter(Colors.GetColor(ColorName.color_icon_default).ToPlatform());
         if (m_microphoneIconDrawable is not null)
             iconView.SetImageDrawable(m_microphoneIconDrawable);
+        iconView.ContentDescription = DUILocalizedStrings.Dictation;
     }
 
     private async Task OnMicrophoneButtonTapped()
