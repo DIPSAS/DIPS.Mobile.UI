@@ -78,20 +78,8 @@ public partial class BottomSheetHandler
     }
 
     /// <summary>
-    /// Sizes the content column to the sheet's currently <b>visible</b> height so that content laid
-    /// out with a bottom-anchored row (e.g. <c>Grid RowDefinitions="*,Auto"</c>) keeps that row
-    /// pinned to the visible bottom across detents — matching iOS, where the content is constrained
-    /// to the sheet height (<c>BottomSheetContainer.SetConstraints</c>).
-    /// <para>
-    /// On Android the sheet is a single tall, draggable view; the detent only controls how much of
-    /// it is slid up. If the content simply filled the fully-expanded height, an in-content bottom
-    /// row would sit below the fold in <see cref="Positioning.Medium"/> and only appear at
-    /// <see cref="Positioning.Large"/>. By tracking the visible height (<c>view.Height - view.Top</c>,
-    /// the same signal used by <see cref="SetBottomBarTranslation"/>) on show/slide/state changes,
-    /// the content fills exactly what is on screen at every detent.
-    /// </para>
+    /// Sizes the content column to the sheet's currently <b>visible</b> height
     /// Only applies in non-<see cref="Positioning.Fit"/> positioning; in <see cref="Positioning.Fit"/>
-    /// the sheet sizes to its content.
     /// </summary>
     internal void UpdateContentFillHeight(AView slidingView)
     {
@@ -111,15 +99,16 @@ public partial class BottomSheetHandler
 
     /// <summary>
     /// Adds bottom padding to the content so it does not sit flush against the sheet's bottom edge,
-    /// mirroring iOS (<c>BottomSheetContainer.SetPadding</c>). A smaller value is used when the system
-    /// already reserves space at the bottom (gesture navigation / navigation bar), a larger one
-    /// otherwise. Applied to the navigation container so it is not overwritten by the edge-to-edge
-    /// padding applied to the content column.
     /// </summary>
     internal void ApplyContentBottomPadding()
     {
         if (m_navigationContainer?.Context is not { } context)
             return;
+
+        // Paint the container with the sheet background so the padding area below the content does
+        // not reveal the platform bottom-sheet's default background
+        if (m_bottomSheet.BackgroundColor is { } backgroundColor)
+            m_navigationContainer.SetBackgroundColor(backgroundColor.ToPlatform());
 
         var hasBottomInset = GetBottomNavigationBarInset() > 0;
         var extra = hasBottomInset
@@ -141,6 +130,7 @@ public partial class BottomSheetHandler
         var insets = ViewCompat.GetRootWindowInsets(m_navigationContainer);
         return insets?.GetInsets(WindowInsetsCompat.Type.NavigationBars()).Bottom ?? 0;
     }
+
 
     internal void PushNavigationContent(ContentPage page)
     {

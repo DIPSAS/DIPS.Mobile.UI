@@ -576,9 +576,8 @@ public class DialogInterfaceOnShowListener : Object, IDialogInterfaceOnShowListe
         {
             m_handler.SetBottomBarTranslation(frameLayout);
             // Fit the content to the initial visible height so a bottom-anchored row is on screen
-            // immediately (e.g. when opening in Medium).
             m_handler.UpdateContentFillHeight(frameLayout);
-            // Re-apply bottom padding now that window insets (navigation bar) are available.
+            // Re-apply bottom padding
             m_handler.ApplyContentBottomPadding();
         }
     }
