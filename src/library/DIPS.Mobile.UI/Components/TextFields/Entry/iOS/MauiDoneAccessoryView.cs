@@ -27,6 +27,7 @@ internal sealed class MauiDoneAccessoryView : UIToolbar
         new(UIBarButtonSystemItem.FixedSpace) { Width = (nfloat)Sizes.GetSize(SizeName.size_2) };
 
     private bool m_isMicrophoneButtonVisible;
+    private UIImage? m_stopIndicatorImage;
 
     // iOS 26 renders the Done button as a larger circular floating button
     // that requires extra height to avoid overlapping with the keyboard edge
@@ -72,7 +73,7 @@ internal sealed class MauiDoneAccessoryView : UIToolbar
     {
         if (isActive)
         {
-            m_microphoneButton.Image = CreateStopIndicatorImage();
+            m_microphoneButton.Image = m_stopIndicatorImage ??= CreateStopIndicatorImage();
             return;
         }
 
