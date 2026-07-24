@@ -78,8 +78,8 @@ public partial class BottomSheetHandler
     }
 
     /// <summary>
-    /// Sizes the content column to the sheet's currently <b>visible</b> height
-    /// Only applies in non-<see cref="Positioning.Fit"/> positioning; in <see cref="Positioning.Fit"/>
+    /// Sizes the content column to the sheet's currently visible height.
+    /// Only applies in non-<see cref="Positioning.Fit"/> positioning.
     /// </summary>
     internal void UpdateContentFillHeight(AView slidingView)
     {
