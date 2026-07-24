@@ -1,5 +1,8 @@
-## [62.1.1]
+## [62.1.2]
 - [BottomSheet][Android] Content now fills the visible sheet height (matching iOS) when Positioning is Medium or Large (non-Fit).
+
+## [62.1.1]
+- [Dictation] Dictated text now appears at the cursor instead of always being added to the end of the field. Selected text is replaced by what you dictate.
 
 ## [62.1.0]
 - [Dictation] The dictation microphone now lives on the keyboard instead of inside input fields, so any focused text field can be dictated into. Still activated via `DUI.ExperimentalFeatures.DictationInTextFields`.
