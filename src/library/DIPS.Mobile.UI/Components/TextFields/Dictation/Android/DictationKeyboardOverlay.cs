@@ -13,18 +13,16 @@ using ShapeableImageView = Google.Android.Material.ImageView.ShapeableImageView;
 namespace DIPS.Mobile.UI.Components.TextFields.Dictation;
 
 /// <summary>
-/// Shows the dictation microphone in a separate non-focusable window pinned just above the keyboard, so the
-/// activity's adjustPan cannot drag it and the keyboard stays open when it is tapped. One overlay serves every
-/// text field. The coordinator decides which field the microphone dictates into. Lives for the current activity
-/// and tears itself down when that activity is destroyed.
+/// Shows the dictation microphone in its own window just above the keyboard. It follows the window of the focused
+/// field, so it stays on top when the field is in a modal or a bottom sheet.
 /// </summary>
 internal sealed partial class DictationKeyboardOverlay
 {
     public static DictationKeyboardOverlay Current { get; } = new();
 
     private Activity? m_activity;
-    private ViewGroup? m_contentView;
-    private AView? m_decorView;
+    private ViewGroup? m_hostWindowContentView;
+    private AView? m_hostWindowDecorView;
     private PopupWindow? m_popup;
     private ImageButton? m_microphoneImageButton;
     private ShapeableImageView? m_imageView;
@@ -50,47 +48,80 @@ internal sealed partial class DictationKeyboardOverlay
     {
     }
 
-    /// <summary>Prepares the overlay for the given activity. Idempotent per activity. Rebuilds if the activity changes.</summary>
-    public void AttachToActivity(Activity? activity)
+    /// <summary>Shows the microphone in the window of the field that just gained focus.</summary>
+    public void AttachToFocusedField(AView? focusedFieldView)
     {
-        if (activity is null)
+        if (focusedFieldView is null)
             return;
 
-        if (ReferenceEquals(m_activity, activity))
+        var activity = Platform.CurrentActivity;
+        var mauiContext = DUI.GetCurrentMauiContext;
+        if (activity is null || mauiContext is null)
             return;
 
+        var hostWindowDecorView = focusedFieldView.RootView;
+        var hostWindowContentView = hostWindowDecorView?.FindViewById<ViewGroup>(global::Android.Resource.Id.Content);
+        if (hostWindowDecorView is null || hostWindowContentView is null)
+            return;
+
+        if (!ReferenceEquals(m_activity, activity))
+            RebuildForActivity(activity, mauiContext);
+
+        BindToHostWindow(hostWindowContentView, hostWindowDecorView);
+    }
+
+    private void RebuildForActivity(Activity activity, IMauiContext mauiContext)
+    {
         if (m_activity is not null)
             DetachFromActivity();
 
-        var mauiContext = DUI.GetCurrentMauiContext;
-        var contentView = activity.FindViewById<ViewGroup>(global::Android.Resource.Id.Content);
-        var decorView = activity.Window?.DecorView;
-        if (mauiContext is null || contentView is null || decorView is null)
-            return;
-
         var density = activity.Resources?.DisplayMetrics?.Density ?? 1f;
 
-        RegisterCurrentActivity(activity, contentView, decorView, density);
-        
-        CreateMicrophonePopup(activity, mauiContext, density);
-        
-        StartTrackingKeyboardHeight(contentView);
-        
-        StartWatchingForActivityDestroyed(activity);
-        
-        ObserveDictationTarget();
-
-        // Read the current insets now, so the microphone appears immediately if the keyboard is already open.
-        ViewCompat.RequestApplyInsets(contentView);
-    }
-
-    private void RegisterCurrentActivity(Activity activity, ViewGroup contentView, AView decorView, float density)
-    {
         m_activity = activity;
-        m_contentView = contentView;
-        m_decorView = decorView;
         m_bottomMarginPixels = (int)(BottomMarginDp * density);
         m_rightMarginPixels = (int)(RightMarginDp * density);
+
+        CreateMicrophonePopup(activity, mauiContext, density);
+
+        CreateKeyboardTracking();
+
+        StartWatchingForActivityDestroyed(activity);
+
+        ObserveDictationTarget();
+    }
+
+    // A popup stays on the window it opened on, so moving to a new window means releasing the old one and reopening.
+    private void BindToHostWindow(ViewGroup hostWindowContentView, AView hostWindowDecorView)
+    {
+        if (ReferenceEquals(m_hostWindowContentView, hostWindowContentView))
+            return;
+
+        ReleaseHostWindow();
+
+        m_hostWindowContentView = hostWindowContentView;
+        m_hostWindowDecorView = hostWindowDecorView;
+
+        if (m_insetsListener is not null)
+            ViewCompat.SetOnApplyWindowInsetsListener(hostWindowContentView, m_insetsListener);
+
+        // Refresh now in case the keyboard is already open.
+        ViewCompat.RequestApplyInsets(hostWindowContentView);
+    }
+
+    private void ReleaseHostWindow()
+    {
+        CancelPendingFade();
+
+        if (m_hostWindowContentView is not null)
+            ViewCompat.SetOnApplyWindowInsetsListener(m_hostWindowContentView, null);
+
+        if (m_popup is { IsShowing: true })
+            TryDismiss(m_popup);
+
+        m_hostWindowContentView = null;
+        m_hostWindowDecorView = null;
+        m_lastYOffset = int.MinValue;
+        m_isKeyboardVisible = false;
     }
 
     private void ObserveDictationTarget()
@@ -101,15 +132,9 @@ internal sealed partial class DictationKeyboardOverlay
     /// <summary>Removes the overlay, its listeners and popup, and disconnects the hosted button's handler.</summary>
     public void DetachFromActivity()
     {
-        CancelPendingFade();
+        ReleaseHostWindow();
         DictationSessionCoordinator.Current.CurrentConsumerChanged -= OnCurrentConsumerChanged;
         StopWatchingForActivityDestroyed();
-
-        if (m_contentView is not null)
-            ViewCompat.SetOnApplyWindowInsetsListener(m_contentView, null);
-
-        if (m_popup is { IsShowing: true })
-            TryDismiss(m_popup);
 
         m_microphoneImageButton?.Handler?.DisconnectHandler();
 
@@ -120,15 +145,11 @@ internal sealed partial class DictationKeyboardOverlay
         m_stopSquareDrawable = null;
         m_microphoneIconDrawable = null;
         m_insetsListener = null;
-        m_contentView = null;
-        m_decorView = null;
         m_activity = null;
         m_mainThreadHandler = null;
         m_beginFadeOutRunnable = null;
         m_dismissRunnable = null;
-        m_lastYOffset = int.MinValue;
         m_isDictationActive = false;
-        m_isKeyboardVisible = false;
     }
 
     private void StartWatchingForActivityDestroyed(Activity activity)

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<dui:BottomSheet xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                 xmlns:dui="http://dips.com/mobile.ui"
+                 x:Class="Components.ComponentsSamples.TextFields.KeyboardDictation.DictationBottomSheet"
+                 Title="Dictation in a bottom sheet"
+                 BackgroundColor="{dui:Colors color_background_default}">
+
+    <dui:VerticalStackLayout Spacing="{dui:Sizes size_3}"
+                             Padding="{dui:Thickness size_4}">
+
+        <dui:Label Text="Focus a field. The microphone should appear above the keyboard and on top of this sheet." />
+
+        <dui:Entry Placeholder="Entry"
+                   HasBorder="True" />
+
+        <dui:Editor Placeholder="Editor"
+                    HeightRequest="120"
+                    HasBorder="True" />
+
+        <dui:MultiLineInputField HeaderText="MultiLineInputField" />
+
+    </dui:VerticalStackLayout>
+
+</dui:BottomSheet>
