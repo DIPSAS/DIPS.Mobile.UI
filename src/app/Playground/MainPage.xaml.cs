@@ -32,7 +32,7 @@ public partial class MainPage
     {
         var stopWatch = new Stopwatch();
         stopWatch.Start();
-        await Shell.Current.Navigation.PushAsync(new VetleTestPage1());
+        await Shell.Current.Navigation.PushAsync(new VetlePage());
         stopWatch.Stop();
         Console.WriteLine(stopWatch.ElapsedMilliseconds);
     }
