@@ -1,6 +1,7 @@
 using Android.Content;
 using Android.Views;
 using Android.Widget;
+using AndroidX.Core.View;
 using Google.Android.Material.Transition.Platform;
 using DIPS.Mobile.UI.API.Library;
 using Microsoft.Maui.Platform;
@@ -34,7 +35,102 @@ public partial class BottomSheetHandler
         m_currentNativeContentView = bottomSheetAndroidView;
         m_navigationContainer.AddView(bottomSheetAndroidView);
         bottomSheetLayout.AddView(m_navigationContainer);
+
+        // Make the content fill the sheet height when the sheet has a fixed (non-Fit) height.
+        ApplyContentFillMode();
+
+        // Add breathing room at the bottom of the content (parity with iOS).
+        ApplyContentBottomPadding();
     }
+
+    /// <summary>
+    /// Ensures the pushed content fills the available sheet height in non-<see cref="Positioning.Fit"/>
+    /// positioning, mirroring iOS where the content is constrained to the sheet height
+    /// (see <c>BottomSheetContainer.SetConstraints</c>).
+    /// <para>
+    /// In <see cref="Positioning.Medium"/>/<see cref="Positioning.Large"/> the sheet has a fixed height,
+    /// so the content column (<see cref="m_bottomSheetLayout"/>) must fill that height and the navigation
+    /// container must take the remaining space (weight) below the drag handle/header/search bar. Otherwise
+    /// a star-sized/Fill row collapses and the empty area shows the sheet background.
+    /// In <see cref="Positioning.Fit"/> the sheet sizes to its content, so both wrap.
+    /// </para>
+    /// </summary>
+    private void ApplyContentFillMode()
+    {
+        if (m_bottomSheetLayout is null || m_navigationContainer is null)
+            return;
+
+        var fill = m_bottomSheet.Positioning is not Positioning.Fit;
+
+        // The content column fills the sheet height (non-Fit) or wraps its content (Fit).
+        if (m_bottomSheetLayout.LayoutParameters is { } layoutParameters)
+        {
+            layoutParameters.Height = fill
+                ? ViewGroup.LayoutParams.MatchParent
+                : ViewGroup.LayoutParams.WrapContent;
+            m_bottomSheetLayout.LayoutParameters = layoutParameters;
+        }
+
+        // The navigation container takes the remaining vertical space (weight) when filling.
+        m_navigationContainer.LayoutParameters = fill
+            ? new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MatchParent, 0) { Weight = 1 }
+            : new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MatchParent, ViewGroup.LayoutParams.WrapContent);
+    }
+
+    /// <summary>
+    /// Sizes the content column to the sheet's currently visible height.
+    /// Only applies in non-<see cref="Positioning.Fit"/> positioning.
+    /// </summary>
+    internal void UpdateContentFillHeight(AView slidingView)
+    {
+        if (m_bottomSheet.Positioning is Positioning.Fit)
+            return;
+
+        if (m_bottomSheetLayout?.LayoutParameters is not { } layoutParameters)
+            return;
+
+        var visibleHeight = slidingView.Height - slidingView.Top;
+        if (visibleHeight <= 0 || layoutParameters.Height == visibleHeight)
+            return;
+
+        layoutParameters.Height = visibleHeight;
+        m_bottomSheetLayout.LayoutParameters = layoutParameters;
+    }
+
+    /// <summary>
+    /// Adds bottom padding to the content so it does not sit flush against the sheet's bottom edge,
+    /// </summary>
+    internal void ApplyContentBottomPadding()
+    {
+        if (m_navigationContainer?.Context is not { } context)
+            return;
+
+        // Paint the container with the sheet background so the padding area below the content does
+        // not reveal the platform bottom-sheet's default background
+        if (m_bottomSheet.BackgroundColor is { } backgroundColor)
+            m_navigationContainer.SetBackgroundColor(backgroundColor.ToPlatform());
+
+        var hasBottomInset = GetBottomNavigationBarInset() > 0;
+        var extra = hasBottomInset
+            ? Sizes.GetSize(SizeName.content_margin_xsmall)
+            : Sizes.GetSize(SizeName.content_margin_large);
+
+        m_navigationContainer.SetPadding(
+            m_navigationContainer.PaddingLeft,
+            m_navigationContainer.PaddingTop,
+            m_navigationContainer.PaddingRight,
+            (int)context.ToPixels(extra));
+    }
+
+    private int GetBottomNavigationBarInset()
+    {
+        if (m_navigationContainer is null)
+            return 0;
+
+        var insets = ViewCompat.GetRootWindowInsets(m_navigationContainer);
+        return insets?.GetInsets(WindowInsetsCompat.Type.NavigationBars()).Bottom ?? 0;
+    }
+
 
     internal void PushNavigationContent(ContentPage page)
     {

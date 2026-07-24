@@ -210,6 +210,8 @@ public partial class BottomSheetHandler : ContentViewHandler
         bottomSheet.BottomSheetDialog.Behavior.FitToContents =
             (bottomSheet.Positioning) == Positioning.Fit; 
         handler.ToggleFitToContent(bottomSheet);
+        // Re-apply content fill mode so a Fit <-> non-Fit change updates the content sizing.
+        handler.ApplyContentFillMode();
 
         if (bottomSheet.Positioning == Positioning.Large)
         {
@@ -473,11 +475,15 @@ public partial class BottomSheetHandler : ContentViewHandler
     /// </summary>
     private void OnSlide(float slideOffset, AView bottomSheet)
     {
+        if (slideOffset < 0)
+            return;
+
+        // Keep the content sized to the visible sheet height so a bottom-anchored content row
+        // stays pinned to the visible bottom while dragging (Medium <-> Large).
+        UpdateContentFillHeight(bottomSheet);
+
         if (m_bottomSheet.HasBottomBarButtons)
         {
-            if(slideOffset < 0)
-                return;
-            
             SetBottomBarTranslation(bottomSheet);
         }
     }
@@ -534,6 +540,9 @@ public partial class BottomSheetHandler : ContentViewHandler
                 BottomSheetBehavior.StateCollapsed => Positioning.Medium,
                 _ => m_bottomSheetHandler.m_bottomSheet.Positioning
             };
+
+            // Re-fit the content to the new visible height once the sheet settles in a detent.
+            m_bottomSheetHandler.UpdateContentFillHeight(bottomSheet);
         }
     }
 
@@ -566,6 +575,10 @@ public class DialogInterfaceOnShowListener : Object, IDialogInterfaceOnShowListe
         if (m_handler.m_linearLayout.Parent is FrameLayout frameLayout)
         {
             m_handler.SetBottomBarTranslation(frameLayout);
+            // Fit the content to the initial visible height so a bottom-anchored row is on screen
+            m_handler.UpdateContentFillHeight(frameLayout);
+            // Re-apply bottom padding
+            m_handler.ApplyContentBottomPadding();
         }
     }
 }
