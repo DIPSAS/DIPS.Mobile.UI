@@ -5,12 +5,34 @@ namespace Components.ComponentsSamples.TextFields.KeyboardDictation;
 public partial class KeyboardDictationSamplePage
 {
     private bool m_softInputResizes = true;
+#if ANDROID
+    private Android.Views.SoftInput? m_originalSoftInputMode;
+#endif
 
     public KeyboardDictationSamplePage()
     {
         InitializeComponent();
     }
 
+    protected override void OnAppearing()
+    {
+        base.OnAppearing();
+#if ANDROID
+        var window = Microsoft.Maui.ApplicationModel.Platform.CurrentActivity?.Window;
+        if (window is not null && m_originalSoftInputMode is null)
+            m_originalSoftInputMode = window.Attributes?.SoftInputMode;
+#endif
+    }
+
+    protected override void OnDisappearing()
+    {
+#if ANDROID
+        var window = Microsoft.Maui.ApplicationModel.Platform.CurrentActivity?.Window;
+        if (window is not null && m_originalSoftInputMode is not null)
+            window.SetSoftInputMode(m_originalSoftInputMode.Value);
+#endif
+        base.OnDisappearing();
+    }
     private async void OnOpenInModalClicked(object? sender, EventArgs e)
     {
         await Shell.Current.Navigation.PushModalAsync(new NavigationPage(new DictationModalSamplePage()));
