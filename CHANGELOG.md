@@ -1,3 +1,6 @@
+## [62.1.3]
+- [Dictation][Android] The dictation microphone now shows above the keyboard when the focused field is in a modal or a bottom sheet, instead of being hidden behind it.
+
 ## [62.1.2]
 - [BottomSheet][Android] Content now fills the visible sheet height (matching iOS) when Positioning is Medium or Large (non-Fit).
 

@@ -12,19 +12,32 @@
 
             <dui:Label Text="Focus any field to raise the keyboard. A microphone appears above the keyboard. Tap it to start and stop dictation, and the recognized text streams into the focused field. This sample uses the built-in dictation simulator." />
 
-            <dui:Entry x:Name="DictationEntry"
-                       Placeholder="Entry"
+            <dui:Label Text="Open the fields in a modal or a bottom sheet to check the microphone still shows above the keyboard there." />
+
+            <dui:Button Text="Open fields in a modal"
+                        Style="{dui:Styles Button=DefaultLarge}"
+                        Clicked="OnOpenInModalClicked" />
+
+            <dui:Button Text="Open fields in a bottom sheet"
+                        Style="{dui:Styles Button=DefaultLarge}"
+                        Clicked="OnOpenInBottomSheetClicked" />
+
+            <dui:Button x:Name="SoftInputModeButton"
+                        Text="Keyboard: resize page (tap for pan)"
+                        Style="{dui:Styles Button=DefaultLarge}"
+                        IsVisible="{OnPlatform Android=True, Default=False}"
+                        Clicked="OnToggleSoftInputModeClicked" />
+
+            <dui:Entry Placeholder="Entry"
                        HasBorder="True" />
 
-            <dui:Editor x:Name="DictationEditor"
-                        Placeholder="Editor"
+            <dui:Editor Placeholder="Editor"
                         HeightRequest="120"
                         HasBorder="True" />
 
-            <dui:MultiLineInputField x:Name="DictationMultiLineInputField"
-                                     HeaderText="MultiLineInputField" />
+            <dui:MultiLineInputField HeaderText="MultiLineInputField" />
 
-            <!-- Space so the multiline caret can go under the keyboard, to check the Android microphone stays pinned. -->
+            <!-- Spacer to allow scrolling under the keyboard. -->
             <BoxView HeightRequest="600" />
 
         </dui:VerticalStackLayout>

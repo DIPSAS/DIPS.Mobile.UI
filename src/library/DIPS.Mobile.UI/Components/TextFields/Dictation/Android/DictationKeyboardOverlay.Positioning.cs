@@ -14,14 +14,12 @@ internal sealed partial class DictationKeyboardOverlay
     private const int BottomMarginDp = 12; // gap between the microphone and the top of the keyboard
     private const int RightMarginDp = 20; // gap between the microphone and the right edge of the screen
     
-    private void StartTrackingKeyboardHeight(ViewGroup contentView)
+    private void CreateKeyboardTracking()
     {
         m_mainThreadHandler = new Handler(Looper.MainLooper!);
         m_beginFadeOutRunnable = new Java.Lang.Runnable(BeginMicrophoneFadeOut);
         m_dismissRunnable = new Java.Lang.Runnable(DismissMicrophonePopup);
-
         m_insetsListener = new KeyboardInsetsListener(this);
-        ViewCompat.SetOnApplyWindowInsetsListener(contentView, m_insetsListener);
     }
 
     private void ReadKeyboardInsets(WindowInsetsCompat insets)
@@ -56,8 +54,8 @@ internal sealed partial class DictationKeyboardOverlay
     {
         var popup = m_popup;
         var buttonView = m_containerView;
-        var decorView = m_decorView;
-        
+        var decorView = m_hostWindowDecorView;
+
         if (popup is null || buttonView is null || decorView is null)
             return;
 
@@ -111,7 +109,6 @@ internal sealed partial class DictationKeyboardOverlay
         }
         catch (WindowManagerBadTokenException)
         {
-            // The activity window went away between the inset callback and the show. Skip; a later callback retries.
             return false;
         }
     }

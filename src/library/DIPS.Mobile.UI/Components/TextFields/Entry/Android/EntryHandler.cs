@@ -44,7 +44,7 @@ public partial class EntryHandler
 
         if (e.HasFocus)
         {
-            DictationKeyboardOverlay.Current.AttachToActivity(Platform.CurrentActivity);
+            DictationKeyboardOverlay.Current.AttachToFocusedField(PlatformView);
             DictationSessionCoordinator.Current.NotifyFieldFocused(this);
         }
         else
