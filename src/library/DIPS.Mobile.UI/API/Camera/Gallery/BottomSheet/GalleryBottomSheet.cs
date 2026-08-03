@@ -30,7 +30,7 @@ namespace DIPS.Mobile.UI.API.Camera.Gallery.BottomSheet;
 internal partial class GalleryBottomSheet : ContentPage, IGalleryDefaultStateObserver, IImageEditStateObserver
 {
     private readonly Action<int> m_onRemoveImage;
-    private readonly Action m_updateImages;
+    private readonly Action<IReadOnlyList<CapturedImage>> m_updateImages;
     private readonly Button m_navigatePreviousImageButton;
     private readonly Button m_navigateNextImageButton;
     private readonly ContentView m_carouselViewWrapperView = new();
@@ -54,7 +54,7 @@ internal partial class GalleryBottomSheet : ContentPage, IGalleryDefaultStateObs
     private int? m_positionBeforeRemoval;
     private int? m_positionBeforeEdit;
 
-    public GalleryBottomSheet(List<CapturedImage> images, int startingIndex, Action<int> onRemoveImage, Action updateImages)
+    public GalleryBottomSheet(List<CapturedImage> images, int startingIndex, Action<int> onRemoveImage, Action<IReadOnlyList<CapturedImage>> updateImages)
     {
         Background = Microsoft.Maui.Graphics.Colors.Black;
         
@@ -432,7 +432,7 @@ internal partial class GalleryBottomSheet : ContentPage, IGalleryDefaultStateObs
         Images[m_carouselView!.Position] = m_currentlyRotatedCaptureImageDisplayed;
         m_currentlyCapturedImageDisplayed = m_currentlyRotatedCaptureImageDisplayed;
         GoToDefaultState();   
-        m_updateImages.Invoke();
+        m_updateImages.Invoke(Images);
     }
 
     void IImageEditStateObserver.OnCancelButtonTapped()
