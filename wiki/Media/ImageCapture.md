@@ -106,6 +106,17 @@ private void OnImageCaptured(CapturedImage capturedImage)
 
 In multi-capture this method is called once per image, in capture order. Pair it with `OnImageRemoved` so your list reflects every add and every removal the user makes.
 
+## Reviewing captured images after capture
+
+Use `GalleryThumbnails` to display a list of captured images after the camera closes:
+
+```xaml
+<dui:GalleryThumbnails Images="{Binding Images}"
+                       CameraButtonTapped="OnCameraButtonTapped" />
+```
+
+Tapping a thumbnail opens a full-screen preview where the user can browse, rotate, inspect, or remove images. Saving a rotation updates `Images` immediately. Multiple images can be rotated during the same preview session, and every saved rotation is retained in the bound list.
+
 ## Handling camera failures
 
 ```csharp

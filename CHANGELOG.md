@@ -1,3 +1,6 @@
+## [62.1.4]
+- [Gallery] Fixed issue where only one of multiple image rotations was retained.
+
 ## [62.1.3]
 - [Dictation][Android] The dictation microphone now shows above the keyboard when the focused field is in a modal or a bottom sheet, instead of being hidden behind it.
 

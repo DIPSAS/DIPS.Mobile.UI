@@ -61,10 +61,9 @@ public partial class GalleryThumbnails : Grid
         Shell.Current.Navigation.PushModalAsync(new NavigationPage(new GalleryBottomSheet(Images, imageIndex, OnRemoveImage, UpdateImages)));
     }
 
-    private void UpdateImages()
+    internal void UpdateImages(IReadOnlyList<CapturedImage> images)
     {
-        var copyOfImages = Images.ToList();
-        Images = copyOfImages;        
+        Images = images.ToList();
     }
     
     private void OnRemoveImage(int imageIndex)
