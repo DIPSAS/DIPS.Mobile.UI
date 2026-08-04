@@ -1,3 +1,6 @@
+## [62.1.5]
+- [CameraPreview] Fixed custom bottom toolbar content being clipped on compact phone screens (Arena.Mobile #2053).
+
 ## [62.1.4]
 - [Gallery] Fixed issue where only one of multiple image rotations was retained.
 

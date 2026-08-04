@@ -54,6 +54,7 @@ public partial class CameraPreview : ContentView
             VerticalOptions = LayoutOptions.End,
             BackgroundColor = Colors.Transparent,
         };
+        m_bottomToolbarContainer.SizeChanged += OnBottomToolbarContainerSizeChanged;
 
         m_topToolbarContainer = new Grid
         {
@@ -101,7 +102,7 @@ public partial class CameraPreview : ContentView
     }
 
     /// <summary>
-    /// Here we set the height of the top and bottom toolbar relative to the <see cref="ThreeFourRatio"/>
+    /// Reserves the camera letterbox area for the toolbars while allowing toolbar content to grow when needed.
     /// </summary>
     /// <param name="frameHeight"></param>
     internal void SetToolbarHeights(float frameHeight)
@@ -116,12 +117,9 @@ public partial class CameraPreview : ContentView
 
         var topToolbarHeight = ComputeTopToolbarHeight((float)Width, frameHeight);
         m_topToolbarContainer.HeightRequest = topToolbarHeight;
-        m_bottomToolbarContainer.HeightRequest = Math.Max(totalLetterBoxHeight - topToolbarHeight, 0);
+        m_bottomToolbarContainer.MinimumHeightRequest = Math.Max(totalLetterBoxHeight - topToolbarHeight, 0);
 
-        if (CameraZoomView is not null)
-        {
-            CameraZoomView.Margin = new Thickness(0, 0, 0, Sizes.GetSize(SizeName.content_margin_small) + m_bottomToolbarContainer.HeightRequest);
-        }
+        UpdateCameraZoomMargin();
         PreviewView.TranslationY -= topToolbarHeight;
 
         m_hasSetToolbarHeights = true;
@@ -137,11 +135,36 @@ public partial class CameraPreview : ContentView
         get
         {
             var zoomHeight = CameraZoomView?.Height ?? 0;
-            return m_bottomToolbarContainer.HeightRequest
+            return GetBottomToolbarHeight()
                    + Sizes.GetSize(SizeName.content_margin_small)
                    + zoomHeight
                    + Sizes.GetSize(SizeName.content_margin_small);
         }
+    }
+
+    private void OnBottomToolbarContainerSizeChanged(object? sender, EventArgs e)
+    {
+        if (!m_hasSetToolbarHeights)
+            return;
+
+        UpdateCameraZoomMargin();
+    }
+
+    private void UpdateCameraZoomMargin()
+    {
+        if (CameraZoomView is null)
+            return;
+
+        CameraZoomView.Margin = new Thickness(
+            0,
+            0,
+            0,
+            Sizes.GetSize(SizeName.content_margin_small) + GetBottomToolbarHeight());
+    }
+
+    private double GetBottomToolbarHeight()
+    {
+        return Math.Max(0, Math.Max(m_bottomToolbarContainer.MinimumHeightRequest, m_bottomToolbarContainer.Height));
     }
 
     internal void AddFocusIndicator(float percentX, float percentY)
