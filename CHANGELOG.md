@@ -1,3 +1,12 @@
+## [60.6.0]
+- Maintenance line based on 60.2.18 for Arena Mobil 4.8. Retains that version's MAUI dependencies, design resources and existing APIs; does not include all changes from the later 60.x, 61.x or 62.x releases.
+- [StepFlow] Added opt-in back navigation with `CanGoBack` and `GoBackTo`, while retaining `LockWhenCompleted` and its default behavior. Fixed clipped dynamic content during expansion on Android.
+- [BottomSheet] Added page navigation and optional persistent bottom-bar actions. Preserved consumer-provided automation IDs and fixed Android content sizing for medium and large sheets.
+- [BarcodeScanner] Added validation messages, haptic feedback and automatic hints. Added opt-in `AllowRepeatedBarcodes` while retaining the existing duplicate cooldown by default.
+- [ContentControl] Fixed null selector bindings incorrectly using the entire binding context as template input.
+- [Chip][Android] Fixed close icon tint when the native drawable is assigned or replaced.
+- [LoadingOverlay] Fixed repeated busy notifications and rapid busy transitions removing the wrong overlay or inserting content twice.
+
 ## [60.2.18]
 - [Touch][iOS] Fixed popovers and context menus opened from `Touch.Command` breaking scrolling and swipe-back gestures after dismissal.
 

@@ -49,5 +49,21 @@ public class BarcodeScannerStartOptions
     /// <summary>
     /// Gets or sets the cooldown applied after a scan has been accepted or rejected.
     /// </summary>
+    /// <remarks>Defaults to 800 milliseconds, with a minimum effective cooldown of 500 milliseconds. Ignored when <see cref="AllowRepeatedBarcodes"/> is true.</remarks>
     public TimeSpan DuplicateScanCooldown { get; set; } = TimeSpan.FromMilliseconds(800);
+
+    /// <summary>
+    /// Gets or sets whether repeated barcode values bypass the scanner's duplicate suppression and cooldown.
+    /// </summary>
+    /// <remarks>
+    /// Defaults to false, preserving duplicate suppression. When true, every confirmed scan still passes through
+    /// <see cref="ValidateBarcodeAsync"/>; the app must enforce required label counts and reject unwanted repeats.
+    /// Validation, feedback animations, and completion counting are unchanged.
+    /// </remarks>
+    public bool AllowRepeatedBarcodes { get; set; }
+
+    /// <summary>
+    /// Gets or sets automatic hint options for barcode scanner sessions.
+    /// </summary>
+    public BarcodeScannerHintOptions Hint { get; set; } = new();
 }

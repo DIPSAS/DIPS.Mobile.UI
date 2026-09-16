@@ -2,9 +2,13 @@ using DIPS.Mobile.UI.API.Camera.Preview;
 using DIPS.Mobile.UI.Resources.Colors;
 using DIPS.Mobile.UI.Resources.Icons;
 using DIPS.Mobile.UI.Resources.Sizes;
+using DIPS.Mobile.UI.Resources.Styles;
+using DIPS.Mobile.UI.Resources.Styles.Label;
 using Microsoft.Maui.Controls.Shapes;
 using DuiColors = DIPS.Mobile.UI.Resources.Colors.Colors;
 using DuiImage = DIPS.Mobile.UI.Components.Images.Image.Image;
+using Label = DIPS.Mobile.UI.Components.Labels.Label;
+using LayoutEffect = DIPS.Mobile.UI.Effects.Layout.Layout;
 
 namespace DIPS.Mobile.UI.API.Camera.BarcodeScanning;
 
@@ -20,7 +24,11 @@ internal class BarcodeScanRectangleOverlay : Grid
     private readonly GraphicsView m_dimGraphicsView;
     private readonly GraphicsView m_cornersGraphicsView;
     private readonly Border m_collectionToken;
+    private readonly Grid m_feedbackMessageContainer;
+    private readonly Label m_feedbackMessageLabel;
     private View? m_tooltipView;
+    private bool m_wasTooltipVisibleBeforeFeedback;
+    private int m_feedbackMessageVersion;
     private readonly float m_widthFraction;
     private readonly float m_heightFraction;
     private readonly uint m_bracketsTravelLength;
@@ -35,6 +43,8 @@ internal class BarcodeScanRectangleOverlay : Grid
     private const float TrackingTargetLargeChangeThreshold = 48f;
     private const float TrackingTargetSmoothing = .35f;
     private const float TrackingTargetFastSmoothing = .65f;
+    private const uint BracketsReturnLength = 280;
+    private const int FailureRescanCooldownMilliseconds = 500;
 
     private const string AnimationKeyCornerBreathing = "CornerBreathing";
     private const string AnimationKeyBracketsToBarcode = "BracketsToBarcode";
@@ -43,6 +53,7 @@ internal class BarcodeScanRectangleOverlay : Grid
     private const string AnimationKeyBracketsSuccess = "BracketsSuccess";
     private const string AnimationKeyBracketsFailure = "BracketsFailure";
     private const string AnimationKeyCollectionToken = "CollectionToken";
+    private const string AnimationKeyFeedbackMessage = "FeedbackMessage";
 
     public BarcodeScanRectangleOverlay(float widthFraction, float heightFraction, TimeSpan bracketsTravelDuration, TimeSpan formingDuration)
     {
@@ -103,16 +114,51 @@ internal class BarcodeScanRectangleOverlay : Grid
             Scale = .65
         };
 
+        (m_feedbackMessageContainer, m_feedbackMessageLabel) = CreateFeedbackMessageView();
+
         InputTransparent = true;
         BackgroundColor = Microsoft.Maui.Graphics.Colors.Transparent;
 
         Children.Add(m_dimGraphicsView);
         Children.Add(m_cornersGraphicsView);
         Children.Add(m_collectionToken);
+        Children.Add(m_feedbackMessageContainer);
 
         SizeChanged += OnSizeChanged;
+        m_feedbackMessageContainer.SizeChanged += OnFeedbackMessageSizeChanged;
 
         StartBreathingAnimation();
+    }
+
+    private static (Grid Container, Label MessageLabel) CreateFeedbackMessageView()
+    {
+        var messageLabel = new Label
+        {
+            Style = Styles.GetLabelStyle(LabelStyle.UI200),
+            TextColor = DuiColors.GetColor(ColorName.color_text_on_button),
+            HorizontalTextAlignment = TextAlignment.Center,
+            LineBreakMode = LineBreakMode.WordWrap
+        };
+
+        var container = new Grid
+        {
+            InputTransparent = true,
+            HorizontalOptions = LayoutOptions.Center,
+            VerticalOptions = LayoutOptions.Start,
+            Padding = new Thickness(
+                Sizes.GetSize(SizeName.content_margin_medium),
+                Sizes.GetSize(SizeName.content_margin_small)),
+            BackgroundColor = DuiColors.GetColor(ColorName.color_fill_danger),
+            IsVisible = false,
+            Opacity = 0,
+            Scale = .96,
+            AnchorX = .5,
+            AnchorY = 1,
+            Children = { messageLabel }
+        };
+
+        LayoutEffect.SetCornerRadius(container, new CornerRadius(Sizes.GetSize(SizeName.radius_medium)));
+        return (container, messageLabel);
     }
 
     private void StartBreathingAnimation()
@@ -144,14 +190,26 @@ internal class BarcodeScanRectangleOverlay : Grid
 
     internal void SetTooltipView(View tooltipView)
     {
+        if (ReferenceEquals(m_tooltipView, tooltipView))
+            return;
+
+        if (m_tooltipView is not null)
+        {
+            m_tooltipView.SizeChanged -= OnTooltipSizeChanged;
+            Children.Remove(m_tooltipView);
+            m_tooltipView.DisconnectHandlers();
+        }
+
         m_tooltipView = tooltipView;
         m_tooltipView.InputTransparent = true;
         m_tooltipView.HorizontalOptions = LayoutOptions.Center;
         m_tooltipView.VerticalOptions = LayoutOptions.Start;
+        m_tooltipView.IsVisible = true;
 
         Children.Add(m_tooltipView);
 
         m_tooltipView.SizeChanged += OnTooltipSizeChanged;
+        PositionTooltip();
     }
 
     private void OnTooltipSizeChanged(object? sender, EventArgs e)
@@ -162,6 +220,12 @@ internal class BarcodeScanRectangleOverlay : Grid
     private void OnSizeChanged(object? sender, EventArgs e)
     {
         PositionTooltip();
+        PositionFeedbackMessage();
+    }
+
+    private void OnFeedbackMessageSizeChanged(object? sender, EventArgs e)
+    {
+        PositionFeedbackMessage();
     }
 
     private void PositionTooltip()
@@ -176,10 +240,27 @@ internal class BarcodeScanRectangleOverlay : Grid
         m_tooltipView.TranslationY = rectY - m_tooltipView.Height - spacing;
     }
 
+    private void PositionFeedbackMessage()
+    {
+        if (Height <= 0 || Width <= 0 || m_feedbackMessageContainer.Height <= 0)
+            return;
+
+        var rectHeight = Height * m_heightFraction;
+        var rectY = GetCameraFeedCenterY((float)Width, (float)Height) - rectHeight / 2f;
+        var spacing = Sizes.GetSize(SizeName.content_margin_small);
+        var horizontalMargin = Sizes.GetSize(SizeName.page_margin_medium);
+
+        m_feedbackMessageContainer.MaximumWidthRequest = Math.Max(0, Width - horizontalMargin * 2);
+        m_feedbackMessageContainer.TranslationY = Math.Max(
+            Sizes.GetSize(SizeName.content_margin_medium),
+            rectY - m_feedbackMessageContainer.Height - spacing);
+    }
+
     internal void Cleanup()
     {
         StopAllAnimations();
         SizeChanged -= OnSizeChanged;
+        m_feedbackMessageContainer.SizeChanged -= OnFeedbackMessageSizeChanged;
 
         if (m_tooltipView is not null)
         {
@@ -197,6 +278,73 @@ internal class BarcodeScanRectangleOverlay : Grid
         m_cornersGraphicsView.AbortAnimation(AnimationKeyBracketsSuccess);
         m_cornersGraphicsView.AbortAnimation(AnimationKeyBracketsFailure);
         m_collectionToken.AbortAnimation(AnimationKeyCollectionToken);
+        HideFeedbackMessage();
+    }
+
+    private void ShowFeedbackMessage(string? message)
+    {
+        if (string.IsNullOrWhiteSpace(message))
+            return;
+
+        var messageVersion = ++m_feedbackMessageVersion;
+        m_feedbackMessageLabel.Text = message;
+        if (!m_feedbackMessageContainer.IsVisible)
+        {
+            m_wasTooltipVisibleBeforeFeedback = m_tooltipView?.IsVisible == true;
+        }
+
+        if (m_tooltipView is not null)
+        {
+            m_tooltipView.IsVisible = false;
+        }
+
+        PositionFeedbackMessage();
+        m_feedbackMessageContainer.AbortAnimation(AnimationKeyFeedbackMessage);
+        m_feedbackMessageContainer.IsVisible = true;
+        m_feedbackMessageContainer.Opacity = 0;
+        m_feedbackMessageContainer.Scale = .96;
+
+        var animation = new Animation
+        {
+            { 0.0, 0.16, new Animation(v =>
+            {
+                m_feedbackMessageContainer.Opacity = v;
+                m_feedbackMessageContainer.Scale = .96 + .04 * v;
+            }, 0, 1, Easing.CubicOut) },
+            { 0.16, 0.26, new Animation(v => m_feedbackMessageContainer.Scale = v, 1, 1.03, Easing.CubicOut) },
+            { 0.26, 0.38, new Animation(v => m_feedbackMessageContainer.Scale = v, 1.03, 1, Easing.CubicInOut) },
+            { 0.38, 0.78, new Animation(_ => { }, 0, 1) },
+            { 0.78, 1.0, new Animation(v =>
+            {
+                m_feedbackMessageContainer.Opacity = v;
+                m_feedbackMessageContainer.Scale = .98 + .02 * v;
+            }, 1, 0, Easing.CubicIn) }
+        };
+
+        animation.Commit(m_feedbackMessageContainer, AnimationKeyFeedbackMessage,
+            rate: 16,
+            length: 1800,
+            finished: (_, cancelled) =>
+            {
+                if (cancelled || messageVersion != m_feedbackMessageVersion)
+                    return;
+
+                HideFeedbackMessage(restoreTooltip: true);
+            });
+    }
+
+    private void HideFeedbackMessage(bool restoreTooltip = false)
+    {
+        ++m_feedbackMessageVersion;
+        m_feedbackMessageContainer.AbortAnimation(AnimationKeyFeedbackMessage);
+        m_feedbackMessageContainer.IsVisible = false;
+        m_feedbackMessageContainer.Opacity = 0;
+        m_feedbackMessageContainer.Scale = .96;
+
+        if (restoreTooltip && m_tooltipView is not null)
+        {
+            m_tooltipView.IsVisible = m_wasTooltipVisibleBeforeFeedback;
+        }
     }
 
     internal void SetBarcodeDetected()
@@ -365,7 +513,7 @@ internal class BarcodeScanRectangleOverlay : Grid
     /// overshoot, color transitions to green, holds briefly, then resets to idle.
     /// All animation happens inside the drawable for crisp rendering.
     /// </summary>
-    internal Task PlaySuccessAndResetAsync()
+    internal async Task PlaySuccessAndResetAsync(bool waitForReset = false)
     {
         m_cornersGraphicsView.AbortAnimation(AnimationKeyBracketsForming);
         
@@ -374,6 +522,7 @@ internal class BarcodeScanRectangleOverlay : Grid
         m_cornersGraphicsView.Invalidate();
 
         var taskCompletionSource = new TaskCompletionSource<bool>();
+        var resetTask = Task.CompletedTask;
 
         var animation = new Animation
         {
@@ -409,11 +558,15 @@ internal class BarcodeScanRectangleOverlay : Grid
             {
                 m_cornersDrawable.Inset = 0;
                 if (!cancelled)
-                    ResetBarcodeDetection();
+                    resetTask = ResetBarcodeDetectionAsync();
                 taskCompletionSource.TrySetResult(true);
             });
 
-        return taskCompletionSource.Task;
+        await taskCompletionSource.Task;
+        if (waitForReset)
+        {
+            await resetTask;
+        }
     }
 
     internal Task PlayCollectionTokenAsync(Point? targetCenter = null)
@@ -476,6 +629,8 @@ internal class BarcodeScanRectangleOverlay : Grid
 
     internal async Task PlayFailureAndResetAsync(string? errorMessage)
     {
+        ShowFeedbackMessage(errorMessage);
+
         m_cornersGraphicsView.AbortAnimation(AnimationKeyBracketsForming);
         m_cornersDrawable.BracketColor = CornerBracketsDrawable.FailureBracketColor;
         m_cornersDrawable.MaxStrokeWidth = CornerBracketsDrawable.FailureStrokeWidth;
@@ -487,10 +642,16 @@ internal class BarcodeScanRectangleOverlay : Grid
         await m_cornersGraphicsView.TranslateTo(-shakeDistance / 2, 0, 65, Easing.CubicInOut);
         await m_cornersGraphicsView.TranslateTo(0, 0, 80, Easing.CubicOut);
 
-        ResetBarcodeDetection();
+        await ResetBarcodeDetectionAsync();
+        await Task.Delay(FailureRescanCooldownMilliseconds);
     }
 
     internal void ResetBarcodeDetection()
+    {
+        _ = ResetBarcodeDetectionAsync();
+    }
+
+    private Task ResetBarcodeDetectionAsync()
     {
         m_cornersGraphicsView.AbortAnimation(AnimationKeyBracketsToBarcode);
         m_cornersGraphicsView.AbortAnimation(AnimationKeyBracketsReturn);
@@ -513,6 +674,7 @@ internal class BarcodeScanRectangleOverlay : Grid
             var startY = currentRect.Value.Y;
             var startW = currentRect.Value.Width;
             var startH = currentRect.Value.Height;
+            var taskCompletionSource = new TaskCompletionSource<bool>();
 
             var animation = new Animation(v =>
             {
@@ -527,21 +689,24 @@ internal class BarcodeScanRectangleOverlay : Grid
 
             animation.Commit(m_cornersGraphicsView, AnimationKeyBracketsReturn,
                 rate: 16,
-                length: 280,
+                length: BracketsReturnLength,
                 finished: (_, cancelled) =>
                 {
                     m_cornersDrawable.OverrideRect = null;
                     if (!cancelled)
                         StartBreathingAnimation();
+
+                    taskCompletionSource.TrySetResult(true);
                 });
-        }
-        else
-        {
-            m_cornersDrawable.OverrideRect = null;
-            StartBreathingAnimation();
+
+            return taskCompletionSource.Task;
         }
 
+        m_cornersDrawable.OverrideRect = null;
+        StartBreathingAnimation();
+        return Task.CompletedTask;
     }
+
     private RectF GetScanRectangleForDrawable()
     {
         var w = (float)Width;

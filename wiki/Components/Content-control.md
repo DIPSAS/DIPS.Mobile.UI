@@ -17,6 +17,8 @@ When these prerequisites are met, you will need to create your own implementatio
 
 The responsibility of the selector is to take the `SelectorItem` as a input to the `SelectTemplate` method, where you can select your `DataTemplate` with the content you want to select.
 
+When `SelectorItem` has not been set, the control uses its `BindingContext` as the selector input. An explicitly set or bound `null` value instead defers template selection, keeping any existing content until a non-null value arrives. This prevents a temporarily empty selector binding from passing the entire view model to a boolean or enum selector.
+
 ## Example 
 ```xml
 <dui:ContentControl

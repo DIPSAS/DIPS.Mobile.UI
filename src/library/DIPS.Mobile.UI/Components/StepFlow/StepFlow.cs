@@ -102,6 +102,15 @@ public partial class StepFlow : ContentView
             {
                 m_stack.Children.Insert(Math.Min(i, m_stack.Children.Count), item);
             }
+            if (item.CanGoBack) item.RefreshTapTarget();
+        }
+    }
+
+    private void RefreshItemTapTargets()
+    {
+        foreach (var item in m_items)
+        {
+            if (item.CanGoBack) item.RefreshTapTarget();
         }
     }
 
@@ -161,8 +170,17 @@ public partial class StepFlow : ContentView
 
     private void OnControllerFlowCompleted(object? sender, EventArgs e)
     {
+        RefreshItemTapTargets();
         FlowCompleted?.Invoke(this, EventArgs.Empty);
     }
+
+    internal bool CanActivateCompletedStep(StepFlowItem item) =>
+        m_items.Contains(item) &&
+        item.State == StepFlowItemState.Completed &&
+        item.CanGoBack &&
+        !(m_attachedController is { } controller
+            ? controller.IsCompleted
+            : m_items.Count > 0 && m_items.All(step => step.State == StepFlowItemState.Completed));
 
     private void OnItemCardTapped(object? sender, EventArgs e)
     {
@@ -170,6 +188,20 @@ public partial class StepFlow : ContentView
         if (sender is not StepFlowItem item) return;
 
         var controller = m_attachedController;
+        if (item.State == StepFlowItemState.Completed && item.CanGoBack)
+        {
+            if (!CanActivateCompletedStep(item)) return;
+            if (controller is not null)
+            {
+                controller.GoBackTo(item.Index);
+            }
+            else
+            {
+                ActivateCompletedItemWithoutController(item);
+            }
+            return;
+        }
+
         if (controller is null)
         {
             // Escape hatch (no controller): manually enforce single-active.
@@ -187,6 +219,25 @@ public partial class StepFlow : ContentView
 
         if (item.Index < 0) return;
         controller.GoTo(item.Index);
+    }
+
+    private void ActivateCompletedItemWithoutController(StepFlowItem item)
+    {
+        var targetIndex = m_items.IndexOf(item);
+        if (targetIndex < 0) return;
+
+        for (var i = 0; i < m_items.Count; i++)
+        {
+            var other = m_items[i];
+            if (ReferenceEquals(other, item))
+            {
+                other.State = StepFlowItemState.Active;
+            }
+            else if (i > targetIndex || other.State == StepFlowItemState.Active)
+            {
+                other.State = StepFlowItemState.Disabled;
+            }
+        }
     }
 
     protected override void OnHandlerChanging(HandlerChangingEventArgs args)
@@ -210,6 +261,7 @@ public partial class StepFlow : ContentView
     {
         if (e.PropertyName != nameof(StepFlowItem.State)) return;
         if (sender is not StepFlowItem item) return;
+        RefreshItemTapTargets();
         if (item.State != StepFlowItemState.Active) return;
         if (!AutoScrollIntoView) return;
         // Don't scroll on the initial activation (e.g. when navigating to the page) — the

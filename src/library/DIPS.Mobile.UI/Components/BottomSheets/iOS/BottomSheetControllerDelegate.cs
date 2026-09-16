@@ -21,6 +21,7 @@ internal class BottomSheetControllerDelegate : UISheetPresentationControllerDele
 
     public override void DidDismiss(UIPresentationController presentationController)
     {
+        BottomSheetViewController?.HostViewController?.Dispose();
         BottomSheetViewController?.Dispose();
     }
     

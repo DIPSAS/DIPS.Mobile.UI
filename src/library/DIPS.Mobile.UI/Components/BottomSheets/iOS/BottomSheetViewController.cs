@@ -20,6 +20,12 @@ public class BottomSheetViewController : UIViewController
     
     public BottomSheet BottomSheet { get; }
     
+    /// <summary>
+    /// Reference to the host VC that contains this VC's UINavigationController + bottom bar.
+    /// Only set when ShowBottombarButtonsOnSubViews is true.
+    /// </summary>
+    internal BottomSheetHostViewController? HostViewController { get; set; }
+
     public async void ModifySearchbar(bool add)
     {
         // Delay to make sure the container is created
@@ -32,6 +38,13 @@ public class BottomSheetViewController : UIViewController
     {
         // Delay to make sure the bottom bar view is created
         await Task.Delay(1);
+
+        // If the bottom bar is handled by the host VC, delegate to it
+        if (HostViewController is not null)
+        {
+            HostViewController.ModifyBottomBar(add);
+            return;
+        }
         
         if (add)
         {
@@ -51,7 +64,12 @@ public class BottomSheetViewController : UIViewController
             return;
         
         m_container.AddToView(View);
-        m_bottomBar = new BottomBarView(View, BottomSheet);
+
+        // The host VC handles the persistent bottom bar outside the nav hierarchy.
+        if (HostViewController is null)
+        {
+            m_bottomBar = new BottomBarView(View, BottomSheet);
+        }
         
         m_navigationBarHelper = new BottomSheetNavigationBarHelper(BottomSheet, NavigationItem, NavigationController);
         m_navigationBarHelper.Configure();
@@ -89,7 +107,10 @@ public class BottomSheetViewController : UIViewController
 
     public void SetPositioning()
     {
-        var controller = NavigationController ?? (UIViewController)this;
+        // Positioning is set on the presented VC (host or nav controller)
+        var controller = (UIViewController?)HostViewController
+                         ?? NavigationController
+                         ?? (UIViewController)this;
         controller.SetPositioning(BottomSheet, m_container);
     }
 

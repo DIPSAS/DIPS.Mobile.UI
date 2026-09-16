@@ -78,7 +78,8 @@ public class SamplingViewModel : ViewModel
 | `AutoAdvanceDelay` | Delay before auto-advance. Defaults to 800 ms. |
 | `CompleteCurrent()` | Marks `CurrentIndex` `Completed` and (optionally) auto-advances. |
 | `Complete(int)` | Marks the step at the given index `Completed`. |
-| `GoTo(int)` | Activates the step at the given index. No-op if disabled or completed. |
+| `GoTo(int)` | Activates the step at the given index, including disabled steps. No-op if completed or the index is invalid. |
+| `GoBackTo(int)` | Activates a completed step and resets it and all following steps for confirmation again. No-op for invalid indices, non-completed steps, or a fully completed flow. Does not require `CanGoBack`. |
 | `Reset()` | Step 0 → `Active`, all others → `Disabled`. |
 | `SetState(int, state)` | Explicitly set a step's state. Use sparingly. |
 | `StepCompleted` | Raised when a step transitions to `Completed`. |
@@ -90,7 +91,7 @@ public class SamplingViewModel : ViewModel
 | Property | Description |
 | --- | --- |
 | `Items` | The steps, in order. XAML default `ContentProperty`. |
-| `Controller` | The `StepFlowController` driving the flow. The container creates one automatically if you omit it. |
+| `Controller` | The `StepFlowController` driving the flow. If omitted, state is managed without a controller; see [Escape hatch](#escape-hatch-binding-only). |
 | `AllowDirectStepActivation` | When `true`, tapping a `Disabled` step card activates it. Defaults to `false`. |
 | `AutoScrollIntoView` | When `true` (default), the closest ancestor `ScrollView` is scrolled so the newly active step is pinned to the top. See [Auto-scroll](#auto-scroll). |
 | `FlowCompleted` | Mirrors `Controller.FlowCompleted`. |
@@ -103,7 +104,8 @@ public class SamplingViewModel : ViewModel
 | `Subtitle` | Optional smaller line below the title. |
 | `Content` | The body shown when the step is `Active`. XAML default content. |
 | `IndicatorTemplate` | Optional template for the leading indicator. Defaults to a numbered/check circle. |
-| `LockWhenCompleted` | When `true` (default) tapping a completed step does nothing. |
+| `LockWhenCompleted` | Retained legacy API, default `true`. Blocks completed-card taps unless `CanGoBack` is `true`. With `false`, a controller-less flow reopens the step without resetting later completed steps; a controller still rejects it through `GoTo`. |
+| `CanGoBack` | Default `false`. Explicit opt-in: a completed-card tap activates the step and resets all following steps. Overrides `LockWhenCompleted`, but does nothing once the whole flow is completed. |
 | `State` | Current `StepFlowItemState`. Driven by the container — read-only for advanced scenarios. |
 
 ### `StepFlowItemState`
@@ -121,6 +123,8 @@ The component is choreographed for a premium feel — every timing and easing is
 - **Completed dimming**: opacity fades to 0.78 over 360 ms.
 
 All animations use a unique token per item instance, so multiple `StepFlow`s on the same page do not interfere.
+
+During expansion, the body is remeasured as its size changes, so dynamically added content is not clipped on Android. After expansion, the body returns to automatic sizing. Interrupted collapse animations do not hide a step that has become active again.
 
 ## Auto-scroll
 
@@ -141,6 +145,31 @@ Set `AutoScrollIntoView="False"` on the `StepFlow` to opt out — for example wh
 ```
 
 If no ancestor `ScrollView` is found, `AutoScrollIntoView` is a silent no-op. Non-MAUI scrollers (`CollectionView` etc.) are not supported.
+
+## Going back: legacy behavior and explicit opt-in
+
+`LockWhenCompleted` and `LockWhenCompletedProperty` remain supported without obsolescence warnings. Leaving `CanGoBack` unset (or `false`) preserves the existing completed-card tap behavior:
+
+| Configuration | Completed-card tap |
+| --- | --- |
+| `CanGoBack="False"`, `LockWhenCompleted="True"` (defaults) | Does nothing. |
+| `CanGoBack="False"`, `LockWhenCompleted="False"`, with controller | Does nothing: the existing `GoTo` operation does not reopen completed steps. |
+| `CanGoBack="False"`, `LockWhenCompleted="False"`, without controller | Activates this step and disables any other active step. Later completed/error steps are not reset. This legacy behavior also permits reopening a fully completed flow. |
+| `CanGoBack="True"`, either lock value, with or without controller | While the flow is unfinished, activates this completed step and disables every following step, including completed/error steps. Any other active step is disabled; earlier completed steps stay completed. Once all steps are completed, the tap does nothing, even with `LockWhenCompleted="False"`. |
+
+The item and flow must still be enabled. Opting in does not change how disabled or already active cards handle taps.
+
+```xml
+<dui:StepFlow Controller="{Binding Flow}">
+    <dui:StepFlowItem Title="Confirm patient" />
+    <dui:StepFlowItem Title="Scan sample labels" CanGoBack="True" />
+    <dui:StepFlowItem Title="Confirm sampling" CanGoBack="True" />
+</dui:StepFlow>
+```
+
+You do not need to set `LockWhenCompleted="False"` when opting in. To navigate explicitly from a view model, call `Flow.GoBackTo(index)`. The controller has no knowledge of card properties: this explicit operation does not require `CanGoBack` and is not gated by `LockWhenCompleted` or view `IsEnabled` values. It still rejects non-completed targets, invalid indices and fully completed flows.
+
+`GoBackTo` updates the step states and current index before raising `StepActivated` once. It does not raise `StepCompleted` or `FlowCompleted`. Only workflow states are reset; the consumer remains responsible for clearing or invalidating stored results and validation data. Business logic should not depend on animation timing.
 
 ## Escape hatch (binding-only)
 

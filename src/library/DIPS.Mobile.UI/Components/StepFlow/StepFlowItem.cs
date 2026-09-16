@@ -39,6 +39,10 @@ public partial class StepFlowItem : ContentView
     private readonly Command m_cardTappedCommand;
 
     private string m_animationToken;
+    private bool m_isExpanding;
+    private double m_expandStartHeight;
+    private double m_expandTargetHeight;
+    private double m_expandProgress;
 
     /// <summary>The 1-based number rendered in the default indicator.</summary>
     internal int DisplayNumber { get; set; } = 1;
@@ -233,8 +237,18 @@ public partial class StepFlowItem : ContentView
             return;
         if (State == StepFlowItemState.Active)
             return;
-        if (State == StepFlowItemState.Completed && LockWhenCompleted)
-            return;
+        if (State == StepFlowItemState.Completed)
+        {
+            if (CanGoBack)
+            {
+                if (FindParentStepFlow()?.CanActivateCompletedStep(this) != true)
+                    return;
+            }
+            else if (LockWhenCompleted)
+            {
+                return;
+            }
+        }
         if (State == StepFlowItemState.Disabled && Parent is StepFlow flow && !flow.AllowDirectStepActivation)
             return;
 
@@ -243,11 +257,45 @@ public partial class StepFlowItem : ContentView
 
     private void UpdateCardTapTarget(StepFlowItemState state)
     {
-        var command = state == StepFlowItemState.Active ? null : m_cardTappedCommand;
+        var command = CanTapCard(state) ? m_cardTappedCommand : null;
         if (ReferenceEquals(Touch.GetCommand(m_root), command))
             return;
 
+        if (CanGoBack && command is null && Touch.GetCommand(m_root) is not null)
+        {
+            // Do not detach the native touch effect while its tap callback is executing.
+            Dispatcher.Dispatch(() =>
+            {
+                if (!CanTapCard(State) && Touch.GetCommand(m_root) is not null)
+                {
+                    Touch.SetCommand(m_root, null!);
+                }
+            });
+            return;
+        }
+
         Touch.SetCommand(m_root, command!);
+    }
+
+    internal void RefreshTapTarget() => UpdateCardTapTarget(State);
+
+    private bool CanTapCard(StepFlowItemState state) =>
+        state != StepFlowItemState.Active &&
+        (state != StepFlowItemState.Completed || !CanGoBack ||
+         FindParentStepFlow()?.CanActivateCompletedStep(this) == true);
+
+    private StepFlow? FindParentStepFlow()
+    {
+        var walker = Parent;
+        while (walker is not null)
+        {
+            if (walker is StepFlow flow)
+                return flow;
+
+            walker = walker.Parent;
+        }
+
+        return null;
     }
 
     private void OnStateChanged(StepFlowItemState oldState, StepFlowItemState newState)
@@ -291,6 +339,7 @@ public partial class StepFlowItem : ContentView
                 break;
 
             case StepFlowItemState.Active:
+                this.AbortAnimation(m_animationToken + "-opacity");
                 StopCompletionAnimation();
                 AnimateIndicator(show: false, animate);
                 LayoutEffect.SetStroke(m_root, Colors.GetColor(ColorName.color_text_default));
@@ -370,12 +419,7 @@ public partial class StepFlowItem : ContentView
         m_bodyContainer.IsVisible = true;
         m_bodyContainer.HeightRequest = -1;
 
-        var available = m_root.Width > 0 ? m_root.Width - m_root.Padding.HorizontalThickness : double.PositiveInfinity;
-        var measured = m_bodyContainer.Measure(available, double.PositiveInfinity);
-        // Measure() returns DesiredSize which includes the View's own Margin. HeightRequest
-        // sets the inner size (excluding margin), so we must subtract it or the animation
-        // overshoots the natural height and snaps back when layout settles.
-        var targetHeight = measured.Height - m_bodyContainer.Margin.VerticalThickness;
+        var targetHeight = MeasureBodyTargetHeight();
 
         if (double.IsNaN(targetHeight) || targetHeight <= 0)
         {
@@ -391,7 +435,14 @@ public partial class StepFlowItem : ContentView
 
         // Height drives the slot growth while opacity and a tiny Y offset soften the reveal.
         // Both share one parent Animation so they're kicked from a single tick handle.
-        var heightAnim = new Animation(v => m_bodyContainer.HeightRequest = v, 0, targetHeight, easing: StepFlowEasings.ExpandSmooth);
+        m_expandStartHeight = 0;
+        m_expandTargetHeight = targetHeight;
+        m_expandProgress = 0;
+        var heightAnim = new Animation(v =>
+        {
+            m_expandProgress = v;
+            m_bodyContainer.HeightRequest = Math.Max(0, m_expandStartHeight + ((m_expandTargetHeight - m_expandStartHeight) * v));
+        }, 0, 1, easing: StepFlowEasings.ExpandSmooth);
         var fadeAnim = new Animation(v => m_bodyContainer.Opacity = v, 0, 1, easing: Easing.CubicOut);
         var offsetAnim = new Animation(v => m_bodyContainer.TranslationY = v, -contentOffset, 0, easing: Easing.CubicOut);
 
@@ -401,10 +452,19 @@ public partial class StepFlowItem : ContentView
         parent.Add(0, 1, offsetAnim);
 
         this.AbortAnimation(m_animationToken + "-body");
+        m_isExpanding = true;
+        m_bodyContainer.SizeChanged -= OnBodyContainerSizeChangedDuringExpand;
+        m_bodyContainer.SizeChanged += OnBodyContainerSizeChangedDuringExpand;
         parent.Commit(this, m_animationToken + "-body", rate: 16, length: ExpandDurationMs,
-            easing: Easing.Linear, finished: (_, _) =>
+            easing: Easing.Linear, finished: (_, wasCancelled) =>
             {
-                if (State != StepFlowItemState.Active || Handler is null)
+                m_isExpanding = false;
+                m_bodyContainer.SizeChanged -= OnBodyContainerSizeChangedDuringExpand;
+                m_expandStartHeight = 0;
+                m_expandTargetHeight = 0;
+                m_expandProgress = 0;
+
+                if (wasCancelled || State != StepFlowItemState.Active || Handler is null)
                     return;
                 // Hand the slot back to auto-sizing so future content changes (async loads,
                 // text wraps) just work without a re-measure dance.
@@ -414,8 +474,45 @@ public partial class StepFlowItem : ContentView
             });
     }
 
+    private void OnBodyContainerSizeChangedDuringExpand(object? sender, EventArgs e)
+    {
+        if (!m_isExpanding || State != StepFlowItemState.Active || Handler is null)
+            return;
+
+        var targetHeight = MeasureBodyTargetHeight();
+        if (double.IsNaN(targetHeight) || targetHeight <= 0)
+            return;
+
+        if (targetHeight > m_expandTargetHeight)
+        {
+            var currentHeight = Math.Max(0, m_bodyContainer.HeightRequest);
+            if (m_expandProgress < 1)
+            {
+                // Preserve the current height while letting the remaining animation grow
+                // toward the new target, without a jump on the next tick.
+                m_expandStartHeight = (currentHeight - (targetHeight * m_expandProgress)) / (1 - m_expandProgress);
+            }
+
+            m_expandTargetHeight = targetHeight;
+        }
+    }
+
+    private double MeasureBodyTargetHeight()
+    {
+        if (Content is null)
+            return 0;
+
+        var available = m_root.Width > 0 ? Math.Max(0, m_root.Width - m_root.Padding.HorizontalThickness) : double.PositiveInfinity;
+        var measured = Content.Measure(available, double.PositiveInfinity);
+        var height = measured.Height;
+        return double.IsNaN(height) || double.IsInfinity(height) ? 0 : height;
+    }
+
     private Task CollapseAsync()
     {
+        m_isExpanding = false;
+        m_bodyContainer.SizeChanged -= OnBodyContainerSizeChangedDuringExpand;
+
         if (!m_bodyContainer.IsVisible)
             return Task.CompletedTask;
 
@@ -437,8 +534,11 @@ public partial class StepFlowItem : ContentView
 
         this.AbortAnimation(m_animationToken + "-body");
         parent.Commit(this, m_animationToken + "-body", rate: 16, length: CollapseDurationMs,
-            easing: Easing.Linear, finished: (_, _) =>
+            easing: Easing.Linear, finished: (_, wasCancelled) =>
             {
+                if (wasCancelled || State == StepFlowItemState.Active)
+                    return;
+
                 m_bodyContainer.IsVisible = false;
                 m_bodyContainer.TranslationY = 0;
             });
@@ -528,6 +628,9 @@ public partial class StepFlowItem : ContentView
         base.OnHandlerChanging(args);
         if (args.NewHandler is null)
         {
+            m_isExpanding = false;
+            m_bodyContainer.SizeChanged -= OnBodyContainerSizeChangedDuringExpand;
+
             // Abort any in-flight animations and detach gestures to avoid retaining handlers.
             this.AbortAnimation(m_animationToken + "-body");
             this.AbortAnimation(m_animationToken + "-opacity");

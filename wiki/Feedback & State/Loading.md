@@ -48,6 +48,8 @@ These properties allow you to tailor the `LoadingOverlay` to fit your applicatio
 
 When the `IsBusy` property is set to `true`, the `LoadingOverlay` will appear above the content, showing a loading spinner and blocking interaction. Once loading is finished and `IsBusy` is set to `false`, the overlay disappears and the user can interact with the content again.
 
+Repeated busy notifications keep the current overlay visible. If a new operation starts while the old overlay is fading out, removing the old overlay does not remove the new one. Reconnecting the handler does not insert the same content twice.
+
 ## Properties
 You can customize the appearance and behavior of the `LoadingOverlay` by inspecting the [LoadingOverlay properties class](https://github.com/DIPSAS/DIPS.Mobile.UI/blob/main/src/library/DIPS.Mobile.UI/Components/Loading/LoadingOverlay/LoadingOverlay.Properties.cs).
 

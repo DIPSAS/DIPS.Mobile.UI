@@ -177,5 +177,72 @@ The bottom sheet supports `BottombarButtons`, which can be used similarly to `To
 ```
 > Most likely you will want to set `VerticalOptions="End"` on the buttons, otherwise the they will fill out its vertical height to the container.
 
+### Keep bottom actions visible during navigation
+
+Set `ShowBottombarButtonsOnSubViews="True"` **before opening** the sheet to keep its root `BottombarButtons` visible on pushed pages. The default is `false`: bottom actions are visible only at the root. Sheets without internal navigation keep their existing bottom actions.
+
+The buttons keep the root sheet's `BindingContext`; pushing a page does not rebind them to that page. Consumer-supplied `AutomationId` values are preserved. Buttons without an ID receive `DUI.BottomSheet.BottomBarButton{index}`.
+
+```xml
+<dui:BottomSheet ShowBottombarButtonsOnSubViews="True">
+    <dui:BottomSheet.BottombarButtons>
+        <dui:Button Text="Reset"
+                    Command="{Binding ResetCommand}"
+                    Style="{dui:Styles Button=GhostLarge}"
+                    VerticalOptions="End" />
+        <dui:Button Text="Apply"
+                    Command="{Binding ApplyCommand}"
+                    HorizontalOptions="Fill"
+                    VerticalOptions="End" />
+    </dui:BottomSheet.BottombarButtons>
+</dui:BottomSheet>
+```
+
+# Navigation
+
+Use internal navigation for a multi-step workflow inside an already open sheet. The existing sheet remains open and owns its navigation stack independently of other sheets.
+
+| API | Behaviour |
+|---|---|
+| `PushAsync(ContentPage page)` | Displays the page's `Content` with an animated transition. Its `Title` is used in the navigation bar; its own binding context is retained. |
+| `PopAsync()` | Returns to the previous content. Does nothing at the root. |
+| `PopToRootAsync()` | Returns to the original sheet content with one animated transition, regardless of stack depth. Does nothing at the root. |
+| `CanPopNavigation` | `true` while there are pushed pages to return from. |
+| `ShowBottombarButtonsOnSubViews` | Bindable `bool`, default `false`. Keeps the root bottom actions visible on pushed pages when enabled. |
+
+```csharp
+var bottomSheet = new MyBottomSheet();
+await BottomSheetService.Open(bottomSheet);
+
+await bottomSheet.PushAsync(new MyDetailPage());
+await bottomSheet.PopAsync();
+
+// After navigating through several pages:
+await bottomSheet.PopToRootAsync();
+```
+
+> **Important:** Wait until `Open()` completes or the `Opened` event fires before pushing. Supply a page with content, invoke navigation on the UI thread, and let each native transition finish before starting the next. These APIs host page content inside the sheet; they do not navigate the application's Shell or a MAUI NavigationPage.
+
+## Back and close
+
+- Pushed content has a native back action. Android system back pops internal navigation before applying the sheet's root close behaviour. At the root, `OnBackButtonPressedCommand` and `IsInteractiveCloseable` retain their existing roles.
+- On iOS, native swipe-back notifications synchronise the managed stack.
+- The close button still closes the whole sheet, or delegates to `BottomSheetHeaderBehavior.CloseButtonCommand` with the close action as its parameter. Close-button visibility applies to pushed pages too.
+- The original content and header are restored on return to the root. On Android the original title/back-button container remains in use at the root, including its command and enabled binding.
+
+## Layout and verification
+
+Android `Fit` content wraps its height. In `Medium` and `Large`, the content container fills the visible sheet height and is resized as the sheet moves between positions. Header, search and bottom actions share this available space. On iOS, persistent bottom actions are hosted outside the native navigation controller and overlay the content; scrollable content must leave enough room for its final items to remain reachable.
+
+Platform verification should cover:
+
+- Open without navigating, push two pages, pop once and pop to root; repeat with and without bottom actions and with `ShowBottombarButtonsOnSubViews` enabled/disabled.
+- Verify page titles, root title/back commands, enabled state, close visibility and custom close commands; include a root with a hidden header.
+- Exercise Android system back and iOS swipe-back, interactive dismissal and programmatic close, including `IsInteractiveCloseable="False"`.
+- Verify short/long content in `Fit`, `Medium` and `Large`, resizing, keyboard open/close and Android gesture/three-button navigation.
+- Reopen and close after navigating, checking handler/subscription cleanup and that no previous navigation state survives.
+
+The unit tests cover root no-ops, stack isolation, failed platform-operation rollback, interactive-pop synchronisation, bottom-action binding contexts and automation IDs. Native transitions and layout require device verification.
+
 # Properties
 Inspect the [components properties class](https://github.com/DIPSAS/DIPS.Mobile.UI/blob/main/src/library/DIPS.Mobile.UI/Components/BottomSheets/BottomSheet.Properties.cs) to further customise and use it.

@@ -14,14 +14,20 @@ namespace DIPS.Mobile.UI.Components.Content
                 return;
             }
 
-            if (BindingContext == SelectorItem && Content is not null)
+            var selectorItem = IsSet(SelectorItemProperty) ? SelectorItem : BindingContext;
+            if (selectorItem is null)
+            {
+                return;
+            }
+
+            if (BindingContext == selectorItem && Content is not null)
             {
                 DUILogService.LogError<ContentControl>("SelectorItem and BindingContext is the same, don't use SelectorItem as BindingContext. This can cause ContentControl to display the wrong content.");
                 return;
             }
             
             Content?.DisconnectHandlers();
-            Content = TemplateSelector.SelectTemplate(SelectorItem ?? BindingContext, this).CreateContent() as View;;
+            Content = TemplateSelector.SelectTemplate(selectorItem, this).CreateContent() as View;
             
         }
 

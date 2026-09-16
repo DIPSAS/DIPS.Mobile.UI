@@ -62,28 +62,45 @@ public partial class LoadingOverlay : Grid
         if (Handler is null)
             return;
         
-        Insert(0, Content);
+        if (Content is not null && !Children.Contains(Content))
+        {
+            Insert(0, Content);
+        }
+
         _ = OnIsBusyChanged();
     }
 
     private async Task OnIsBusyChanged()
     {
         if (Handler is null) return;
-        if (IsBusy && m_overlay is null)
+
+        if (IsBusy)
         {
+            if (m_overlay is not null) return;
+
             m_overlay = CreateOverlay();
             m_overlay.Opacity = 0;
             Add(m_overlay);
+            Content?.CancelAnimations();
             _ = m_overlay.FadeTo(1);
             _ = Content?.FadeTo(ContentFadeOutValue);
+            return;
         }
-        else if(m_overlay is not null)
+
+        var overlay = m_overlay;
+        if (overlay is null) return;
+
+        m_overlay = null;
+        Content?.CancelAnimations();
+        overlay.CancelAnimations();
+        _ = Content?.FadeTo(1);
+        await overlay.FadeTo(0);
+        overlay.DisconnectHandlers();
+        Remove(overlay);
+
+        if (IsBusy)
         {
-            _ = Content?.FadeTo(1);
-            await m_overlay.FadeTo(0);
-            m_overlay.DisconnectHandlers();
-            Remove(m_overlay);
-            m_overlay = null;
+            _ = OnIsBusyChanged();
         }
     }
 }

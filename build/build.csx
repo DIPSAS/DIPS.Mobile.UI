@@ -233,6 +233,13 @@ TaskRunner
             throw new Exception("No NuGet packages found to publish.");
         }
 
+        // The classic pipeline signs downloaded artifacts before calling publish.
+        // Verify every package before publishing any of them, including during a dry run.
+        foreach (var package in nugetPackages)
+        {
+            await Command.ExecuteAsync("dotnet", $"nuget verify --all \"{package}\"");
+        }
+
         foreach (var package in nugetPackages)
         {
             Logger.LogDebug($"Publishing NuGet package: {package}");
@@ -608,6 +615,20 @@ private string GetKeyStoreFile(){
 private async Task<string> GetVersionWithBranchSuffix()
 {
     var version = Utils.GetChangelogVersion(RootDirectory, ChangelogHeaderPrefix, VersionPattern);
+    // Maintenance branches can explicitly request the changelog version without renaming
+    // the branch or changing the default prerelease behavior of ordinary branch builds.
+    var stablePackageVersion = Environment.GetEnvironmentVariable("DUI_USE_STABLE_PACKAGE_VERSION");
+    if (!string.IsNullOrEmpty(stablePackageVersion))
+    {
+        if (!bool.TryParse(stablePackageVersion, out var useStablePackageVersion))
+        {
+            throw new InvalidOperationException("DUI_USE_STABLE_PACKAGE_VERSION must be true or false.");
+        }
+
+        if (useStablePackageVersion)
+            return version;
+    }
+
     if (await Git.ShouldAddPreSuffix())
     {
         var buildId = Utils.GetBuildId();

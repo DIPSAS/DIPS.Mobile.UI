@@ -90,7 +90,8 @@ internal class BottomSheetNavigationBarHelper
             var backImage = UIImage.GetSystemImage("chevron.left");
             var backButton = new UIBarButtonItem(backImage, UIBarButtonItemStyle.Plain, (_, _) =>
             {
-                m_bottomSheet.BottomSheetHeaderBehavior?.TitleAndBackButtonContainerCommand?.Execute(null);
+                if (m_bottomSheet.BottomSheetHeaderBehavior?.IsTitleAndBackButtonContainerEnabled ?? false)
+                    m_bottomSheet.BottomSheetHeaderBehavior?.TitleAndBackButtonContainerCommand?.Execute(null);
             });
             backButton.AccessibilityLabel = DUILocalizedStrings.Back;
             m_navigationItem.LeftBarButtonItem = backButton;

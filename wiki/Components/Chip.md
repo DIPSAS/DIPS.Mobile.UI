@@ -16,6 +16,8 @@ In the following example the title of the `Chip` is bound. Furthermore a `Comman
 # Properties
 Inspect the [components properties class](https://github.com/DIPSAS/DIPS.Mobile.UI/blob/main/src/library/DIPS.Mobile.UI/Components/Chips/Chip.Properties.cs) to further customize and use it.
 
+`CloseButtonColor` controls the close icon tint, including when the Android native close drawable is created or replaced after the color is assigned.
+
 ## ChipGroup
 A `ChipGroup` is a component that takes in an ItemsSource, and outputs the items as Chips. They are laid out horizontally and will wrap if there is no horizontal space left.
 

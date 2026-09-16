@@ -4,6 +4,7 @@ using Android.Graphics.Drawables;
 using Android.Views;
 using Android.Widget;
 using AndroidX.AppCompat.Graphics.Drawable;
+using Google.Android.Material.AppBar;
 using Google.Android.Material.BottomSheet;
 using Microsoft.Maui.Handlers;
 using Microsoft.Maui.Platform;
@@ -20,6 +21,8 @@ using Paint = Android.Graphics.Paint;
 using System.ComponentModel;
 using DIPS.Mobile.UI.API.Library;
 using DIPS.Mobile.UI.Components.BottomSheets.Header;
+using DIPS.Mobile.UI.Resources.Icons;
+using DIPS.Mobile.UI.Resources.LocalizedStrings.LocalizedStrings;
 using SearchBar = DIPS.Mobile.UI.Components.Searching.SearchBar;
 using View = Microsoft.Maui.Controls.View;
 
@@ -37,10 +40,14 @@ public partial class BottomSheetHandler : ContentViewHandler
     private static AView? s_mEmptyNonFitToContentView;
     private AView? m_searchBarView;
     private BottomSheetHeader m_bottomSheetHeader;
+    private AView? m_rootHeaderView;
+    private MaterialToolbar? m_headerToolbar;
+    private const int CloseMenuItemId = 1;
     private List<WeakReference<SearchBar>> m_weakSearchBars = [];
     private WeakReference<AView>? m_weakCurrentFocusedSearchBar;
     private BottomSheetCallback? m_bottomSheetCallback;
     private KeyListener? m_keyListener;
+    private LinearLayout? m_bottomSheetLayout;
 
     public AView OnBeforeOpening(IMauiContext mauiContext, Context context, AView bottomSheetAndroidView,
         RelativeLayout rootLayout, LinearLayout bottomSheetLayout)
@@ -53,6 +60,10 @@ public partial class BottomSheetHandler : ContentViewHandler
         bottomSheet.BottomSheetDialog.Behavior.AddBottomSheetCallback(m_bottomSheetCallback);
         bottomSheet.BottomSheetDialog.SetOnShowListener(new DialogInterfaceOnShowListener(this));
         bottomSheet.BottomSheetDialog.SetOnKeyListener(m_keyListener);
+
+        // Modern Android uses the dispatcher instead of SetOnKeyListener for system back.
+        m_navigationBackCallback = new NavigationBackPressedCallback(this);
+        bottomSheet.BottomSheetDialog.OnBackPressedDispatcher.AddCallback(m_navigationBackCallback);
 
         //Add a handle, with a innerGrid that works as a big hit box for the user to hit
         //Inspired by com.google.android.material.bottomsheet.BottomSheetDragHandleView , which will be added in Xamarin Android Material Design v1.7.0.  https://github.com/material-components/material-components-android/commit/ac7b761294808748df167b50b223b591ca9dac06
@@ -88,15 +99,28 @@ public partial class BottomSheetHandler : ContentViewHandler
             bottomSheetLayout.AddView(androidInnerGridView);
         }
 
+        m_bottomSheetLayout = bottomSheetLayout;
+
+        // Keep the 60.x root header, including its title tap target and existing bindings.
         m_bottomSheetHeader = new BottomSheetHeader(m_bottomSheet);
-        bottomSheetLayout.AddView(m_bottomSheetHeader.ToPlatform(mauiContext));
+        var rootHeaderContainer = new FrameLayout(context)
+        {
+            LayoutParameters = new LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.MatchParent, ViewGroup.LayoutParams.WrapContent)
+        };
+        rootHeaderContainer.AddView(m_bottomSheetHeader.ToPlatform(mauiContext));
+        m_rootHeaderView = rootHeaderContainer;
+        bottomSheetLayout.AddView(m_rootHeaderView);
+        m_headerToolbar = CreateHeaderToolbar(context);
+        bottomSheetLayout.AddView(m_headerToolbar);
+        UpdateHeaderToolbarFromBottomSheet();
         
         m_searchBarView = m_bottomSheet.SearchBar.ToPlatform(mauiContext);
         bottomSheetLayout.AddView(m_searchBarView);
         ToggleSearchBar();
         FindAndSetupSearchBars();
 
-        bottomSheetLayout.AddView(bottomSheetAndroidView);
+        SetupNavigationContainer(context, bottomSheetAndroidView, bottomSheetLayout);
 
         if (m_bottomSheet.Positioning is not Positioning.Fit)
         {
@@ -194,6 +218,8 @@ public partial class BottomSheetHandler : ContentViewHandler
         bottomSheet.BottomSheetDialog.Behavior.FitToContents =
             (bottomSheet.Positioning) == Positioning.Fit; 
         handler.ToggleFitToContent(bottomSheet);
+        // A Fit <-> non-Fit change must also update the navigation content sizing.
+        handler.ApplyContentFillMode();
 
         if (bottomSheet.Positioning == Positioning.Large)
         {
@@ -233,9 +259,152 @@ public partial class BottomSheetHandler : ContentViewHandler
         bottomSheet.BottomSheetDialog.Behavior.Draggable = bottomSheet.IsDraggable;
     }
 
+    private MaterialToolbar CreateHeaderToolbar(Context context)
+    {
+        var toolbar = new MaterialToolbar(context)
+        {
+            LayoutParameters = new LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.MatchParent,
+                ViewGroup.LayoutParams.WrapContent)
+        };
+        toolbar.SetBackgroundColor(Colors.GetColor(ColorName.color_surface_default).ToPlatform());
+        toolbar.SetTitleTextColor(Colors.GetColor(ColorName.color_text_default).ToPlatform());
+        // Ensure standard action-bar height even before children are laid out
+        toolbar.SetMinimumHeight((int)context.ToPixels(56));
+
+        toolbar.NavigationClick += OnHeaderToolbarNavigationClick;
+        toolbar.MenuItemClick += OnHeaderToolbarMenuItemClick;
+
+        if (m_bottomSheet.BottomSheetHeaderBehavior is { } behavior)
+        {
+            behavior.PropertyChanged += OnHeaderBehaviorPropertyChanged;
+        }
+
+        return toolbar;
+    }
+
+    private void OnHeaderBehaviorPropertyChanged(object? sender, PropertyChangedEventArgs e)
+    {
+        if (m_nativeNavigationStack.Count == 0) return;
+
+        if (e.PropertyName is nameof(BottomSheetHeaderBehavior.IsCloseButtonVisible)
+            or nameof(BottomSheetHeaderBehavior.CloseButtonCommand))
+        {
+            var currentEntry = m_bottomSheet.NavigationStack.Peek();
+            UpdateHeaderToolbarForNavigation(currentEntry.Page.Title);
+        }
+    }
+
+    private void UpdateHeaderToolbarFromBottomSheet()
+    {
+        if (m_headerToolbar is not null)
+            m_headerToolbar.Visibility = ViewStates.Gone;
+        if (m_rootHeaderView is not null)
+            m_rootHeaderView.Visibility = ViewStates.Visible;
+        if (m_bottomBar is not null)
+            m_bottomBar.Visibility = ViewStates.Visible;
+    }
+
+    private void UpdateHeaderToolbarForNavigation(string? title)
+    {
+        if (m_rootHeaderView is not null)
+            m_rootHeaderView.Visibility = ViewStates.Gone;
+        if (m_bottomBar is not null)
+            m_bottomBar.Visibility = m_bottomSheet.ShowBottombarButtonsOnSubViews ? ViewStates.Visible : ViewStates.Gone;
+        ApplyHeaderToolbarState(title);
+    }
+
+    private void ApplyHeaderToolbarState(string? title)
+    {
+        if (m_headerToolbar is null) return;
+
+        var behavior = m_bottomSheet.BottomSheetHeaderBehavior;
+        m_headerToolbar.Visibility = ViewStates.Visible;
+        m_headerToolbar.Title = title ?? string.Empty;
+        m_headerToolbar.NavigationIcon = GetNavigationIcon();
+        m_headerToolbar.NavigationContentDescription = DUILocalizedStrings.Back;
+
+        // Close visibility and command are shared with the root sheet.
+        m_headerToolbar.Menu?.Clear();
+        var showClose = behavior?.IsCloseButtonVisible ?? true;
+        if (showClose)
+        {
+            var menuItem = m_headerToolbar.Menu?.Add(global::Android.Views.IMenu.None, CloseMenuItemId, global::Android.Views.IMenu.None, DUILocalizedStrings.Close);
+            // The 60.x Icons.TryGetDrawable helper ignores its iconName argument.
+            if (DUI.TryGetDrawableFromFileName(Icons.GetIconName(IconName.close_line), out var icon) && icon is not null)
+            {
+                ADrawableCompat.SetTint(icon, Colors.GetColor(ColorName.color_icon_subtle).ToPlatform());
+                menuItem?.SetIcon(BuildCircularBackgroundIcon(icon));
+            }
+            menuItem?.SetShowAsAction(ShowAsAction.Always);
+        }
+    }
+
+    private Drawable BuildCircularBackgroundIcon(Drawable icon)
+    {
+        // Match the existing ButtonStyle.CloseIconSmall appearance.
+        var background = new global::Android.Graphics.Drawables.GradientDrawable();
+        background.SetShape(global::Android.Graphics.Drawables.ShapeType.Oval);
+        background.SetColor(Colors.GetColor(ColorName.color_fill_neutral).ToPlatform());
+
+        var layered = new global::Android.Graphics.Drawables.LayerDrawable([background, icon]);
+        var inset = (int)Context.ToPixels(8);
+        layered.SetLayerInset(1, inset, inset, inset, inset);
+        return layered;
+    }
+
+    private Drawable GetNavigationIcon()
+    {
+        var iconColor = Colors.GetColor(ColorName.color_icon_default).ToPlatform();
+        var drawable = new DrawerArrowDrawable(Context)
+        {
+            Progress = 1.0f // Fully arrow
+        };
+        ADrawableCompat.SetTint(drawable, iconColor);
+        return drawable;
+    }
+
+    private void OnHeaderToolbarNavigationClick(object? sender, global::AndroidX.AppCompat.Widget.Toolbar.NavigationClickEventArgs e)
+    {
+        TryHandleNavigationBack();
+    }
+
+    private void OnHeaderToolbarMenuItemClick(object? sender, global::AndroidX.AppCompat.Widget.Toolbar.MenuItemClickEventArgs e)
+    {
+        if (e.Item?.ItemId != CloseMenuItemId) return;
+
+        var behavior = m_bottomSheet.BottomSheetHeaderBehavior;
+        if (behavior?.CloseButtonCommand is not null)
+        {
+            behavior.CloseButtonCommand.Execute((Action)(() => m_bottomSheet.Close()));
+        }
+        else
+        {
+            m_bottomSheet.Close();
+        }
+    }
+
+    private void CleanupHeaderToolbar()
+    {
+        if (m_bottomSheet.BottomSheetHeaderBehavior is { } behavior)
+        {
+            behavior.PropertyChanged -= OnHeaderBehaviorPropertyChanged;
+        }
+
+        if (m_headerToolbar is null) return;
+
+        m_headerToolbar.NavigationClick -= OnHeaderToolbarNavigationClick;
+        m_headerToolbar.MenuItemClick -= OnHeaderToolbarMenuItemClick;
+        m_bottomSheetLayout?.RemoveView(m_headerToolbar);
+        m_headerToolbar.Dispose();
+        m_headerToolbar = null;
+    }
+
     protected override void DisconnectHandler(ContentViewGroup platformView)
     {
         base.DisconnectHandler(platformView);
+
+        CleanupNavigationStack();
         
         if (m_bottomSheetCallback is not null)
         {
@@ -247,8 +416,16 @@ public partial class BottomSheetHandler : ContentViewHandler
         m_bottomSheet.BottomSheetDialog.SetOnKeyListener(null);
         m_keyListener = null;
 
+        if (m_navigationBackCallback is not null)
+        {
+            m_navigationBackCallback.Remove();
+            m_navigationBackCallback.Dispose();
+            m_navigationBackCallback = null;
+        }
+
         s_mEmptyNonFitToContentView?.RemoveFromParent();
         m_bottomSheetHeader.DisconnectHandlers();
+        CleanupHeaderToolbar();
 
         foreach (var weakSearchBar in m_weakSearchBars)
         {
@@ -274,11 +451,14 @@ public partial class BottomSheetHandler : ContentViewHandler
     /// </summary>
     private void OnSlide(float slideOffset, AView bottomSheet)
     {
+        if (slideOffset < 0)
+            return;
+
+        // Keep bottom-anchored content visible while dragging between Medium and Large.
+        UpdateContentFillHeight(bottomSheet);
+
         if (m_bottomSheet.HasBottomBarButtons)
         {
-            if(slideOffset < 0)
-                return;
-            
             SetBottomBarTranslation(bottomSheet);
         }
     }
@@ -296,6 +476,12 @@ public partial class BottomSheetHandler : ContentViewHandler
         if (keyCode != Keycode.Back || keyEvent?.Action == KeyEventActions.Down)
         {
             return false;
+        }
+
+        // Pop internal navigation before applying the existing root close behavior.
+        if (TryHandleNavigationBack())
+        {
+            return true;
         }
 
         m_bottomSheet.OnBackButtonPressedCommand?.Execute(() =>
@@ -329,6 +515,8 @@ public partial class BottomSheetHandler : ContentViewHandler
                 BottomSheetBehavior.StateCollapsed => Positioning.Medium,
                 _ => m_bottomSheetHandler.m_bottomSheet.Positioning
             };
+
+            m_bottomSheetHandler.UpdateContentFillHeight(bottomSheet);
         }
     }
 
@@ -360,6 +548,8 @@ public class DialogInterfaceOnShowListener : Object, IDialogInterfaceOnShowListe
         if (m_handler.m_linearLayout.Parent is FrameLayout frameLayout)
         {
             m_handler.SetBottomBarTranslation(frameLayout);
+            m_handler.UpdateContentFillHeight(frameLayout);
+            m_handler.ApplyContentBottomPadding();
         }
     }
 }
