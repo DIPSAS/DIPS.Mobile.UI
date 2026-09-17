@@ -55,5 +55,20 @@ public partial class CheckmarkListItem
         nameof(SelectedCommand),
         typeof(ICommand),
         typeof(CheckmarkListItem));
-    
+
+    public static readonly BindableProperty AddStrokeToCheckmarkProperty = BindableProperty.Create(
+        nameof(AddStrokeToCheckmark),
+        typeof(bool),
+        typeof(CheckmarkListItem),
+        defaultValue: false,
+        propertyChanged: (bindable, _, _) => ((CheckmarkListItem)bindable).OnAddStrokeToCheckmarkChanged());
+
+    /// <summary>
+    /// Adds a visible stroke (outline) around the checkmark icon.
+    /// </summary>
+    public bool AddStrokeToCheckmark
+    {
+        get => (bool)GetValue(AddStrokeToCheckmarkProperty);
+        set => SetValue(AddStrokeToCheckmarkProperty, value);
+    }
 }
